@@ -22,7 +22,7 @@ class CreateFmTaxData extends Migration
             $table->string('tax_town');
             $table->string('tax_locality');
             $table->string('tax_state');
-            $table->string('tax_country');
+            $table->string('tax_country')->nullable();
             $table->string('tax_tax_email')->nullable();
         });
     }
