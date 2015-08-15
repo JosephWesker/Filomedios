@@ -1,2 +1,0 @@
-# Filomedios
-Repositorio de Filomedios
