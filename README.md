@@ -1,10 +1,8 @@
-# SB Admin v2.0 rewritten in Laravel
-
-This project is a part of the famous Free Admin Bootstrap Theme SB Admin v2.0 to Laravel Theme.
-
-Find out more [Free Laravel Themes at StartLaravel.com](http://www.startlaravel.com/)..
+# Laravel Administration Theme for Filomedios
 
 ## Installation
+
+First copy all but if this doesn't work follow the instructions below.
 
 1. Clone this project or Download that ZIP file
 2. Make sure you have bower, gulp and npm installed globally
@@ -17,6 +15,4 @@ Find out more [Free Laravel Themes at StartLaravel.com](http://www.startlaravel.
 - `gulp watch`
 - `php artisan cache:clear`
 
-### Automation tools
-
-- [Gulp](http://gulpjs.com/)
+If this doesn't work please send me a message.
