@@ -34,11 +34,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Teléfono Fijo</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Fijo">
+                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Fijo">
                                 </div>
                                 <div class="form-group">
                                     <label for="cellphone">Teléfono Móvil</label>
-                                    <input type="number" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Móvil">
+                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Móvil">
                                 </div>
                                 <div class="form-group">
                                     <label for="cellphone">Email</label>
