@@ -19,42 +19,42 @@
                             <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="agregarUsuario">
                                 <div class="form-group">
                                     <label for="name">Nombre</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+                                    <input type="text" class="form-control" id="emp_first_name" placeholder="Nombre">
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName">Apellido</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Apellido">
+                                    <input type="text" class="form-control" id="emp_last_names" placeholder="Apellido">
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Dirección</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Dirección">
+                                    <input type="text" class="form-control" id="emp_address" placeholder="Dirección">
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Teléfono Fijo</label>
-                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Fijo">
+                                    <input type="tel" class="form-control" id="emp_phone_number" placeholder="Teléfono Fijo">
                                 </div>
                                 <div class="form-group">
                                     <label for="cellphone">Teléfono Móvil</label>
-                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Móvil">
+                                    <input type="tel" class="form-control" id="emp_cellphone_number" placeholder="Teléfono Móvil">
                                 </div>
                                 <div class="form-group">
                                     <label for="cellphone">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                    <input type="email" class="form-control" id="emp_email" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label for="job">Puesto</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Puesto">
+                                    <input type="text" class="form-control" id="emp_job" placeholder="Puesto">
                                 </div>
                                 <div class="form-group">
                                     <label for="userName">Nombre de Usuario</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre de Usuario">
+                                    <input type="text" class="form-control" id="emp_username" placeholder="Nombre de Usuario">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+                                    <input type="password" class="form-control" id="emp_password" placeholder="Contraseña">
                                 </div>
 
                                 <div class=text-right>
@@ -73,4 +73,36 @@
 
         </div>
     </div>
-</div>@stop
+</div>
+<script>
+var form = document.getElementById("agregarUsuario");
+form.addEventListener('submit',function(){
+
+    var values = {
+        "emp_first_name" : $('#emp_first_name').val(),
+        "emp_last_names" : $('#emp_last_names').val(),
+        "emp_address" : $('#emp_address').val(),
+        "emp_phone_number" : $('#emp_phone_number').val(),
+        "emp_cellphone_number" : $('#emp_cellphone_number').val(),
+        "emp_email" : $('#emp_email').val(),
+        "emp_job" : $('#emp_job').val(),
+        "emp_username" : $('#emp_username').val(),
+        "emp_password" : $('#emp_password').val()
+    }
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    $.ajax({
+                    data:   values,
+                    url:   '{{ action('employeeController@postCreateEmployee'); }}',
+                    type:  'post',
+                    success:  function (response) {
+
+                    }
+            });
+});
+</script>
+
+@stop
