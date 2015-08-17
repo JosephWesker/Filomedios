@@ -19,49 +19,49 @@
                             <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
                         </div>
                         <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label for="name">Nombre</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Apellido</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Apellido">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Dirección</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Dirección">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Teléfono Fijo</label>
-                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Fijo">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cellphone">Teléfono Móvil</label>
-                                    <input type="tel" class="form-control" id="exampleInputEmail1" placeholder="Teléfono Móvil">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cellphone">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="job">Puesto</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Puesto">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userName">Nombre de Usuario</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre de Usuario">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Contraseña</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
-                                </div>
+                            {{ Form::open(array('url' => '')) }} 
+                            <div class="form-group">
+                                {{ Form::label('name','Nombre')}}
+                                {{ Form::text('name',null,['class' => 'form-control','id' => 'name','placeholder' => 'Nombre'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('lastName','Apellido')}}
+                                {{ Form::text('lastName',null,['class' => 'form-control','id' => 'lastName','placeholder' => 'Apellido'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('address','Dirección')}}
+                                {{ Form::text('address',null,['class' => 'form-control','id' => 'address','placeholder' => 'Dirección'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('phone','Teléfono Fijo')}}
+                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'phone','placeholder' => 'Teléfono Fijo'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('cellphone','Celular')}}
+                                {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'cellphone','placeholder' => 'Celular'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('email','Email')}}
+                                {{ Form::email('email',null,['class' => 'form-control','id' => 'email','placeholder' => 'Email'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('job','Puesto')}}
+                                {{ Form::text('job',null,['class' => 'form-control','id' => 'job','placeholder' => 'Puesto'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('userName','Nombre de Usuario')}}
+                                {{ Form::text('userName',null,['class' => 'form-control','id' => 'userName','placeholder' => 'Nombre de Usuario'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('password','Contraseña')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'password','placeholder' => 'Contraseña'])}}
+                            </div>
 
-                                <div class=text-right>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-success">Aceptar</button>
-                                </div>
-                            </form>                      
+                            <div class=text-right>
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger']) }}
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success']) }}
+                            </div>
+                            {{ Form::close() }}                        
                         </div>
                         <!--                        <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -73,4 +73,5 @@
 
         </div>
     </div>
-</div>@stop
+</div>
+@stop
