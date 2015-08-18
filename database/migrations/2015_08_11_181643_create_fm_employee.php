@@ -19,7 +19,7 @@ class CreateFmEmployee extends Migration
             $table->string('emp_address',50)->nullable();
             $table->string('emp_phone_number',10)->nullable();
             $table->string('emp_cellphone_number',10)->nullable();
-            $table->string('emp_email',30)->nullable();
+            $table->string('emp_email',30);
             $table->string('emp_job',30);
             $table->string('emp_username',20);
             $table->string('emp_password');

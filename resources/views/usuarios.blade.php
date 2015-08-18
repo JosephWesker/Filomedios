@@ -59,7 +59,7 @@
 
                                 <div class=text-right>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-success">Aceptar</button>
+                                    <button type="button" class="btn btn-success" id="crearUsuario">Aceptar</button>
                                 </div>
                             </form>                      
                         </div>
@@ -75,8 +75,8 @@
     </div>
 </div>
 <script>
-var form = document.getElementById("agregarUsuario");
-form.addEventListener('submit',function(){
+var button = document.getElementById("crearUsuario");
+button.addEventListener('click',function(){
 
     var values = {
         "emp_first_name" : $('#emp_first_name').val(),
@@ -98,8 +98,16 @@ form.addEventListener('submit',function(){
                     data:   values,
                     url:   '{{ action('employeeController@postCreateEmployee'); }}',
                     type:  'post',
-                    success:  function (response) {
-
+                    success:  function (msg) {
+                    if(msg.indexOf("Usuario registrado") != -1){
+                        $('#addUser').modal('hide');
+                        $(':input','#agregarUsuario')
+                          .not(':button, :submit, :reset, :hidden')
+                          .val('')
+                          .removeAttr('checked')
+                          .removeAttr('selected');
+                    }
+                        alert(msg);
                     }
             });
 });
