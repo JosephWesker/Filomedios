@@ -60,3 +60,5 @@ Route::get('/login', function()
 {
 	return View::make('login');
 });
+
+Route::controller('employee','employeeController');

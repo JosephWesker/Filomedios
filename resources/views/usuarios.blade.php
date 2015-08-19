@@ -19,6 +19,7 @@
                             <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
                         </div>
                         <div class="modal-body">
+<<<<<<< HEAD
                             {{ Form::open(array('url' => '')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
@@ -110,4 +111,42 @@
         </div>
     </div>
 </div>
+<script>
+var button = document.getElementById("crearUsuario");
+button.addEventListener('click',function(){
+
+    var values = {
+        "emp_first_name" : $('#emp_first_name').val(),
+        "emp_last_names" : $('#emp_last_names').val(),
+        "emp_address" : $('#emp_address').val(),
+        "emp_phone_number" : $('#emp_phone_number').val(),
+        "emp_cellphone_number" : $('#emp_cellphone_number').val(),
+        "emp_email" : $('#emp_email').val(),
+        "emp_job" : $('#emp_job').val(),
+        "emp_username" : $('#emp_username').val(),
+        "emp_password" : $('#emp_password').val()
+    }
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    $.ajax({
+                    data:   values,
+                    url:   '{{ action('employeeController@postCreateEmployee'); }}',
+                    type:  'post',
+                    success:  function (msg) {
+                    if(msg.indexOf("Usuario registrado") != -1){
+                        $('#addUser').modal('hide');
+                        $(':input','#agregarUsuario')
+                          .not(':button, :submit, :reset, :hidden')
+                          .val('')
+                          .removeAttr('checked')
+                          .removeAttr('selected');
+                    }
+                        alert(msg);
+                    }
+            });
+});
+</script>
 @stop
