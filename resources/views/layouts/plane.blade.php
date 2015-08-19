@@ -13,9 +13,13 @@
 	<meta content="" name="author"/>
 
 	<link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
+	<link rel="stylesheet" href="{{ asset("assets/stylesheets/form-wizard.css") }}" />
+	<link rel="stylesheet" href="{{ asset("assets/stylesheets/jquery.steps.css") }}" />
 </head>
 <body>
 	@yield('body')
 	<script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("assets/scripts/jquery.steps.min.js") }}" type="text/javascript"></script>
+	<script src="{{ asset("assets/scripts/steps.js") }}" type="text/javascript"></script>
 </body>
 </html>

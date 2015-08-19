@@ -46,7 +46,8 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
-                                {{ Form::text('job',null,['class' => 'form-control','id' => 'job','placeholder' => 'Puesto'])}}
+                                <!--                                {{ Form::text('job',null,['class' => 'form-control','id' => 'job','placeholder' => 'Puesto'])}}-->
+                                {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('userName','Nombre de Usuario')}}
@@ -71,6 +72,41 @@
                 </div>
             </div>
 
+        </div>
+        <div class="col-lg-12">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Telefono Fijo</th>
+                        <th>Celular</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                        <th>Puesto</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="gradeX">
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                                {{ Form::button('Editar',['class' => 'btn btn-warning btn-xs']) }}
+                                {{ Form::button('Elminar',['class' => 'btn btn-danger btn-xs']) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
