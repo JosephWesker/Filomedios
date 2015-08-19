@@ -14,13 +14,12 @@ class CreateFmServiceOrder extends Migration
     {
         Schema::create('fm_service_order',function($table){
             $table->increments('ser_id')->unsigned();
-            $table->integer('ser_fk_vid_id')->unsigned();
-            $table->integer('ser_fk_tra_id')->unsigned();
-            $table->integer('ser_fk_cus_id')->unsigned();
+            $table->integer('ser_total_amount')->unsigned();
+            $table->integer('ser_fk_tranasmission_data')->unsigned();
+            $table->integer('ser_fk_customer')->unsigned();
             $table->timestamps();
-            $table->foreign('ser_fk_vid_id')->references('vid_id')->on('fm_video_data')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('ser_fk_tra_id')->references('tra_id')->on('fm_transmission_data')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('ser_fk_cus_id')->references('cus_id')->on('fm_customer')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ser_fk_tranasmission_data')->references('tra_id')->on('fm_transmission_data')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ser_fk_customer')->references('cus_id')->on('fm_customer')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

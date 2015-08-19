@@ -16,9 +16,9 @@ class CreateFmDateData extends Migration
             $table->increments('dat_id')->unsigned();
             $table->date('dat_start_date');
             $table->date('dat_end_date');
-            $table->integer('dat_fk_tra_id')->unsigned();;
+            $table->integer('dat_fk_service_order')->unsigned();
             $table->timestamps();
-            $table->foreign('dat_fk_tra_id')->references('tra_id')->on('fm_transmission_data')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('dat_fk_service_order')->references('ser_id')->on('fm_service_order')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

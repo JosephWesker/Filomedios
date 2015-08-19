@@ -18,7 +18,10 @@ class CreateFmVideoData extends Migration
             $table->string('vid_name');
             $table->time('vid_duration');
             $table->text('vid_path');
+            $table->string('vid_type',10);
+            $table->integer('vid_fk_service_order')->unsigned();
             $table->timestamps();
+            $table->foreign('vid_fk_service_order')->references('ser_id')->on('fm_service_order')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
