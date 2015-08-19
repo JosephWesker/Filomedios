@@ -10,23 +10,20 @@ use Illuminate\Routing\Controller;
 
 class employeeController extends Controller
 {
-    public function anyShowEmployee($id){
+    public function postShowEmployees(){
+        $fm_employee = fm_employee::all();
+        return Response::json($fm_employee);
+    }
+    
+    public function postGetEmployee(){
+        $id = Request::input('id');
         $fm_employee = fm_employee::find($id);
+        return Response::json($fm_employee);
     }
 
     public function postCreateEmployee(){
         $values = Request::all();
-
-        fm_employee::saving(function($model) {
-            foreach ($model->toArray() as $name => $value) {
-                if (empty($value)) {
-                    $model->{$name} = null;
-                }
-            }
-
-            return true;
-        });
-
+        
         $email = fm_employee::where('emp_email','like', $values['emp_email'])->count();
         if($email>0){
             return 'Este correo ya esta registrado, por favor utilize uno diferente';
@@ -61,22 +58,26 @@ class employeeController extends Controller
         }
     }
 
-    public function anyDelateEmployee($id){
+    public function postDelateEmployee(){
+        $id = Request::input('id');
         $fm_employee = fm_employee::find($id);
         $fm_employee->delete();
+        return 'Usuario eliminado';
     }
 
-    public function anyUpdateEmployee($values,$id){
-        $fm_employee = fm_employee::find($id);
+    public function postUpdateEmployee(){
+        $values = Request::all();
+        $fm_employee = fm_employee::find($values['emp_id']);
         $fm_employee->emp_first_name = $values['emp_first_name'];
-        $fm_employee->emp_last_name = $values['emp_last_name'];
-        $fm_employee->emp_last_name2 = $values['emp_last_name2'];
+        $fm_employee->emp_last_names = $values['emp_last_names'];
         $fm_employee->emp_address = $values['emp_address'];
         $fm_employee->emp_phone_number = $values['emp_phone_number'];
         $fm_employee->emp_cellphone_number = $values['emp_cellphone_number'];
         $fm_employee->emp_email = $values['emp_email'];
         $fm_employee->emp_job = $values['emp_job'];
         $fm_employee->save();
+        
+        return 'Usuario actualizado';
     }
 
 }
