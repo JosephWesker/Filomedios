@@ -19,7 +19,6 @@
                             <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
                         </div>
                         <div class="modal-body">
-<<<<<<< HEAD
                             {{ Form::open(array('url' => '')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
