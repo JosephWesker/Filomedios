@@ -157,34 +157,38 @@
 
                                         <h1>Datos de producción</h1>
                                         <div class="step-content offset" style="position: relative;">
+
                                             <form class="form-horizontal">
 
                                                 <h3 class="titles">Fechas de transmisión</h3>
                                                 <hr>
-                                                <div class="form-group form-group-sm input_fields_wrap add_field_button">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Inicia</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="">
-                                                            <div>
-                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
-                                                                </i>
+                                                <div class="input_fields_wrap_date">
+                                                    <div class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Termina</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="">
-                                                            <div>
-                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
-                                                                </i>
+
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <a href="#">
+                                                            <i class="fa fa-plus-square add_field_button_date" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
+                                                            </i>
+                                                        </a>
                                                     </div>
+
                                                 </div>
-                                                
+
 
                                             </form>
                                         </div>
