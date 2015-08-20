@@ -59,7 +59,7 @@
                             </div>
 
                             <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success']) }}
                             </div>
                             {{ Form::close() }}                        
