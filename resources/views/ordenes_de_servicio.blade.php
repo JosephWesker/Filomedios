@@ -2,6 +2,9 @@
 @section('page_heading','Órdenes de Servicio')
 @section('section')
 
+
+
+
 <div class="col-sm-12">
     <div class="row">
         <div class="col-lg-12">
@@ -12,257 +15,176 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h5>Nueva Orden de Servicio</h5>
-                                    <!-- <div class="ibox-tools">
-                                         <a class="collapse-link">
-                                             <i class="fa fa-chevron-up"></i>
-                                         </a>
-                                         <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">
-                                             <i class="fa fa-wrench"></i>
-                                         </a>
-                                         <ul class="dropdown-menu dropdown-user">
-                                             <li><a href="form_wizard.html#">Config option 1</a>
-                                             </li>
-                                             <li><a href="form_wizard.html#">Config option 2</a>
-                                             </li>
-                                         </ul>
-                                         <a class="close-link">
-                                             <i class="fa fa-times"></i>
-                                         </a>
-                                     </div>-->
                                 </div>
                                 <div class="ibox-content">
-                                    <!--  <p>
-                                          This is basic example of Step
-                                      </p>-->
                                     <div id="wizard">
-                                        <h1>Datos del cliente</h1>
+                                        <h1>Datos del cliente</h1> 
                                         <div class="step-content offset" style="position: relative; width: 100%;">
-                                            <div id="button-container" style="width: 100%; height: 30px;">
-                                                <button class="btn btn-primary" style="float: right; margin: 0 22% 0;" type="button"><i></i>&nbsp;Agregar cliente existente</button>
-                                            </div>
-                                            {{ Form::open(array('url' => url(''),'class'=>'form')) }} 
-                                            <h3 class="titles">Datos Generales</h3>
-                                            <hr>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Nombre comercial</label>
-                                                <div class="col-sm-7">
-                                                    <input class="form-control" type="text" id="formGroupInputSmall" name="nombre-comercial">
+
+
+                                            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addCustomer">
+                                                Agregar Cliente
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="addCustomer" tabindex="-1" role="dialog" aria-labelledby="addCustomerLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="addCustomer">Agregar Cliente</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '')) }} 
+                                                            <h3><b>Datos Generales</b></h3>
+                                                            <hr>
+                                                            <div class="form-group">
+                                                                {{ Form::label('commercialName','Nombre Comercial')}}
+                                                                {{ Form::text('commercialName',null,['class' => 'form-control','id' => 'commercialName','placeholder' => 'Nombre Comercial'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('contact','Contacto')}}
+                                                                {{ Form::text('contact',null,['class' => 'form-control','id' => 'contact','placeholder' => 'Contacto'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('address','Dirección')}}
+                                                                {{ Form::text('address',null,['class' => 'form-control','id' => 'address','placeholder' => 'Dirección'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('phone','Teléfono Fijo')}}
+                                                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'phone','placeholder' => 'Teléfono Fijo'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('cellphoneOrNextel','Celular o Nextel')}}
+                                                                {{ Form::text('cellphoneOrNextel',null,['class' => 'form-control','id' => 'cellphone','placeholder' => 'Celular o Nextel'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('email','Email')}}
+                                                                {{ Form::email('email',null,['class' => 'form-control','id' => 'email','placeholder' => 'Email'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('job','Puesto')}}
+                                                                <!--  {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}-->
+                                                                {{ Form::text('job',null,['class' => 'form-control','id' => 'job','placeholder' => 'Puesto'])}}
+                                                            </div>
+                                                            <div class="form-group"> 
+                                                                {{ Form::label('businessName','Razón Social')}}
+                                                                {{ Form::text('businessName',null,['class' => 'form-control','id' => 'businessName','placeholder' => 'Razón Social'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('rfc','RFC')}}
+                                                                {{ Form::text('rfc',null,['class' => 'form-control','id' => 'rfc','placeholder' => 'RFC'])}}
+                                                            </div>
+                                                            <h3><b>Dirección Fiscal</b></h3>
+                                                            <hr>
+                                                            <div class="form-group">
+                                                                {{ Form::label('street','Calle')}}
+                                                                {{ Form::text('street',null,['class' => 'form-control','id' => 'street','placeholder' => 'Calle'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('outsideNumber','Número Exterior')}}
+                                                                {{ Form::text('outsideNumber',null,['class' => 'form-control','id' => 'outsideNumber','placeholder' => 'Número Exterior'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('insideNumber','Número Interior')}}
+                                                                {{ Form::text('insideNumber',null,['class' => 'form-control','id' => 'insideNumber','placeholder' => 'Número Interior'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('postCode','Código Postal')}}
+                                                                {{ Form::text('postCode',null,['class' => 'form-control','id' => 'postCode','placeholder' => 'Código Postal'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('cologne','Colonia')}}
+                                                                {{ Form::text('cologne',null,['class' => 'form-control','id' => 'cologne','placeholder' => 'Colonia'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('town','Municipio')}}
+                                                                {{ Form::text('town',null,['class' => 'form-control','id' => 'town','placeholder' => 'Municipio'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('locality','Localidad')}}
+                                                                {{ Form::text('locality',null,['class' => 'form-control','id' => 'locality','placeholder' => 'Localidad'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('state','Estado')}}
+                                                                {{ Form::text('state',null,['class' => 'form-control','id' => 'state','placeholder' => 'Estado'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('country','País')}}
+                                                                {{ Form::text('country',null,['class' => 'form-control','id' => 'country','placeholder' => 'País'])}}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{ Form::label('emailProsecutor','Email Fiscal')}}
+                                                                {{ Form::email('emailProsecutor',null,['class' => 'form-control','id' => 'emailProsecutor','placeholder' => 'Email Fiscal'])}}
+                                                            </div>
+                                                            <div class=text-right>
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Contacto</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Puesto</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Teléfono</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Celular o Nextel</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Correo electrónico</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Dirección</label>
-                                                <div class="col-sm-7">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Razón Social</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">RFC</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <h3 class="titles">Dirección Fiscal</h3>
-                                            <hr>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Calle</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Número Exterior</label>
-                                                <div class="col-sm-2">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Número interor</label>
-                                                <div class="col-sm-2">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Código Postal</label>
-                                                <div class="col-sm-2">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Colonia</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Municipio</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Localidad</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Estado</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">País</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Correo electrónico fiscal</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <h3 class="titles">Solo para ser llenados para cadenas o corporativos</h3>
-                                            <hr>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">Número global de localización (GLN)</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">EAN/UPC</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group form-group-sm">
-                                                <label class="col-sm-3 control-label" for="formGroupInputSmall">SKU</label>
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            </form>
+                                            <table class="table table-striped table-hover table-bordered margin-top20">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nombre Comercial</th>
+                                                        <th>Contacto</th>
+                                                        <th>Dirección</th>
+                                                        <th>Teléfono Fijo</th>
+                                                        <th>Celular o Nextel</th>
+                                                        <th>Email</th>
+                                                        <th>Razón Social</th>
+                                                        <th>RFC</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="gradeX">
+                                                        <th></th>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
 
                                         <h1>Datos de producción</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Duración del spot</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Producción filomedios</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">Si</a></li>
-                                                            <li><a href="#">No</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Entregado en Formato</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">MPG 1</a></li>
-                                                            <li><a href="#">MPG 2</a></li>
-                                                            <li><a href="#">MOV</a></li>
-                                                            <li><a href="#">AVI</a></li>
-                                                            <li><a href="#">MP4</a></li>
-                                                            <li><a href="#">FLV</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Archivos recibidos</label>
+
+                                                <h3 class="titles">Fechas de transmisión</h3>
+                                                <hr>
+                                                <div class="form-group form-group-sm input_fields_wrap add_field_button">
+                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Inicia</label>
                                                     <div class="col-sm-4">
-                                                        <div class="input_fields_wrap-2">
-                                                            <div><input class="form-control input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"><i class="fa fa-plus-square add_field_button-2" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;"></i></div>
+                                                        <div class="">
+                                                            <div>
+                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
+                                                                </i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Termina</label>
+                                                    <div class="col-sm-4">
+                                                        <div class="">
+                                                            <div>
+                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
+                                                                </i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Fecha de grabación</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <h3 class="titles">Fechas de propuesta</h3>
-                                                <hr>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Primera</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Segunda</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <h3 class="titles">Fechas de transmisión</h3>
-                                                <hr>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Inicia</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Termina</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Observaciones</label>
-                                                    <div class="col-sm-7">
-                                                        <textarea rows="4" cols="50"></textarea>
-                                                    </div>
-                                                </div>
+                                                
 
                                             </form>
                                         </div>
@@ -375,7 +297,11 @@
                                                     <label class="col-sm-3 control-label" for="formGroupInputSmall">Importes y fechas de pago</label>
                                                     <div class="col-sm-4">
                                                         <div class="input_fields_wrap">
-                                                            <div><input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"><i class="fa fa-plus-square add_field_button" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;"></i></div>
+                                                            <div>
+                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                <i class="fa fa-plus-square add_field_button" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
+                                                                </i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
