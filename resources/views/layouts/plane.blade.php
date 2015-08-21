@@ -13,10 +13,10 @@
 	<meta content="" name="author"/>
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 
-
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/form-wizard.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/jquery.steps.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/selectTable.css") }}" />
 
 
     </head>

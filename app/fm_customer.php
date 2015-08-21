@@ -14,6 +14,6 @@ class fm_customer extends Model
     }
     
     public function tax_data(){
-        return $this->hasOne('App\fm_tax_data','tax_fk_customer');
+        return $this->hasMany('App\fm_tax_data','tax_fk_customer');
     }
 }

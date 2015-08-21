@@ -15,6 +15,11 @@ class employeeController extends Controller
         return Response::json($fm_employee);
     }
     
+    public function postShowEmployeesSelect(){
+        $fm_employee = fm_employee::all(['emp_id','emp_first_name','emp_last_names']);
+        return Response::json($fm_employee);
+    }
+    
     public function postGetEmployee(){
         $id = Request::input('id');
         $fm_employee = fm_employee::find($id);
@@ -52,7 +57,7 @@ class employeeController extends Controller
                     $fm_employee->emp_username = $values['emp_username'];
                     $fm_employee->emp_password = $password_encrypted;
                     $fm_employee->save();
-                    return 'Usuario registrado, su id de empleado es ' . $fm_employee->emp_id;
+                    return 'Usuario registrado, su ID de empleado es ' . $fm_employee->emp_id;
                 }
             }
         }

@@ -62,3 +62,4 @@ Route::get('/login', function()
 });
 
 Route::controller('employee','employeeController');
+Route::controller('customer','customerController');
