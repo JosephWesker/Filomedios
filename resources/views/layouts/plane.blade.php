@@ -6,7 +6,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8"/>
-	<title>SB Admin v2.0 in Laravel 5</title>
+	<title>Filomedios</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
 	<meta content="" name="description"/>
@@ -23,9 +23,11 @@
     <body>
         @yield('body')
         <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
-        <script src="{{ asset("assets/scripts/jquery.steps.min.js") }}" type="text/javascript"></script>
-        <script src="{{ asset("assets/scripts/form-wizard.js") }}" type="text/javascript"></script>
-        <script src="{{ asset("assets/scripts/date.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/wizard/jquery.steps.min.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/wizard/form-wizard.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/add.remove.elements.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/sortable/jquery.sortable.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/sortable/sortable-table.js") }}" type="text/javascript"></script>
 
     </body>
 </html>

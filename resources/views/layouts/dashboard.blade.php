@@ -184,13 +184,16 @@
                     <li {{ (Request::is('*ordenes_de_servicio') ? 'class="active"' : '') }}>
                         <a href="{{ url ('ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i> Órdenes de Servicio</a>
                     </li>
-                    <li>
+                    <li {{ (Request::is('*pagos') ? 'class="active"' : '') }}>
                         <a href="{{ url ('pagos') }}"><i class="fa fa-usd fa-fw"></i> Pagos</a>
+                    </li>
+                    <li {{ (Request::is('*proyeccion') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('proyeccion') }}"><i class="fa fa-edit fa-fw"></i> Proyección</a>
                     </li>
                     <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
                     </li>
-                    <li>
+                    <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
                         <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a>
                     </li>
 

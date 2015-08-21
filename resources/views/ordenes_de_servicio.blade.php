@@ -158,35 +158,70 @@
 
                                         <h1>Datos de producción</h1>
                                         <div class="step-content offset" style="position: relative;">
-                                            <form class="form-horizontal">
 
+                                            <form class="form-horizontal">
+                                                <h3 class="titles">Horarios de transmisión</h3>
+<!--                                                <hr>                        -->
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxA','A', false, ['id' => 'A']) }} A
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxAA','AA', false, ['id' => 'AA']) }} AA
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxAAA','AAA', false, ['id' => 'AAA']) }} AAA
+                                                </label>
+                                                <hr>                        
+                                                <h3 class="titles">Días de transmisión</h3>
+<!--                                                <hr>                        -->
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxLunes','Lunes', false, ['id' => 'checkboxLunes']) }} Lunes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxMartes','Martes', false, ['id' => 'checkboxMartes']) }} Martes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxMiercoles','Miercoles', false, ['id' => 'checkboxMiércoles']) }} Miércoles
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxJueves','Jueves', false, ['id' => 'checkboxJueves']) }} Jueves
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxViernes','Viernes', false, ['id' => 'checkboxViernes']) }} Viernes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxSábado','Sabado', false, ['id' => 'checkboxSábado']) }} Sábado
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxDomingo','Domingo', false, ['id' => 'checkboxDomingo']) }} Domingo
+                                                </label>
+                                                                                                <hr>
                                                 <h3 class="titles">Fechas de transmisión</h3>
-                                                <hr>
-                                                <div class="form-group form-group-sm input_fields_wrap add_field_button">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Inicia</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="">
-                                                            <div>
-                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
-                                                                </i>
+                                                <div class="input_fields_wrap_date">
+                                                    <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Termina</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="">
-                                                            <div>
-                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                <i class="fa fa-plus-square" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
-                                                                </i>
+
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <a href="#">
+                                                            <i class="fa fa-plus-square add_field_button_date" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
+                                                            </i>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                
-
                                             </form>
                                         </div>
 
@@ -206,112 +241,48 @@
 
                                         </div>
 
-                                        <h1>Pago</h1>
+                                        <h1>Pagos</h1>
 
 
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
+                                                
                                                 <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Forma de pago</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">Efectivo</a></li>
-                                                            <li><a href="#">Cheque</a></li>
-                                                            <li><a href="#">Tarjeta de Crédito</a></li>
-                                                            <li><a href="#">Pagaré</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Método de pago</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">Contado</a></li>
-                                                            <li><a href="#">Crédito</a></li>
-                                                            <li><a href="#">Abonos</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
                                                     <div class="col-sm-2">
                                                         <input class="form-control" type="text">
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Representante legal</label>
-                                                    <div class="col-sm-6">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Duración del contrato</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Total de impactos</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">1</a></li>
-                                                            <li><a href="#">2</a></li>
-                                                            <li><a href="#">3</a></li>
-                                                            <li><a href="#">4</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Impactos al mes</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">1</a></li>
-                                                            <li><a href="#">2</a></li>
-                                                            <li><a href="#">3</a></li>
-                                                            <li><a href="#">4</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Impactos por hora</label>
-                                                    <div class="btn-group">
-                                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Seleccionar<span class="caret"></span></button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#">1</a></li>
-                                                            <li><a href="#">2</a></li>
-                                                            <li><a href="#">3</a></li>
-                                                            <li><a href="#">4</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Importe total contratado C/IVA $</label>
-                                                    <div class="col-sm-4">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Importes y fechas de pago</label>
-                                                    <div class="col-sm-4">
-                                                        <div class="input_fields_wrap">
-                                                            <div>
-                                                                <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                <i class="fa fa-plus-square add_field_button" style="float: right; margin-left: 10px; cursor: pointer; font-size: 30px; color: green;">
-                                                                </i>
+                                               
+                                                
+                                                
+                                                 <div class="input_fields_wrap_payment">
+                                                    <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]">
+                                                                </div>
                                                             </div>
                                                         </div>
+
+                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label>
+                                                        <div class="col-sm-3">
+                                                            <div class="">
+                                                                <div>
+                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#">
+                                                            <i class="fa fa-plus-square add_field_button_payment" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
+                                                            </i>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-3 control-label" for="formGroupInputSmall">Recibí la cantidad de $</label>
-                                                    <div class="col-sm-4">
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
+                                                
+                                                
 
                                                 {{ Form::close() }}                        
                                         </div>
