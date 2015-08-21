@@ -1,4 +1,7 @@
+var selectedTr = null;
+
 function loadTable(){
+        selectedTr = null;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -24,10 +27,13 @@ function loadTable(){
     
     function tableSelect(){
         var tr = document.getElementsByTagName('tr');
-        for (var i=0;i<tr.length;i++){
+        for (var i=1;i<tr.length;i++){
             tr[i].addEventListener('click',function(){
-                var string = $(this).text();
-                alert(string.charAt(0));    
+                if(selectedTr !== null){
+                    selectedTr.removeAttr('style');
+                }
+                selectedTr = $(this); 
+                selectedTr.css('background-color', 'orange');                    
             });
         }
     }
