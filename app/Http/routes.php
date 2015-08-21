@@ -51,6 +51,11 @@ Route::get('/clientes', function()
 	return View::make('clientes');
 });
 
+Route::get('/proyeccion', function()
+{
+	return View::make('proyeccion');
+});
+
 Route::get('/blank', function()
 {
 	return View::make('blank');
