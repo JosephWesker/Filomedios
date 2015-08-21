@@ -159,16 +159,50 @@
                                         <div class="step-content offset" style="position: relative;">
 
                                             <form class="form-horizontal">
-
+                                                <h3 class="titles">Horarios de transmisión</h3>
+                                                <hr>                        
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxA','A', false, ['id' => 'A']) }} A
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxAA','AA', false, ['id' => 'AA']) }} AA
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxAAA','AAA', false, ['id' => 'AAA']) }} AAA
+                                                </label>
+                                                </label>
+                                                <h3 class="titles">Días de transmisión</h3>
+                                                <hr>                        
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxLunes','Lunes', false, ['id' => 'checkboxLunes']) }} Lunes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxMartes','Martes', false, ['id' => 'checkboxMartes']) }} Martes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxMiercoles','Miercoles', false, ['id' => 'checkboxMiércoles']) }} Miércoles
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxJueves','Jueves', false, ['id' => 'checkboxJueves']) }} Jueves
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxViernes','Viernes', false, ['id' => 'checkboxViernes']) }} Viernes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxSábado','Sabado', false, ['id' => 'checkboxSábado']) }} Sábado
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    {{ Form::checkbox('checkboxDomingo','Domingo', false, ['id' => 'checkboxDomingo']) }} Domingo
+                                                </label>
                                                 <h3 class="titles">Fechas de transmisión</h3>
                                                 <hr>
                                                 <div class="input_fields_wrap_date">
-                                                    <div class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
+                                                    <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
                                                         <label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label>
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                    <input class="form-control" id="1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -177,7 +211,7 @@
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="input-multi" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                    <input class="form-control" id="2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -186,10 +220,7 @@
                                                             </i>
                                                         </a>
                                                     </div>
-
                                                 </div>
-
-
                                             </form>
                                         </div>
 
