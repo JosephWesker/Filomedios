@@ -15,7 +15,7 @@ function loadTable(){
                 $("#clientes").html('');
                 if (msg !== null && $.isArray(msg) && msg.length>0){
                     $.each(msg, function(index, value){
-                        $("#clientes").append('<tr class="gradeX"><td id="cus_'+value.cus_id+'">'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.cus_business_name+'</td><td>'+value.tax_rfc+'</td></tr>');
+                        $("#clientes").append('<tr class="gradeX"><td>'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.cus_business_name+'</td><td>'+value.tax_rfc+'</td></tr>');
                     });
                     tableSelect();
                 }else{
