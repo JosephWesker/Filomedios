@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller;
 class employeeController extends Controller
 {
     public function postShowEmployees(){
-        $query = fm_employee::select('emp_id','emp_first_name','emp_last_names','emp_address','emp_phone_number','emp_cellphone_number','emp_job')
+        $query = fm_employee::select('emp_id','emp_first_name','emp_last_names','emp_address','emp_phone_number','emp_cellphone_number','emp_job','use_username')
                 ->join('fm_user','emp_fk_user','=','use_id')
                 ->get();
                 return Response::json($query);
@@ -25,41 +25,28 @@ class employeeController extends Controller
     
     public function postGetEmployee(){
         $id = (int) Request::input('id');       
-        $fm_employee = fm_employee::find($id)->employees;
+        $fm_employee = fm_employee::find($id);
         return Response::json($fm_employee);
     }
 
     public function postCreateEmployee(){
         $values = Request::all();
-        
-        $email = fm_employee::where('use_username','like', $values['use_username'])->count();
-        if($email>0){
-            return 'Este correo ya esta registrado, por favor utilize uno diferente';
-        }else {
-
-            $matchThese = ['emp_first_name' => $values['emp_first_name'], 'emp_last_names' => $values['emp_last_names']];
-            $employee = fm_employee::where($matchThese)->count();
-            if ($employee > 0) {
-                return 'Este empleado ya esta registrado en la base de datos';
-            }else{
-                $password_encrypted = Hash::make($values['use_password']);
-                $fm_employee = new fm_employee;                    
-                $fm_employee->use_username = $values['use_username'];
-                $fm_employee->use_password = $password_encrypted;
-                $fm_employee->save();
-
-                $fm_employee = new fm_employee([
-                    'emp_first_name' => $values['emp_first_name'],
-                    'emp_last_names' => $values['emp_last_names'],
-                    'emp_address' => $values['emp_address'],
-                    'emp_phone_number' => $values['emp_phone_number'],
-                    'emp_cellphone_number' => $values['emp_cellphone_number'],
-                    'emp_job' => $values['emp_job']
-                ]);
-
-                $fm_employee->employees()->save($fm_employee);
-                return 'Usuario registrado, su ID de empleado es ' . $fm_employee->emp_id;
-                }
+        $matchThese = ['emp_first_name' => $values['emp_first_name'], 'emp_last_names' => $values['emp_last_names']];
+        $employee = fm_employee::where($matchThese)->count();
+        if ($employee > 0) {
+            return 'Este empleado ya esta registrado en la base de datos';
+        }else{                  
+            $fm_employee = new fm_employee([
+                'emp_first_name' => $values['emp_first_name'],
+                'emp_last_names' => $values['emp_last_names'],
+                'emp_address' => $values['emp_address'],
+                'emp_phone_number' => $values['emp_phone_number'],
+                'emp_cellphone_number' => $values['emp_cellphone_number'],
+                'emp_job' => $values['emp_job'],
+                'emp_fk_user' => $values['emp_fk_user']
+            ]);
+            $fm_employee->save();
+            return 'Empleado registrado, su ID de empleado es ' . $fm_employee->emp_id;
             }
         }
 
@@ -67,7 +54,7 @@ class employeeController extends Controller
         $id = Request::input('id');
         $fm_employee = fm_employee::find($id);
         $fm_employee->delete();
-        return 'Usuario eliminado';
+        return 'Empleado eliminado';
     }
 
     public function postUpdateEmployee(){
@@ -78,11 +65,11 @@ class employeeController extends Controller
         $fm_employee->emp_address = $values['emp_address'];
         $fm_employee->emp_phone_number = $values['emp_phone_number'];
         $fm_employee->emp_cellphone_number = $values['emp_cellphone_number'];
-        $fm_employee->emp_email = $values['emp_email'];
         $fm_employee->emp_job = $values['emp_job'];
+        $fm_employee->emp_fk_user = $values['emp_fk_user'];
         $fm_employee->save();
         
-        return 'Usuario actualizado';
+        return 'Empleado actualizado';
     }
 
 }
