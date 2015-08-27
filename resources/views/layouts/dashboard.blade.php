@@ -193,6 +193,9 @@
                     <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
                     </li>
+                    <li {{ (Request::is('*Empleados') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('empleados') }}"><i class="fa fa-user fa-fw"></i> Empleados</a>
+                    </li>
                     <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
                         <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a>
                     </li>

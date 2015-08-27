@@ -15,6 +15,7 @@ class CreateFmTaxData extends Migration
         Schema::create('fm_tax_data',function($table){
             $table->increments('tax_id')->unsigned();
             $table->integer('tax_fk_customer')->unsigned();
+            $table->string('tax_business_name',30)->nullable();
             $table->string('tax_rfc',13);
             $table->string('tax_street',25);
             $table->string('tax_outdoor_number',5);

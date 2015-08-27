@@ -19,44 +19,19 @@
                             <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
                         </div>
                         <div class="modal-body">
-                            {{ Form::open(array('url' => '', 'id' => 'agregarUsuario')) }}
+                            {{ Form::open(array('url' => '', 'id' => 'agregarUsuario')) }}                            
                             <div class="form-group">
-                                {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'emp_first_name','placeholder' => 'Nombre'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('lastName','Apellido')}}
-                                {{ Form::text('lastName',null,['class' => 'form-control','id' => 'emp_last_names','placeholder' => 'Apellido'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('address','Dirección')}}
-                                {{ Form::text('address',null,['class' => 'form-control','id' => 'emp_address','placeholder' => 'Dirección'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('phone','Teléfono Fijo')}}
-                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('cellphone','Celular')}}
-                                {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'emp_cellphone_number','placeholder' => 'Celular'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('email','Email')}}
-                                {{ Form::email('email',null,['class' => 'form-control','id' => 'emp_email','placeholder' => 'Email'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('job','Puesto')}}
-                                {{ Form::select('age', ['vendedor'=>'Vendedor'],null, ['class' => 'form-control','id'=>'emp_job']) }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('userName','Nombre de Usuario')}}
-                                {{ Form::text('userName',null,['class' => 'form-control','id' => 'emp_username','placeholder' => 'Nombre de Usuario'])}}
+                                {{ Form::label('userName','Correo Electronico')}}
+                                {{ Form::text('userName',null,['class' => 'form-control','id' => 'use_username','placeholder' => 'Nombre de Usuario'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('password','Contraseña')}}
-                                {{ Form::password('password',['class' => 'form-control','id' => 'emp_password','placeholder' => 'Contraseña'])}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'use_password','placeholder' => 'Contraseña'])}}
                             </div>
-
+                            <div class="form-group">
+                                {{ Form::label('password','Repetir contraseña')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'repetir_use_password','placeholder' => 'Contraseña'])}}
+                            </div>
                             <div class=text-right>
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
@@ -77,34 +52,18 @@
                         </div>
                         <div class="modal-body">
                             {{ Form::open(array('url' => '', 'id' => 'modificarUsuario')) }}
-                            {{ Form::hidden ('id',null,['id' => 'u_emp_id']) }}
+                            {{ Form::hidden ('id',null,['id' => 'u_use_id']) }}
                             <div class="form-group">
-                                {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_emp_first_name','placeholder' => 'Nombre'])}}
+                                {{ Form::label('password','Contraseña anterior')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'ant_u_use_password','placeholder' => 'Contraseña'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('lastName','Apellido')}}
-                                {{ Form::text('lastName',null,['class' => 'form-control','id' => 'u_emp_last_names','placeholder' => 'Apellido'])}}
+                                {{ Form::label('password','Nueva contraseña')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'new_u_use_password','placeholder' => 'Contraseña'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('address','Dirección')}}
-                                {{ Form::text('address',null,['class' => 'form-control','id' => 'u_emp_address','placeholder' => 'Dirección'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('phone','Teléfono Fijo')}}
-                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'u_emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('cellphone','Celular')}}
-                                {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'u_emp_cellphone_number','placeholder' => 'Celular'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('email','Email')}}
-                                {{ Form::email('email',null,['class' => 'form-control','id' => 'u_emp_email','placeholder' => 'Email'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('job','Puesto')}}
-                                {{ Form::select('age', ['vendedor'=>'Vendedor'],null, ['class' => 'form-control','id'=>'u_emp_job']) }}
+                                {{ Form::label('password','Repetir contraseña')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'rep_u_use_password','placeholder' => 'Contraseña'])}}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
@@ -122,13 +81,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Dirección</th>
-                        <th>Telefono Fijo</th>
-                        <th>Celular</th>
-                        <th>Email</th>
-                        <th>Puesto</th>
                         <th>Nombre de Usuario</th>
                         <th>Acciones</th>
                     </tr>
@@ -141,11 +93,10 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-    var updateRoute = '{{ action('employeeController@postUpdateEmployee'); }}';
-    var getEmployeeRoute = '{{ action('employeeController@postGetEmployee'); }}';
-    var showEmployeesRoute = '{{ action('employeeController@postShowEmployees'); }}';
-    var delateRoute = '{{ action('employeeController@postDelateEmployee'); }}';
-    var createRoute = '{{ action('employeeController@postCreateEmployee'); }}';
+    var updateRoute = '{{ action('userController@postUpdateUsers'); }}';
+    var showEmployeesRoute = '{{ action('userController@postShowUsers'); }}';
+    var delateRoute = '{{ action('userController@postDelateUsers'); }}';
+    var createRoute = '{{ action('userController@postCreateUsers'); }}';
 </script>
 <script src="{{ asset("assets/scripts/usuarios_ajax.js") }}"></script>
 @stop

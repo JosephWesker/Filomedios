@@ -12,7 +12,10 @@ use Illuminate\Routing\Controller;
 class customerController extends Controller
 {
     public function postShowCustomers(){
-        $fm_customer = DB::table('fm_customer')->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')->orderby('cus_id','asc')->get();
+        $fm_customer = DB::table('fm_customer')
+                ->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')
+                ->orderby('cus_id','asc')
+                ->get();
         return Response::json($fm_customer);
     }
     
