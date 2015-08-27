@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('user','Usuario asignado')}}
-                                {{ Form::select('age', [null],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
+                                {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
@@ -88,6 +88,14 @@
                             <div class="form-group">
                                 {{ Form::label('cellphone','Celular')}}
                                 {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'u_emp_cellphone_number','placeholder' => 'Celular'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('job','Puesto')}}
+                                {{ Form::select('age', ['vendedor'=>'Vendedor'],null, ['class' => 'form-control','id'=>'u_emp_job']) }}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('user','Usuario asignado')}}
+                                {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'u_emp_fk_user']) }}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}

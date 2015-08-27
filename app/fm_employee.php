@@ -14,7 +14,8 @@ class fm_employee extends Model
                     'emp_address',
                     'emp_phone_number',
                     'emp_cellphone_number',
-                    'emp_job');
+                    'emp_job',
+                    'emp_fk_user');
     
     public function customers(){
         return $this->hasMany('App\fm_customer');
