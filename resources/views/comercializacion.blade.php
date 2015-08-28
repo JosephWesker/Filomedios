@@ -176,34 +176,20 @@
                                                 </ul>
                                                 <div id="tabs-1">
                                                     <h3>Spots</h3>
-
-
-                                                    <div class="col-sm-5">
-                                                        <div class="">
-                                                            <div>
-                                                                <div id="hey"></div>
-                                                                <div id="huy"></div>
-                                                                <input id="1" type="text" name="fname"><br>
-                                                                <input id="2" type="text" name="fname"><br>
-                                                                <script>
-                                                                    var now = moment();
-                                                                            var x = document.getElementById("1").value;
-                                                                            var y = document.getElementById("2").value;
-                                                                            z = x + y;
-                                                                            document.getElementById("huy").innerHTML = z;
-                                                                            
-//                                                                            var date = moment(now).format('DD/MM/YYYY');
-//                                                                            document.getElementById("hey").innerHTML = date;
-
-//                                                                            var x = document.getElementById("payment-2").value;
-//                                                                            document.getElementById("huy").innerHTML = x;
-//                                                                            var months = moment().diff('2000/01/01', 'months');
-//                                                                            document.getElementById("hey").innerHTML = months;                                                                </script>
-                                                                <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-
-                                                            </div>
+                                                    <form class="form-inline col-sm-12">
+                                                        <div class="form-group col-sm-2">
+                                                            <label for="start_date">Fecha de Inicio</label>
+                                                            <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                         </div>
-                                                    </div>
+                                                        <div class="form-group col-sm-2">
+                                                            <label for="months">Duración del Contrato</label>
+                                                            <input type="number" id="months" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
+                                                        </div>
+                                                        <div class="form-group col-sm-2">
+                                                            <label for="exampleInputEmail1">Fin del Contrato</label>
+                                                            <input type="date" id="end_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
+                                                        </div>     
+                                                    </form>
 
 
 
@@ -218,16 +204,8 @@
                                                 <div id="tabs-4">
                                                     <h3>Portal Noticias</h3>
                                                 </div>
+
                                             </div>
-
-
-
-
-
-
-
-
-
                                         </div>
 
                                         <h1>Pagos</h1>
@@ -289,8 +267,8 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-                                                                            var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-                                                                            var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
-                                                                            var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
+        var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
+        var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
+        var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
 <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
 @stop

@@ -24,7 +24,9 @@
     </head>
     <body>
         @yield('body')
+
         <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
+
         <script src="{{ asset("assets/scripts/wizard/jquery.steps.min.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/wizard/form-wizard.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/add.remove.elements.js") }}" type="text/javascript"></script>
@@ -32,10 +34,8 @@
         <script src="{{ asset("assets/scripts/sortable/sortable-table.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/tabs-products/jquery-ui.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/tabs-products/tabs-products.js") }}" type="text/javascript"></script>
-        <script src="{{ asset("assets/scripts/moment.js") }}"></script>
-        <script>
-moment().format();
-        </script>
+        <script src="{{ asset("assets/scripts/add.date.js") }}" type="text/javascript"></script>
+
 
 
 

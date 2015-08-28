@@ -8,6 +8,13 @@
     width: 0;
     margin:0;
 } 
+.ui-tabs .ui-state-enabled { 
+    display: block; /* disabled tabs don't show up */ 
+    overflow: visible;
+    height:0;
+    width: 0;
+    margin:0;
+} 
 .ui-widget-content {
     border: none;
 }

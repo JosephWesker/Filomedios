@@ -1,10 +1,17 @@
 $(document).ready(function () {
+    
+       
     {
         $("#tabs").tabs();
         $("#tabs").tabs("option", {
             "selected": 0,
             "disabled": [0, 1, 2, 3]
         });
+
+
+
+
+
 
         $("input[type=checkbox]").click(function () {
             if ($(this).is(':checked')) {
@@ -24,6 +31,14 @@ $(document).ready(function () {
                 }
 
             }
+//             $('input:checkbox').change(function () {
+//            if ($(this).is(":checked")) {
+//                $("div[id^='tabs']").addClass("ui-state-enable");
+//            }
+//            else {
+//                $("div[id^='tabs']").addClass("ui-state-disabled");
+//            }
+//        });
         });
     }
 });
