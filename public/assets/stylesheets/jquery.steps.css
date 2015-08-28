@@ -68,7 +68,7 @@
 
 .wizard > .steps > ul > li
 {
-    width: 25%;
+    width: 33.333333%; /* Wesker */
 }
 
 .wizard > .steps > ul > li,
