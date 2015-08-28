@@ -182,7 +182,7 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li {{ (Request::is('*ordenes_de_servicio') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i> Órdenes de Servicio</a>
+                        <a href="{{ url ('comercializacion') }}"><i class="fa fa-files-o fa-fw"></i> Comercialización</a>
                     </li>
                     <li {{ (Request::is('*pagos') ? 'class="active"' : '') }}>
                         <a href="{{ url ('pagos') }}"><i class="fa fa-usd fa-fw"></i> Pagos</a>
