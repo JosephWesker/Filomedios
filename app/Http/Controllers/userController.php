@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use App\fm_user;
@@ -17,7 +17,34 @@ class userController extends Controller
 
     public function postCreateUsers(){
         $values = Request::all();
-        
+       
+ //BEGIN EMAIL
+$rule_email=array(
+ 'use_username'=>'required|email|min:5',
+ //'emp_password'=>'required'
+    );
+       $vemail=Validator::make($values,$rule_email);
+ if ($vemail->fails())
+        {
+                  
+            return 'Dirección de correo no válida';
+        }
+      //END EMAIL
+        //BEGIN PASSWORD
+$rule_pass=array(
+ 'use_password'=>'Required|min:8',
+  'repetir_use_password'=>'Required|min:8',
+    );
+       $vpass=Validator::make($values,$rule_pass);
+ if ($vpass->fails())
+        {
+                  
+            return 'Mínimo 8 caracteres para la contraseña';
+        }
+      //END PASSWORD
+   
+
+
         $email = fm_user::where('use_username','like', $values['use_username'])->count();
         if($email>0){
             return 'Este correo ya esta registrado, por favor utilize uno diferente';
@@ -30,7 +57,7 @@ class userController extends Controller
                 $fm_user->save();
                 return 'Usuario registrado, su ID de empleado es ' . $fm_user->use_id;
             }else{
-                return 'Las contraseñas no coniciden';
+                return 'Las contraseñas no coinciden';
             }
         }
     }
@@ -44,6 +71,19 @@ class userController extends Controller
 
     public function postUpdateUsers(){
         $values = Request::all();
+      //END PASSWORDCHANGE
+        $rule_passchange=array(
+ 'ant_u_use_password'=>'Required|min:8',
+  'new_u_use_password'=>'Required|min:8',
+    'rep_u_use_password'=>'Required|min:8',
+    );
+       $vpassc=Validator::make($values,$rule_passchange);
+ if ($vpassc->fails())
+        {
+                  
+            return 'Mínimo 8 caracteres para la contraseña';
+        }
+      //END PASSWORDCHANGE
         $password = fm_user::find($values['use_id'])->use_password;        
         if(Hash::check($values['ant_u_use_password'], $password)){
            if($values['new_u_use_password']==$values['rep_u_use_password']){
@@ -52,7 +92,7 @@ class userController extends Controller
                 $fm_user->save();
                 return 'Contraseña actualizada';
            }else{
-               return 'La nueva contraseña no coinciden';
+               return 'La nueva contraseña NO coincide';
            } 
         }else{
             return 'La contraseña es incorrecta';
