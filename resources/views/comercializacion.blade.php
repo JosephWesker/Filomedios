@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Órdenes de Servicio')
+@section('page_heading','Comercialización')
 @section('section')
 
 
@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="ibox-content">
                                     <div id="wizard">
-                                        <h1>Datos del cliente</h1> 
+                                        <h1>Cliente</h1> 
                                         <div class="step-content offset" style="position: relative; width: 100%;">
 
 
@@ -49,8 +49,9 @@
                                                                 {{ Form::text('contact',null,['class' => 'form-control','id' => 'cus_contact_last_names','placeholder' => 'Contacto'])}}
                                                             </div>
                                                             <div class="form-group">
-                                                                {{ Form::label('address','Dirección')}}
-                                                                {{ Form::text('address',null,['class' => 'form-control','id' => 'cus_address','placeholder' => 'Dirección'])}}
+                                                                {{ Form::label('job','Puesto')}}
+                                                                <!--  {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}-->
+                                                                {{ Form::text('job',null,['class' => 'form-control','id' => 'cus_job','placeholder' => 'Puesto'])}}
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('phone','Teléfono Fijo')}}
@@ -65,9 +66,8 @@
                                                                 {{ Form::email('email',null,['class' => 'form-control','id' => 'cus_email','placeholder' => 'Email'])}}
                                                             </div>
                                                             <div class="form-group">
-                                                                {{ Form::label('job','Puesto')}}
-                                                                <!--  {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}-->
-                                                                {{ Form::text('job',null,['class' => 'form-control','id' => 'cus_job','placeholder' => 'Puesto'])}}
+                                                                {{ Form::label('address','Dirección')}}
+                                                                {{ Form::text('address',null,['class' => 'form-control','id' => 'cus_address','placeholder' => 'Dirección'])}}
                                                             </div>
                                                             <div class="form-group"> 
                                                                 {{ Form::label('businessName','Razón Social')}}
@@ -128,8 +128,8 @@
                                                                 {{ Form::text('country',null,['class' => 'form-control','id' => 'tax_legal_representative','placeholder' => 'País'])}}
                                                             </div>
                                                             <div class=text-right>
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'customerCreate()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                             </div>
                                                             {{ Form::close() }}                        
                                                         </div>
@@ -151,93 +151,82 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="clientes">
-                                                    
+
                                                 </tbody>
                                             </table>
                                         </div>
 
-                                        <h1>Datos de producción</h1>
+                                        <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
 
-                                            <form class="form-horizontal">
-                                                <h3 class="titles">Horarios de transmisión</h3>
-<!--                                                <hr>                        -->
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxA','A', false, ['id' => 'A']) }} A
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxAA','AA', false, ['id' => 'AA']) }} AA
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxAAA','AAA', false, ['id' => 'AAA']) }} AAA
-                                                </label>
-                                                <hr>                        
-                                                <h3 class="titles">Días de transmisión</h3>
-<!--                                                <hr>                        -->
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxLunes','Lunes', false, ['id' => 'checkboxLunes']) }} Lunes
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxMartes','Martes', false, ['id' => 'checkboxMartes']) }} Martes
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxMiercoles','Miercoles', false, ['id' => 'checkboxMiércoles']) }} Miércoles
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxJueves','Jueves', false, ['id' => 'checkboxJueves']) }} Jueves
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxViernes','Viernes', false, ['id' => 'checkboxViernes']) }} Viernes
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxSábado','Sabado', false, ['id' => 'checkboxSábado']) }} Sábado
-                                                </label>
-                                                <label class="checkbox-inline">
-                                                    {{ Form::checkbox('checkboxDomingo','Domingo', false, ['id' => 'checkboxDomingo']) }} Domingo
-                                                </label>
-                                                                                                <hr>
-                                                <h3 class="titles">Fechas de transmisión</h3>
-                                                <div class="input_fields_wrap_date">
-                                                    <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
-                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label>
-                                                        <div class="col-sm-3">
-                                                            <div class="">
-                                                                <div>
-                                                                    <input class="form-control" id="1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
-                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label>
-                                                        <div class="col-sm-3">
-                                                            <div class="">
-                                                                <div>
-                                                                    <input class="form-control" id="2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
-                                                                </div>
+
+
+                                            <input type="checkbox" name="tabs-1" value="1">Spots 
+                                            <input type="checkbox" name="tabs-2" value="2">Cintillos 
+                                            <input type="checkbox" name="tabs-3" value="3">Programas
+                                            <input type="checkbox" name="tabs-4" value="4">Portal Noticias
+                                            <br>
+                                            <div id="tabs">
+                                                <ul>
+                                                    <li><a href="#tabs-1">Spots</a> </li>
+                                                    <li><a href="#tabs-2">Cintillos</a></li>
+                                                    <li><a href="#tabs-3">Programas</a></li>
+                                                    <li><a href="#tabs-4">Portal Noticias</a></li>
+                                                </ul>
+                                                <div id="tabs-1">
+                                                    <h3>Spots</h3>
+
+
+                                                    <div class="col-sm-5">
+                                                        <div class="">
+                                                            <div>
+                                                                <div id="hey"></div>
+                                                                <div id="huy"></div>
+                                                                <input id="1" type="text" name="fname"><br>
+                                                                <input id="2" type="text" name="fname"><br>
+                                                                <script>
+                                                                    var now = moment();
+                                                                            var x = document.getElementById("1").value;
+                                                                            var y = document.getElementById("2").value;
+                                                                            z = x + y;
+                                                                            document.getElementById("huy").innerHTML = z;
+                                                                            
+//                                                                            var date = moment(now).format('DD/MM/YYYY');
+//                                                                            document.getElementById("hey").innerHTML = date;
+
+//                                                                            var x = document.getElementById("payment-2").value;
+//                                                                            document.getElementById("huy").innerHTML = x;
+//                                                                            var months = moment().diff('2000/01/01', 'months');
+//                                                                            document.getElementById("hey").innerHTML = months;                                                                </script>
+                                                                <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+
                                                             </div>
                                                         </div>
-                                                        <a href="#">
-                                                            <i class="fa fa-plus-square add_field_button_date" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
-                                                            </i>
-                                                        </a>
                                                     </div>
+
+
+
+
                                                 </div>
-                                            </form>
-                                        </div>
-
-                                        <h1>Subir archivo</h1>
-                                        <div class="step-content" style="position: relative; padding: 0; width: 100%;">
-
-
-
-
-                                            <form id="my-awesome-dropzone" class="dropzone" action="form_file_upload.html#">
-                                                <div class="dropzone-previews"></div>
-                                                <button type="submit" class="btn btn-primary pull-right">Subir archivos</button>
-                                            </form>
-                                            <div>
-                                                <!-- WESKER EDITADO <div class="m text-right"><small>DropzoneJS is an open source library that provides drag'n'drop file uploads with image previews: <a href="https://github.com/enyo/dropzone" target="_blank">https://github.com/enyo/dropzone</a></small> </div>-->
+                                                <div id="tabs-2">
+                                                    <h3>Cintillos</h3>
+                                                </div>
+                                                <div id="tabs-3">
+                                                    <h3>Programas</h3>
+                                                </div>
+                                                <div id="tabs-4">
+                                                    <h3>Portal Noticias</h3>
+                                                </div>
                                             </div>
+
+
+
+
+
+
+
+
 
                                         </div>
 
@@ -246,17 +235,17 @@
 
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
-                                                
+
                                                 <div class="form-group form-group-sm">
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
                                                     <div class="col-sm-2">
                                                         <input class="form-control" type="text">
                                                     </div>
                                                 </div>
-                                               
-                                                
-                                                
-                                                 <div class="input_fields_wrap_payment">
+
+
+
+                                                <div class="input_fields_wrap_payment">
                                                     <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
                                                         <label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label>
                                                         <div class="col-sm-3">
@@ -281,8 +270,8 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
 
                                                 {{ Form::close() }}                        
                                         </div>
@@ -300,9 +289,8 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-    var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-    var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
-    var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';
-</script>
+                                                                            var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
+                                                                            var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
+                                                                            var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
 <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
 @stop

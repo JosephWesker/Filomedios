@@ -13,12 +13,12 @@
 
 Route::get('/', function()
 {
-	return View::make('home');
+	return View::make('home'); 
 });
 
-Route::get('/ordenes_de_servicio', function()
+Route::get('/comercializacion', function()
 {
-	return View::make('ordenes_de_servicio');
+	return View::make('comercializacion');
 });
 
 Route::get('/reportes', function()
