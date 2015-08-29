@@ -35,6 +35,7 @@
         <script src="{{ asset("assets/scripts/tabs-products/jquery-ui.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/tabs-products/tabs-products.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/add.date.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/radiobuttons.js") }}" type="text/javascript"></script>
 
 
 
