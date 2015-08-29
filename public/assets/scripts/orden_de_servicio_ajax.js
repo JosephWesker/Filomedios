@@ -15,7 +15,7 @@ function loadTable(){
                 $("#clientes").html('');
                 if (msg !== null && $.isArray(msg) && msg.length>0){
                     $.each(msg, function(index, value){
-                        $("#clientes").append('<tr class="gradeX"><td>'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.cus_business_name+'</td><td>'+value.tax_rfc+'</td></tr>');
+                        $("#clientes").append('<tr class="gradeX"><td>'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.tax_business_name+'</td><td>'+value.tax_rfc+'</td></tr>');
                     });
                     tableSelect();
                 }else{
@@ -73,7 +73,7 @@ function loadTable(){
             "cus_cellphone_number": $('#cus_cellphone_number').val(),
             "cus_email" : $('#cus_email').val(),
             "cus_address" : $('#cus_address').val(),
-            "cus_business_name" : $('#cus_business_name').val(),
+            "tax_business_name" : $('#tax_business_name').val(),
             "cus_fk_employee" : $('#cus_fk_employee').val(),
             "tax_rfc" : $('#tax_rfc').val(),
             "tax_street" : $('#tax_street').val(),
