@@ -1,5 +1,5 @@
 
-table tbody tr:hover {
+.selectTable:hover {
     background-color: orange !important;
     cursor: pointer;
 }
