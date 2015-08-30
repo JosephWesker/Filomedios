@@ -21,8 +21,7 @@ class CreateFmCustomer extends Migration
             $table->string('cus_phone_number',10)->nullable();
             $table->string('cus_cellphone_number',10)->nullable();
             $table->string('cus_email',30)->nullable();
-            $table->string('cus_address',50)->nullable();
-            $table->string('cus_business_name',30)->nullable();
+            $table->string('cus_address',50)->nullable();            
             $table->integer('cus_fk_employee')->unsigned();
             $table->foreign('cus_fk_employee')->references('emp_id')->on('fm_employee')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

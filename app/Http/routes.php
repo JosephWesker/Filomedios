@@ -31,9 +31,9 @@ Route::get('/prospectos', function()
 	return View::make('prospectos');
 });
 
-Route::get('/usuarios', function()
+Route::get('/empleados', function()
 {
-	return View::make('usuarios');
+	return View::make('empleados');
 });
 
 Route::get('/negocios', function()
@@ -66,5 +66,11 @@ Route::get('/login', function()
 	return View::make('login');
 });
 
+Route::get('/usuarios', function()
+{
+	return View::make('usuarios');
+});
+
 Route::controller('employee','employeeController');
 Route::controller('customer','customerController');
+Route::controller('user','userController');

@@ -50,7 +50,6 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('job','Puesto')}}
-                                                                <!--  {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}-->
                                                                 {{ Form::text('job',null,['class' => 'form-control','id' => 'cus_job','placeholder' => 'Puesto'])}}
                                                             </div>
                                                             <div class="form-group">
@@ -68,13 +67,9 @@
                                                             <div class="form-group">
                                                                 {{ Form::label('address','Dirección')}}
                                                                 {{ Form::text('address',null,['class' => 'form-control','id' => 'cus_address','placeholder' => 'Dirección'])}}
-                                                            </div>
-                                                            <div class="form-group"> 
-                                                                {{ Form::label('businessName','Razón Social')}}
-                                                                {{ Form::text('businessName',null,['class' => 'form-control','id' => 'cus_business_name','placeholder' => 'Razón Social'])}}
-                                                            </div>                                                            
+                                                            </div>                                                          
                                                             <div class="form-group">
-                                                                {{ Form::label('sellet','Vendedor Asignado')}}
+                                                                {{ Form::label('seller','Vendedor Asignado')}}
                                                                 {{ Form::select('age', [] ,null, ['class' => 'form-control','id'=>'cus_fk_employee']) }}
                                                             </div>
                                                             <h3><b>Datos Fiscales</b></h3>
@@ -83,6 +78,10 @@
                                                                 {{ Form::label('rfc','RFC')}}
                                                                 {{ Form::text('rfc',null,['class' => 'form-control','id' => 'tax_rfc','placeholder' => 'RFC'])}}
                                                             </div>
+                                                            <div class="form-group"> 
+                                                                {{ Form::label('businessName','Razón Social')}}
+                                                                {{ Form::text('businessName',null,['class' => 'form-control','id' => 'tax_business_name','placeholder' => 'Razón Social'])}}
+                                                            </div>  
                                                             <div class="form-group">
                                                                 {{ Form::label('street','Calle')}}
                                                                 {{ Form::text('street',null,['class' => 'form-control','id' => 'tax_street','placeholder' => 'Calle'])}}
@@ -136,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <table class="table table-striped table-hover table-bordered margin-top20">
+                                            <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
@@ -307,7 +306,7 @@
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
         var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-        var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
+        var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
         var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
 <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
 @stop
