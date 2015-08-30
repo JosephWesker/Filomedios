@@ -50,7 +50,6 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('job','Puesto')}}
-                                                                <!--  {{ Form::select('age', ['','Vendedor'],null, ['class' => 'form-control']) }}-->
                                                                 {{ Form::text('job',null,['class' => 'form-control','id' => 'cus_job','placeholder' => 'Puesto'])}}
                                                             </div>
                                                             <div class="form-group">
@@ -68,13 +67,9 @@
                                                             <div class="form-group">
                                                                 {{ Form::label('address','Dirección')}}
                                                                 {{ Form::text('address',null,['class' => 'form-control','id' => 'cus_address','placeholder' => 'Dirección'])}}
-                                                            </div>
-                                                            <div class="form-group"> 
-                                                                {{ Form::label('businessName','Razón Social')}}
-                                                                {{ Form::text('businessName',null,['class' => 'form-control','id' => 'cus_business_name','placeholder' => 'Razón Social'])}}
-                                                            </div>                                                            
+                                                            </div>                                                          
                                                             <div class="form-group">
-                                                                {{ Form::label('sellet','Vendedor Asignado')}}
+                                                                {{ Form::label('seller','Vendedor Asignado')}}
                                                                 {{ Form::select('age', [] ,null, ['class' => 'form-control','id'=>'cus_fk_employee']) }}
                                                             </div>
                                                             <h3><b>Datos Fiscales</b></h3>
@@ -83,6 +78,10 @@
                                                                 {{ Form::label('rfc','RFC')}}
                                                                 {{ Form::text('rfc',null,['class' => 'form-control','id' => 'tax_rfc','placeholder' => 'RFC'])}}
                                                             </div>
+                                                            <div class="form-group"> 
+                                                                {{ Form::label('businessName','Razón Social')}}
+                                                                {{ Form::text('businessName',null,['class' => 'form-control','id' => 'tax_business_name','placeholder' => 'Razón Social'])}}
+                                                            </div>  
                                                             <div class="form-group">
                                                                 {{ Form::label('street','Calle')}}
                                                                 {{ Form::text('street',null,['class' => 'form-control','id' => 'tax_street','placeholder' => 'Calle'])}}
@@ -136,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <table class="table table-striped table-hover table-bordered margin-top20">
+                                            <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
@@ -158,7 +157,20 @@
 
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
-
+                                            <form class="form-inline" id="form-dates-margin-bottom">
+                                                <div class="form-group">
+                                                    <label for="start_date" class="col-sm-6">Fecha de Inicio</label>
+                                                    <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="months" class="col-sm-6">Duración del Contrato</label>
+                                                    <input type="number" id="months" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1" class="col-sm-6">Fin del Contrato</label>
+                                                    <input type="date" id="end_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
+                                                </div>  
+                                            </form>
 
 
 
@@ -169,30 +181,56 @@
                                             <br>
                                             <div id="tabs">
                                                 <ul>
-                                                    <li><a href="#tabs-1">Spots</a> </li>
+                                                    <li><a href="#tabs-1">Spots</a></li>
                                                     <li><a href="#tabs-2">Cintillos</a></li>
                                                     <li><a href="#tabs-3">Programas</a></li>
                                                     <li><a href="#tabs-4">Portal Noticias</a></li>
                                                 </ul>
                                                 <div id="tabs-1">
                                                     <h3>Spots</h3>
-                                                    <form class="form-inline col-sm-12">
-                                                        <div class="form-group col-sm-2">
-                                                            <label for="start_date">Fecha de Inicio</label>
-                                                            <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                    <form class="form-inline">
+                                                        <div class="form-group">
+                                                            {{ Form::label('monthSpots','Spots por Mes')}}
+                                                            {{ Form::text('monthSpots',null,['class' => 'form-control','id' => 'monthSpots','placeholder' => 'Spots por mes'])}}
                                                         </div>
-                                                        <div class="form-group col-sm-2">
-                                                            <label for="months">Duración del Contrato</label>
-                                                            <input type="number" id="months" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
+                                                        <br>
+                                                        <br>
+                                                        <div id="myRadioGroup">
+                                                            <h4>Producción Filomeidos</h4>
+                                                            <label class="checkbox-inline">
+                                                                <input type="radio" name="cars" checked="checked" value="2"  />Si
+                                                            </label>
+                                                            <label class="checkbox-inline">
+                                                                <input type="radio" name="cars" value="3" />No
+                                                            </label>
+                                                            <div id="Cars2" class="desc">
+                                                                <div class="form-group">
+                                                                    <label for="start_date" class="col-sm-6">Fecha de grabacion o junta de produccion</label>
+                                                                    <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="start_date" class="col-sm-6">Fecha Estimada 1 Propuesta</label>
+                                                                    <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="start_date" class="col-sm-6">Fecha Estimada 2 Propuesta</label>
+                                                                    <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                </div>
+                                                            </div>
+                                                            <div id="Cars3" class="desc" style="display: none;">
+                                                                <div class="form-group">
+                                                                    <label for="start_date" class="col-sm-6">Fecha de Entrega Spot de Cliente</label>
+                                                                    <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                </div>
+                                                                <br>
+                                                                <div class="form-group">
+                                                                    <label for="months" class="col-sm-6">Formato</label>
+                                                                    <input type="text" id="months" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Formato"/>
+                                                                </div>
+                                                                <br>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group col-sm-2">
-                                                            <label for="exampleInputEmail1">Fin del Contrato</label>
-                                                            <input type="date" id="end_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
-                                                        </div>     
                                                     </form>
-
-
-
 
                                                 </div>
                                                 <div id="tabs-2">
@@ -268,7 +306,7 @@
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
         var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-        var showEmployeesSelectRoute = '{{ action('employeeController@postShowEmployeesSelect'); }}';
+        var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
         var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
 <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
 @stop
