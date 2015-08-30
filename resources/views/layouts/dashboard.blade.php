@@ -188,7 +188,7 @@
                         <a href="{{ url ('pagos') }}"><i class="fa fa-usd fa-fw"></i> Pagos</a>
                     </li>
                     <li {{ (Request::is('*proyeccion') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('proyeccion') }}"><i class="fa fa-edit fa-fw"></i> Proyección</a>
+                        <a href="{{ url ('proyeccion') }}"><i class="fa fa-film fa-fw"></i> Proyección</a>
                     </li>
                     <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
