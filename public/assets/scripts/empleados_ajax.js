@@ -1,8 +1,11 @@
     function loadTable(){
+
         $.ajaxSetup({
             headers: {
+                
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+       
         });
         
         $.ajax({
@@ -12,7 +15,9 @@
                 $("#usuarios").html('');
                 if (msg !== null && $.isArray(msg) && msg.length>0){
                     $.each(msg, function(index, value){
-                        $("#usuarios").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + '</td><td>' + value.emp_last_names + '</td><td>' + value.emp_address + '</td><td>' + value.emp_phone_number + '</td><td>' + value.emp_cellphone_number + '</td><td>' + value.emp_job + '</td><td>' + value.use_username + '</td><td><button class="btn btn-warning btn-xs" type="button" onclick="modalUpdate('+ value.emp_id +')">Editar</button><button class="btn btn-danger btn-xs" type="button" onclick="deleteUser('+ value.emp_id +')">Elminar</button></td></tr>');
+    
+                        $("#usuarios").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + '</td><td>' + value.emp_last_names + '</td><td>' + value.emp_address + '</td><td>' + value.emp_phone_number + '</td><td>' + value.emp_cellphone_number + '</td><td>' + value.emp_job + '</td><td>' + value.use_username + '</td><td><button class="btn btn-warning btn-xs" type="button" onclick="modalUpdate('+ value.emp_id +')">Editar</button><button class="btn btn-danger btn-xs" type="button" onclick=" deleteUser('+value.emp_id+')">Eliminar</button></td></tr>');
+                    
                     });
                 }else{
                     $("#usuarios").append('<tr class="gradeX"><td colspan="10">No existen usuarios registrados en la base de datos</td>');
@@ -20,7 +25,7 @@
             }
         });
     }
-    
+  
     function loadUsers(){
         $.ajaxSetup({
             headers: {
@@ -46,8 +51,8 @@
            }
         });
     }
-    
-    function deleteUser(id){
+   function deleteUser(id){
+       
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -171,5 +176,4 @@
             }
         });
     });
-
-
+         

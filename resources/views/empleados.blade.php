@@ -49,8 +49,9 @@
                                 {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
                             </div>
                             <div class=text-right>
+                                     {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                           
                             </div>
                             {{ Form::close() }}
                         </div>

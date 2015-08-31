@@ -12,7 +12,7 @@
                 $("#usuarios").html('');
                 if (msg !== null && $.isArray(msg) && msg.length>0){
                     $.each(msg, function(index, value){
-                        $("#usuarios").append('<tr class="gradeX"><td>' + value.use_id + '</td><td>' + value.use_username + '</td><td><button class="btn btn-warning btn-xs" type="button" onclick="modalUpdate('+ value.use_id +')">Cambiar contraseña</button><button class="btn btn-danger btn-xs" type="button" onclick="deleteUser('+ value.use_id +')">Elminar</button></td></tr>');
+                        $("#usuarios").append('<tr class="gradeX"><td>' + value.use_id + '</td><td>' + value.use_username + '</td><td><button class="btn btn-warning btn-xs" type="button" onclick="modalUpdate('+ value.use_id +')">Cambiar contraseña</button><button class="btn btn-danger btn-xs" type="button" onclick="deleteUser('+ value.use_id +')">Eliminar</button></td></tr>');
                     });
                 }else{
                     $("#usuarios").append('<tr class="gradeX"><td colspan="3">No existen usuarios registrados en la base de datos</td>');

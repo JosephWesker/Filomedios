@@ -33,8 +33,9 @@
                                 {{ Form::password('password',['class' => 'form-control','id' => 'repetir_use_password','placeholder' => 'Contraseña'])}}
                             </div>
                             <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
+            
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
                             </div>
                             {{ Form::close() }}
                         </div>
