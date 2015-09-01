@@ -290,23 +290,24 @@
 
 
                                                 {{ Form::close() }}                        
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-<script>
-        var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-        var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
-        var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';</script>
-<script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+    <script>
+    var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
+    var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
+    var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';        
+    </script>
+    <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
 @stop

@@ -32,9 +32,9 @@
                                 {{ Form::label('password','Repetir contraseña')}}
                                 {{ Form::password('password',['class' => 'form-control','id' => 'repetir_use_password','placeholder' => 'Contraseña'])}}
                             </div>
-                            <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
+                            <div class=text-right>                                
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
                             </div>
                             {{ Form::close() }}
                         </div>
@@ -65,9 +65,9 @@
                                 {{ Form::label('password','Repetir contraseña')}}
                                 {{ Form::password('password',['class' => 'form-control','id' => 'rep_u_use_password','placeholder' => 'Contraseña'])}}
                             </div>
-                            <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
+                            <div class=text-right>                                
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'updateUserbutton']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
                             </div>
                             {{ Form::close() }}
                         </div>
@@ -77,7 +77,7 @@
 
         </div>
         <div class="col-lg-12">
-            <table class="table table-striped table-hover table-bordered">
+            <table class="table table-striped table-hover table-bordered margin-top20">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -93,10 +93,10 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-    var updateRoute = '{{ action('userController@postUpdateUsers'); }}';
-    var showEmployeesRoute = '{{ action('userController@postShowUsers'); }}';
-    var delateRoute = '{{ action('userController@postDelateUsers'); }}';
-    var createRoute = '{{ action('userController@postCreateUsers'); }}';
+var updateRoute = '{{ action('userController@postUpdateUsers'); }}';
+var showEmployeesRoute = '{{ action('userController@postShowUsers'); }}';
+var delateRoute = '{{ action('userController@postDelateUsers'); }}';
+var createRoute = '{{ action('userController@postCreateUsers'); }}';
 </script>
 <script src="{{ asset("assets/scripts/usuarios_ajax.js") }}"></script>
 @stop
