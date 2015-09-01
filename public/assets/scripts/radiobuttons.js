@@ -3,6 +3,6 @@ $(document).ready(function() {
         var test = $(this).val();
 
         $("div.desc").hide();
-        $("#Cars" + test).show();
+        $("#option" + test).show();
     });
 });
