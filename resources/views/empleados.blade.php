@@ -48,9 +48,9 @@
                                 {{ Form::label('user','Usuario asignado')}}
                                 {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
                             </div>
-                            <div class=text-right>                                
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
+                            <div class=text-right>
+                                     {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}                           
                             </div>
                             {{ Form::close() }}
                         </div>
