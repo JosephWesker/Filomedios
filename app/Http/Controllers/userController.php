@@ -20,8 +20,7 @@ class userController extends Controller
        
  //BEGIN EMAIL
 $rule_email=array(
- 'use_username'=>'required|email|min:5',
- //'emp_password'=>'required'
+ 'use_username'=>'required|email|min:5|Regex:/^[A-Za-z0-9\-! ,"\/@\.:\(\)]+$/',
     );
        $vemail=Validator::make($values,$rule_email);
  if ($vemail->fails())
@@ -30,7 +29,8 @@ $rule_email=array(
             return 'Dirección de correo no válida';
         }
       //END EMAIL
-        //BEGIN PASSWORD
+
+         //BEGIN PASSWORD
 $rule_pass=array(
  'use_password'=>'Required|min:8',
   'repetir_use_password'=>'Required|min:8',
