@@ -14,6 +14,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/custom.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/form-wizard.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/jquery.steps.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/selectTable.css") }}" />
@@ -36,6 +37,7 @@
         <script src="{{ asset("assets/scripts/tabs-products/tabs-products.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/add.date.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/radiobuttons.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/selectProducts.js") }}" type="text/javascript"></script>
 
 
 
