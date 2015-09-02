@@ -110,7 +110,7 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('legalRepresentative','Representante Legal')}}
-								{{ Form::text('country',null,['class' => 'form-control','id' => 'tax_legal_representative','placeholder' => 'País'])}}
+								{{ Form::text('country',null,['class' => 'form-control','id' => 'tax_legal_representative','placeholder' => 'Representante Legal'])}}
 							</div>
 							<div class=text-right>
 								{{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'customerCreate()']) }}
