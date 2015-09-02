@@ -157,20 +157,20 @@
 
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
-                                            <form class="form-inline col-sm-6">
-                                                <div class="form-group col-lg-4">
+                                            <form class="form-inline col-lg-12">
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
                                                     <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                 </div>
-                                                <div class="form-group col-lg-4">
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="months_contract">Duración del Contrato</label>
                                                     <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
                                                 </div>
-                                                <div class="form-group col-lg-4">
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="end_date_contract">Fin del Contrato</label>
                                                     <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
                                                 </div>  
-                                                <div class="form-group col-lg-12">
+                                                <div class="form-group col-lg-12 col-xs-12">
                                                     <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
                                                         Agregar Producto
                                                     </button>
