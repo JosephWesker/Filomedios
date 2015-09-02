@@ -82,15 +82,15 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('postCode','Código Postal')}}
-								{{ Form::text('postCode',null,['class' => 'form-control','id' => 'tax_postal_code','placeholder' => 'Código Postal'])}}
+								{{ Form::select('postCode', ['null'=>'---Seleccionar Código Postal---'] ,null, ['class' => 'form-control','id'=>'tax_postal_code']) }}
 							</div>
 							<div class="form-group">
 								{{ Form::label('cologne','Colonia')}}
-								{{ Form::text('cologne',null,['class' => 'form-control','id' => 'tax_colony','placeholder' => 'Colonia'])}}
+								{{ Form::select('cologne', [''=>'---Seleccionar Colonia---'] ,null, ['class' => 'form-control','id'=>'tax_colony', 'disabled' => 'disabled']) }}
 							</div>
 							<div class="form-group">
 								{{ Form::label('town','Municipio')}}
-								{{ Form::text('town',null,['class' => 'form-control','id' => 'tax_town','placeholder' => 'Municipio'])}}
+								{{ Form::text('town',null,['class' => 'form-control','id' => 'tax_town','placeholder' => 'Municipio', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('locality','Localidad')}}
@@ -98,11 +98,11 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('state','Estado')}}
-								{{ Form::text('state',null,['class' => 'form-control','id' => 'tax_state','placeholder' => 'Estado'])}}
+								{{ Form::text('state',null,['class' => 'form-control','id' => 'tax_state','placeholder' => 'Estado', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('country','País')}}
-								{{ Form::text('country',null,['class' => 'form-control','id' => 'tax_country','placeholder' => 'País'])}}
+								{{ Form::text('country',null,['class' => 'form-control','id' => 'tax_country','placeholder' => 'País', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('emailProsecutor','Email Fiscal')}}
@@ -195,15 +195,15 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('postCode','Código Postal')}}
-								{{ Form::text('postCode',null,['class' => 'form-control','id' => 'u_tax_postal_code','placeholder' => 'Código Postal'])}}
+								{{ Form::select('postCode', [''=>'---Seleccionar Código Postal---'] ,null, ['class' => 'form-control','id'=>'u_tax_postal_code']) }}
 							</div>
 							<div class="form-group">
 								{{ Form::label('cologne','Colonia')}}
-								{{ Form::text('cologne',null,['class' => 'form-control','id' => 'u_tax_colony','placeholder' => 'Colonia'])}}
+								{{ Form::select('cologne', [''=>'---Seleccionar Colonia---'] ,null, ['class' => 'form-control','id'=>'u_tax_colony', 'disabled' => 'disabled']) }}
 							</div>
 							<div class="form-group">
 								{{ Form::label('town','Municipio')}}
-								{{ Form::text('town',null,['class' => 'form-control','id' => 'u_tax_town','placeholder' => 'Municipio'])}}
+								{{ Form::text('town',null,['class' => 'form-control','id' => 'u_tax_town','placeholder' => 'Municipio', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('locality','Localidad')}}
@@ -211,11 +211,11 @@
 							</div>
 							<div class="form-group">
 								{{ Form::label('state','Estado')}}
-								{{ Form::text('state',null,['class' => 'form-control','id' => 'u_tax_state','placeholder' => 'Estado'])}}
+								{{ Form::text('state',null,['class' => 'form-control','id' => 'u_tax_state','placeholder' => 'Estado', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('country','País')}}
-								{{ Form::text('country',null,['class' => 'form-control','id' => 'u_tax_country','placeholder' => 'País'])}}
+								{{ Form::text('country',null,['class' => 'form-control','id' => 'u_tax_country','placeholder' => 'País', 'disabled' => 'disabled'])}}
 							</div>
 							<div class="form-group">
 								{{ Form::label('emailProsecutor','Email Fiscal')}}
@@ -235,6 +235,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-lg-12">
 			<table class="table table-striped table-hover table-bordered margin-top20">
 				<thead>
@@ -261,10 +262,12 @@
 <script>
 var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
 var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
+var showPostalCodeSelectRoute = '{{ action('customerController@postShowPostalCodeSelect'); }}';
 var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';
 var deleteRoute =  '{{ action('customerController@postDeleteCustomer'); }}';       
 var getCustomerRoute =  '{{ action('customerController@postGetCustomer'); }}';
 var updateRoute = '{{ action('customerController@postUpdateCustomer'); }}';
+var getPostalData = '{{ action('customerController@postPostalData'); }}';
 </script>
 <script src="{{ asset("assets/scripts/clientes_ajax.js") }}" type="text/javascript"></script>
 @stop
