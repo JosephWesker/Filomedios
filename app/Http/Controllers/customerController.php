@@ -13,9 +13,9 @@ class customerController extends Controller
 {
     public function postShowCustomers(){
         $fm_customer = DB::table('fm_customer')
-                        ->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')
-                        ->orderby('cus_id','asc')                
-                        ->get();
+        ->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')
+        ->orderby('cus_id','asc')                
+        ->get();
         return Response::json($fm_customer);
     }
     
@@ -25,14 +25,26 @@ class customerController extends Controller
         ->get();
         return Response::json($fm_employee);
     }
+
+    public function postPostalData(){
+        $id = Request::input('id');
+        $fm_postal_code = \App\fm_postal_code::find($id);
+        return Response::json($fm_postal_code);
+    }
+
+    public function postShowPostalCodeSelect(){
+        $fm_postal_code = \App\fm_postal_code::select('ps_postal_code')
+        ->get();
+        return Response::json($fm_postal_code);
+    }
     
     public function postGetCustomer(){
         $id = Request::input('id');
         $fm_customer = DB::table('fm_customer')
-                        ->where('cus_id','=',$id)
-                        ->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')
-                        ->orderby('cus_id','asc')                
-                        ->first();
+        ->where('cus_id','=',$id)
+        ->leftjoin('fm_tax_data','cus_id','=','tax_fk_customer')
+        ->orderby('cus_id','asc')                
+        ->first();
         return Response::json($fm_customer);
     }    
 

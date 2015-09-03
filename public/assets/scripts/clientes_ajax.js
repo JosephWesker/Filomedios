@@ -49,6 +49,100 @@ function loadSellers(){
     });
 }
 
+function loadPostalCodes(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   showPostalCodeSelectRoute,
+        type:  'post',
+        success:  function (msg) {
+            if (msg !== null && $.isArray(msg) && msg.length>0){
+                $.each(msg, function(index, value){
+                    $("#tax_postal_code").append('<option value="'+value.ps_postal_code+'">'+value.ps_postal_code+'</option>');
+                    $("#u_tax_postal_code").append('<option value="'+value.ps_postal_code+'">'+value.ps_postal_code+'</option>');
+                });
+            }else{
+                $("#tax_postal_code").prop('disabled','disabled');
+                $("#u_tax_postal_code").prop('disabled','disabled');
+            }
+        }
+    });
+}
+
+$( "#tax_postal_code" ).change(function() {
+    var tax_postal_code = $('#tax_postal_code').val();
+    if(tax_postal_code != "null"){
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+      $.ajax({
+        data: {'id' : tax_postal_code },
+        url:   getPostalData,
+        type:  'post',
+        success:  function (msg) {
+            $("#tax_colony").html('');
+            var array = msg['ps_colony'].split(";");
+            $.each(array, function(index, value){
+                $("#tax_colony").append('<option value="'+value+'">'+value+'</option>');
+            });
+            $( "#tax_colony" ).prop( "disabled", false );
+            $('#tax_town').val(msg['ps_town']);
+            $('#tax_state').val(msg['ps_state']);
+            $('#tax_country').val(msg['ps_country']);  
+        }
+    });
+  }else{
+    $("#tax_colony").html('');
+    $("#tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
+    $("#tax_colony" ).prop( "disabled", true );
+    $('#tax_town').val('');
+    $('#tax_state').val('');
+    $('#tax_country').val('');  
+}
+});
+
+$( "#u_tax_postal_code" ).change(function() {
+    var tax_postal_code = $('#u_tax_postal_code').val();
+    if(tax_postal_code != "null"){
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+      $.ajax({
+        data: {'id' : tax_postal_code },
+        url:   getPostalData,
+        type:  'post',
+        success:  function (msg) {
+            $("#u_tax_colony").html('');
+            var array = msg['ps_colony'].split(";");
+            $.each(array, function(index, value){
+                $("#u_tax_colony").append('<option value="'+value+'">'+value+'</option>');
+            });
+            $( "#u_tax_colony" ).prop( "disabled", false );
+            $('#u_tax_town').val(msg['ps_town']);
+            $('#u_tax_state').val(msg['ps_state']);
+            $('#u_tax_country').val(msg['ps_country']);  
+        }
+    });
+  }else{    
+    $("#u_tax_colony").html('');
+    $("#u_tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
+    $("#u_tax_colony" ).prop( "disabled", true );
+    $('#u_tax_town').val('');
+    $('#u_tax_state').val('');
+    $('#u_tax_country').val('');  
+}
+});
+
 function customerCreate(){
 
     var values = {
@@ -89,6 +183,9 @@ function customerCreate(){
         success:  function (msg) {
             alert(msg);
             if (msg.indexOf("Cliente registrado") !== - 1){
+                $("#tax_colony").html('');
+                $("#tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
+                $("#tax_colony" ).prop( "disabled", true );
                 loadTable();
                 $('#addCustomer').modal('hide');
                 $(':input', '#agregarCliente')
@@ -103,7 +200,8 @@ function customerCreate(){
 
 $(document).ready(function(){
     loadTable();
-    loadSellers();        
+    loadSellers();
+    loadPostalCodes();        
 });
 
 function deleteCustomer(id){
@@ -136,83 +234,119 @@ function modalUpdate(id){
         url:   getCustomerRoute,
         type:  'post',
         success:  function (msg) { 
-            $('#u_cus_id').val(id);       
-            $('#u_cus_commercial_name').val(msg['cus_commercial_name']);
-            $('#u_cus_contact_first_name').val(msg['cus_contact_first_name']);
-            $('#u_cus_contact_last_names').val(msg['cus_contact_last_names']);
-            $('#u_cus_job').val(msg['cus_job']);
-            $('#u_cus_phone_number').val(msg['cus_phone_number']);
-            $('#u_cus_cellphone_number').val(msg['cus_cellphone_number']);
-            $('#u_cus_email').val(msg['cus_email']);
-            $('#u_cus_address').val(msg['cus_address']);
-            $('#u_tax_business_name').val(msg['tax_business_name']);
-            $('#u_cus_fk_employee').val(msg['cus_fk_employee']);
-            $('#u_tax_rfc').val(msg['tax_rfc']);
-            $('#u_tax_street').val(msg['tax_street']);
-            $('#u_tax_outdoor_number').val(msg['tax_outdoor_number']);
-            $('#u_tax_apartment_number').val(msg['tax_apartment_number']);
-            $('#u_tax_colony').val(msg['tax_colony']);
-            $('#u_tax_postal_code').val(msg['tax_postal_code']);
-            $('#u_tax_town').val(msg['tax_town']);
-            $('#u_tax_locality').val(msg['tax_locality']);
-            $('#u_tax_state').val(msg['tax_state']);
-            $('#u_tax_country').val(msg['tax_country']);
-            $('#u_tax_tax_email').val(msg['tax_tax_email']);
-            $('#u_tax_legal_representative').val(msg['tax_legal_representative']);
-            $('#updateCustomer').modal('show');
+            var tax_postal_code = msg['tax_postal_code'];
+            if(tax_postal_code != "null"){
+              $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+              $.ajax({
+                data: {'id' : tax_postal_code },
+                url:   getPostalData,
+                type:  'post',
+                success:  function (datas) {
+                    $("#u_tax_colony").html('');
+                    var array = datas['ps_colony'].split(";");
+                    $.each(array, function(index, value){
+                        $("#u_tax_colony").append('<option value="'+value+'">'+value+'</option>');
+                    });
+                    $( "#u_tax_colony" ).prop( "disabled", false );
+                    $('#u_tax_colony').val(msg['tax_colony']);
+                    $('#u_tax_town').val(datas['ps_town']);
+                    $('#u_tax_state').val(datas['ps_state']);
+                    $('#u_tax_country').val(datas['ps_country']);  
+                }
+            });
+          }else{    
+            $("#u_tax_colony").html('');
+            $("#u_tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
+            $("#u_tax_colony" ).prop( "disabled", true );
+            $('#u_tax_town').val('');
+            $('#u_tax_state').val('');
+            $('#u_tax_country').val('');  
         }
-    });
+
+        $('#u_cus_id').val(id);       
+        $('#u_cus_commercial_name').val(msg['cus_commercial_name']);
+        $('#u_cus_contact_first_name').val(msg['cus_contact_first_name']);
+        $('#u_cus_contact_last_names').val(msg['cus_contact_last_names']);
+        $('#u_cus_job').val(msg['cus_job']);
+        $('#u_cus_phone_number').val(msg['cus_phone_number']);
+        $('#u_cus_cellphone_number').val(msg['cus_cellphone_number']);
+        $('#u_cus_email').val(msg['cus_email']);
+        $('#u_cus_address').val(msg['cus_address']);
+        $('#u_tax_business_name').val(msg['tax_business_name']);
+        $('#u_cus_fk_employee').val(msg['cus_fk_employee']);
+        $('#u_tax_rfc').val(msg['tax_rfc']);
+        $('#u_tax_street').val(msg['tax_street']);
+        $('#u_tax_outdoor_number').val(msg['tax_outdoor_number']);
+        $('#u_tax_apartment_number').val(msg['tax_apartment_number']);
+        $('#u_tax_postal_code').val(msg['tax_postal_code']);
+        $('#u_tax_town').val(msg['tax_town']);
+        $('#u_tax_locality').val(msg['tax_locality']);
+        $('#u_tax_state').val(msg['tax_state']);
+        $('#u_tax_country').val(msg['tax_country']);
+        $('#u_tax_tax_email').val(msg['tax_tax_email']);
+        $('#u_tax_legal_representative').val(msg['tax_legal_representative']);
+        $('#updateCustomer').modal('show');
+    }
+});
 }
 
 
 var button2 = document.getElementById("updateCustomerButton");
-    button2.addEventListener('click', function(){
-        var values = {
-            "cus_id" : $('#u_cus_id').val(),
-            "tax_id" : $('#u_cus_id').val(),
-            "cus_commercial_name" : $('#u_cus_commercial_name').val(),
-            "cus_contact_first_name" : $('#u_cus_contact_first_name').val(),
-            "cus_contact_last_names" : $('#u_cus_contact_last_names').val(),
-            "cus_job" : $('#u_cus_job').val(),
-            "cus_phone_number" : $('#u_cus_phone_number').val(),
-            "cus_cellphone_number": $('#u_cus_cellphone_number').val(),
-            "cus_email" : $('#u_cus_email').val(),
-            "cus_address" : $('#u_cus_address').val(),
-            "tax_business_name" : $('#u_tax_business_name').val(),
-            "cus_fk_employee" : $('#u_cus_fk_employee').val(),
-            "tax_rfc" : $('#u_tax_rfc').val(),
-            "tax_street" : $('#u_tax_street').val(),
-            "tax_outdoor_number" : $('#u_tax_outdoor_number').val(),
-            "tax_apartment_number" : $('#u_tax_apartment_number').val(),
-            "tax_colony" : $('#u_tax_colony').val(),
-            "tax_postal_code" : $('#u_tax_postal_code').val(),
-            "tax_town" : $('#u_tax_town').val(),
-            "tax_locality" : $('#u_tax_locality').val(),
-            "tax_state" : $('#u_tax_state').val(),
-            "tax_country" : $('#u_tax_country').val(),
-            "tax_tax_email" : $('#u_tax_tax_email').val(),
-            "tax_legal_representative" : $('#u_tax_legal_representative').val()
-        };
-        
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        
-        $.ajax({
-            data:   values,
-            url:   updateRoute,
-            type:  'post',
-            success:  function (msg) {
-                alert(msg);
-                loadTable();
-                $('#updateCustomer').modal('hide');
-                $(':input', '#modificarCliente')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .removeAttr('checked')
-                .removeAttr('selected');                             
-            }
-        });
+button2.addEventListener('click', function(){
+    var values = {
+        "cus_id" : $('#u_cus_id').val(),
+        "tax_id" : $('#u_cus_id').val(),
+        "cus_commercial_name" : $('#u_cus_commercial_name').val(),
+        "cus_contact_first_name" : $('#u_cus_contact_first_name').val(),
+        "cus_contact_last_names" : $('#u_cus_contact_last_names').val(),
+        "cus_job" : $('#u_cus_job').val(),
+        "cus_phone_number" : $('#u_cus_phone_number').val(),
+        "cus_cellphone_number": $('#u_cus_cellphone_number').val(),
+        "cus_email" : $('#u_cus_email').val(),
+        "cus_address" : $('#u_cus_address').val(),
+        "tax_business_name" : $('#u_tax_business_name').val(),
+        "cus_fk_employee" : $('#u_cus_fk_employee').val(),
+        "tax_rfc" : $('#u_tax_rfc').val(),
+        "tax_street" : $('#u_tax_street').val(),
+        "tax_outdoor_number" : $('#u_tax_outdoor_number').val(),
+        "tax_apartment_number" : $('#u_tax_apartment_number').val(),
+        "tax_colony" : $('#u_tax_colony').val(),
+        "tax_postal_code" : $('#u_tax_postal_code').val(),
+        "tax_town" : $('#u_tax_town').val(),
+        "tax_locality" : $('#u_tax_locality').val(),
+        "tax_state" : $('#u_tax_state').val(),
+        "tax_country" : $('#u_tax_country').val(),
+        "tax_tax_email" : $('#u_tax_tax_email').val(),
+        "tax_legal_representative" : $('#u_tax_legal_representative').val()
+    };
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
+
+    $.ajax({
+        data:   values,
+        url:   updateRoute,
+        type:  'post',
+        success:  function (msg) {
+            $("#u_tax_colony").html('');
+            $("#u_tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
+            $("#u_tax_colony" ).prop( "disabled", true );
+            alert(msg);
+            loadTable();
+            $('#updateCustomer').modal('hide');
+            $(':input', '#modificarCliente')
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');                             
+        }
+    });
+});

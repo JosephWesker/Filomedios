@@ -1,7 +1,7 @@
 // Dates of transmision
 $(document).ready(function () {
     // Add
-    var max_fields_date = 5; //maximum boxes allowed
+    var max_fields_date = 36; //maximum boxes allowed
     var wrapper_date = $(".input_fields_wrap_date");
     var add_button_date = $(".add_field_button_date");
     var x = 1;
@@ -11,7 +11,7 @@ $(document).ready(function () {
         if (x < max_fields_date) {
             x++;
             a++;
-            $(wrapper_date).append('<div id="' + a + '" class="form-group form-group-sm input_fields_wrap_date" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + ++a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_date"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>'); //add input box
+            $(wrapper_date).append('<div id="' + a + '" class="form-group form-group-sm input_fields_wrap_date" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + ++a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_date"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>'); //add input box
         }
     });
     //Delete
@@ -42,7 +42,8 @@ $(document).ready(function () {
 // Payments
 $(document).ready(function () {
     // Add
-    var max_fields_payment = 5; //maximum boxes allowed
+    var max_fields_payment = 36; //maximum boxes allowed
+
     var wrapper_payment = $(".input_fields_wrap_payment");
     var add_button_payment = $(".add_field_button_payment");
     var q = 1;
@@ -52,7 +53,7 @@ $(document).ready(function () {
         if (q < max_fields_payment) {
             q++;
             w++;
-            $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
+            $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
         }
     });
     // Delete
@@ -77,4 +78,47 @@ $(document).ready(function () {
             r--;
         }
     });
+
+
+
+
+
+//    $('#months_contract').keyup(function (e) {
+    $('#months_contract').change(function (e) {
+        e.preventDefault();
+        $("[class*='remove_field_payment']").parent('div').remove();
+//        var q = 1;
+//        var w = 2;
+        q = 1;
+        w = 2;
+        var months_contract = parseInt($('#months_contract').val());
+        while (months_contract > 1) {
+            --months_contract;
+            q++;
+            w++;
+            $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
+        }
+    });
 });
+
+
+
+
+
+// PRODUCT DATES & PAYMENTS DATES 
+//$(document).ready(function () {
+//
+//    var wrapper_payment = $(".input_fields_wrap_payment");
+//    var q = 1;
+//    var w = 2;
+//    $('#months_contract').keyup(function (e) {
+//        e.preventDefault();
+//        var months_contract = parseInt($('#months_contract').val());
+//        while (months_contract > 1) {
+//            --months_contract;
+//            q++;
+//            w++;
+//            $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Termina</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
+//        }
+//    });
+//});
