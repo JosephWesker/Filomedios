@@ -15,6 +15,7 @@ class CreateFmServiceOrder extends Migration {
                 Schema::create('fm_service_order',function($table){
                     $table->string('ser_id',9);
                     $table->string('ser_method_payment');
+                    $table->string('ser_account_payment');
                     $table->boolean('ser_authorization');
                     $table->decimal('ser_total',8,2);
                     $table->integer('ser_contract_duration')->unsigned();

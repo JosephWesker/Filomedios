@@ -1,4 +1,6 @@
 var selectedTr = null;
+var productCounter = 0;
+var productArray = [];
 
 function loadTable(){
         selectedTr = null;
@@ -37,85 +39,11 @@ function loadTable(){
             });
         }
     }
-    
-    function loadSellers(){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        
-        $.ajax({
-            url:   showEmployeesSelectRoute,
-            type:  'post',
-            success:  function (msg) {
-                $("#cus_fk_employee").html('');
-                if (msg !== null && $.isArray(msg) && msg.length>0){
-                    $.each(msg, function(index, value){
-                        $("#cus_fk_employee").append('<option value="'+value.emp_id+'">'+value.emp_first_name+' '+value.emp_last_names+'</option>');
-                    });
-                }else{
-                    $("#cus_fk_employee").append('<option value="null">No existen Vendedores</option>');
-                    $("#cus_fk_employee").prop('disabled','disabled');
-                }
-           }
-        });
-    }
-        
-    function customerCreate(){
 
-        var values = {
-            "cus_commercial_name" : $('#cus_commercial_name').val(),
-            "cus_contact_first_name" : $('#cus_contact_first_name').val(),
-            "cus_contact_last_names" : $('#cus_contact_last_names').val(),
-            "cus_job" : $('#cus_job').val(),
-            "cus_phone_number" : $('#cus_phone_number').val(),
-            "cus_cellphone_number": $('#cus_cellphone_number').val(),
-            "cus_email" : $('#cus_email').val(),
-            "cus_address" : $('#cus_address').val(),
-            "tax_business_name" : $('#tax_business_name').val(),
-            "cus_fk_employee" : $('#cus_fk_employee').val(),
-            "tax_rfc" : $('#tax_rfc').val(),
-            "tax_street" : $('#tax_street').val(),
-            "tax_outdoor_number" : $('#tax_outdoor_number').val(),
-            "tax_apartment_number" : $('#tax_apartment_number').val(),
-            "tax_colony" : $('#tax_colony').val(),
-            "tax_postal_code" : $('#tax_postal_code').val(),
-            "tax_town" : $('#tax_town').val(),
-            "tax_locality" : $('#tax_locality').val(),
-            "tax_state" : $('#tax_state').val(),
-            "tax_country" : $('#tax_country').val(),
-            "tax_tax_email" : $('#tax_tax_email').val(),
-            "tax_legal_representative" : $('#tax_legal_representative').val()
-        };
+    function addProduct(){
         
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        
-        $.ajax({
-            data:   values,
-            url:   createCustomerRoute,
-            type:  'post',
-            success:  function (msg) {
-                alert(msg);
-                if (msg.indexOf("Cliente registrado") !== - 1){
-                    $("#clientes").empty();
-                    loadTable();
-                    $('#addCustomer').modal('hide');
-                    $(':input', '#agregarCliente')
-                        .not(':button, :submit, :reset, :hidden')
-                        .val('')
-                        .removeAttr('checked')
-                        .removeAttr('selected');
-                }                                
-            }
-        });
     }
     
     $(document).ready(function(){
-        loadTable();
-        loadSellers();        
+        loadTable();   
     });

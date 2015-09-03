@@ -16,4 +16,8 @@ class fm_customer extends Model
     public function tax_data(){
         return $this->hasMany('App\fm_tax_data','tax_fk_customer');
     }
+
+    public function methodPayments(){
+        return $this->hasMany('App\methodPaymentController','met_fk_customer');
+    }
 }
