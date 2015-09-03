@@ -108,7 +108,7 @@
             </div>
 
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 table-responsive">
             <table class="table table-striped table-hover table-bordered margin-top20">
                 <thead>
                     <tr>
