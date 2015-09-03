@@ -15,6 +15,7 @@ class CreateFmProduct extends Migration {
             Schema::create('fm_product',function($table){
                 $table->increments('pro_id')->unsigned();
                 $table->string('pro_type');
+                $table->decimal('pro_amount',8,2);                
                 $table->boolean('pro_filomedios_production')->nulleable();
                 $table->date('pro_recording')->nulleable();
                 $table->date('pro_proposal_1')->nulleable();
