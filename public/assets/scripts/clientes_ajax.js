@@ -12,7 +12,7 @@ function loadTable(){
             $("#clientes").html('');
             if (msg !== null && $.isArray(msg) && msg.length>0){
                 $.each(msg, function(index, value){
-                    $("#clientes").append('<tr class="gradeX"><td>'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.tax_business_name+'</td><td>'+value.tax_rfc+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.cus_id +')">Editar</button><button class="btn btn-danger btn-sm" type="button" onclick="deleteCustomer('+ value.cus_id +')">Elminar</button></div></td></tr>');
+                    $("#clientes").append('<tr class="gradeX"><td>'+value.cus_id+'</td><td>'+value.cus_commercial_name+'</td><td>'+value.cus_contact_first_name+' '+value.cus_contact_last_names+'</td><td>'+value.cus_address+'</td><td>'+value.cus_phone_number+'</td><td>'+value.cus_cellphone_number+'</td><td>'+value.cus_email+'</td><td>'+value.tax_business_name+'</td><td>'+value.tax_rfc+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.cus_id +')">Editar</button><button class="btn btn-danger btn-sm" type="button" onclick="deleteCustomer('+ value.cus_id +')">Eliminar</button></div></td></tr>');
                 });
             }else{
                 $("#clientes").append('<tr class="gradeX"><td colspan="10">No existen clientes registrados en la base de datos</td>');

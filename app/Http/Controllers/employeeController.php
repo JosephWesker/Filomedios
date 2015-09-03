@@ -62,18 +62,7 @@ $rule_address=array(
             return 'Complete el campo Dirección';
         }
       //END ADDRESS
-        //BEGIN PHONE
-    $rule_phone=array(
- 'emp_phone_number'=>'required',
-     );
-       $vphone=Validator::make($values,$rule_phone);
- if ($vphone->fails())
-        {                  
-            return 'Complete el campo Teléfono fijo';
-        }
-      //END PHONE
-      
-
+    
         //BEGIN PHONE1
     $rule_phone1=array(
  'emp_phone_number'=>'numeric|min:6',
@@ -87,7 +76,7 @@ $rule_address=array(
 
         //BEGIN CELLPHONE
     $rule_cellphone=array(
- 'emp_cellphone_number'=>'required',
+ 'emp_cellphone_number'=>'required|min:6',
      );
        $vcphone=Validator::make($values,$rule_cellphone);
  if ($vcphone->fails())

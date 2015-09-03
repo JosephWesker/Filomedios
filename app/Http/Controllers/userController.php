@@ -33,13 +33,13 @@ $rule_email=array(
          //BEGIN PASSWORD
 $rule_pass=array(
  'use_password'=>'Required|min:8',
-  'repetir_use_password'=>'Required|min:8',
+  'repetir_use_password'=>'Required',
     );
        $vpass=Validator::make($values,$rule_pass);
  if ($vpass->fails())
         {
                   
-            return 'Mínimo 8 caracteres para la contraseña';
+            return 'Mínimo 8 caracteres para la contraseña y un valor numérico';
         }
       //END PASSWORD
    
