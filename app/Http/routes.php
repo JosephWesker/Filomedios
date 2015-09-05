@@ -74,3 +74,4 @@ Route::get('/usuarios', function()
 Route::controller('employee','employeeController');
 Route::controller('customer','customerController');
 Route::controller('user','userController');
+Route::controller('serviceOrder','serviceOrderController');

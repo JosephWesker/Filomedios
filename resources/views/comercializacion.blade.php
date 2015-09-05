@@ -53,12 +53,21 @@
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="end_date_contract">Fin del Contrato</label>
                                                     <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
-                                                </div>  
+                                                </div>
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="end_date_contract">Cobro total</label>
+                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro total" readonly/>
+                                                </div> 
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="end_date_contract">Impactos totales</label>
+                                                    <input type="text" id="ser_contract_impacts" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Impactos totales" readonly/>
+                                                </div> 
                                                 <div class="form-group col-lg-12 col-xs-12">
                                                     <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
                                                         Agregar Producto
                                                     </button>
-                                                </div>  
+                                                </div>
+                                                    
                                             </form>
 
 
@@ -77,7 +86,7 @@
                                                             {{ Form::open(array('url' => '', 'id' => 'agregarProducto')) }}                            
 
                                                             <Select id="productSelector" class="form-control">
-                                                                <option disabled selected>-- Selecciona un producto --</option>
+                                                                <option value= "disabled" disabled selected>-- Selecciona un producto --</option>
                                                                 <option value="spots">Spots</option>
                                                                 <option value="cintillos">Cintillos</option>
                                                                 <option value="programas">Programas</option>
@@ -101,7 +110,7 @@
                                                                     <div id="myRadioGroup">
                                                                         <h4>Producción Filomedios</h4>
                                                                         <label class="checkbox-inline">
-                                                                            <input type="radio" name="cars" checked="checked" value="2"  />Si
+                                                                            <input type="radio" name="cars" checked="checked" value="2" id="radioSpots" />Si
                                                                         </label>
                                                                         <label class="checkbox-inline">
                                                                             <input type="radio" name="cars" value="3" />No
@@ -109,29 +118,31 @@
                                                                         <div id="option2" class="desc">
                                                                             <div class="form-group">
                                                                                 <label for="start_date">Fecha de grabación o junta de producción</label>
-                                                                                <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                                <input type="date" id="grabacion_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="start_date">Fecha Estimada 1 Propuesta</label>
-                                                                                <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                                <input type="date" id="propuesta_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label for="start_date">Fecha Estimada 2 Propuesta</label>
-                                                                                <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                                <input type="date" id="propuesta_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                                             </div>
                                                                         </div>
                                                                         <div id="option3" class="desc" style="display: none;">
                                                                             <div class="form-group">
                                                                                 <label for="start_date">Fecha de Entrega Spot de Cliente</label>
-                                                                                <input type="date" id="start_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                                                <input type="date" id="entrega_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
                                                                             </div>
                                                                             <br>
                                                                             <div class="form-group">
                                                                                 <label for="format">Formato</label>
-                                                                                <input type="text" id="months" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Formato"/>
+                                                                                <input type="text" id="format" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Formato"/>
                                                                             </div>
                                                                             <br>
-                                                                        </div>
+                                                                        </div>                                                                        
+                                                                        <label>Descripción del producto</label>
+                                                                        <textarea type="text" id="descripcion_spot" class="form-control" placeholder="Descripción del producto"/></textarea>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -147,15 +158,8 @@
                                                                 <span id="month"></span>
                                                                 <br>
                                                                 <br>
-                                                                <label>Observaciones</label>
-                                                                <textarea type="text" id="observaciones" class="form-control" placeholder="Observaciones"/></textarea>
-
-                                                                <div id="" class="desc" style="display: none;">
-                                                                    <div class="form-group">
-                                                                        <label for="observaciones">Observaciones</label>
-                                                                        <input type="text" id="observaciones" class="form-control" rows="3" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Observaciones"/>
-                                                                    </div>
-                                                                </div>
+                                                                <label>Descripción del producto</label>
+                                                                <textarea type="text" id="descripcion_cintillo" class="form-control" placeholder="Descripción del producto"/></textarea>
                                                             </div>
                                                             <div id="programas" class="product" style="display:none">
                                                                 <h3>Programas</h3>
@@ -171,46 +175,30 @@
                                                                 <br>
                                                                 <Select id="program" class="form-control">
                                                                     <option disabled selected>-- Selecciona un programa --</option>
-                                                                    <option value="alAire">Al Aire</option>
-                                                                    <option value="americasLife">Americas Life</option>
-                                                                    <option value="deporteal100">Deporte al 100</option>
-                                                                    <option value="Venue">Venue</option>
-                                                                    <option value="Bloopers">Bloopers</option>
-                                                                    <option value="veracruzEnTusSentidos">Veracruz en tu sentidos</option>
-                                                                    <option value="los5MejoresGoles">Los 5 mejores goles</option>
+                                                                    <option value="al aire">Al Aire</option>
+                                                                    <option value="americas Life">Americas Life</option>
+                                                                    <option value="deporte al 100">Deporte al 100</option>
+                                                                    <option value="venue">Venue</option>
+                                                                    <option value="bloopers">Bloopers</option>
+                                                                    <option value="veracruz en tus sentidos">Veracruz en tu sentidos</option>
+                                                                    <option value="los 5 mejores goles">Los 5 mejores goles</option>
                                                                 </Select>
                                                                 <br>
-                                                                <label>Observaciones</label>
-                                                                <textarea type="text" id="observaciones" class="form-control" placeholder="Observaciones"/></textarea>
-                                                                <div id="" class="desc" style="display: none;">
-                                                                    <div class="form-group">
-                                                                        <label for="observaciones">Observaciones</label>
-                                                                        <input type="text" id="observaciones" class="form-control" rows="3" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Observaciones"/>
-                                                                    </div>
-                                                                </div>
+                                                                <label>Descripción del producto</label>
+                                                                <textarea type="text" id="descripcion_programas" class="form-control" placeholder="Descripción del producto"/></textarea>                                                 
                                                             </div>
                                                             <div id="portalNoticias" class="product" style="display:none">
                                                                 <h3>Portal Noticias</h3>
-                                                                <label>Observaciones</label>
-                                                                <textarea type="text" id="observaciones" class="form-control" placeholder="Observaciones"/></textarea>
-                                                                <div id="" class="desc" style="display: none;">
-                                                                    <div class="form-group">
-                                                                        <label for="observaciones">Descripción</label>
-                                                                        <input type="text" id="observaciones" class="form-control" rows="3" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Observaciones"/>
-                                                                    </div>
-                                                                </div>
+                                                                <label>Descripción del producto</label>
+                                                                <textarea type="text" id="descripcion_noticias" class="form-control" placeholder="Descripción del producto"/></textarea>
                                                             </div>
                                                             <br>
                                                             <label>Costo</label>
-                                                            <input type="text" id="amount" class="form-control" placeholder="Costo"/>
-
-<!--                                                            <select class="form-control">
-                                                              
-                                                            </select>-->
+                                                            <input type="number" step="0.01" id="amount" class="form-control" placeholder="Costo"/>
                                                             <br>
                                                             <div class=text-right>
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
-                                                                {{ Form::button('Agregar',['class' => 'btn btn-success', 'id' => 'createProduct']) }}
+                                                                {{ Form::button('Agregar',['class' => 'btn btn-success', 'id' => 'createProduct', 'onclick'=>'buttonCreateProduct()']) }}
                                                             </div>
                                                             {{ Form::close() }}
                                                         </div>
@@ -241,7 +229,7 @@
                                                 <div class="form-group form-group-sm">
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text">
+                                                        <input class="form-control" type="text" id="ser_account_payment">
                                                     </div>
                                                 </div>
 
