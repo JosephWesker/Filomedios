@@ -23,12 +23,10 @@ class CreateFmProduct extends Migration {
                 $table->date('pro_customer_delivery')->nulleable();
                 $table->string('pro_format',4)->nulleable();
                 $table->string('sho_show',21)->nulleable();
-                $table->integer('pro_contract_impacts')->unsigned();
                 $table->integer('pro_moth_impacts')->unsigned();
                 $table->integer('pro_daily_impacts')->unsigned();
                 $table->integer('pro_hour_impacts')->unsigned();
-                $table->text('pro_description');
-                $table->text('pro_observations');                
+                $table->text('pro_description');                
                 $table->string('pro_fk_service_order',9);
                 $table->timestamps();
                 $table->foreign('pro_fk_service_order')->references('ser_id')->on('fm_service_order')->onDelete('cascade')->onUpdate('cascade');                    
