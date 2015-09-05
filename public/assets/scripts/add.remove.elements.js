@@ -13,6 +13,8 @@ $(document).ready(function () {
             a++;
             $(wrapper_date).append('<div id="' + a + '" class="form-group form-group-sm input_fields_wrap_date" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Inicia</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + ++a + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_date"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>'); //add input box
         }
+        payments++;
+        setAmounts();
     });
     //Delete
     $(wrapper_date).on("click", ".remove_field_date", function (e) {
@@ -35,6 +37,8 @@ $(document).ready(function () {
             id = ++id;
             z--;
         }
+        payments--;
+        setAmounts();
     });
 });
 
@@ -55,6 +59,8 @@ $(document).ready(function () {
             w++;
             $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
         }
+        payments++;
+        setAmounts();
     });
     // Delete
     $(wrapper_payment).on("click", ".remove_field_payment", function (e) {
@@ -77,6 +83,8 @@ $(document).ready(function () {
             idPayment = ++idPayment;
             r--;
         }
+        payments--;
+        setAmounts();
     });
 
 
