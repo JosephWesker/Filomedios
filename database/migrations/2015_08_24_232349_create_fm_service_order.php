@@ -13,10 +13,11 @@ class CreateFmServiceOrder extends Migration {
 	public function up()
 	{
                 Schema::create('fm_service_order',function($table){
-                    $table->string('ser_id',9);
-                    $table->string('ser_method_payment');
+                    $table->string('ser_id',9);                    
+                    $table->string('ser_account_payment',4);
                     $table->boolean('ser_authorization');
                     $table->decimal('ser_total',8,2);
+                    $table->integer('ser_contract_impacts')->unsigned();
                     $table->integer('ser_contract_duration')->unsigned();
                     $table->date('ser_projection_estimated_start');
                     $table->date('ser_projection_estimated_end');

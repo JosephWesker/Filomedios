@@ -49,8 +49,8 @@
                                 {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
                             </div>
                             <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                                     {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}                           
                             </div>
                             {{ Form::close() }}
                         </div>
@@ -97,9 +97,9 @@
                                 {{ Form::label('user','Usuario asignado')}}
                                 {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'u_emp_fk_user']) }}
                             </div>
-                            <div class=text-right>
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
+                            <div class=text-right>                                
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'updateUserbutton']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
                             </div>
                             {{ Form::close() }}
                         </div>
@@ -108,8 +108,8 @@
             </div>
 
         </div>
-        <div class="col-lg-12">
-            <table class="table table-striped table-hover table-bordered">
+        <div class="col-lg-12 table-responsive">
+            <table class="table table-striped table-hover table-bordered margin-top20">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -131,12 +131,12 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-    var updateRoute = '{{ action('employeeController@postUpdateEmployee'); }}';
-    var getEmployeeRoute = '{{ action('employeeController@postGetEmployee'); }}';
-    var showEmployeesRoute = '{{ action('employeeController@postShowEmployees'); }}';
-    var delateRoute = '{{ action('employeeController@postDelateEmployee'); }}';
-    var createRoute = '{{ action('employeeController@postCreateEmployee'); }}';
-    var showUserSelectRoute = '{{ action('employeeController@postShowUserSelect'); }}';
+var updateRoute = '{{ action('employeeController@postUpdateEmployee'); }}';
+var getEmployeeRoute = '{{ action('employeeController@postGetEmployee'); }}';
+var showEmployeesRoute = '{{ action('employeeController@postShowEmployees'); }}';
+var delateRoute = '{{ action('employeeController@postDelateEmployee'); }}';
+var createRoute = '{{ action('employeeController@postCreateEmployee'); }}';
+var showUserSelectRoute = '{{ action('employeeController@postShowUserSelect'); }}';
 </script>
 <script src="{{ asset("assets/scripts/empleados_ajax.js") }}"></script>
 @stop

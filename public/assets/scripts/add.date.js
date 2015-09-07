@@ -7,6 +7,8 @@ $(document).ready(function ($, window, document, undefined) {
             date.setMonth(date.getMonth() + months);
 
             $("#end_date_contract").val(date.toInputFormat());
+            payments = parseInt($('#months_contract').val());
+            setAmounts();
         } else {
             //     alert("Invalid Date");  
         }
@@ -20,4 +22,4 @@ $(document).ready(function ($, window, document, undefined) {
         var dd = this.getDate().toString();
         return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]); // padding
     };
-})(jQuery, this, document);
+});

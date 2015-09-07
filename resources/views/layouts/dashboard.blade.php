@@ -166,7 +166,7 @@
                     <li {{ (Request::is('/') ? 'class="active"' : '') }}>
                         <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Panel Principal</a>
                     </li>
-                    <li >
+                    <!--<li >
                         <a href="#"><i class="fa fa-list-alt fa-fw"></i> Negocios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li {{ (Request::is('*negocios') ? 'class="active"' : '') }}>
@@ -179,8 +179,7 @@
                                 <a href="{{ url('clientes') }}">Clientes</a>
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                    </li>-->
                     <li {{ (Request::is('*ordenes_de_servicio') ? 'class="active"' : '') }}>
                         <a href="{{ url ('comercializacion') }}"><i class="fa fa-files-o fa-fw"></i> Comercialización</a>
                     </li>
@@ -193,8 +192,11 @@
                     <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
                     </li>
-                    <li {{ (Request::is('*Empleados') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('empleados') }}"><i class="fa fa-user fa-fw"></i> Empleados</a>
+                    <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>
+                    </li>
+                    <li {{ (Request::is('*empleados') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('empleados') }}"><i class="fa fa-users fa-fw"></i> Empleados</a>
                     </li>
                     <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
                         <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a>
