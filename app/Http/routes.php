@@ -21,6 +21,12 @@ Route::get('/comercializacion', function()
 	return View::make('comercializacion');
 });
 
+Route::get('/ordenes-de-servicio', function()
+{
+	return View::make('ordenes-de-servicio');
+});
+
+
 Route::get('/reportes', function()
 {
 	return View::make('reportes');
