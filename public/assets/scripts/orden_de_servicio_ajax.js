@@ -228,23 +228,12 @@ function serviceOrderCreate(){
     });
 
     $.ajax({
-        data:   values,
+        data:  values,
         url:   createCustomerRoute,
         type:  'post',
         success:  function (msg) {
             alert(msg);
-            if (msg.indexOf("Cliente registrado") !== - 1){
-                $("#tax_colony").html('');
-                $("#tax_colony").append('<option value="">--Seleccionar Colonia---</option>');
-                $("#tax_colony" ).prop( "disabled", true );
-                loadTable();
-                $('#addCustomer').modal('hide');
-                $(':input', '#agregarCliente')
-                .not(':button, :submit, :reset, :hidden')
-                .val('')
-                .removeAttr('checked')
-                .removeAttr('selected');
-            }                                
+                                
         }
     });
 }
