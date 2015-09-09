@@ -180,7 +180,7 @@
                             </li>
                         </ul>
                     </li>-->
-                    <li {{ (Request::is('*ordenes_de_servicio') ? 'class="active"' : '') }}>
+                    <li {{ (Request::is('*comercializacion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('comercializacion') }}"><i class="fa fa-files-o fa-fw"></i> Comercialización</a>
                         <ul class="nav nav-second-level">
                             <li {{ (Request::is('*ordenes-de-servicio') ? 'class="active"' : '') }}>
@@ -196,6 +196,9 @@
                     </li>
                     <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
+                    </li>
+                    <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('productos') }}"><i class="fa fa-user fa-fw"></i>Productos</a>
                     </li>
                     <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>

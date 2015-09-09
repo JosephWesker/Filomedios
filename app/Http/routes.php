@@ -52,6 +52,11 @@ Route::get('/pagos', function()
 	return View::make('pagos');
 });
 
+Route::get('/productos', function()
+{
+	return View::make('productos');
+});
+
 Route::get('/clientes', function()
 {
 	return View::make('clientes');
@@ -77,6 +82,7 @@ Route::get('/usuarios', function()
 	return View::make('usuarios');
 });
 
+Route::controller('product','productController');
 Route::controller('employee','employeeController');
 Route::controller('customer','customerController');
 Route::controller('user','userController');
