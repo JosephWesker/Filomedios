@@ -16,14 +16,14 @@ Route::get('/', function()
 	return View::make('home'); 
 });
 
-Route::get('/comercializacion', function()
+Route::get('/gestor_de_ordenes_de_servicio', function()
 {
-	return View::make('comercializacion');
+	return View::make('gestor_de_ordenes_de_servicio');
 });
 
-Route::get('/ordenes-de-servicio', function()
+Route::get('/nueva_orden_de_servicio', function()
 {
-	return View::make('ordenes-de-servicio');
+	return View::make('nueva_orden_de_servicio');
 });
 
 
@@ -47,14 +47,9 @@ Route::get('/negocios', function()
 	return View::make('negocios');
 });
 
-Route::get('/pagos', function()
+Route::get('/tesoreria', function()
 {
-	return View::make('pagos');
-});
-
-Route::get('/productos', function()
-{
-	return View::make('productos');
+	return View::make('tesoreria');
 });
 
 Route::get('/clientes', function()
@@ -65,6 +60,46 @@ Route::get('/clientes', function()
 Route::get('/proyeccion', function()
 {
 	return View::make('proyeccion');
+});
+
+Route::get('/produccion', function()
+{
+	return View::make('produccion');
+});
+
+Route::get('/agenda', function()
+{
+	return View::make('agenda');
+});
+
+Route::get('/gestor_de_archivos', function()
+{
+	return View::make('gestor_de_archivos');
+});
+
+Route::get('/configuracion', function()
+{
+	return View::make('configuracion');
+});
+
+Route::get('/catalogo', function()
+{
+	return View::make('catalogo');
+});
+
+Route::get('/unidades_de_negocio', function()
+{
+	return View::make('unidades_de_negocio');
+});
+
+Route::get('/programas', function()
+{
+	return View::make('programas');
+});
+
+Route::get('/productos', function()
+{
+	return View::make('productos');
 });
 
 Route::get('/blank', function()
