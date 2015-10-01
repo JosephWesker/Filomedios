@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFmProductionInformation extends Migration {
+class FilShow extends Migration {
 
 	/**
 	 * Run the migrations.
