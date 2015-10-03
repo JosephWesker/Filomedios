@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Programas')
+@section('page_heading','Unidades de Negocio')
 @section('section')
 
 <div class="col-sm-12">
@@ -8,26 +8,26 @@
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
-                Agregar Programa
+                Agregar Unidad de Negocio
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addShow">
+            <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addBusinessUnit">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Agregar Programa</h4>
+                            <h4 class="modal-title">Agregar Unidad de Negocio</h4>
                         </div>
                         <div class="modal-body">
                             {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'sho_name','placeholder' => 'Nombre'])}}
+                                {{ Form::text('name',null,['class' => 'form-control','id' => 'bus_name','placeholder' => 'Nombre'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('description','descripción')}}
-                                {{ Form::text('description',null,['class' => 'form-control','id' => 'sho_description','placeholder' => 'descripción'])}}
+                                {{ Form::label('address','Dirección')}}
+                                {{ Form::text('address',null,['class' => 'form-control','id' => 'bus_address','placeholder' => 'Dirección'])}}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
@@ -40,22 +40,22 @@
             </div>
 
             <!-- Modal for Update -->
-            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateShow">
+            <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateBusinessUnit">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Modificar Programa</h4>
+                            <h4 class="modal-title">Modificar Unidad de Negocio</h4>
                         </div>
                         <div class="modal-body">
                             {{ Form::open(array('url' => '#', 'id' => 'actualizar')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_sho_name','placeholder' => 'Nombre'])}}
+                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_bus_name','placeholder' => 'Nombre'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('description','descripción')}}
-                                {{ Form::text('description',null,['class' => 'form-control','id' => 'u_sho_description','placeholder' => 'descripción'])}}
+                                {{ Form::label('address','Dirección')}}
+                                {{ Form::text('address',null,['class' => 'form-control','id' => 'u_bus_address','placeholder' => 'Dirección'])}}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
@@ -75,7 +75,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>descripción</th>
+                        <th>Dirección</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -87,12 +87,12 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-var createRoute = '{{ action('showController@postCreate'); }}';
-var readRoute = '{{ action('showController@postRead'); }}';
-var updateRoute = '{{ action('showController@postUpdate'); }}';
-var deleteRoute = '{{ action('showController@postDelete'); }}';
-var readAllRoute = '{{ action('showController@postReadAll'); }}';
+var createRoute = '{{ action('businessUnitController@postCreate'); }}';
+var readRoute = '{{ action('businessUnitController@postRead'); }}';
+var updateRoute = '{{ action('businessUnitController@postUpdate'); }}';
+var deleteRoute = '{{ action('businessUnitController@postDelete'); }}';
+var readAllRoute = '{{ action('businessUnitController@postReadAll'); }}';
 </script>
-<script src="{{ asset("assets/scripts/show_ajax.js") }}" type="text/javascript"></script>
+<script src="{{ asset("assets/scripts/businessUnit_ajax.js") }}" type="text/javascript"></script>
 
 @stop

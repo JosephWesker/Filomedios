@@ -13,6 +13,7 @@
         <meta content="" name="author"/>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/custom.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/form-wizard.css") }}" />

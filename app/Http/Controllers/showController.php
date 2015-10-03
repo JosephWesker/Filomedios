@@ -7,22 +7,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
-use App\fil_product;
+use App\fil_show;
 
-class productController extends Controller{
+class showController extends Controller{
   public function postCreate(){
     $values = Request::all();
-    fil_business_unit::create($values);
+    fil_show::create($values);
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Unidad de Negocio guardada con exito'
+      'data'   => 'Programa guardado con exito'
       ));
     return $response;
   }
 
   public function postRead(){
     $values = Request::all();
-    $data = fil_business_unit::select(['bus_name','bus_address'])->find($values['id']);
+    $data = fil_show::select(['sho_name','sho_description'])->find($values['id']);
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
@@ -32,30 +32,30 @@ class productController extends Controller{
 
   public function postUpdate(){
     $values = Request::all();
-    $data = fil_business_unit::find($values['id']);
-    $data->bus_name = $values['bus_name'];
-    $data->bus_address = $values['bus_address'];
+    $data = fil_show::find($values['id']);
+    $data->sho_name = $values['sho_name'];
+    $data->sho_description = $values['sho_description'];
     $data->save();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Unidad de Negocio actualizada con exito'
+      'data'   => 'Programa actualizado con exito'
       ));
     return $response;
   }
 
   public function postDelete(){
     $values = Request::all();
-    $data = fil_business_unit::find($values['id']);
+    $data = fil_show::find($values['id']);
     $data->delete();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'unidad de Negocio eliminada exitosamente'
+      'data'   => 'Programa eliminada exitosamente'
       ));
     return $response;
   }
 
   public function postReadAll(){
-    $data = fil_business_unit::all();
+    $data = fil_show::all();
     $response = Response::json(array(
       'success' => true,
       'data'   => $data

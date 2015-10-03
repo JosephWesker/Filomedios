@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
-use App\fil_product;
+use App\fil_business_unit;
 
-class productController extends Controller{
+class businessUnitController extends Controller{
   public function postCreate(){
     $values = Request::all();
     fil_business_unit::create($values);
