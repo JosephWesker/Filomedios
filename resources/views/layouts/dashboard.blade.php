@@ -68,7 +68,7 @@
                 <!-- /.dropdown-messages -->
             </li>
             <!-- /.dropdown -->
-            
+
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -166,50 +166,54 @@
                     <li {{ (Request::is('/') ? 'class="active"' : '') }}>
                         <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Panel Principal</a>
                     </li>
-                    <!--<li >
-                        <a href="#"><i class="fa fa-list-alt fa-fw"></i> Negocios<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li {{ (Request::is('*negocios') ? 'class="active"' : '') }}>
-                                <a href="{{ url ('negocios') }}">Negocios</a>
-                            </li>
-                            <li {{ (Request::is('*prospectos') ? 'class="active"' : '') }}>
-                                <a href="{{ url ('prospectos' ) }}">Prospectos</a>
-                            </li>
-                            <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
-                                <a href="{{ url('clientes') }}">Clientes</a>
-                            </li>
-                        </ul>
-                    </li>-->
                     <li {{ (Request::is('*comercializacion') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('comercializacion') }}"><i class="fa fa-files-o fa-fw"></i> Comercialización</a>
+                        <a href="{{ url ('comercializacion') }}"><i class="fa fa-file-text fa-fw"></i> Comercialización</a>
                         <ul class="nav nav-second-level">
-                            <li {{ (Request::is('*ordenes-de-servicio') ? 'class="active"' : '') }}>
-                                <a href="{{ url ('ordenes-de-servicio') }}">Órdenes de Servicio</a>
+                            <li {{ (Request::is('*nueva_orden_de_servicio') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('nueva_orden_de_servicio') }}"><i class="fa fa-file-o fa-fw"></i>  Nueva Órden de Servicio</a>
+                            </li>
+                            <li {{ (Request::is('*gestor_de_ordenes_de_servicio') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('gestor_de_ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i>  Gestor de Órdenes de Servicio</a>
                             </li>
                         </ul>
                     </li>
-                    <li {{ (Request::is('*pagos') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('pagos') }}"><i class="fa fa-usd fa-fw"></i> Pagos</a>
+                    <li {{ (Request::is('*tesoreria') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('tesoreria') }}"><i class="fa fa-usd fa-fw"></i> Tesorería</a>
+                    </li>
+                    <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('produccion') }}"><i class="fa fa-video-camera"></i> Producción</a>
+                        <ul class="nav nav-second-level">
+                            <li {{ (Request::is('*agenda') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('agenda') }}"><i class="fa fa-bars"></i>  Agenda</a>
+                            </li>
+                            <li {{ (Request::is('*gestor_de_archivos') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('gestor_de_archivos') }}"><i class="fa fa-file-video-o"></i>  Gestor de Archivos</a>
+                            </li>
+                        </ul>
                     </li>
                     <li {{ (Request::is('*proyeccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('proyeccion') }}"><i class="fa fa-film fa-fw"></i> Proyección</a>
                     </li>
-                    <li {{ (Request::is('*reportes') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('reportes') }}"><i class="fa fa-edit fa-fw"></i> Reportes</a>
-                    </li>
-                    <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('productos') }}"><i class="fa fa-user fa-fw"></i>Productos</a>
-                    </li>
                     <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>
+                    </li>                    
+                    <li {{ (Request::is('*configuracion') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('configuracion') }}"><i class="fa fa-cog fa-fw"></i> Configuración</a>
+                        <ul class="nav nav-second-level">
+                            <li {{ (Request::is('*unidades_negocio') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('unidades_negocio') }}"><i class="fa fa-building-o"></i> Unidades de Negocio</a>
+                            </li>
+                            <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('productos') }}"><i class="fa fa-cube"></i> Catálogo de productos</a>
+                            </li>
+                            <li {{ (Request::is('*programas') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('programas') }}"><i class="fa fa-tv"></i> Catálogo de programas</a>
+                            </li>                            
+                            <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Empleados y Usuarios</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li {{ (Request::is('*empleados') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('empleados') }}"><i class="fa fa-users fa-fw"></i> Empleados</a>
-                    </li>
-                    <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a>
-                    </li>
-
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

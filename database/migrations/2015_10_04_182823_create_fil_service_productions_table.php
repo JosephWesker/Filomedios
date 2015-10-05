@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFmIdHelper extends Migration {
+class CreateFilServiceProductionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,9 @@ class CreateFmIdHelper extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('fm_id_helper',function($table){
-			$table->increments('id_id');
-			$table->string('id_number',4);
-			$table->string('id_year',4);
+		Schema::create('fil_service_productions', function(Blueprint $table)
+		{
+			$table->increments('id');
 			$table->timestamps();
 		});
 	}
@@ -27,7 +26,7 @@ class CreateFmIdHelper extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('fm_id_helper');
+		Schema::drop('fil_service_productions');
 	}
 
 }
