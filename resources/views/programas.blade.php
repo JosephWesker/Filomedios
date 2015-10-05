@@ -29,6 +29,10 @@
                                 {{ Form::label('description','descripción')}}
                                 {{ Form::text('description',null,['class' => 'form-control','id' => 'sho_description','placeholder' => 'descripción'])}}
                             </div>
+                            <div class="form-group">
+                                {{ Form::label('media','Medio de transmisión')}}
+                                {{ Form::select('media',['null' => '---Seleccionar medio de transmisión---','televisión' => 'Televisión', 'web' => 'Web'],'null',['class' => 'form-control','id' => 'sho_media']) }}
+                            </div>
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -57,6 +61,10 @@
                                 {{ Form::label('description','descripción')}}
                                 {{ Form::text('description',null,['class' => 'form-control','id' => 'u_sho_description','placeholder' => 'descripción'])}}
                             </div>
+                            <div class="form-group">
+                                {{ Form::label('media','Medio de transmisión')}}
+                                {{ Form::select('media',['null' => '---Seleccionar medio de transmisión---','televisión' => 'Televisión', 'web' => 'Web'],'null',['class' => 'form-control','id' => 'u_sho_media']) }}
+                            </div>
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -76,6 +84,7 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>descripción</th>
+                        <th>Medio de Transmisión</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>

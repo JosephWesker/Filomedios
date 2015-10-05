@@ -22,7 +22,7 @@ class showController extends Controller{
 
   public function postRead(){
     $values = Request::all();
-    $data = fil_show::select(['sho_name','sho_description'])->find($values['id']);
+    $data = fil_show::select(['sho_name','sho_description','sho_media'])->find($values['id']);
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
@@ -35,6 +35,7 @@ class showController extends Controller{
     $data = fil_show::find($values['id']);
     $data->sho_name = $values['sho_name'];
     $data->sho_description = $values['sho_description'];
+    $data->sho_description = $values['sho_media'];
     $data->save();
     $response = Response::json(array(
       'success' => true,

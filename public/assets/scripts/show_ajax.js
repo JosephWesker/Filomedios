@@ -3,7 +3,8 @@ var id = '';
 function create(){
     var data = {
         "sho_name" : $('#sho_name').val(),
-        "sho_description" : $('#sho_description').val()
+        "sho_description" : $('#sho_description').val(),
+        "sho_media" : $('#sho_media').val()
     };
 
 $.ajaxSetup({
@@ -22,9 +23,8 @@ $.ajax({
         $('#add').modal('hide');
         $(':input', '#agregar')
         .not(':button, :submit, :reset, :hidden')
-        .val('')
-        .removeAttr('checked')
-        .removeAttr('selected');        
+        .val('');
+        $('#sho_media').val('null');        
     }
 });
 }
@@ -47,6 +47,7 @@ function read(id){
     success:  function (data) {
         $('#u_sho_name').val(data.data['sho_name']);
         $('#u_sho_description').val(data.data['sho_description']); 
+        $('#u_sho_media').val(data.data['sho_media']); 
         $('#updateModal').modal('show');   
     }
 });
@@ -56,7 +57,8 @@ function update(){
     var data = {
         "id" : this.id,
         "sho_name" : $('#u_sho_name').val(),
-        "sho_description" : $('#u_sho_description').val()
+        "sho_description" : $('#u_sho_description').val(),
+        "sho_media" : $('#u_sho_media').val()
     };
 
     $.ajaxSetup({
@@ -75,9 +77,9 @@ function update(){
             $('#updateModal').modal('hide'); 
             $(':input', '#actualizar')
             .not(':button, :submit, :reset, :hidden')
-            .val('')
-            .removeAttr('checked')
-            .removeAttr('selected')
+            .val('');
+            $('#u_sho_media').val('null');
+
         }
     });
 }
@@ -118,10 +120,10 @@ function loadTable(){
         $("#unidades_negocio").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#unidades_negocio").append('<tr class="gradeX"><td>' + value.sho_id + '</td><td>' + value.sho_name + '</td><td>' + value.sho_description + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.sho_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.sho_id +')">Elminar</button></div></td></tr>');
+                $("#unidades_negocio").append('<tr class="gradeX"><td>' + value.sho_id + '</td><td>' + value.sho_name + '</td><td>' + value.sho_description + '</td><td>' + value.sho_media + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.sho_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.sho_id +')">Elminar</button></div></td></tr>');
             });
         }else{
-            $("#unidades_negocio").append('<tr class="gradeX"><td colspan="4">No existen Programas registradas en la base de datos</td>');
+            $("#unidades_negocio").append('<tr class="gradeX"><td colspan="5">No existen Programas registradas en la base de datos</td>');
         }
     }
 });

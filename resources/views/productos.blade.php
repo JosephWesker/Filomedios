@@ -20,14 +20,14 @@
                             <h4 class="modal-title">Agregar Producto</h4>
                         </div>
                         <div class="modal-body">
-                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
                                 {{ Form::text('name',null,['class' => 'form-control','id' => 'pro_name','placeholder' => 'Nombre'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('type','Tipo')}}
-                                {{ Form::select('type',['null' => '---Seleccionar Producto---','individual' => 'Producto individual', 'programa' => 'Producto dentro de un programa', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'pro_type'])}}
+                                {{ Form::select('type',['null' => '---Seleccionar tipo---','individual' => 'Producto individual', 'compuesto' => 'Producto compuesto', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'pro_type'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('description','Descripción')}}
@@ -84,16 +84,53 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Modificar Producto</h4>
-                        </div>
                         <div class="modal-body">
-                            {{ Form::open(array('url' => '#', 'id' => 'actualizar')) }} 
+                                {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_bus_name','placeholder' => 'Nombre'])}}
+                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_pro_name','placeholder' => 'Nombre'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('address','Dirección')}}
-                                {{ Form::text('address',null,['class' => 'form-control','id' => 'u_bus_address','placeholder' => 'Dirección'])}}
+                                {{ Form::label('type','Tipo')}}
+                                {{ Form::select('type',['null' => '---Seleccionar tipo---','individual' => 'Producto individual', 'compuesto' => 'Producto compuesto', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'u_pro_type'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('description','Descripción')}}
+                                {{ Form::text('description',null,['class' => 'form-control','id' => 'u_pro_description','placeholder' => 'Descripción'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('has_show','¿Pertenece a un Programa?')}}
+                                <br>
+                                {{ Form::radio('u_has_show','1',false) }} Si
+                                {{ Form::radio('u_has_show','0',true) }} No
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('has_schema','¿Debe tener un esquema de transmisión?')}}
+                                <br>
+                                {{ Form::radio('u_has_schema','1',true) }} Si
+                                {{ Form::radio('u_has_schema','0',false) }} No
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('has_production_registry','¿Debe tener un registro de producción?')}}
+                                <br>
+                                {{ Form::radio('u_has_production_registry','1',true) }} Si
+                                {{ Form::radio('u_has_production_registry','0',false) }} No
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('duration_type','Tipo de Duración')}}
+                                {{ Form::select('duration_type',['segundos' => 'Segundos','dias' => 'Días'],'segundos',['class' => 'form-control','id' => 'u_pro_duration_type'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('duration','Duración')}}
+                                {{ Form::number('duration',null,['class' => 'form-control','id' => 'u_pro_duration','placeholder' => '0.00', 'step' => '1']) }}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('daily_impacts','Impactos Diarios')}}
+                                {{ Form::number('daily_impacts',null,['class' => 'form-control','id' => 'u_pro_daily_impacts','placeholder' => '0.00', 'step' => '1']) }}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('outlay','Inversión')}}
+                                {{ Form::number('outlay',null,['class' => 'form-control','id' => 'u_pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
                             </div>
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
@@ -121,7 +158,7 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="unidades_negocio">
+                <tbody id="productos">
                 </tbody>
             </table>
         </div>

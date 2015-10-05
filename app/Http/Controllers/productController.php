@@ -12,17 +12,17 @@ use App\fil_product;
 class productController extends Controller{
   public function postCreate(){
     $values = Request::all();
-    fil_business_unit::create($values);
+    fil_product::create($values);
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Unidad de Negocio guardada con exito'
+      'data'   => 'Producto guardada con exito'
       ));
     return $response;
   }
 
   public function postRead(){
     $values = Request::all();
-    $data = fil_business_unit::select(['bus_name','bus_address'])->find($values['id']);
+    $data = fil_product::select(['pro_name','pro_type','pro_description','pro_has_show','pro_has_scheme','pro_has_production_registry','pro_duration_type','pro_duration','pro_daily_impacts','pro_outlay'])->find($values['id']);
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
@@ -32,30 +32,38 @@ class productController extends Controller{
 
   public function postUpdate(){
     $values = Request::all();
-    $data = fil_business_unit::find($values['id']);
-    $data->bus_name = $values['bus_name'];
-    $data->bus_address = $values['bus_address'];
+    $data = fil_product::find($values['id']);
+    $data->pro_name = $values['pro_name'];
+    $data->pro_type = $values['pro_type'];
+    $data->pro_description = $values['pro_description'];
+    $data->pro_has_show = $values['pro_has_show'];
+    $data->pro_has_scheme = $values['pro_has_scheme'];
+    $data->pro_has_production_registry = $values['pro_has_production_registry'];
+    $data->pro_duration_type = $values['pro_duration_type'];
+    $data->pro_duration = $values['pro_duration'];
+    $data->pro_daily_impacts = $values['pro_daily_impacts'];
+    $data->pro_outlay = $values['pro_outlay'];
     $data->save();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Unidad de Negocio actualizada con exito'
+      'data'   => 'Producto actualizada con exito'
       ));
     return $response;
   }
 
   public function postDelete(){
     $values = Request::all();
-    $data = fil_business_unit::find($values['id']);
+    $data = fil_product::find($values['id']);
     $data->delete();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'unidad de Negocio eliminada exitosamente'
+      'data'   => 'Producto eliminada exitosamente'
       ));
     return $response;
   }
 
   public function postReadAll(){
-    $data = fil_business_unit::all();
+    $data = fil_product::all();
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
