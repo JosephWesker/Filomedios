@@ -11,89 +11,68 @@
 |
 */
 
-Route::get('/', function()
-{
+Route::get('/', function(){
 	return View::make('home'); 
 });
 
-Route::get('/gestor_de_ordenes_de_servicio', function()
-{
+Route::get('/gestor_de_ordenes_de_servicio', function(){
 	return View::make('gestor_de_ordenes_de_servicio');
 });
 
-Route::get('/nueva_orden_de_servicio', function()
-{
+Route::get('/nueva_orden_de_servicio', function(){
 	return View::make('nueva_orden_de_servicio');
 });
 
 
-Route::get('/reportes', function()
-{
+Route::get('/reportes', function(){
 	return View::make('reportes');
 });
 
-Route::get('/prospectos', function()
-{
+Route::get('/prospectos', function(){
 	return View::make('prospectos');
 });
 
-Route::get('/empleados', function()
-{
+Route::get('/empleados', function(){
 	return View::make('empleados');
 });
 
-Route::get('/negocios', function()
-{
+Route::get('/negocios', function(){
 	return View::make('negocios');
 });
 
-Route::get('/tesoreria', function()
-{
+Route::get('/tesoreria', function(){
 	return View::make('tesoreria');
 });
 
-Route::get('/clientes', function()
-{
+Route::get('/clientes', function(){
 	return View::make('clientes');
 });
 
-Route::get('/proyeccion', function()
-{
+Route::get('/proyeccion', function(){
 	return View::make('proyeccion');
 });
 
-Route::get('/produccion', function()
-{
+Route::get('/produccion', function(){
 	return View::make('produccion');
 });
 
-Route::get('/agenda', function()
-{
+Route::get('/agenda', function(){
 	return View::make('agenda');
 });
 
-Route::get('/gestor_de_archivos', function()
-{
+Route::get('/gestor_de_archivos', function(){
 	return View::make('gestor_de_archivos');
 });
 
-Route::get('/configuracion', function()
-{
+Route::get('/configuracion', function(){
 	return View::make('configuracion');
 });
 
-Route::get('/catalogo', function()
-{
-	return View::make('catalogo');
+Route::get('/unidades_negocio', function(){
+	return View::make('unidades_negocio');
 });
 
-Route::get('/unidades_de_negocio', function()
-{
-	return View::make('unidades_de_negocio');
-});
-
-Route::get('/programas', function()
-{
+Route::get('/programas', function(){
 	return View::make('programas');
 });
 
@@ -102,23 +81,19 @@ Route::get('/productos', function()
 	return View::make('productos');
 });
 
-Route::get('/blank', function()
-{
+Route::get('/blank', function(){
 	return View::make('blank');
 });
 
-Route::get('/login', function()
-{
+Route::get('/login', function(){
 	return View::make('login');
 });
 
-Route::get('/usuarios', function()
-{
+Route::get('/usuarios', function(){
 	return View::make('usuarios');
 });
 
+Route::controller('business_unit','businessUnitController');
+Route::controller('show','showController');
 Route::controller('product','productController');
-Route::controller('employee','employeeController');
-Route::controller('customer','customerController');
-Route::controller('user','userController');
-Route::controller('serviceOrder','serviceOrderController');
+//Route::controller('product','productController');
