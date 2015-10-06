@@ -20,56 +20,58 @@
                             <h4 class="modal-title">Agregar Producto</h4>
                         </div>
                         <div class="modal-body">
-                                {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                             <div class="form-group">
                                 {{ Form::label('name','Nombre')}}
                                 {{ Form::text('name',null,['class' => 'form-control','id' => 'pro_name','placeholder' => 'Nombre'])}}
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('type','Tipo')}}
-                                {{ Form::select('type',['null' => '---Seleccionar tipo---','individual' => 'Producto individual', 'compuesto' => 'Producto compuesto', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'pro_type'])}}
+                            {{ Form::label('type','Tipo')}}
+                            {{ Form::select('type',['null' => '---Seleccionar tipo---','transmission' => 'Transmisión', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'productSelector'])}} 
+                            <!-- Para que se abra el contenido deseado según la selección, se debe agregar en selectProducts.js el ID de la selección y la clase que escucha a los menús -->
+                            <div id="transmission" class="product" style="display:none">
+                                <h3>Transmisión</h3>
+                                {{ Form::select('medio',['null' => '---Seleccionar tipo---','web' => 'Web', 'television' => 'Televisión'],'null',['class' => 'form-control','id' => 'medio'])}} 
+                                <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('program', '1', null, ['class' => ''])}} ¿Pertenece a un programa?
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('transmission_scheme', '2', null, ['class' => ''])}} ¿Debe tener un esquema de transmisión?
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('duration', '3', null, ['class' => '','id' => 'durationSelector'])}} ¿Tiene una duración en segundos?
+                                    </label>
+                                </div>
+                                <div id="seconds_duration" class="duration" style="display:none">
+                                    <div class="form-group">
+                                        {{ Form::label('duration','Duración')}}
+                                        {{ Form::number('duration',null,['class' => 'form-control','id' => 'pro_duration','placeholder' => '0.00', 'step' => '1']) }}
+                                    </div>                           
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('outlay','Inversión')}}
+                                    {{ Form::number('outlay',null,['class' => 'form-control','id' => 'pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('description','Descripción')}}
-                                {{ Form::text('description',null,['class' => 'form-control','id' => 'pro_description','placeholder' => 'Descripción'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_show','¿Pertenece a un Programa?')}}
-                                <br>
-                                {{ Form::radio('has_show','1',false) }} Si
-                                {{ Form::radio('has_show','0',true) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_schema','¿Debe tener un esquema de transmisión?')}}
-                                <br>
-                                {{ Form::radio('has_schema','1',true) }} Si
-                                {{ Form::radio('has_schema','0',false) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_production_registry','¿Debe tener un registro de producción?')}}
-                                <br>
-                                {{ Form::radio('has_production_registry','1',true) }} Si
-                                {{ Form::radio('has_production_registry','0',false) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('duration_type','Tipo de Duración')}}
-                                {{ Form::select('duration_type',['segundos' => 'Segundos','dias' => 'Días'],'segundos',['class' => 'form-control','id' => 'pro_duration_type'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('duration','Duración')}}
-                                {{ Form::number('duration',null,['class' => 'form-control','id' => 'pro_duration','placeholder' => '0.00', 'step' => '1']) }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('daily_impacts','Impactos Diarios')}}
-                                {{ Form::number('daily_impacts',null,['class' => 'form-control','id' => 'pro_daily_impacts','placeholder' => '0.00', 'step' => '1']) }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('outlay','Inversión')}}
-                                {{ Form::number('outlay',null,['class' => 'form-control','id' => 'pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
-                            </div>
-                            <div class=text-right>
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                            <div id="produccion" class="product" style="display:none">
+                                <h3>Producción</h3>
+                                <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('duration', '4', null, ['class' => '','id' => 'durationSelector'])}} ¿Debe tener un registro de producción?
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('outlay','Inversión')}}
+                                    {{ Form::number('outlay',null,['class' => 'form-control','id' => 'pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
+                                </div>
+                                <div class=text-right>
+                                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                </div>
                             </div>
                             {{ Form::close() }}                        
                         </div>
@@ -84,94 +86,93 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Modificar Producto</h4>
-                        <div class="modal-body">
+                            <div class="modal-body">
                                 {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
-                            <div class="form-group">
-                                {{ Form::label('name','Nombre')}}
-                                {{ Form::text('name',null,['class' => 'form-control','id' => 'u_pro_name','placeholder' => 'Nombre'])}}
+                                <div class="form-group">
+                                    {{ Form::label('name','Nombre')}}
+                                    {{ Form::text('name',null,['class' => 'form-control','id' => 'u_pro_name','placeholder' => 'Nombre'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('type','Tipo')}}
+                                    {{ Form::select('type',['null' => '---Seleccionar tipo---','individual' => 'Producto individual', 'compuesto' => 'Producto compuesto', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'u_pro_type'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('description','Descripción')}}
+                                    {{ Form::text('description',null,['class' => 'form-control','id' => 'u_pro_description','placeholder' => 'Descripción'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('has_show','¿Pertenece a un Programa?')}}
+                                    <br>
+                                    {{ Form::radio('u_has_show','1',false) }} Si
+                                    {{ Form::radio('u_has_show','0',true) }} No
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('has_schema','¿Debe tener un esquema de transmisión?')}}
+                                    <br>
+                                    {{ Form::radio('u_has_schema','1',true) }} Si
+                                    {{ Form::radio('u_has_schema','0',false) }} No
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('has_production_registry','¿Debe tener un registro de producción?')}}
+                                    <br>
+                                    {{ Form::radio('u_has_production_registry','1',true) }} Si
+                                    {{ Form::radio('u_has_production_registry','0',false) }} No
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('duration_type','Tipo de Duración')}}
+                                    {{ Form::select('duration_type',['segundos' => 'Segundos','dias' => 'Días'],'segundos',['class' => 'form-control','id' => 'u_pro_duration_type'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('duration','Duración')}}
+                                    {{ Form::number('duration',null,['class' => 'form-control','id' => 'u_pro_duration','placeholder' => '0.00', 'step' => '1']) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('daily_impacts','Impactos Diarios')}}
+                                    {{ Form::number('daily_impacts',null,['class' => 'form-control','id' => 'u_pro_daily_impacts','placeholder' => '0.00', 'step' => '1']) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('outlay','Inversión')}}
+                                    {{ Form::number('outlay',null,['class' => 'form-control','id' => 'u_pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
+                                </div>
+                                <div class=text-right>
+                                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                </div>
+                                {{ Form::close() }}                        
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('type','Tipo')}}
-                                {{ Form::select('type',['null' => '---Seleccionar tipo---','individual' => 'Producto individual', 'compuesto' => 'Producto compuesto', 'web' => 'Producto en sitio o medio web', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'u_pro_type'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('description','Descripción')}}
-                                {{ Form::text('description',null,['class' => 'form-control','id' => 'u_pro_description','placeholder' => 'Descripción'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_show','¿Pertenece a un Programa?')}}
-                                <br>
-                                {{ Form::radio('u_has_show','1',false) }} Si
-                                {{ Form::radio('u_has_show','0',true) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_schema','¿Debe tener un esquema de transmisión?')}}
-                                <br>
-                                {{ Form::radio('u_has_schema','1',true) }} Si
-                                {{ Form::radio('u_has_schema','0',false) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('has_production_registry','¿Debe tener un registro de producción?')}}
-                                <br>
-                                {{ Form::radio('u_has_production_registry','1',true) }} Si
-                                {{ Form::radio('u_has_production_registry','0',false) }} No
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('duration_type','Tipo de Duración')}}
-                                {{ Form::select('duration_type',['segundos' => 'Segundos','dias' => 'Días'],'segundos',['class' => 'form-control','id' => 'u_pro_duration_type'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('duration','Duración')}}
-                                {{ Form::number('duration',null,['class' => 'form-control','id' => 'u_pro_duration','placeholder' => '0.00', 'step' => '1']) }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('daily_impacts','Impactos Diarios')}}
-                                {{ Form::number('daily_impacts',null,['class' => 'form-control','id' => 'u_pro_daily_impacts','placeholder' => '0.00', 'step' => '1']) }}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('outlay','Inversión')}}
-                                {{ Form::number('outlay',null,['class' => 'form-control','id' => 'u_pro_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
-                            </div>
-                            <div class=text-right>
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
-                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                            </div>
-                            {{ Form::close() }}                        
                         </div>
                     </div>
                 </div>
+
             </div>
 
-        </div>
-
-        <div class="col-lg-12 table-responsive">
-            <table class="table table-striped table-hover table-bordered margin-top20">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>                        
-                        <th>Duración</th>
-                        <th>Impactos Diarios</th>
-                        <th>Inversión</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="productos">
-                </tbody>
-            </table>
+            <div class="col-lg-12 table-responsive">
+                <table class="table table-striped table-hover table-bordered margin-top20">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>                        
+                            <th>Duración</th>
+                            <th>Impactos Diarios</th>
+                            <th>Inversión</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productos">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-<script>
-var createRoute = '{{ action('productController@postCreate'); }}';
-var readRoute = '{{ action('productController@postRead'); }}';
-var updateRoute = '{{ action('productController@postUpdate'); }}';
-var deleteRoute = '{{ action('productController@postDelete'); }}';
-var readAllRoute = '{{ action('productController@postReadAll'); }}';
-</script>
-<script src="{{ asset("assets/scripts/product_ajax.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+    <script>
+        var createRoute = '{{ action('productController@postCreate'); }}';
+        var readRoute = '{{ action('productController@postRead'); }}';
+        var updateRoute = '{{ action('productController@postUpdate'); }}';
+        var deleteRoute = '{{ action('productController@postDelete'); }}';
+        var readAllRoute = '{{ action('productController@postReadAll'); }}';</script>
+    <script src="{{ asset("assets/scripts/product_ajax.js") }}" type="text/javascript"></script>
 
-@stop
+    @stop
