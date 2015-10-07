@@ -85,12 +85,12 @@ Route::get('/blank', function(){
 	return View::make('blank');
 });
 
-Route::get('/login', function(){
-	return View::make('login');
-});
-
 Route::get('/usuarios', function(){
 	return View::make('usuarios');
+});
+
+Route::get('/login', function(){
+	return View::make('login');
 });
 
 Route::controller('business_unit','businessUnitController');
