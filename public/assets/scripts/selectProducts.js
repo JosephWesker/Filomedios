@@ -5,6 +5,20 @@ $(document).ready(function () {
         $('#' + $(this).val()).show();
     });
 });
+
+$(document).ready(function () {
+    $('#durationSelector').change(function () {
+        if (this.checked)
+            //  ^
+            $('.duration').show();
+        else
+            $('.duration').hide();
+    });
+});
+
+
+
+
 // cintillos
 
 $(document).ready(function () {
