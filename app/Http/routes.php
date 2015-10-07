@@ -96,4 +96,5 @@ Route::get('/usuarios', function(){
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
+Route::controller('employee','employeeController');
 //Route::controller('product','productController');
