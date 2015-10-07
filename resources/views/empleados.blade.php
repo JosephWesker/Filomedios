@@ -42,15 +42,19 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
-                                {{ Form::select('age', ['vendedor'=>'Vendedor'],null, ['class' => 'form-control','id'=>'emp_job']) }}
+                                {{ Form::select('job', ['vendedor'=>'Vendedor','administrador'=>'Administrador','produccion'=>'Producción','tesoreria' => 'Tesoreria'],null,['class' => 'form-control','id'=>'emp_job']) }}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('user','Usuario asignado')}}
-                                {{ Form::select('age', [],null, ['class' => 'form-control','id'=>'emp_fk_user']) }}
+                                {{ Form::label('email','Correo Electronico')}}
+                                {{ Form::email('email',null,['class' => 'form-control','id' => 'emp_username','placeholder' => 'Correo Electronico'])}}
                             </div>
+                            <div class="form-group">
+                                {{ Form::label('password','Contraseña')}}
+                                {{ Form::password('password',['class' => 'form-control','id' => 'emp_password','placeholder' => 'Contraseña'])}}
+                            </div>                            
                             <div class=text-right>
-                                     {{ Form::button('Aceptar',['class' => 'btn btn-success', 'id' => 'createUser']) }}
-                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}                           
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}                           
                             </div>
                             {{ Form::close() }}
                         </div>
