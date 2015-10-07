@@ -8,11 +8,45 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
 use App\fil_product;
+use App\fil_service_production;
+use App\fil_service_proyection;
+
 
 class productController extends Controller{
   public function postCreate(){
+
     $values = Request::all();
-    fil_product::create($values);
+    $product = new fil_product;
+    $product->pro_name = $values['pro_name'];
+    $product->pro_description = $values['pro_description'];
+    $product->pro_type = $values['pro_type'];
+    $product->save();
+
+    if($product->pro_type == 'transmision'){
+      
+      $fil_service = new fil_service_proyection;
+      $fil_service->spy_id = $product->pro_id;
+      $fil_service->spy_proyection_media = $values['spy_proyection_media'];
+      $fil_service->spy_has_show = $this->convertString($values['spy_has_show']);
+      $fil_service->spy_has_transmission_scheme = $this->convertString($values['spy_has_transmission_scheme']);
+
+      if($values['spy_has_duration'] == 'true'){
+        $fil_service->spy_duration = $values['spy_duration'];
+      }else{
+        $fil_service->spy_duration = NULL;
+      }
+      $fil_service->spy_outlay = $values['spy_outlay'];
+      $fil_service->save();
+
+    }else{
+
+      $fil_service = new fil_service_production;
+      $fil_service->spr_id = $product->pro_id;
+      $fil_service->spr_has_production_registry = $this->convertString($values['spr_has_production_registry']);
+      $fil_service->spr_outlay = $values['spr_outlay'];
+      $fil_service->save();
+
+    }  
     $response = Response::json(array(
       'success' => true,
       'data'   => 'Producto guardada con exito'
@@ -69,5 +103,13 @@ class productController extends Controller{
       'data'   => $data
       ));
     return $response;
+  }
+
+  function convertString($value){
+    if($value=='true'){
+      return 1;
+    }else{
+      return 0;
+    } 
   }
 }
