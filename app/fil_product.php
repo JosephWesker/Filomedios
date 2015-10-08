@@ -16,7 +16,7 @@ class fil_product extends Model {
 		return $this->hasOne('App\fil_service_proyection','spy_id','pro_id');
 	}
 
-	public function serciceProduction(){
+	public function serviceProduction(){
 		return $this->hasOne('App\fil_service_production','spr_id','pro_id');
 	}
 

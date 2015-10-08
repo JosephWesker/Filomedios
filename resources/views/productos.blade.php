@@ -30,11 +30,11 @@
                                 {{ Form::text('description',null,['class' => 'form-control','id' => 'pro_description','placeholder' => 'Descripción'])}}
                             </div>
                             {{ Form::label('type','Tipo')}}
-                            {{ Form::select('type',['null' => '---Seleccionar tipo---','transmision' => 'Transmisión', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'pro_type'])}} 
+                            {{ Form::select('type',['null' => '---Seleccionar tipo---','transmisión' => 'Transmisión', 'producción' => 'Producción'],'null',['class' => 'form-control','id' => 'pro_type'])}} 
                             <!-- Para que se abra el contenido deseado según la selección, se debe agregar en selectProducts.js el ID de la selección y la clase que escucha a los menús -->
-                            <div id="transmision" class="product" style="display:none">
+                            <div id="transmisión" class="product" style="display:none">
                                 <h3>Transmisión</h3>
-                                {{ Form::select('medio',['null' => '---Seleccionar tipo---','web' => 'Web', 'television' => 'Televisión'],'null',['class' => 'form-control','id' => 'spy_proyection_media'])}} 
+                                {{ Form::select('medio',['null' => '---Seleccionar tipo---','web' => 'Web', 'televisión' => 'Televisión'],'null',['class' => 'form-control','id' => 'spy_proyection_media'])}} 
                                 <div class="checkbox">
                                     <label>
                                         {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'spy_has_show'])}} ¿Pertenece a un programa?
@@ -61,7 +61,7 @@
                                     {{ Form::number('outlay',null,['class' => 'form-control','id' => 'spy_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
                                 </div>
                             </div>
-                            <div id="produccion" class="product" style="display:none">
+                            <div id="producción" class="product" style="display:none">
                                 <h3>Producción</h3>
                                 <div class="checkbox">
                                     <label>
@@ -101,11 +101,11 @@
                                     {{ Form::text('description',null,['class' => 'form-control','id' => 'u_pro_description','placeholder' => 'Descripción'])}}
                                 </div>
                                 {{ Form::label('type','Tipo')}}
-                                {{ Form::select('type',['null' => '---Seleccionar tipo---','transmision' => 'Transmisión', 'produccion' => 'Producción'],'null',['class' => 'form-control','id' => 'u_pro_type'])}} 
+                                {{ Form::select('type',['null' => '---Seleccionar tipo---','transmisión' => 'Transmisión', 'producción' => 'Producción'],'null',['class' => 'form-control','id' => 'u_pro_type', 'disabled'])}} 
                                 <!-- Para que se abra el contenido deseado según la selección, se debe agregar en selectProducts.js el ID de la selección y la clase que escucha a los menús -->
-                                <div id="u_transmision" class="product" style="display:none">
+                                <div id="u_transmisión" class="u_product" style="display:none">
                                     <h3>Transmisión</h3>
-                                    {{ Form::select('medio',['null' => '---Seleccionar tipo---','web' => 'Web', 'television' => 'Televisión'],'null',['class' => 'form-control','id' => 'u_spy_proyection_media'])}} 
+                                    {{ Form::select('medio',['null' => '---Seleccionar tipo---','web' => 'Web', 'televisión' => 'Televisión'],'null',['class' => 'form-control','id' => 'u_spy_proyection_media'])}} 
                                     <div class="checkbox">
                                         <label>
                                             {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'u_spy_has_show'])}} ¿Pertenece a un programa?
@@ -132,7 +132,7 @@
                                         {{ Form::number('outlay',null,['class' => 'form-control','id' => 'u_spy_outlay','placeholder' => '0.00', 'step' => '0.50']) }}
                                     </div>
                                 </div>
-                                <div id="u_produccion" class="u_product" style="display:none">
+                                <div id="u_producción" class="u_product" style="display:none">
                                     <h3>Producción</h3>
                                     <div class="checkbox">
                                         <label>
@@ -161,11 +161,10 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>                        
-                            <th>Duración</th>
-                            <th>Impactos Diarios</th>
+                            <th>Nombre</th>                            
+                            <th>Descripción</th>
+                            <th>Tipo</th>                                                    
+                            <th>Detalles</th>
                             <th>Inversión</th>
                             <th>Acciones</th>
                         </tr>

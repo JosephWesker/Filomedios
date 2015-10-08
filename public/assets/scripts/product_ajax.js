@@ -57,7 +57,27 @@ function read(id){
     data: data,
     type:  'post',
     success:  function (data) {
-
+        $('#u_pro_name').val(data.data['pro_name']);
+        $('#u_pro_description').val(data.data['pro_description']);
+        $('#u_pro_type').val(data.data['pro_type']);
+        $('.u_product').hide();
+        $('.u_duration').hide();
+        if (data.data['pro_type'] == 'transmisión') {
+            $('#u_transmisión').show();
+            $('#u_spy_proyection_media').val(data.data['service_proyection']['spy_proyection_media']);
+            $('#u_spy_has_show').prop('checked',Boolean(data.data['service_proyection']['spy_has_show']));
+            $('#u_spy_has_transmission_scheme').prop('checked',Boolean(data.data['service_proyection']['spy_has_transmission_scheme']));
+            $('#u_spy_has_duration').prop('checked',Boolean(data.data['service_proyection']['spy_duration']));
+            if(Boolean(data.data['service_proyection']['spy_duration'])){
+                $('.u_duration').show();
+                $('#u_spy_duration').val(data.data['service_proyection']['spy_duration']);
+            }    
+            $('#u_spy_outlay').val(data.data['service_proyection']['spy_outlay']);
+        }else{
+            $('#u_producción').show();
+            $('#u_spr_has_production_registry').prop('checked',Boolean(data.data['service_production']['spr_has_production_registry']));
+            $('#u_spr_outlay').val(data.data['service_production']['spr_outlay']);
+        }
         $('#updateModal').modal('show');   
     }
 });
@@ -139,7 +159,7 @@ function loadTable(){
         $("#productos").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_duration+" "+ value.pro_duration_type +'</td><td>'+ value.pro_daily_impacts +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Elminar</button></div></td></tr>');
+                $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_details +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Elminar</button></div></td></tr>');
             });
         }else{
             $("#productos").append('<tr class="gradeX"><td colspan="8">No existen Productos registradas en la base de datos</td>');
