@@ -2,16 +2,17 @@ var id = '';
 
 function create(){
     var data = {
-        "pro_name" : $('#pro_name').val(),
-        "pro_type" : $('#pro_type').val(),
-        "pro_description" : $('#pro_description').val(),
-        "pro_has_show" : $('input[name=has_show]:checked').val(),        
-        "pro_has_scheme" : $('input[name=has_schema]:checked').val(),
-        "pro_has_production_registry" : $('input[name=has_production_registry]:checked').val(),
-        "pro_duration_type" : $('#pro_duration_type').val(),
-        "pro_duration" : $('#pro_duration').val(),
-        "pro_daily_impacts" : $('#pro_daily_impacts').val(),
-        "pro_outlay" : $('#pro_outlay').val()
+        'pro_name' : $('#pro_name').val(),
+        'pro_description' : $('#pro_description').val(),
+        'pro_type' : $('#pro_type').val(),
+        'spr_has_production_registry' : $('#spr_has_production_registry').is(':checked'),
+        'spr_outlay' : $('#spr_outlay').val(),
+        'spy_proyection_media' : $('#spy_proyection_media').val(),
+        'spy_has_show' : $('#spy_has_show').is(':checked'),
+        'spy_has_transmission_scheme' : $('#spy_has_transmission_scheme').is(':checked'),
+        'spy_has_duration' : $('#spy_has_duration').is(':checked'),
+        'spy_duration' : $('#spy_duration').val(),
+        'spy_outlay' : $('#spy_outlay').val()
     };
 
 $.ajaxSetup({
@@ -31,8 +32,11 @@ $.ajax({
         $(':input', '#agregar')
         .not(':button, :submit, :reset, :hidden')
         .val('')
-        .removeAttr('checked')
-        .removeAttr('selected');        
+        .removeAttr('checked');
+        $('#pro_type').val('null');
+        $('#spy_proyection_media').val('null');
+        $('.duration').hide();
+        $('.product').hide();
     }
 });
 }
@@ -54,15 +58,26 @@ function read(id){
     type:  'post',
     success:  function (data) {
         $('#u_pro_name').val(data.data['pro_name']);
-        $('#u_pro_type').val(data.data['pro_type']);
         $('#u_pro_description').val(data.data['pro_description']);
-        $('input[name="u_has_show"][value="' + data.data['pro_has_show'] + '"]').prop('checked', true);
-        $('input[name="u_has_schema"][value="' + data.data['pro_has_schema'] + '"]').prop('checked', true);
-        $('input[name="u_has_production_registry"][value="' + data.data['pro_has_production_registry'] + '"]').prop('checked', true); 
-        $('#u_pro_duration_type').val(data.data['pro_duration_type']);
-        $('#u_pro_duration').val(data.data['pro_duration']);
-        $('#u_pro_daily_impacts').val(data.data['pro_daily_impacts']);
-        $('#u_pro_outlay').val(data.data['pro_outlay']);
+        $('#u_pro_type').val(data.data['pro_type']);
+        $('.u_product').hide();
+        $('.u_duration').hide();
+        if (data.data['pro_type'] == 'transmisión') {
+            $('#u_transmisión').show();
+            $('#u_spy_proyection_media').val(data.data['service_proyection']['spy_proyection_media']);
+            $('#u_spy_has_show').prop('checked',Boolean(data.data['service_proyection']['spy_has_show']));
+            $('#u_spy_has_transmission_scheme').prop('checked',Boolean(data.data['service_proyection']['spy_has_transmission_scheme']));
+            $('#u_spy_has_duration').prop('checked',Boolean(data.data['service_proyection']['spy_duration']));
+            if(Boolean(data.data['service_proyection']['spy_duration'])){
+                $('.u_duration').show();
+                $('#u_spy_duration').val(data.data['service_proyection']['spy_duration']);
+            }    
+            $('#u_spy_outlay').val(data.data['service_proyection']['spy_outlay']);
+        }else{
+            $('#u_producción').show();
+            $('#u_spr_has_production_registry').prop('checked',Boolean(data.data['service_production']['spr_has_production_registry']));
+            $('#u_spr_outlay').val(data.data['service_production']['spr_outlay']);
+        }
         $('#updateModal').modal('show');   
     }
 });
@@ -71,16 +86,17 @@ function read(id){
 function update(){
     var data = {
         "id" : this.id,
-        "pro_name" : $('#u_pro_name').val(),
-        "pro_type" : $('#u_pro_type').val(),
-        "pro_description" : $('#u_pro_description').val(),
-        "pro_has_show" : $('input[name=u_has_show]:checked').val(),        
-        "pro_has_scheme" : $('input[name=u_has_schema]:checked').val(),
-        "pro_has_production_registry" : $('input[name=u_has_production_registry]:checked').val(),
-        "pro_duration_type" : $('#u_pro_duration_type').val(),
-        "pro_duration" : $('#u_pro_duration').val(),
-        "pro_daily_impacts" : $('#u_pro_daily_impacts').val(),
-        "pro_outlay" : $('#u_pro_outlay').val()
+        'pro_name' : $('#u_pro_name').val(),
+        'pro_description' : $('#u_pro_description').val(),
+        'pro_type' : $('#u_pro_type').val(),
+        'spr_has_production_registry' : $('#u_spr_has_production_registry').is(':checked'),
+        'spr_outlay' : $('#u_spr_outlay').val(),
+        'spy_proyection_media' : $('#u_spy_proyection_media').val(),
+        'spy_has_show' : $('#u_spy_has_show').is(':checked'),
+        'spy_has_transmission_scheme' : $('#u_spy_has_transmission_scheme').is(':checked'),
+        'spy_has_duration' : $('#u_spy_has_duration').is(':checked'),
+        'spy_duration' : $('#u_spy_duration').val(),
+        'spy_outlay' : $('#u_spy_outlay').val()
     };
 
     $.ajaxSetup({
@@ -100,8 +116,9 @@ function update(){
             $(':input', '#actualizar')
             .not(':button, :submit, :reset, :hidden')
             .val('')
-            .removeAttr('checked')
-            .removeAttr('selected')
+            .removeAttr('checked');
+            $('#u_pro_type').val('null');
+            $('#u_spy_proyection_media').val('null');
         }
     });
 }
@@ -142,7 +159,7 @@ function loadTable(){
         $("#productos").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_duration+" "+ value.pro_duration_type +'</td><td>'+ value.pro_daily_impacts +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Elminar</button></div></td></tr>');
+                $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_details +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Elminar</button></div></td></tr>');
             });
         }else{
             $("#productos").append('<tr class="gradeX"><td colspan="8">No existen Productos registradas en la base de datos</td>');

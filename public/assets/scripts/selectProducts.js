@@ -1,13 +1,24 @@
 // spots
 $(document).ready(function () {
-    $('#productSelector').change(function () {
+    $('#u_pro_type').change(function () {
+        $('.u_product').hide();
+        $('#u_' + $(this).val()).show();
+    });
+    $('#pro_type').change(function () {
         $('.product').hide();
         $('#' + $(this).val()).show();
     });
 });
 
 $(document).ready(function () {
-    $('#durationSelector').change(function () {
+    $('#u_spy_has_duration').change(function () {
+        if (this.checked)
+            //  ^
+            $('.u_duration').show();
+        else
+            $('.u_duration').hide();
+    });
+    $('#spy_has_duration').change(function () {
         if (this.checked)
             //  ^
             $('.duration').show();
