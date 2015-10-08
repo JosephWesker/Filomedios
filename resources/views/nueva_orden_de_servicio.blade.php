@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Comercialización')
+@section('page_heading','Nueva Órden de Servicio')
 @section('section')
 
 
@@ -12,9 +12,9 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-title">
+<!--                                <div class="ibox-title">
                                     <h5>Nueva Orden de Servicio</h5>
-                                </div>
+                                </div>-->
                                 <div class="ibox-content">
                                     <div id="wizard">
                                         <h1>Cliente</h1> 
@@ -55,8 +55,8 @@
                                                     <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Inversión total</label>
-                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Inversión total" readonly/>
+                                                    <label for="end_date_contract">Cobro total</label>
+                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro total" readonly/>
                                                 </div> 
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="end_date_contract">Impactos totales</label>
@@ -80,7 +80,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="myModalLabel">Agregar Usuario</h4>
+                                                            <h4 class="modal-title" id="myModalLabel">Agregar Producto</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             {{ Form::open(array('url' => '', 'id' => 'agregarProducto')) }}                            
@@ -180,7 +180,7 @@
                                                                     <option value="deporte al 100">Deporte al 100</option>
                                                                     <option value="venue">Venue</option>
                                                                     <option value="bloopers">Bloopers</option>
-                                                              <option value="veracruz en tus sentidos">Veracruz en tu sentidos</option>
+                                                                    <option value="veracruz en tus sentidos">Veracruz en tu sentidos</option>
                                                                     <option value="los 5 mejores goles">Los 5 mejores goles</option>
                                                                 </Select>
                                                                 <br>
@@ -193,8 +193,8 @@
                                                                 <textarea type="text" id="descripcion_noticias" class="form-control" placeholder="Descripción del producto"/></textarea>
                                                             </div>
                                                             <br>
-                                                            <label>Inversión</label>
-                                                            <input type="number" step="0.01" id="amount" class="form-control" placeholder="Inversión"/>
+                                                            <label>Costo</label>
+                                                            <input type="number" step="0.01" id="amount" class="form-control" placeholder="Costo"/>
                                                             <br>
                                                             <div class=text-right>
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
