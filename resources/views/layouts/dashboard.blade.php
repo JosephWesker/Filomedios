@@ -140,7 +140,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{ url ('login') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                    <li><a href="{{ action('loginController@getLogoff'); }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->

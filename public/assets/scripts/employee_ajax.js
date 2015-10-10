@@ -1,39 +1,44 @@
 var id = '';
+var businessUnitCount = 0;
 
 function create(){
-    var data = {
-        'emp_first_name' : $('#emp_first_name').val(),
-        'emp_last_name' : $('#emp_last_name').val(),
-        'emp_address' : $('#emp_address').val(),
-        'emp_phone_number' : $('#emp_phone_number').val(),
-        'emp_cellphone_number' : $('#emp_cellphone_number').val(),
-        'emp_job' : $('#emp_job').val(),
-        'emp_fk_business_unit' : $('#emp_fk_business_unit').val(),
-        'emp_email' : $('#emp_email').val(),
-        'emp_password' : $('#emp_password').val()
-    };
+    if(businessUnitCount>0){
+      var data = {
+            'emp_first_name' : $('#emp_first_name').val(),
+            'emp_last_name' : $('#emp_last_name').val(),
+            'emp_address' : $('#emp_address').val(),
+            'emp_phone_number' : $('#emp_phone_number').val(),
+            'emp_cellphone_number' : $('#emp_cellphone_number').val(),
+            'emp_job' : $('#emp_job').val(),
+            'emp_fk_business_unit' : $('#emp_fk_business_unit').val(),
+            'emp_email' : $('#emp_email').val(),
+            'emp_password' : $('#emp_password').val()
+        };
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-    $.ajax({
-        url:   createRoute,
-        data: data,
-        type:  'post',
-        success:  function (data) {
-            alert(data.data);
-            loadTable();
-            $('#add').modal('hide');
-            $(':input', '#agregar')
-            .not(':button, :submit, :reset, :hidden')
-            .val('');
-            $('#emp_job').val('vendedor');
-            $('#emp_fk_business_unit').val('null');        
-        }
-    });
+        $.ajax({
+            url:   createRoute,
+            data: data,
+            type:  'post',
+            success:  function (data) {
+                alert(data.data);
+                loadTable();
+                $('#add').modal('hide');
+                $(':input', '#agregar')
+                .not(':button, :submit, :reset, :hidden')
+                .val('');
+                $('#emp_job').val('vendedor');
+                $('#emp_fk_business_unit').val('null');        
+            }
+        });  
+    }else{
+        alert('No existen Unidades de Negocio donde asignar empleados, Cree una para poder agregar empleados');
+    }    
 }
 
 function read(id){
@@ -125,13 +130,13 @@ function delet(id){
 }
 
 function loadTable(){
- $.ajaxSetup({
+   $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
 
- $.ajax({
+   $.ajax({
     url:   readAllRoute,
     type:  'post',
     success:  function (data) {
@@ -166,14 +171,13 @@ function loadBusinessUnit(){
             $.each(data.data, function(index, value) {   
                 $('#emp_fk_business_unit')
                 .append($("<option></option>")
-                 .attr("value",value.bus_id)
-                 .text(value.bus_name)); 
-            });
-            $.each(data.data, function(index, value) {   
+                   .attr("value",value.bus_id)
+                   .text(value.bus_name));
                 $('#u_emp_fk_business_unit')
                 .append($("<option></option>")
-                 .attr("value",value.bus_id)
-                 .text(value.bus_name)); 
+                   .attr("value",value.bus_id)
+                   .text(value.bus_name));
+                businessUnitCount++;  
             });        
         }
     });
