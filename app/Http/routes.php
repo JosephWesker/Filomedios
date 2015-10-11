@@ -80,6 +80,10 @@ Route::get('/productos', ['middleware' => 'SessionControl', 'as' => 'productos',
 	return View::make('productos');
 }]);
 
+Route::get('/paquetes', ['middleware' => 'SessionControl', 'as' => 'paquetes', function(){
+	return View::make('paquetes');
+}]);
+
 Route::get('/blank', ['middleware' => 'SessionControl', 'as' => 'blank', function(){
 	return View::make('blank');
 }]);
@@ -97,4 +101,5 @@ Route::controller('show','showController');
 Route::controller('product','productController');
 Route::controller('employee','employeeController');
 Route::controller('login','loginController');
+Route::controller('package','packageController');
 //Route::controller('product','productController');
