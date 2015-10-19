@@ -17,7 +17,7 @@ $.ajax({
     success:  function (data) {
         alert(data.data);
         if(data.success == true){            
-            window.location.replace(homeRoute);
+            window.location.href = homeRoute;
         }           
     }
 });

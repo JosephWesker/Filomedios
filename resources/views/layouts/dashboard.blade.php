@@ -206,7 +206,7 @@
                             <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('productos') }}"><i class="fa fa-cube"></i> Catálogo de productos</a>
                             </li>
-                            <li {{ (Request::is('*paquetes') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*paquetes*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('paquetes') }}"><i class="fa fa-archive"></i> Paquetes de productos</a>
                             </li>
                             <li {{ (Request::is('*programas') ? 'class="active"' : '') }}>
