@@ -92,6 +92,7 @@ var readRoute = '{{ action('packageController@postRead'); }}';
 var updateRoute = '{{ action('packageController@postUpdate'); }}';
 var deleteRoute = '{{ action('packageController@postDelete'); }}';
 var readAllRoute = '{{ action('packageController@postReadAll'); }}';
+var detailPackageRoute = '{{ route('paquetes'); }}';
 </script>
 <script src="{{ asset("assets/scripts/package_ajax.js") }}" type="text/javascript"></script>
 

@@ -96,6 +96,8 @@ Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(
 	return View::make('login');
 }]);
 
+Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');

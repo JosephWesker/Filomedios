@@ -118,7 +118,7 @@ function loadTable(){
         $("#paquetes").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#paquetes").append('<tr class="gradeX"><td>' + value.pac_id + '</td><td>' + value.pac_name + '</td><td>' + value.pac_description + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pac_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pac_id +')">Elminar</button></div></td></tr>');
+                $("#paquetes").append('<tr class="gradeX"><td>' + value.pac_id + '</td><td>' + value.pac_name + '</td><td>' + value.pac_description + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="detailPackage('+ value.pac_id +')">Editar productos</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pac_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pac_id +')">Elminar</button></div></td></tr>');
             });
         }else{
             $("#paquetes").append('<tr class="gradeX"><td colspan="4">No existen Paquetes registrados en la base de datos</td>');
@@ -130,6 +130,10 @@ function loadTable(){
 function modalUpdate(id){  
     this.id = id;
     read(id);                   
+}
+
+function detailPackage(id){
+    alert(detailPackageRoute+'/'+id)
 }
 
 $(document).ready(function(){

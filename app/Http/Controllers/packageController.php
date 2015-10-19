@@ -62,4 +62,25 @@ class packageController extends Controller{
       ));
     return $response;
   }
+
+  public function showDetail($id){
+    $finalArray = [];
+    $data['detail'] = fil_package::find($id)->packagesDetail;
+    foreach ($data['detail'] as $detail) {
+      $product = $detail->product;
+      $tempRow['pro_id'] = $product->pro_id;
+      $tempRow['pro_name'] = $product->pro_name;
+      if($product->pro_type == 'transmisión'){
+        $tempRow['pro_outlay'] = $product->serviceProyection->spy_outlay;
+      }else{
+        $tempRow['pro_outlay'] = $product->serviceProduction->spr_outlay;
+      }
+      $tempRow['pad_impacts'] = $detail->pad_impacts;
+      $tempRow['pad_validity'] = $detail->pad_validity.' Días';
+      $tempRow['pad_discount'] = $detail->pad_discount.' %';
+      $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
+      $finalArray[] = $tempRow;
+    }
+    echo json_encode($finalArray);
+  }
 }
