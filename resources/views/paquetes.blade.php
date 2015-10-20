@@ -76,6 +76,7 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Inversión</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>

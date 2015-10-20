@@ -80,10 +80,15 @@ class packageController extends Controller{
       $tempRow['pad_impacts'] = $detail->pad_impacts;
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
       $tempRow['pad_discount'] = $detail->pad_discount.' %';
-      $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
+      if(((float) $detail->pad_discount<=100)){
+        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
+      }else{
+        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] + ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount-100)/100)));
+      } 
       $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
       $finalArray[] = $tempRow;
     }
+    $data['total_outlay'] = fil_package::find($id)->pac_outlay;
     $data['package'] = fil_package::find($id);
     $data['details'] = $finalArray;
     return view('detalle_paquetes', $data);
@@ -94,48 +99,65 @@ class packageController extends Controller{
     fil_package_detail::create($values);
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Paquete guardado con exito'
+      'data'   => 'Producto guardado con exito'
       ));
     return $response;
   }
 
   public function postReadDetail(){
     $values = Request::all();
-    $data = fil_package::select(['pac_name','pac_description'])->find($values['id']);
+    $dataDetail = fil_package_detail::find($values['id']);
+    $dataProduct = $dataDetail->product;
+    $price = '';
+    if($dataProduct->pro_type == 'transmisión'){
+         $price = $dataProduct->serviceProyection->spy_outlay;
+      }else{
+        $price = $dataProduct->serviceProduction->spr_outlay;
+      }
+    $finalData = array(
+      'pro_id' => $dataProduct->pro_id,
+      'pro_outlay' => $price,
+      'pad_impacts' => $dataDetail->pad_impacts,
+      'pad_validity' => $dataDetail->pad_validity,
+      'pad_discount' => $dataDetail->pad_discount );
+
     $response = Response::json(array(
       'success' => true,
-      'data'   => $data
+      'data'   => $finalData
       ));
     return $response; 
   }
 
   public function postUpdateDetail(){
     $values = Request::all();
-    $data = fil_package::find($values['id']);
-    $data->pac_name = $values['pac_name'];
-    $data->pac_description = $values['pac_description'];
+    $data = fil_package_detail::find($values['id']);
+    $data->pad_impacts = $values['pad_impacts'];
+    $data->pad_validity = $values['pad_validity'];
+    $data->pad_discount = $values['pad_discount'];
     $data->save();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Paquete actualizado con exito'
+      'data'   => 'Producto actualizado con exito'
       ));
     return $response;
   }
 
   public function postDeleteDetail(){
     $values = Request::all();
-    $data = fil_package::find($values['id']);
+    $data = fil_package_detail::find($values['id']);
     $data->delete();
     $response = Response::json(array(
       'success' => true,
-      'data'   => 'Paquete eliminado exitosamente'
+      'data'   => 'Producto eliminado exitosamente'
       ));
     return $response;
   }
 
   public function postReadAllDetail(){
+    $values = Request::all();
     $finalArray = [];
-    $details = fil_package::all()->packagesDetail;
+    $total_outlay = 0;
+    $details = fil_package::find($values['pad_fk_package'])->packagesDetail;
     foreach ($details as $detail) {
       $product = $detail->product;
       $tempRow['pad_id'] = $detail->pad_id;
@@ -147,18 +169,23 @@ class packageController extends Controller{
       }
       $tempRow['pad_impacts'] = $detail->pad_impacts;
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
-      $tempRow['pad_discount'] = ' %';
+      $tempRow['pad_discount'] = $detail->pad_discount.' %';
       if(((float) $detail->pad_discount<=100)){
         $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
       }else{
         $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] + ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount-100)/100)));
       } 
       $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
+      $total_outlay += (float) $tempRow['pad_subtotal'];
       $finalArray[] = $tempRow;
     }
+    $package = fil_package::find($values['pad_fk_package']);
+    $package->pac_outlay = $total_outlay;
+    $package->save();
     $response = Response::json(array(
       'success' => true,
-      'data'   => $finalArray
+      'data'   => $finalArray,
+      'total_outlay' => $total_outlay
       ));
     return $response;
   }
@@ -166,7 +193,7 @@ class packageController extends Controller{
   public function postLoadProducts(){
     $response = Response::json(array(
       'success' => true,
-      'data'   => fil_product::all(['pro_id','pro_name'])
+      'data'   => fil_product::where('pro_type','like','transmisión')->select('pro_id','pro_name')->get()
       ));
     return $response;
   }

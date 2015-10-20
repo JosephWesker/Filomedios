@@ -80,14 +80,14 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('discount','Descuento (%)')}}
-                                {{ Form::number('discount',null,['onkeyup' => 'toDiscount_number()','class' => 'form-control','id' => 'u_pad_discount','placeholder' => 'Descuento'])}}
+                                {{ Form::number('discount',null,['onkeyup' => 'u_toDiscount_number()','class' => 'form-control','id' => 'u_pad_discount','placeholder' => 'Descuento'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('discount_number','Precio con Descuento')}}
-                                {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'u_pad_discount_number','placeholder' => 'Precio con Descuento'])}}
+                                {{ Form::number('discount_number',null,['onkeyup' => 'u_toDiscount()','class' => 'form-control','id' => 'u_pad_discount_number','placeholder' => 'Precio con Descuento'])}}
                             </div>
                             <div class=text-right>
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'update()']) }}
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                             </div>
                             {{ Form::close() }}                        
@@ -97,10 +97,10 @@
             </div>
 
         </div>
-        <div class="col-lg-12 table-responsive">
+        <div class="col-lg-9 table-responsive">
             <table class="table table-striped table-hover table-bordered margin-top20">
                 <thead>
-                    <tr>
+                        <tr>
                         <th>ID del Paquete</th>
                         <th>Nombre del Paquete</th>
                         <th>Descripción</th>
@@ -115,11 +115,11 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
-                Agregar Producto a Paquete
-            </button>
+        <br>
+        <button type="button" class="btn btn-success btn-lg col-lg-3" data-toggle="modal" data-target="#add">
+            Agregar Producto a Paquete
+        </button>
 
         <div class="col-lg-12 table-responsive">
             <table class="table table-striped table-hover table-bordered margin-top20">
@@ -146,6 +146,21 @@
                         }
                     }
                 ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-11">
+            
+        </div>
+        <div class="col-lg-1 table-responsive">
+            <table class="table table-striped table-hover table-bordered margin-top20 ">
+                <thead>
+                    <tr>
+                        <th>Costo Total</th>
+                    </tr>
+                </thead>
+                <tbody id="detalles">
+                    <td id='total_outlay'>{{ $total_outlay }}</td>
                 </tbody>
             </table>
         </div>

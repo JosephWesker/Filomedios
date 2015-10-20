@@ -25,9 +25,8 @@ $.ajax({
         $('#add').modal('hide');
         $(':input', '#agregar')
         .not(':button, :submit, :reset, :hidden')
-        .val('')
-        .removeAttr('checked')
-        .removeAttr('selected');        
+        .val('');
+        $('#pad_fk_product').val('null');     
     }
 });
 }
@@ -47,19 +46,28 @@ function read(id){
     url:   readRoute,
     data: data,
     type:  'post',
-    success:  function (data) {
-        $('#u_pac_name').val(data.data['pac_name']);
-        $('#u_pac_description').val(data.data['pac_description']); 
-        $('#updateModal').modal('show');   
+    success:  function (data) {       
+        $('#u_pad_fk_product').val(data.data.pro_id);
+        $('#u_pro_outlay').val(data.data.pro_outlay);
+        $('#u_pad_impacts').val(data.data.pad_impacts);
+        $('#u_pad_validity').val(data.data.pad_validity);
+        $('#u_pad_discount').val(data.data.pad_discount);
+        if(parseFloat(data.data.pad_discount)<=100){
+        $('#u_pad_discount_number').val(parseFloat(data.data.pro_outlay)-(parseFloat(data.data.pro_outlay)*(parseFloat(data.data.pad_discount)/100)));
+    }else{
+        $('#u_pad_discount_number').val(parseFloat(data.data.pro_outlay)+(parseFloat(data.data.pro_outlay)*((parseFloat(data.data.pad_discount)-100)/100)));
+    }
+        $('#updateModal').modal('show'); 
     }
 });
 }
 
 function update(){
     var data = {
-        "id" : this.id,
-        "pac_name" : $('#u_pac_name').val(),
-        "pac_description" : $('#u_pac_description').val()
+        "id" : this.id,        
+        'pad_impacts': $('#u_pad_impacts').val(),
+        'pad_validity': $('#u_pad_validity').val(),
+        'pad_discount': $('#u_pad_discount').val()
     };
 
     $.ajaxSetup({
@@ -108,6 +116,10 @@ function delet(id){
 }
 
 function loadTable(){
+    var data = {
+        "pad_fk_package" : $('#pad_fk_package').text()
+    };
+
    $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -116,16 +128,18 @@ function loadTable(){
 
    $.ajax({
     url:   readAllRoute,
+    data: data,
     type:  'post',
     success:  function (data) {
-        $("#paquetes").html('');
+        $("#detalles").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#paquetes").append('<tr class="gradeX"><td>'+data.data['pad_id']+'</td><td>'+data.data['pro_name']+'</td><td>'+data.data['pro_outlay']+'</td><td>'+data.data['pad_impacts']+'</td><td>'+data.data['pad_validity']+'</td><td>'+data.data['pad_discount']+'</td><td>'+data.data['pad_finalPrice']+'</td><td>'+data.data['pad_subtotal']+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+data.data['pad_id']+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+data.data['pad_id']+')">Elminar</button></div></td></tr>');
+                $("#detalles").append('<tr class="gradeX"><td>'+value.pad_id+'</td><td>'+value.pro_name+'</td><td>'+value.pro_outlay+'</td><td>'+value.pad_impacts+'</td><td>'+value.pad_validity+'</td><td>'+value.pad_discount+'</td><td>'+value.pad_finalPrice+'</td><td>'+value.pad_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
             });
         }else{
-            $("#paquetes").append('<tr class="gradeX"><td colspan="9">no existen detalles para este Paquete</td>');
+            $("#detalles").append('<tr class="gradeX"><td colspan="9">no existen detalles para este Paquete</td>');
         }
+        $("#total_outlay").html(data.total_outlay);
     }
 });
 }
