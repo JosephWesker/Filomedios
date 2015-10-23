@@ -11,90 +11,98 @@
 |
 */
 
-Route::get('/', function(){
+Route::get('/', ['middleware' => 'SessionControl', 'as' => 'home', function(){
 	return View::make('home'); 
-});
+}]);
 
-Route::get('/gestor_de_ordenes_de_servicio', function(){
+Route::get('/gestor_de_ordenes_de_servicio', ['middleware' => 'SessionControl', 'as' => 'gestor de ordenes de servicios', function(){
 	return View::make('gestor_de_ordenes_de_servicio');
-});
+}]);
 
-Route::get('/nueva_orden_de_servicio', function(){
+Route::get('/nueva_orden_de_servicio', ['middleware' => 'SessionControl', 'as' => 'nueva orden de servicio', function(){
 	return View::make('nueva_orden_de_servicio');
-});
+}]);
 
 
-Route::get('/reportes', function(){
+Route::get('/reportes',['middleware' => 'SessionControl', 'as' => 'reportes', function(){
 	return View::make('reportes');
-});
+}]);
 
-Route::get('/prospectos', function(){
+Route::get('/prospectos', ['middleware' => 'SessionControl', 'as' => 'prospectos', function(){
 	return View::make('prospectos');
-});
+}]);
 
-Route::get('/empleados', function(){
+Route::get('/empleados', ['middleware' => 'SessionControl', 'as' => 'empleados', function(){
 	return View::make('empleados');
-});
+}]);
 
-Route::get('/negocios', function(){
+Route::get('/negocios', ['middleware' => 'SessionControl', 'as' => 'negocios', function(){
 	return View::make('negocios');
-});
+}]);
 
-Route::get('/tesoreria', function(){
+Route::get('/tesoreria', ['middleware' => 'SessionControl', 'as' => 'tesoreria', function(){
 	return View::make('tesoreria');
-});
+}]);
 
-Route::get('/clientes', function(){
+Route::get('/clientes', ['middleware' => 'SessionControl', 'as' => 'clientes', function(){
 	return View::make('clientes');
-});
+}]);
 
-Route::get('/proyeccion', function(){
+Route::get('/proyeccion', ['middleware' => 'SessionControl', 'as' => 'proyeccion', function(){
 	return View::make('proyeccion');
-});
+}]);
 
-Route::get('/produccion', function(){
+Route::get('/produccion', ['middleware' => 'SessionControl', 'as' => 'produccion', function(){
 	return View::make('produccion');
-});
+}]);
 
-Route::get('/agenda', function(){
+Route::get('/agenda', ['middleware' => 'SessionControl', 'as' => 'agenda', function(){
 	return View::make('agenda');
-});
+}]);
 
-Route::get('/gestor_de_archivos', function(){
+Route::get('/gestor_de_archivos', ['middleware' => 'SessionControl', 'as' => 'gestor de archivos', function(){
 	return View::make('gestor_de_archivos');
-});
+}]);
 
-Route::get('/configuracion', function(){
+Route::get('/configuracion', ['middleware' => 'SessionControl', 'as' => 'configuracion', function(){
 	return View::make('configuracion');
-});
+}]);
 
-Route::get('/unidades_negocio', function(){
+Route::get('/unidades_negocio', ['middleware' => 'SessionControl', 'as' => 'unidades negocio', function(){
 	return View::make('unidades_negocio');
-});
+}]);
 
-Route::get('/programas', function(){
+Route::get('/programas', ['middleware' => 'SessionControl', 'as' => 'programas', function(){
 	return View::make('programas');
-});
+}]);
 
-Route::get('/productos', function()
-{
+Route::get('/productos', ['middleware' => 'SessionControl', 'as' => 'productos', function(){
 	return View::make('productos');
-});
+}]);
 
-Route::get('/blank', function(){
+Route::get('/paquetes', ['middleware' => 'SessionControl', 'as' => 'paquetes', function(){
+	return View::make('paquetes');
+}]);
+
+Route::get('/blank', ['middleware' => 'SessionControl', 'as' => 'blank', function(){
 	return View::make('blank');
-});
+}]);
 
-Route::get('/usuarios', function(){
+Route::get('/usuarios', ['middleware' => 'SessionControl', 'as' => 'usuarios', function(){
 	return View::make('usuarios');
-});
+}]);
 
-Route::get('/login', function(){
+Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
 	return View::make('login');
-});
+}]);
+
+Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
 
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
 Route::controller('employee','employeeController');
+Route::controller('login','loginController');
+Route::controller('package','packageController');
+Route::controller('customer','customerController');
 //Route::controller('product','productController');

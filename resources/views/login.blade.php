@@ -9,18 +9,13 @@
                         <form role="form">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="email" type="email" id="email" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
+                                    <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="">
+                                </div>                               
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="{{ url ('') }}" class="btn btn-lg btn-success btn-block">Login</a>
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'login()']) }}
                             </fieldset>
                         </form>
                     
@@ -29,4 +24,9 @@
             </div>
         </div>
     </div>
+    <script>
+        var loginRoute = '{{ action('loginController@postLogon'); }}';
+        var homeRoute = '{{ route('home'); }}';
+    </script>
+    <script src="{{ asset("assets/scripts/login_ajax.js") }}" type="text/javascript"></script>
 @stop

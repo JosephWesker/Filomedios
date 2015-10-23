@@ -140,7 +140,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{ url ('login') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                    <li><a href="{{ action('loginController@getLogoff'); }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -205,6 +205,9 @@
                             </li>
                             <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('productos') }}"><i class="fa fa-cube"></i> Catálogo de productos</a>
+                            </li>
+                            <li {{ (Request::is('*paquetes*') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('paquetes') }}"><i class="fa fa-archive"></i> Paquetes de productos</a>
                             </li>
                             <li {{ (Request::is('*programas') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('programas') }}"><i class="fa fa-tv"></i> Catálogo de programas</a>
