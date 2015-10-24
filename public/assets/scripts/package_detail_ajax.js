@@ -6,7 +6,8 @@ function create(){
         "pad_fk_product" : $('#pad_fk_product').val(),
         "pad_impacts" : $('#pad_impacts').val(),
         "pad_validity" : $('#pad_validity').val(),
-        "pad_discount" : $('#pad_discount').val()
+        "pad_discount" : $('#pad_discount').val(),
+        "pad_final_price" : $('#pad_discount_number').val()
     };
 
 $.ajaxSetup({
@@ -52,11 +53,7 @@ function read(id){
         $('#u_pad_impacts').val(data.data.pad_impacts);
         $('#u_pad_validity').val(data.data.pad_validity);
         $('#u_pad_discount').val(data.data.pad_discount);
-        if(parseFloat(data.data.pad_discount)<=100){
-        $('#u_pad_discount_number').val(parseFloat(data.data.pro_outlay)-(parseFloat(data.data.pro_outlay)*(parseFloat(data.data.pad_discount)/100)));
-    }else{
-        $('#u_pad_discount_number').val(parseFloat(data.data.pro_outlay)+(parseFloat(data.data.pro_outlay)*((parseFloat(data.data.pad_discount)-100)/100)));
-    }
+        $('#u_pad_discount_number').val(data.data.pad_final_price);
         $('#updateModal').modal('show'); 
     }
 });
@@ -67,7 +64,8 @@ function update(){
         "id" : this.id,        
         'pad_impacts': $('#u_pad_impacts').val(),
         'pad_validity': $('#u_pad_validity').val(),
-        'pad_discount': $('#u_pad_discount').val()
+        'pad_discount': $('#u_pad_discount').val(),
+        "pad_final_price" : $('#u_pad_discount_number').val()
     };
 
     $.ajaxSetup({
@@ -211,7 +209,7 @@ function u_toDiscount(){
     if(price>=discount){
         $('#u_pad_discount').val(100-((discount*100)/price));
     }else{
-        $('#u_pad_discount').val((((discount-100)*100)/price));
+        $('#u_pad_discount').val((((discount)*100)/price));
     }
 }
 

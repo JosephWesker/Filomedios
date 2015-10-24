@@ -6,7 +6,7 @@ class fil_package_detail extends Model {
 
 	protected $table = 'fil_package_detail';
 	protected $primaryKey = 'pad_id';
-	protected $fillable = ['pad_fk_package','pad_fk_product','pad_impacts','pad_validity','pad_discount'];
+	protected $fillable = ['pad_fk_package','pad_fk_product','pad_impacts','pad_validity','pad_discount','pad_final_price'];
 
 
 	public function package(){

@@ -80,11 +80,7 @@ class packageController extends Controller{
       $tempRow['pad_impacts'] = $detail->pad_impacts;
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
       $tempRow['pad_discount'] = $detail->pad_discount.' %';
-      if(((float) $detail->pad_discount<=100)){
-        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
-      }else{
-        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] + ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount-100)/100)));
-      } 
+      $tempRow['pad_finalPrice'] = $detail->pad_final_price;
       $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
       $finalArray[] = $tempRow;
     }
@@ -119,7 +115,8 @@ class packageController extends Controller{
       'pro_outlay' => $price,
       'pad_impacts' => $dataDetail->pad_impacts,
       'pad_validity' => $dataDetail->pad_validity,
-      'pad_discount' => $dataDetail->pad_discount );
+      'pad_discount' => $dataDetail->pad_discount,
+      'pad_final_price' => $dataDetail->pad_final_price );
 
     $response = Response::json(array(
       'success' => true,
@@ -134,6 +131,7 @@ class packageController extends Controller{
     $data->pad_impacts = $values['pad_impacts'];
     $data->pad_validity = $values['pad_validity'];
     $data->pad_discount = $values['pad_discount'];
+    $data->pad_final_price = $values['pad_final_price'];
     $data->save();
     $response = Response::json(array(
       'success' => true,
@@ -170,11 +168,7 @@ class packageController extends Controller{
       $tempRow['pad_impacts'] = $detail->pad_impacts;
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
       $tempRow['pad_discount'] = $detail->pad_discount.' %';
-      if(((float) $detail->pad_discount<=100)){
-        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] - ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount)/100)));
-      }else{
-        $tempRow['pad_finalPrice'] = ((float) $tempRow['pro_outlay'] + ((float) $tempRow['pro_outlay'] * (((float) $detail->pad_discount-100)/100)));
-      } 
+      $tempRow['pad_finalPrice'] = $detail->pad_final_price; 
       $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
       $total_outlay += (float) $tempRow['pad_subtotal'];
       $finalArray[] = $tempRow;
