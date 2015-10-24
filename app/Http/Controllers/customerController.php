@@ -125,4 +125,33 @@ class customerController extends Controller{
       ));
     return $response; 
   }
+
+  public function postReadFiscalData(){
+    $id = Request::input('id');
+    $customer = fil_customer::find($id);
+    $fiscal = $customer->taxData;
+    $modalTitle = "Datos fiscales del Cliente: ".$customer->cus_commercial_name;
+    $modalBody = '<b>RFC: </b>'.$fiscal->tax_rfc.
+    '<br><b>Razón Social: </b>'.$fiscal->tax_business_name.
+    '<br><b>Calle: </b>'.$fiscal->tax_street.
+    '<br><b>Número Exterior: </b>'.$fiscal->tax_outdoor_number.
+    '<br><b>Número Interior: </b>'.$fiscal->tax_apartment_number.
+    '<br><b>Colonia: </b>'.$fiscal->tax_colony.
+    '<br><b>Código Postal: </b>'.$fiscal->tax_postal_code.
+    '<br><b>Municipio: </b>'.$fiscal->tax_town.
+    '<br><b>Localidad: </b>'.$fiscal->tax_locality.
+    '<br><b>Estado: </b>'.$fiscal->tax_state.
+    '<br><b>País: </b>'.$fiscal->tax_country.
+    '<br><b>Email Fiscal: </b>'.$fiscal->tax_tax_email.
+    '<br><b>Representante Legal: </b>'.$fiscal->tax_legal_representative;
+    $data = array(
+      'title'=> $modalTitle,
+      'body' => $modalBody
+    );
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $data
+      ));
+    return $response; 
+  }
 }

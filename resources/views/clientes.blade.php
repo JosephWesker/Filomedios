@@ -235,6 +235,23 @@
                 </div>
             </div>
 
+
+            <!-- Modal for tax data -->
+            <div class="modal fade" id="taxDataModal" tabindex="-1" role="dialog" aria-labelledby="addCustomer">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="datos_fiscales_titulo"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="datos_fiscales">
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="col-lg-12 table-responsive">
@@ -263,6 +280,7 @@ var deleteRoute = '{{ action('customerController@postDelete'); }}';
 var readAllRoute = '{{ action('customerController@postReadAll'); }}';
 var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
 var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
+var readfiscalData = '{{ action('customerController@postReadFiscalData'); }}';
 </script>
 <script src="{{ asset("assets/scripts/customer_ajax.js") }}" type="text/javascript"></script>
 

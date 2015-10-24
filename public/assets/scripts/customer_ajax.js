@@ -201,7 +201,7 @@ function loadTable(){
         $("#clientes").html('');
         if (data.data !== null && $.isArray(data.data) && data.data.length>0){
             $.each(data.data, function(index, value){
-                $("#clientes").append('<tr class="gradeX"><td>' + value.cus_id + '</td><td>' + value.cus_name + '</td><td>' + value.cus_enterprise + '</td><td>' + value.cus_contact + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalFiscalData('+ value.cus_id +')">Ver datos fiscales</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.cus_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.cus_id +')">Elminar</button></div></td></tr>');
+                $("#clientes").append('<tr class="gradeX"><td>' + value.cus_id + '</td><td>' + value.cus_name + '</td><td>' + value.cus_enterprise + '</td><td>' + value.cus_contact + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="modalFiscalData('+ value.cus_id +')">Ver datos fiscales</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.cus_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.cus_id +')">Elminar</button></div></td></tr>');
             });
         }else{
             $("#clientes").append('<tr class="gradeX"><td colspan="5">No existen clientes registrados en la base de datos</td>');
@@ -303,6 +303,29 @@ $( "#u_tax_postal_code" ).change(function() {
     $('#u_tax_country').val('');  
 }
 });
+
+function modalFiscalData(id){
+  var data = {
+        "id" : id,
+    };
+
+   $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+   $.ajax({
+    url:   readfiscalData,
+    data: data,
+    type:  'post',
+    success:  function (data) {
+        $('#datos_fiscales_titulo').html(data.data['title']);  
+        $('#datos_fiscales').html(data.data['body']);
+        $('#taxDataModal').modal('show'); 
+    }
+});  
+}
 
 function modalUpdate(id){  
     this.id = id;
