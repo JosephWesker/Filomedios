@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilServiceProductionsTable extends Migration {
+class CreateFmEmployeesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateFilServiceProductionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('fil_service_productions', function(Blueprint $table)
+		Schema::create('fm_employees', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->timestamps();
@@ -26,7 +26,7 @@ class CreateFilServiceProductionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('fil_service_productions');
+		Schema::drop('fm_employees');
 	}
 
 }
