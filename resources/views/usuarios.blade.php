@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('fk_business_unit','Unidad de Negocio')}}
-                                {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar unidad de negocio---'],null,['class' => 'form-control','id'=>'emp_fk_business_unit']) }}
+                                {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar unidad de negocio---'],null,['class' => 'form-control','id'=>'emp_bus_id']) }}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Correo Electronico')}}
@@ -103,7 +103,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('fk_business_unit','Unidad de Negocio')}}
-                                {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar unidad de negocio---'],null,['class' => 'form-control','id'=>'u_emp_fk_business_unit']) }}
+                                {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar unidad de negocio---'],null,['class' => 'form-control','id'=>'u_emp_bus_id']) }}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Correo Electronico')}}

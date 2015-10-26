@@ -99,10 +99,8 @@ Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
 
 Route::controller('business_unit','businessUnitController');
-Route::controller('show','showController');
 Route::controller('product','productController');
 Route::controller('employee','employeeController');
 Route::controller('login','loginController');
-Route::controller('package','packageController');
 Route::controller('customer','customerController');
 //Route::controller('product','productController');

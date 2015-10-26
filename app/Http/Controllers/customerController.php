@@ -15,11 +15,11 @@ use App\fil_postal_codes;
 class customerController extends Controller{
   public function postCreate(){
     $values = Request::all();
-    $values["customer"]['cus_fk_employee'] = Session::get('id');
+    $values["customer"]['cus_emp_id'] = Session::get('id');
     $values["customer"]['cus_status'] = 'prospecto';
     fil_customer::create($values["customer"]);
     $lastRow = fil_customer::orderBy('cus_id', 'desc')->first();
-    $values["tax_data"]['tax_fk_customer'] = $lastRow->cus_id;
+    $values["tax_data"]['tax_emp_id'] = $lastRow->cus_id;
     fil_tax_data::create($values["tax_data"]);
     $response = Response::json(array(
       'success' => true,

@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder {
 				'emp_phone_number'=>'',
 				'emp_job'=>'administrador',
 				'emp_email'=>'admin@admin.com',
-				'emp_fk_business_unit' => null,
+				'emp_bus_id' => null,
 				'emp_password'=>Hash::make('admin')
 			]);
 	}

@@ -10,7 +10,7 @@ function create(){
             'emp_phone_number' : $('#emp_phone_number').val(),
             'emp_cellphone_number' : $('#emp_cellphone_number').val(),
             'emp_job' : $('#emp_job').val(),
-            'emp_fk_business_unit' : $('#emp_fk_business_unit').val(),
+            'emp_bus_id' : $('#emp_bus_id').val(),
             'emp_email' : $('#emp_email').val(),
             'emp_password' : $('#emp_password').val()
         };
@@ -33,7 +33,7 @@ function create(){
                 .not(':button, :submit, :reset, :hidden')
                 .val('');
                 $('#emp_job').val('vendedor');
-                $('#emp_fk_business_unit').val('null');        
+                $('#emp_bus_id').val('null');        
             }
         });  
     }else{
@@ -63,7 +63,7 @@ function read(id){
             $('#u_emp_phone_number').val(data.data['emp_phone_number']);
             $('#u_emp_cellphone_number').val(data.data['emp_cellphone_number']);
             $('#u_emp_job').val(data.data['emp_job']);
-            $('#u_emp_fk_business_unit').val(data.data['emp_fk_business_unit']);
+            $('#u_emp_bus_id').val(data.data['emp_bus_id']);
             $('#u_emp_email').val(data.data['emp_email']);
             $('#updateModal').modal('show');   
         }
@@ -79,7 +79,7 @@ function update(){
         'emp_phone_number' : $('#u_emp_phone_number').val(),
         'emp_cellphone_number' : $('#u_emp_cellphone_number').val(),
         'emp_job' : $('#u_emp_job').val(),
-        'emp_fk_business_unit' : $('#u_emp_fk_business_unit').val(),
+        'emp_bus_id' : $('#u_emp_bus_id').val(),
         'emp_email' : $('#u_emp_email').val(),
         'emp_password' : $('#u_emp_password').val()
     };
@@ -169,11 +169,11 @@ function loadBusinessUnit(){
         type:  'post',
         success:  function (data) {  
             $.each(data.data, function(index, value) {   
-                $('#emp_fk_business_unit')
+                $('#emp_bus_id')
                 .append($("<option></option>")
                    .attr("value",value.bus_id)
                    .text(value.bus_name));
-                $('#u_emp_fk_business_unit')
+                $('#u_emp_bus_id')
                 .append($("<option></option>")
                    .attr("value",value.bus_id)
                    .text(value.bus_name));

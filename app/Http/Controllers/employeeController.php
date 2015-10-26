@@ -24,7 +24,7 @@ class employeeController extends Controller{
 
   public function postRead(){
     $values = Request::all();
-    $data = fil_employee::select(['emp_first_name','emp_last_name','emp_address','emp_phone_number','emp_cellphone_number','emp_job','emp_fk_business_unit','emp_email'])->find($values['id']);    
+    $data = fil_employee::select(['emp_first_name','emp_last_name','emp_address','emp_phone_number','emp_cellphone_number','emp_job','emp_bus_id','emp_email'])->find($values['id']);    
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
@@ -41,7 +41,7 @@ class employeeController extends Controller{
     $data->emp_phone_number = $values['emp_phone_number'];
     $data->emp_cellphone_number = $values['emp_cellphone_number'];
     $data->emp_job = $values['emp_job'];
-    $data->emp_fk_business_unit = fil_business_unit::find($values['emp_fk_business_unit'])->bus_id;
+    $data->emp_bus_id = fil_business_unit::find($values['emp_bus_id'])->bus_id;
     $data->emp_email = $values['emp_email'];    
     $data->save();
     $response = Response::json(array(
