@@ -17,6 +17,6 @@ class fil_employee extends Model {
 	}
 
 	public function businessUnit(){
-		return $this->belongsTo('App\fm_business_unit','emp_bus_id','bus_id');
+		return $this->belongsTo('App\fil_business_unit','emp_bus_id','bus_id');
 	}
 }
