@@ -24,11 +24,7 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Nombre Comercial</th>
-                                                        <th>Contacto</th>
-                                                        <th>Dirección</th>
-                                                        <th>Teléfono Fijo</th>
-                                                        <th>Celular o Nextel</th>
-                                                        <th>Email</th>
+                                                        <th>Contacto</th>                                                                                                        
                                                         <th>Razón Social</th>
                                                         <th>RFC</th>
                                                     </tr>
@@ -278,10 +274,8 @@
         </div>
     </div>
     <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-    <script>
-    var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-    var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
-    var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';        
+    <script>       
+        var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
     </script>
-    <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
 @stop

@@ -105,4 +105,5 @@ Route::controller('employee','employeeController');
 Route::controller('login','loginController');
 Route::controller('package','packageController');
 Route::controller('customer','customerController');
+Route::controller('serviceOrder','serviceOrderController');
 //Route::controller('product','productController');
