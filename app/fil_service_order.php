@@ -9,7 +9,7 @@ class fil_service_order extends Model {
 	protected $fillable = ['ser_id','ser_discount_month','ser_outlay_total','ser_iva','ser_duration','ser_start_date','ser_end_date','ser_fk_customer','ser_auth_admin','ser_auth_production','ser_auth_sales'];
 
 	public function customer(){
-		return $this->belongsTo('App\fm_customer','ser_fk_customer','cus_id');
+		return $this->belongsTo('App\fil_customer','ser_fk_customer','cus_id');
 	}
 
 	public function paymentScheme(){
