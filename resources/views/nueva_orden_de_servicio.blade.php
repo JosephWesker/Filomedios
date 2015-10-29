@@ -17,7 +17,7 @@
 
                                         <h1>Cliente</h1> 
                                         <div class="step-content offset" style="position: relative; width: 100%;">                      
-                                            <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
+                                            <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
@@ -77,13 +77,13 @@
                                                             {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                                                             <div class="form-group">
                                                                 {{ Form::label('fk_product','Producto')}}
-                                                                {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product']) }}
+                                                                {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product','onchange' => 'setShowsVisible()']) }}
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
                                                                 {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
                                                             </div>
-                                                            <div class="form-group" id="fk_show">
+                                                            <div class="form-group" id="fk_show" style="display:none">
                                                                 {{ Form::label('fk_show','Programa')}}
                                                                 {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                                                             </div>
@@ -108,7 +108,7 @@
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                              </div>
                                                             <div class=text-right>
-                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                             </div>
                                                             {{ Form::close() }}                        
@@ -118,7 +118,7 @@
                                             </div>
                                             <!--End Modal-->
 
-                                            <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
+                                            <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>
                                                         <th>Producto</th>
@@ -197,6 +197,8 @@
     <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
     <script>       
     var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
     </script>
     <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
     @stop
