@@ -121,9 +121,12 @@
                                             <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>
-                                                        <th>Producto</th>
-                                                        <th>Descripción</th>
-                                                        <th>Monto</th>
+                                                        <th>Nombre del Producto</th>
+                                                        <th>Impactos diarios</th>
+                                                        <th>Vigencia (Días)</th>
+                                                        <th>Precio</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="products">

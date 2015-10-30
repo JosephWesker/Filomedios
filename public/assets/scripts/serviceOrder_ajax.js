@@ -134,6 +134,7 @@ function toDiscount(){
 function addProduct(){
     var row = [];
     row['det_fk_product'] = products[$('#det_fk_product').val()].pro_id;
+    row['det_name'] = products[$('#det_fk_product').val()].pro_name;
     row['det_fk_business_unit'] = $('#det_fk_business_unit').val();
     row['det_fk_show'] = $('#det_fk_show').val();
     row['det_impacts'] = $('#det_impacts').val();
@@ -141,10 +142,20 @@ function addProduct(){
     row['det_discount'] = $('#det_discount').val();
     row['det_final_price'] = $('#det_discount_number').val();
     productsRegistered.push(row);
+    $("#products").html('');
+    if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length>0){
+        $.each(productsRegistered, function(index, value){
+            $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+'Algo'+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
+        });
+    }else{
+        $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
+    }
+    $('#addProduct').modal('hide');
 }
 
 $(document).ready(function(){
     loadCustomers();
     loadProductsData();
     loadSelects();
+    $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
 });

@@ -27,7 +27,7 @@
                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('impacts','Impactos (Por día)')}}
+                                {{ Form::label('impacts','Impactos')}}
                                 {{ Form::number('impacts',null,['class' => 'form-control','id' => 'pad_impacts','placeholder' => 'Impactos'])}}
                             </div>
                             <div class="form-group">
@@ -71,7 +71,7 @@
                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'u_pro_outlay','placeholder' => 'Precio'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('impacts','Impactos (Por día)')}}
+                                {{ Form::label('impacts','Impactos')}}
                                 {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_pad_impacts','placeholder' => 'Impactos'])}}
                             </div>
                             <div class="form-group">
