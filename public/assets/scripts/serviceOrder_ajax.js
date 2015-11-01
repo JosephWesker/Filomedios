@@ -3,12 +3,13 @@ var products = null;
 var packages = null;
 var productsRegistered = [];
 var shows = null;
+var businessUnit = null;
 
 function loadCustomers(){
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
     $.ajax({
@@ -44,9 +45,9 @@ function tableSelect(){
 
 function loadProductsData(){
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
 
     $.ajax({
@@ -57,8 +58,8 @@ function loadProductsData(){
             $.each(data.data, function(index, value) {   
                 $('#det_fk_product')
                 .append($("<option></option>")
-                   .attr("value",index)
-                   .text(value.pro_name));
+                 .attr("value",index)
+                 .text(value.pro_name));
             });
         }
     });
@@ -75,40 +76,60 @@ function loadSelects(){
         url:   loadSelectsRoute,
         type:  'post',
         success:  function (data) {
-            shows = data.show;                          
+            shows = data.show;
+            businessUnit = data.businessUnit;                          
             $.each(data.businessUnit, function(index, value) {   
                 $('#det_fk_business_unit')
                 .append($("<option></option>")
-                   .attr("value",value.bus_id)
-                   .html(value.bus_name));
+                 .attr("value",value.bus_id)
+                 .html(value.bus_name));
             });        
         }
     });
 }
 
-function setShowsVisible(){
+function setFormVisible(){
     if (products[parseInt($('#det_fk_product').val())].pro_type == 'transmisión'){
+        $('#proyection_data').show();
+        $('#det_fk_business_unit').html('');
+        $('#det_fk_business_unit')
+        .append($("<option></option>")
+         .attr("value","null")
+         .html("---Seleccionar Unidad de Negocio---"));
+        $.each(businessUnit, function(index, value) {   
+            $('#det_fk_business_unit')
+            .append($("<option></option>")
+             .attr("value",value.bus_id)
+             .html(value.bus_name));
+        });
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
             $('#fk_show').show();
             $('#det_fk_show').html('');
             $('#det_fk_show')
-                .append($("<option></option>")
-                   .attr("value","null")
-                   .html("---Seleccionar Programa---"));
+            .append($("<option></option>")
+             .attr("value","null")
+             .html("---Seleccionar Programa---"));
             $.each(shows, function(index, value) {   
                 $('#det_fk_show')
                 .append($("<option></option>")
-                   .attr("value",value.sho_id)
-                   .html(value.sho_name));
+                 .attr("value",value.sho_id)
+                 .html(value.sho_name));
             }); 
         }else{
             $('#fk_show').hide();
         }
         $('#pro_outlay').val(products[parseInt($('#det_fk_product').val())].pro_extra.spy_outlay);
     }else{
-       $('#fk_show').hide();
-       $('#pro_outlay').val(products[parseInt($('#det_fk_product').val())].pro_extra.spr_outlay);
-    }            
+        $('#proyection_data').hide();
+        $('#fk_show').hide();
+        $('#pro_outlay').val(products[parseInt($('#det_fk_product').val())].pro_extra.spr_outlay);        
+    }
+    $('#det_fk_business_unit').val("null");
+    $('#det_fk_show').val("null");
+    $('#det_impacts').val("null");
+    $('#det_validity').val("null");
+    $('#det_discount').val("null");
+    $('#det_discount_number').val("null");            
 }
 
 function toDiscount_number(){
@@ -140,12 +161,24 @@ function addProduct(){
     row['det_impacts'] = $('#det_impacts').val();
     row['det_validity'] = $('#det_validity').val();
     row['det_discount'] = $('#det_discount').val();
-    row['det_final_price'] = $('#det_discount_number').val();
+    row['det_final_price'] = $('#det_discount_number').val();    
+    if(products[$('#det_fk_product').val()].pro_type == "transmisión"){
+        row['det_subtotal'] = parseFloat(row['det_impacts']) * parseFloat(row['det_validity']) * parseFloat(row['det_final_price']);
+        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
+            row['det_subtotal'] = parseFloat(row['det_subtotal']) * 10;
+        };
+    }else{
+        row['det_subtotal'] = row['det_final_price'];
+    }
     productsRegistered.push(row);
+    loadProductsTable();   
+}
+
+function loadProductsTable(){
     $("#products").html('');
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length>0){
         $.each(productsRegistered, function(index, value){
-            $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+'Algo'+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
+            $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
         });
     }else{
         $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');

@@ -77,44 +77,47 @@
                                                             {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
                                                             <div class="form-group">
                                                                 {{ Form::label('fk_product','Producto')}}
-                                                                {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product','onchange' => 'setShowsVisible()']) }}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
-                                                                {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
-                                                            </div>
-                                                            <div class="form-group" id="fk_show" style="display:none">
-                                                                {{ Form::label('fk_show','Programa')}}
-                                                                {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
+                                                                {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product','onchange' => 'setFormVisible()']) }}
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('outlay','Precio')}}
                                                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                                                             </div>
-                                                             <div class="form-group">
-                                                                {{ Form::label('impacts','Impactos (Por día)')}}
-                                                                {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{ Form::label('validity','Vigencia (En Días)')}}
-                                                                {{ Form::number('validity',null,['class' => 'form-control','id' => 'det_validity','placeholder' => 'Vigencia'])}}
+                                                            <div id="proyection_data" style="display:none">
+                                                                <div class="form-group">
+                                                                    {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
+                                                                    {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
+                                                                </div>
+                                                                <div class="form-group" id="fk_show" style="display:none">
+                                                                    {{ Form::label('fk_show','Programa')}}
+                                                                    {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
+                                                                </div>                                                                
+                                                                <div class="form-group">
+                                                                    {{ Form::label('impacts','Impactos (Por día)')}}
+                                                                    {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    {{ Form::label('validity','Vigencia (En Días)')}}
+                                                                    {{ Form::number('validity',null,['class' => 'form-control','id' => 'det_validity','placeholder' => 'Vigencia'])}}
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 {{ Form::label('discount','Descuento (%)')}}
                                                                 {{ Form::number('discount',null,['onkeyup' => 'toDiscount_number()','class' => 'form-control','id' => 'det_discount','placeholder' => 'Descuento'])}}
-                                                            </div>
+                                                            </div>                                                            
                                                             <div class="form-group">
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
-                                                             </div>
+                                                            </div>
+                                                            
                                                             <div class=text-right>
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                             </div>
                                                             {{ Form::close() }}                        
                                                         </div>
-                                                 </div>
-                                             </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!--End Modal-->
 
@@ -122,7 +125,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre del Producto</th>
-                                                        <th>Impactos diarios</th>
+                                                        <th>Impactos</th>
                                                         <th>Vigencia (Días)</th>
                                                         <th>Precio</th>
                                                         <th>Subtotal</th>
@@ -152,7 +155,7 @@
                                                 </div>
 
                                                 <div class="form-group form-group-sm">
-                                                    
+
                                                 </div>
 
                                                 <div class="input_fields_wrap_payment">
