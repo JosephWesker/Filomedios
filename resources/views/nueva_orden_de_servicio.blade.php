@@ -38,11 +38,11 @@
                                             <form class="form-inline col-lg-12">
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
-                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" />
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="months_contract">Duración del Contrato</label>
-                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
+                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="end_date_contract">Fin del Contrato</label>
@@ -112,6 +112,98 @@
                                                             
                                                             <div class=text-right>
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+
+                                            <!-- Modal Production Registry -->                                            
+                                            <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                                            {{ Form::hidden('index', 'index',['id' => 'productionRegistryIndex']) }} 
+                                                            <div class="form-group">
+                                                                <label for="recording_date">Fecha de Grabación</label>
+                                                                <input type="date" id="dpr_recording_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Grabación"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="proposal_1_date">Fecha de Propuesta 1</label>
+                                                                <input type="date" id="dpr_proposal_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 1"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="proposal_2_date">Fecha de Propuesta 2</label>
+                                                                <input type="date" id="dpr_proposal_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 2"/>
+                                                            </div>                                                                                                             
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProductionRegistry()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Transmission Scheme -->                                            
+                                            <div class="modal fade" id="transmissionScheme" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('tuesday', '2', null, ['class' => '','id' => 'tra_tuesday'])}} Martes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('wednesday', '3', null, ['class' => '','id' => 'tra_wednesday'])}} Miercoles
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('thrusday', '4', null, ['class' => '','id' => 'tra_thrusday'])}} Jueves
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('friday', '5', null, ['class' => '','id' => 'tra_friday'])}} Viernes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('saturday', '6', null, ['class' => '','id' => 'tra_saturday'])}} Sabado
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('sunday', '7', null, ['class' => '','id' => 'tra_sunday'])}} Domingo
+                                                                </label>
+                                                            </div>                                                                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addTransmissionScheme()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                             </div>
                                                             {{ Form::close() }}                        
