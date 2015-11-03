@@ -80,11 +80,17 @@ function loadSelects(){
             shows = data.show;
             businessUnit = data.businessUnit;                          
             $.each(data.businessUnit, function(index, value) {   
-                $('#det_fk_business_unit')
+                $('#set_business_unit')
                 .append($("<option></option>")
                  .attr("value",value.bus_id)
                  .html(value.bus_name));
-            });        
+            });
+            $.each(data.show, function(index, value) {   
+                $('#set_show')
+                .append($("<option></option>")
+                 .attr("value",value.sho_id)
+                 .html(value.sho_name));
+            });         
         }
     });
 }
@@ -159,14 +165,17 @@ function addProduct(){
     var row = new Object();
     row.det_fk_product = products[$('#det_fk_product').val()].pro_id;
     row.det_name = products[$('#det_fk_product').val()].pro_name;
-    row.det_fk_business_unit = $('#det_fk_business_unit').val();
-    row.det_fk_show = $('#det_fk_show').val();
+    row.det_fk_business_unit = $('#det_fk_business_unit').val();        
     row.det_impacts = $('#det_impacts').val();
     row.det_validity = $('#det_validity').val();
     row.det_discount = $('#det_discount').val();
     row.det_final_price = $('#det_discount_number').val();    
     
     if(products[$('#det_fk_product').val()].pro_type == "transmisión"){        
+
+        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
+            row.det_fk_show = $('#det_fk_show').val();
+        };
 
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_transmission_scheme) {
             row.det_has_transmission_scheme = null;
@@ -202,15 +211,29 @@ function loadProductsTable(){
         $('#months_contract').prop('disabled',false);
         $.each(productsRegistered, function(index, value){            
             monthOutlay += parseFloat(value.det_subtotal);
+
+            var text = '<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="...">';
+
             if (value.hasOwnProperty('det_has_transmission_scheme')) {
-                $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme('+index+')">Definir Esquema transmisión</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+index+')">Eliminar</button></div></td></tr>');
-            }else{
-                if (value.hasOwnProperty('det_has_production_registry')) {
-                    $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry('+index+')">Definir Fechas Producción</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+index+')">Eliminar</button></div></td></tr>');
-                }else{
-                   $("#products").append('<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-danger btn-sm" type="button" onclick="delet('+index+')">Eliminar</button></div></td></tr>'); 
-                }  
-            }                        
+                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme('+index+')">Definir Esquema transmisión</button>';
+            }
+
+            if (value.hasOwnProperty('det_has_production_registry')) {
+                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry('+index+')">Definir Fechas Producción</button>';
+            }
+
+            if (value.det_fk_business_unit == null) {
+                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
+            }
+
+            if (value.hasOwnProperty('det_fk_show')) {
+                if (value.det_fk_show == null) {
+                    text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setShow('+index+')">Definir Programa</button>';
+                };                
+            }
+
+            text = text + '<button class="btn btn-danger btn-sm" type="button" onclick="delet('+index+')">Eliminar</button></div></td></tr>';
+            $("#products").append(text);
         });
     }else{
         $('#start_date_contract').prop('disabled',true);
@@ -222,6 +245,7 @@ function loadProductsTable(){
         $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
     }
     $('#addProduct').modal('hide');
+    $('#addPackage').modal('hide');
     $('#ser_total').val(monthOutlay);
 }
 
@@ -294,9 +318,87 @@ function addTransmissionScheme(){
     $('#transmissionScheme').modal('hide');
 }
 
+function loadPackages(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   loadPackageRoute,
+        type:  'post',
+        success:  function (data) {            
+            if (data.data !== null && $.isArray(data.data) && data.data.length>0){
+                $.each(data.data, function(index, value) {   
+                    $('#det_add_package')
+                    .append($("<option></option>")
+                     .attr("value",value.pac_id)
+                     .html(value.pac_name));
+                });                
+            }
+        }
+    });  
+}
+
+
+function addPackage(){
+   var data = {
+        'id': $('#det_add_package').val()
+   }
+
+   $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   loadPackageDetailRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {            
+            if (data.data !== null && $.isArray(data.data) && data.data.length>0){
+                $.each(data.data, function(index, value) {   
+                    productsRegistered.push(value);
+                });                
+            }
+            $('#det_add_package').val("null");
+            loadProductsTable();
+        }
+    });  
+}
+
+function setShow(index){
+    $('#showIndex').val(index);
+    $('#setShow').modal('show');
+}
+
+function addShow(){
+   var index = $('#showIndex').val();
+   productsRegistered[index].det_fk_show = $('#set_show').val();
+   $('#setShow').modal('hide');
+   $('#set_show').val("null");
+   loadProductsTable();
+}
+
+function setBusinessUnit(index){
+    $('#businessUnitIndex').val(index);
+    $('#setBusinessUnit').modal('show');
+}
+
+function addBusinessUnit(){
+   var index = $('#businessUnitIndex').val();
+   productsRegistered[index].det_fk_business_unit = $('#set_business_unit').val();
+   $('#setBusinessUnit').modal('hide');
+   $('#set_business_unit').val("null");
+   loadProductsTable();
+}
+
 $(document).ready(function(){
     loadCustomers();
     loadProductsData();
     loadSelects();
+    loadPackages();
     $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
 });

@@ -71,7 +71,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">Agregar Producto a Paquete</h4>
+                                                            <h4 class="modal-title">Agregar Producto</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
@@ -213,6 +213,83 @@
                                             </div>
                                             <!--End Modal-->
 
+                                            <!-- Modal Package -->                                            
+                                            <div class="modal fade" id="addPackage" tabindex="-1" role="dialog" aria-labelledby="addPackage">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Agregar Paquete</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregarPaquete')) }} 
+                                                            <div class="form-group">
+                                                                {{ Form::label('package','Paquete')}}
+                                                                {{ Form::select('package', ['null'=>'---Seleccionar paquete---'],null,['class' => 'form-control','id'=>'det_add_package']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addPackage()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Business Unit -->                                            
+                                            <div class="modal fade" id="setBusinessUnit" tabindex="-1" role="dialog" aria-labelledby="setBusinessUnit">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Unidad de Negocio</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'definirUnidad')) }} 
+                                                            {{ Form::hidden('index', 'index',['id' => 'businessUnitIndex']) }}
+                                                            <div class="form-group">
+                                                                {{ Form::label('business_unit','Unidad de Negocio')}}
+                                                                {{ Form::select('business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_business_unit']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addBusinessUnit()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Show -->                                            
+                                            <div class="modal fade" id="setShow" tabindex="-1" role="dialog" aria-labelledby="setShow">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Programa</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'definirPrograma')) }} 
+                                                            {{ Form::hidden('index', 'index',['id' => 'showIndex']) }}
+                                                            <div class="form-group">
+                                                                {{ Form::label('show','Programa')}}
+                                                                {{ Form::select('show', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_show']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addShow()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
                                             <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>
@@ -297,6 +374,8 @@
     var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
     var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
     var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
     </script>
     <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
     @stop
