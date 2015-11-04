@@ -315,11 +315,11 @@
                                                 <div class="form-group form-group-sm">                                                                                                    
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">Descuento Mensual</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_discount_month" onkeyup="calculateDiscount()">
+                                                        <input class="form-control" type="number" id="ser_discount_month" onkeyup="calculateDiscount()" onmouseup="calculateDiscount()">
                                                     </div>
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">Total Contrato</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_outlay_total" readonly>
+                                                        <input class="form-control" type="number" id="ser_outlay_total" readonly>
                                                     </div>
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">¿Facturar?</label>
                                                     <div class="col-sm-2">
@@ -327,7 +327,15 @@
                                                     </div>
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">IVA</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_iva" readonly>
+                                                        <input class="form-control" type="number" id="ser_iva" readonly>
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall" >Pago Especie</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="amount_kind" onkeyup="calculateAmounts()" onmouseup="calculateAmounts()">
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Pago en Moneda</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="amount_cash" readonly>
                                                     </div>                                                                                                    
                                                 </div>
 

@@ -10,6 +10,7 @@ var payments = 0;
 var hasIVA = false;
 var iva = 0;
 var ser_discount = 0;
+var amountKind = 0;
 
 function loadCustomers(){
     $.ajaxSetup({
@@ -400,8 +401,14 @@ function addBusinessUnit(){
 }
 
 function setAmounts(){
+    if (amountKind == 0) {
+        $('#amount_cash').val(totalOutlay+iva);
+    }else{
+        $('#amount_cash').val(totalOutlay+iva-amountKind);
+    };
+    
     for (var i = 0; i < (payments*2); i+=2) {
-        $('#payment-'+(i+1)).val(((totalOutlay+iva)-((totalOutlay+iva)*(ser_discount/100)))/payments);        
+        $('#payment-'+(i+1)).val(((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments);        
     };
 }
 
@@ -428,6 +435,18 @@ function calculateDiscount(){
         ser_discount = 0;
     }
     setAmounts();
+}
+
+function calculateAmounts(){
+    amountKind = parseFloat($('#amount_kind').val());
+    if($('#amount_kind').val() == ''){
+        amountKind = 0;
+    }
+    setAmounts();
+}
+
+function sendServiceOrder(){
+
 }
 
 
