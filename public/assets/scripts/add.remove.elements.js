@@ -6,6 +6,7 @@ $(document).ready(function () {
     var add_button_date = $(".add_field_button_date");
     var x = 1;
     var a = 2;
+
     $(add_button_date).click(function (e) {
         e.preventDefault();
         if (x < max_fields_date) {
@@ -16,6 +17,7 @@ $(document).ready(function () {
         payments++;
         setAmounts();
     });
+
     //Delete
     $(wrapper_date).on("click", ".remove_field_date", function (e) {
         e.preventDefault();
@@ -62,6 +64,8 @@ $(document).ready(function () {
         payments++;
         setAmounts();
     });
+
+
     // Delete
     $(wrapper_payment).on("click", ".remove_field_payment", function (e) {
         e.preventDefault();
@@ -100,6 +104,12 @@ $(document).ready(function () {
         q = 1;
         w = 2;
         var months_contract = parseInt($('#months_contract').val());
+        totalOutlay = monthOutlay * months_contract;
+        iva = 0;
+        $('#ser_iva').val('');
+        $('#has_iva').prop('checked',false);
+        hasIVA = false;
+        $('#ser_outlay_total').val(totalOutlay);
         while (months_contract > 1) {
             --months_contract;
             q++;

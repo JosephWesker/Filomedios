@@ -38,7 +38,7 @@
                                             <form class="form-inline col-lg-12">
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
-                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" />
+                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="months_contract">Duración del Contrato</label>
@@ -312,15 +312,23 @@
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
 
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_account_payment">
-                                                    </div>
+                                                <div class="form-group form-group-sm">                                                                                                    
                                                     <label class="col-sm-4 control-label" for="formGroupInputSmall">Descuento Mensual</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_account_payment">
+                                                        <input class="form-control" type="text" id="ser_discount_month" onkeyup="calculateDiscount()">
                                                     </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Total Contrato</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="text" id="ser_outlay_total" readonly>
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">¿Facturar?</label>
+                                                    <div class="col-sm-2">
+                                                        {{ Form::checkbox('iva', '8', null, ['id' => 'has_iva','onclick' => 'setIVA()']) }}
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">IVA</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="text" id="ser_iva" readonly>
+                                                    </div>                                                                                                    
                                                 </div>
 
                                                 <div class="form-group form-group-sm">

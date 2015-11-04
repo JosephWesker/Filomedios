@@ -5,6 +5,11 @@ var productsRegistered = [];
 var shows = null;
 var businessUnit = null;
 var monthOutlay = 0;
+var totalOutlay = 0;
+var payments = 0;
+var hasIVA = false;
+var iva = 0;
+var ser_discount = 0;
 
 function loadCustomers(){
     $.ajaxSetup({
@@ -207,8 +212,7 @@ function loadProductsTable(){
     $("#products").html('');
     monthOutlay = 0;
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length>0){
-        $('#start_date_contract').prop('disabled',false);
-        $('#months_contract').prop('disabled',false);
+        $('#start_date_contract').prop('disabled',false);        
         $.each(productsRegistered, function(index, value){            
             monthOutlay += parseFloat(value.det_subtotal);
 
@@ -222,13 +226,13 @@ function loadProductsTable(){
                 text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry('+index+')">Definir Fechas Producción</button>';
             }
 
-            if (value.det_fk_business_unit == null) {
-                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
+            if (value.det_fk_business_unit == null || value.det_fk_business_unit == 'null') {
+                text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
             }
 
             if (value.hasOwnProperty('det_fk_show')) {
-                if (value.det_fk_show == null) {
-                    text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setShow('+index+')">Definir Programa</button>';
+                if (value.det_fk_show == null || value.det_fk_show == 'null') {
+                    text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setShow('+index+')">Definir Programa</button>';
                 };                
             }
 
@@ -237,7 +241,7 @@ function loadProductsTable(){
         });
     }else{
         $('#start_date_contract').prop('disabled',true);
-        $('#months_contract').prop('disabled',true);
+        $('#months_contract').prop('disabled',true);        
         $('#start_date_contract').val("null");
         $('#months_contract').val("null");
         $('#end_date_contract').val("null");
@@ -395,10 +399,42 @@ function addBusinessUnit(){
    loadProductsTable();
 }
 
+function setAmounts(){
+    for (var i = 0; i < (payments*2); i+=2) {
+        $('#payment-'+(i+1)).val(((totalOutlay+iva)-((totalOutlay+iva)*(ser_discount/100)))/payments);        
+    };
+}
+
+function setEnableMonths(){
+    $('#months_contract').prop('disabled',false);
+}
+
+function setIVA(){
+    if(!hasIVA){
+        iva =  parseFloat((totalOutlay * 0.16).toFixed(2));
+        $('#ser_iva').val(iva);
+        hasIVA = true;
+    }else{
+        iva = 0;
+        $('#ser_iva').val('');
+        hasIVA = false;
+    }
+    setAmounts();
+}
+
+function calculateDiscount(){
+    ser_discount = parseFloat($('#ser_discount_month').val());
+    if($('#ser_discount_month').val() == ''){
+        ser_discount = 0;
+    }
+    setAmounts();
+}
+
+
 $(document).ready(function(){
     loadCustomers();
     loadProductsData();
     loadSelects();
-    loadPackages();
+    loadPackages();    
     $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
 });
