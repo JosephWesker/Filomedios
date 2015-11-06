@@ -184,7 +184,7 @@
                                                             </div>
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    {{ Form::checkbox('thrusday', '4', null, ['class' => '','id' => 'tra_thrusday'])}} Jueves
+                                                                    {{ Form::checkbox('thursday', '4', null, ['class' => '','id' => 'tra_thursday'])}} Jueves
                                                                 </label>
                                                             </div>
                                                             <div class="checkbox">
@@ -392,6 +392,7 @@
     var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
     var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
     var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
     </script>
     <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
     @stop

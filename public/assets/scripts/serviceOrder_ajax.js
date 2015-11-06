@@ -11,6 +11,9 @@ var hasIVA = false;
 var iva = 0;
 var ser_discount = 0;
 var amountKind = 0;
+var paymentsData = [];
+var json = null;
+var monthsContract = 0;
 
 function loadCustomers(){
     $.ajaxSetup({
@@ -171,7 +174,7 @@ function addProduct(){
     var row = new Object();
     row.det_fk_product = products[$('#det_fk_product').val()].pro_id;
     row.det_name = products[$('#det_fk_product').val()].pro_name;
-    row.det_fk_business_unit = $('#det_fk_business_unit').val();        
+    
     row.det_impacts = $('#det_impacts').val();
     row.det_validity = $('#det_validity').val();
     row.det_discount = $('#det_discount').val();
@@ -186,6 +189,8 @@ function addProduct(){
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_transmission_scheme) {
             row.det_has_transmission_scheme = null;
         };
+
+        row.det_fk_business_unit = $('#det_fk_business_unit').val();
 
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
         
@@ -226,9 +231,10 @@ function loadProductsTable(){
             if (value.hasOwnProperty('det_has_production_registry')) {
                 text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry('+index+')">Definir Fechas Producción</button>';
             }
-
-            if (value.det_fk_business_unit == null || value.det_fk_business_unit == 'null') {
-                text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
+            if (value.hasOwnProperty('det_fk_business_unit')) {
+                if (value.det_fk_business_unit == null || value.det_fk_business_unit == 'null') {
+                    text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
+                }
             }
 
             if (value.hasOwnProperty('det_fk_show')) {
@@ -251,7 +257,10 @@ function loadProductsTable(){
     }
     $('#addProduct').modal('hide');
     $('#addPackage').modal('hide');
+    monthOutlay = parseFloat(monthOutlay.toFixed(2));
     $('#ser_total').val(monthOutlay);
+    setAmounts();
+    prepareIVA();
 }
 
 function delet(index){
@@ -313,7 +322,7 @@ function addTransmissionScheme(){
             'tra_monday' : $('#tra_monday').is(':checked'),
             'tra_tuesday' : $('#tra_tuesday').is(':checked'),
             'tra_wednesday' : $('#tra_wednesday').is(':checked'),
-            'tra_thrusday' : $('#tra_thrusday').is(':checked'),
+            'tra_thursday' : $('#tra_thursday').is(':checked'),
             'tra_friday' : $('#tra_friday').is(':checked'),
             'tra_saturday' : $('#tra_saturday').is(':checked'),
             'tra_sunday' : $('#tra_sunday').is(':checked')    
@@ -401,15 +410,19 @@ function addBusinessUnit(){
 }
 
 function setAmounts(){
-    if (amountKind == 0) {
-        $('#amount_cash').val(totalOutlay+iva);
-    }else{
-        $('#amount_cash').val(totalOutlay+iva-amountKind);
-    };
-    
+    totalOutlay = monthOutlay * monthsContract;    
+    $('#ser_outlay_total').val(totalOutlay);
+    $('#amount_cash').val((totalOutlay+iva-amountKind-((totalOutlay+iva-amountKind)*(ser_discount/100))).toFixed(2));
     for (var i = 0; i < (payments*2); i+=2) {
-        $('#payment-'+(i+1)).val(((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments);        
+        $('#payment-'+(i+1)).val((((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments).toFixed(2));        
     };
+}
+
+function prepareIVA(){
+    iva = 0;
+    $('#ser_iva').val('');
+    $('#has_iva').prop('checked',false);
+    hasIVA = false;
 }
 
 function setEnableMonths(){
@@ -445,8 +458,50 @@ function calculateAmounts(){
     setAmounts();
 }
 
-function sendServiceOrder(){
+function getPayments(){
+    paymentsData = [];
+    for (var i = 1; i < (payments*2); i+=2) {
+        row = new Object(); 
+        row.pda_date = $('#payment-'+(i+1)).val();
+        row.pda_amount = parseFloat($('#payment-'+(i)).val());
+        paymentsData[paymentsData.length] = row;
+    };
+}
 
+function sendServiceOrder(){
+    getPayments();
+
+    var data = {
+        'ser_discount_month' : ser_discount,
+        'ser_outlay_total' : totalOutlay,
+        'ser_iva' : iva,
+        'ser_duration' : parseInt($('#months_contract').val()),
+        'ser_start_date': $("#start_date_contract").val(),
+        'ser_end_date' : $("#end_date_contract").val(),
+        'ser_fk_customer' : selectedTr.children().eq(0).html(),
+        'pay_amount_cash': parseFloat((totalOutlay+iva-amountKind-((totalOutlay+iva-amountKind)*(ser_discount/100))).toFixed(2)),
+        'pay_amount_kind' : amountKind,
+        'pay_number_payments' : payments,
+        'detail_product' : productsRegistered,
+        'payment_date' : paymentsData
+    };    
+
+    json = JSON.stringify(data);
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   createServiceOrderRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {            
+            
+        }
+    });      
 }
 
 

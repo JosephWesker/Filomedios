@@ -104,12 +104,8 @@ $(document).ready(function () {
         q = 1;
         w = 2;
         var months_contract = parseInt($('#months_contract').val());
-        totalOutlay = monthOutlay * months_contract;
-        iva = 0;
-        $('#ser_iva').val('');
-        $('#has_iva').prop('checked',false);
-        hasIVA = false;
-        $('#ser_outlay_total').val(totalOutlay);
+        prepareIVA();
+        monthsContract = parseInt($('#months_contract').val());         
         while (months_contract > 1) {
             --months_contract;
             q++;
@@ -118,7 +114,7 @@ $(document).ready(function () {
         }
     });
 
-     $('#months_contract').keyup(function (e) {
+    $('#months_contract').keyup(function (e) {
         e.preventDefault();
         $("[class*='remove_field_payment']").parent('div').remove();
 //        var q = 1;
@@ -126,12 +122,8 @@ $(document).ready(function () {
         q = 1;
         w = 2;
         var months_contract = parseInt($('#months_contract').val());
-        totalOutlay = monthOutlay * months_contract;
-        iva = 0;
-        $('#ser_iva').val('');
-        $('#has_iva').prop('checked',false);
-        hasIVA = false;
-        $('#ser_outlay_total').val(totalOutlay);
+        prepareIVA();
+        monthsContract = parseInt($('#months_contract').val());
         while (months_contract > 1) {
             --months_contract;
             q++;

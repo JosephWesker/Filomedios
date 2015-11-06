@@ -40,7 +40,8 @@
                     onStepChanged: function(event, currentIndex, priorIndex){
 
                     },
-                    onFinishing: function(event, currentIndex){
+                    onFinishing: function(event, currentIndex){                
+                        sendServiceOrder();
                         return true;
                         //Aqui enviar los datos
                     },

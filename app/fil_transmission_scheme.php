@@ -7,6 +7,7 @@ class fil_transmission_scheme extends Model {
 	protected $table = 'fil_transmission_scheme';
 	protected $primaryKey = 'tra_id';
 	protected $fillable = ['tra_id','tra_monday','tra_tuesday','tra_wednesday','tra_thrusday','tra_friday','tra_saturday','tra_sunday'];
+	public $incrementing = false;
 
 	public function detailProduct(){
 		return $this->belongsTo('App\fil_detail_product','tra_id','det_id');
