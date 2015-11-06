@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use App\fil_customer;
 use App\fil_product;
 use App\fil_business_unit;
@@ -148,7 +149,7 @@ class serviceOrderController extends Controller{
     $idHelper->idh_number = ($idNumber+1);
     $idHelper->save();
 
-    return ($number."/".$year);
+    return ($number."-".$year);
   }
 
   public function postCreateOrder(){
@@ -165,7 +166,9 @@ class serviceOrderController extends Controller{
     $serviceOrder->ser_auth_admin = 0;
     $serviceOrder->ser_auth_production = 0;
     $serviceOrder->ser_auth_sales = 0;
-
+    $serviceOrder->ser_observations_production = '';
+    $serviceOrder->ser_observations_admin = '';
+    $serviceOrder->ser_observations_sales = '';
     $serviceOrder->save();
        
     $this->createDetails($serviceOrder,json_decode(json_encode($values['detail_product'])));
@@ -255,5 +258,226 @@ class serviceOrderController extends Controller{
     }else{
       return 0;
     } 
+  }
+
+  public function anyReadServiceOrderSeller(){
+    $data = fil_service_order::where('emp_id','like', Session::get('id'))->join('fil_customer', 'ser_fk_customer', '=', 'cus_id')->join('fil_employee', 'cus_fk_employee', '=', 'emp_id')->get();
+    $finalArray = [];
+
+    $today = date('Y-m-d');
+    $today = date('Y-m-d', strtotime($today));
+
+    foreach ($data as $value) {
+      $row = [];
+      
+      $row['ser_id'] = $value->ser_id;
+      $row['ser_fk_customer'] = $value->customer->cus_contact_first_name." ".$value->customer->cus_contact_last_name;
+      $row['created_at'] = date_format(date_create($value->created_at),'Y-m-d');
+
+      if($today <= date('Y-m-d', strtotime($value->ser_end_date))){
+        if ($value->ser_auth_admin == '3') {
+          $row['status'] = 'canceled';
+        }else{
+          if ($value->ser_auth_admin == '2' && $value->ser_auth_production == '2' && $value->ser_auth_sales == '2') {
+            $row['status'] = 'accepted';
+          }else{ 
+  
+          if ($value->ser_auth_admin == '1' || $value->ser_auth_production == '1' || $value->ser_auth_sales == '1') {
+              $row['status'] = 'rejected';            
+            }else{
+              $row['status'] = 'pending';
+            }
+  
+          $row['detail_status']  = array(
+              'admin' => $this->getStatus($value->ser_auth_admin),
+              'production' => $this->getStatus($value->ser_auth_production),
+              'sales' => $this->getStatus($value->ser_auth_sales),
+            );
+          }
+        }
+      }else{
+        $row['status'] = 'history'; 
+      }
+
+      $finalArray[] = $row;
+    }
+
+    $response = Response::json(array(
+      'success' => true,
+      'data' => $finalArray
+      ));
+    return $response;
+
+  }
+
+  function getStatus($ser_auth){
+    $response = '';
+    switch ($ser_auth) {
+      case '0':
+        $response = 'Pendiente';
+      break;
+      case '1':
+       $response = 'Rechazada';
+      break;
+      case '2':
+        $response = 'Aceptada';
+      break;     
+    }
+    return $response;
+  }
+  
+
+  public function postReadServiceOrderAuth(){
+    $data = fil_service_order::all();
+    $rejected = [];
+    $pending = [];
+    $accepted = [];
+    $canceled = []; 
+    $history = [];   
+
+    $today = date('Y-m-d');
+    $today = date('Y-m-d', strtotime($today));
+
+    foreach ($data as $value) {      
+      $row = [];
+      $row['ser_id'] = $value->ser_id;
+      $row['ser_fk_customer'] = $value->customer->cus_contact_first_name." ".$value->customer->cus_contact_last_name;
+      $row['created_at'] = date_format(date_create($value->created_at),'Y-m-d');
+        if($today <= date('Y-m-d', strtotime($value->ser_end_date))){
+        switch (Session::get('type')) {                
+          case 'producción':
+            switch ($value->ser_auth_production) {
+              case '0':                
+                $pending[] = $row;
+              break;
+              case '1':
+                $rejected[] = $row;
+              break;
+              case '2':
+                $accepted[] = $row;
+              break;
+              case '3':
+                $canceled[] = $row;
+              break;            
+            }
+          break;
+          case 'administrador':
+          case 'tesoreria':
+            switch ($value->ser_auth_admin) {
+              case '0':
+                $pending[] = $row;
+              break;
+              case '1':
+                $rejected[] = $row;
+              break;
+              case '2':
+                $accepted[] = $row;
+              break;
+              case '3':
+                $canceled[] = $row;
+              break;             
+            }
+          break;
+          case 'gerente de ventas':
+            switch ($value->ser_auth_sales) {
+              case '0':
+                $pending[] = $row;
+              break;
+              case '1':
+                $rejected[] = $row;
+              break;
+              case '2':
+                $accepted[] = $row;
+              break;
+              case '3':
+                $canceled[] = $row;
+              break;             
+            }
+          break;
+        }
+      }else{
+        $history[] = $row;
+      }
+    }
+    $response = Response::json(array(
+      'success' => true,
+      'rejected' => $rejected,
+      'pending' => $pending,
+      'accepted' => $accepted,
+      'canceled' => $canceled,
+      'history' => $history
+      ));
+    return $response;
+  }
+
+  public function postAuthOrder(){
+    $values = Request::all();
+    $serviceOrder = fil_service_order::find($values['id']);
+    switch (Session::get('type')) {
+      case 'producción':
+          $serviceOrder->ser_auth_production = 2;
+          $serviceOrder->ser_observations_production = '';
+        break;
+        case 'administrador':
+        case 'tesoreria':
+          $serviceOrder->ser_auth_admin = 2;
+          $serviceOrder->ser_observations_admin = '';
+        break;
+        case 'gerente de ventas':
+          $serviceOrder->ser_auth_sales = 2;
+          $serviceOrder->ser_observations_sales = '';
+        break;
+    }
+    $serviceOrder->save();
+  }
+
+  public function postRejectOrder(){
+    $values = Request::all();
+    $serviceOrder = fil_service_order::find($values['id']);
+    switch (Session::get('type')) {
+      case 'producción':
+          $serviceOrder->ser_observations_production = $values['comment'];
+          $serviceOrder->ser_auth_production = 1;
+        break;
+        case 'administrador':
+        case 'tesoreria':
+          $serviceOrder->ser_observations_admin = $values['comment'];
+          $serviceOrder->ser_auth_admin = 1;
+        break;
+        case 'gerente de ventas':
+          $serviceOrder->ser_observations_sales = $values['comment'];
+          $serviceOrder->ser_auth_sales = 1;
+        break;
+    }
+    $serviceOrder->save();
+  }
+
+  public function postCancelOrder(){
+    $data = '';
+    if(Session::get('type') == "administrador" || Session::get('type') == "tesoreria"){
+      $values = Request::all();
+      $serviceOrder = fil_service_order::find($values['id']);
+      $serviceOrder->ser_auth_production = 3;
+      $serviceOrder->ser_auth_admin = 3;
+      $serviceOrder->ser_auth_sales = 3;
+      $serviceOrder->ser_observations_production = '';
+      $serviceOrder->ser_observations_admin = '';
+      $serviceOrder->ser_observations_sales = '';
+      $serviceOrder->save();
+      $data = 'Orden Cancelada';
+    }else{
+      $data = 'No cuenta con los permisos suficientes para esta acción';
+    }
+
+    $response = Response::json(array(
+      'success' => true,
+      'data' => $data
+      ));
+
+    return $response;
+  }
+
+  public function showServiceOrder($id){
+
   }
 }

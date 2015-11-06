@@ -16,7 +16,11 @@ Route::get('/', ['middleware' => 'SessionControl', 'as' => 'home', function(){
 }]);
 
 Route::get('/gestor_de_ordenes_de_servicio', ['middleware' => 'SessionControl', 'as' => 'gestor de ordenes de servicios', function(){
-	return View::make('gestor_de_ordenes_de_servicio');
+	if (Session::get('type') == 'vendedor') {
+		return View::make('gestor_de_ordenes_de_servicio_vendedor');
+	} else {
+		return View::make('gestor_de_ordenes_de_servicio');
+	}	
 }]);
 
 Route::get('/nueva_orden_de_servicio', ['middleware' => 'SessionControl', 'as' => 'nueva orden de servicio', function(){
@@ -97,6 +101,8 @@ Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(
 }]);
 
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
+
+Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
 
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');

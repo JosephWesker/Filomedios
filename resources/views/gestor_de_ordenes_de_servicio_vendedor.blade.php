@@ -66,6 +66,7 @@
                                         <th>ID</th>
                                         <th>Cliente</th>
                                         <th>Fecha</th>
+                                        <th>Detalles</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -83,6 +84,7 @@
                                         <th>ID</th>
                                         <th>Cliente</th>
                                         <th>Fecha</th>
+                                        <th>Detalles</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -133,10 +135,7 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
     <script>       
-    var ReadServiceOrderAuthRoute = '{{ action('serviceOrderController@postReadServiceOrderAuth'); }}';
-    var AuthOrderRoute = '{{ action('serviceOrderController@postAuthOrder'); }}';
-    var RejectOrderRoute = '{{ action('serviceOrderController@postRejectOrder'); }}';
-    var CancelOrderRoute = '{{ action('serviceOrderController@postCancelOrder'); }}';
+    var ReadServiceOrderSellerRoute = '{{ action('serviceOrderController@postReadServiceOrderSeller'); }}';    
     var serviceOrderViewRoute = '{{ route('gestor de ordenes de servicios'); }}';
     </script>
     <script src="{{ asset("assets/scripts/orderManager_ajax.js") }}" type="text/javascript"></script>

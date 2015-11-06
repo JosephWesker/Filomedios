@@ -42,11 +42,10 @@
                     },
                     onFinishing: function(event, currentIndex){                
                         sendServiceOrder();
-                        return true;
-                        //Aqui enviar los datos
+                        return true;                        
                     },
                     onFinished: function(event, currentIndex){
-                        alert("Termine");
+                        window.location.href = "http://localhost/Filomedios/public/nueva_orden_de_servicio"
                         //Cargar nuevamente la pagina o enviar a gestor de ordenes
                     }
                 })
