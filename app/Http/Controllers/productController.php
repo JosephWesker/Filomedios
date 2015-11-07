@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
 use App\fil_product;
-use App\fil_service_production;
-use App\fil_service_proyection;
+use App\fil_web;
+use App\fil_spot;
+use App\fil_show;
+use App\fil_production;
 
 
 class productController extends Controller{
@@ -19,28 +21,35 @@ class productController extends Controller{
     $product = new fil_product;
     $product->pro_name = $values['pro_name'];
     $product->pro_description = $values['pro_description'];
+    $product->pro_outlay = $values['pro_outlay'];
     $product->pro_type = $values['pro_type'];
     $product->save();
-    if($product->pro_type == 'transmisión'){
-      $fil_service = new fil_service_proyection;
-      $fil_service->spy_id = $product->pro_id;
-      $fil_service->spy_proyection_media = $values['spy_proyection_media'];
-      $fil_service->spy_has_show = $this->convertToTinyint($values['spy_has_show']);
-      $fil_service->spy_has_transmission_scheme = $this->convertToTinyint($values['spy_has_transmission_scheme']);
-      if($values['spy_has_duration'] == 'true'){
-        $fil_service->spy_duration = $values['spy_duration'];
-      }else{
-        $fil_service->spy_duration = NULL;
-      }
-      $fil_service->spy_outlay = $values['spy_outlay'];
-      $fil_service->save();
-    }else{
-      $fil_service = new fil_service_production;
-      $fil_service->spr_id = $product->pro_id;
-      $fil_service->spr_has_production_registry = $this->convertToTinyint($values['spr_has_production_registry']);
-      $fil_service->spr_outlay = $values['spr_outlay'];
-      $fil_service->save();
-    }  
+    $productType = null;
+    switch ($values['pro_type']) {
+      case 'Spot':
+        $productType = new fil_spot;
+        $productType->spo_pro_id = $product->pro_id;
+        $productType->spo_impacts = $values['spo_impacts'];
+        $productType->spo_duration = $values['spo_duration'];
+      break;
+      case 'Web':
+        $productType = new fil_web;
+        $productType->web_pro_id = $product->pro_id;
+        $productType->web_validity = $values['web_validity'];
+        $productType->web_media = $values['web_media'];
+      break;
+      case 'Programa':
+        $productType = new fil_show;
+        $productType->sho_pro_id = $product->pro_id;
+        $productType->sho_duration = $values['sho_duration'];
+      break;
+      case 'Producción':
+        $productType = new fil_production;
+        $productType->prd_pro_id = $product->pro_id;
+        $productType->prd_need_dates = $this->convertToTinyint($values['prd_need_dates']);
+      break;
+    }
+    $productType->save();
     $response = Response::json(array(
       'success' => true,
       'data'   => 'Producto guardado con exito'
@@ -51,12 +60,20 @@ class productController extends Controller{
   public function postRead(){
     $values = Request::all();
     $data = fil_product::find($values['id']);
-    $data2;
-    if($data->pro_type == 'transmisión'){
-      $data2 = $data->serviceProyection;
-    }else{
-      $data2 = $data->serviceProduction;
-    }
+    switch ($data->pro_type) {
+      case 'Spot':
+        $data->spot; 
+      break;
+      case 'Web':
+        $data->web;
+      break;
+      case 'Programa':
+        $data->show;
+      break;
+      case 'Producción':
+        $data->production;
+      break;
+    }    
     $response = Response::json(array(
       'success' => true,
       'data' => $data
@@ -69,26 +86,31 @@ class productController extends Controller{
     $product = fil_product::find($values['id']);
     $product->pro_name = $values['pro_name'];
     $product->pro_description = $values['pro_description'];
+    $product->pro_outlay = $values['pro_outlay'];
     $product->pro_type = $values['pro_type'];
     $product->save();
-    if($product->pro_type == 'transmisión'){
-      $fil_service = $product->serviceProyection;
-      $fil_service->spy_proyection_media = $values['spy_proyection_media'];
-      $fil_service->spy_has_show = $this->convertToTinyint($values['spy_has_show']);
-      $fil_service->spy_has_transmission_scheme = $this->convertToTinyint($values['spy_has_transmission_scheme']);
-      if($values['spy_has_duration'] == 'true'){
-        $fil_service->spy_duration = $values['spy_duration'];
-      }else{
-        $fil_service->spy_duration = NULL;
-      }
-      $fil_service->spy_outlay = $values['spy_outlay'];
-      $fil_service->save();
-    }else{
-      $fil_service = $product->serviceProduction;
-      $fil_service->spr_has_production_registry = $this->convertToTinyint($values['spr_has_production_registry']);
-      $fil_service->spr_outlay = $values['spr_outlay'];
-      $fil_service->save();
+    $productType = null;
+    switch ($values['pro_type']) {
+      case 'Spot':
+        $productType = $product->spot;
+        $productType->spo_impacts = $values['spo_impacts'];
+        $productType->spo_duration = $values['spo_duration'];
+      break;
+      case 'Web':
+        $productType = $product->web;
+        $productType->web_validity = $values['web_validity'];
+        $productType->web_media = $values['web_media'];
+      break;
+      case 'Programa':
+        $productType = $product->show;
+        $productType->sho_duration = $values['sho_duration'];
+      break;
+      case 'Producción':
+        $productType = $product->production;
+        $productType->prd_need_dates = $this->convertToTinyint($values['prd_need_dates']);
+      break;
     }
+    $productType->save();
     $response = Response::json(array(
       'success' => true,
       'data'   => 'Producto actualizado con exito'
@@ -109,26 +131,9 @@ class productController extends Controller{
 
   public function postReadAll(){
     $data = fil_product::all();
-    $finalArray = [];
-    foreach ($data as $row) {
-      $tempRow['pro_id'] = $row->pro_id;
-      $tempRow['pro_name'] = $row->pro_name;
-      $tempRow['pro_description'] = $row->pro_description;
-      $tempRow['pro_type'] = $row->pro_type;      
-      if($row->pro_type == 'transmisión'){
-        $temp = $row->serviceProyection;
-        $tempRow['pro_details'] = 'Medio de transmisión: '.$temp->spy_proyection_media.'<br>Requiere Programa: '.$this->convertToYesNo($temp->spy_has_show).'<br>Requiere Esquema: '.$this->convertToYesNo($temp->spy_has_transmission_scheme).'<br>Duración: '.$this->checkDuration($temp->spy_duration);
-        $tempRow['pro_outlay'] = $temp->spy_outlay;
-      }else{
-        $temp = $row->serviceProduction;
-        $tempRow['pro_details'] = 'Requiere registro de producción: '.$this->convertToYesNo($temp->spr_has_production_registry);
-        $tempRow['pro_outlay'] = $temp->spr_outlay;
-      }
-      $finalArray[] = $tempRow;
-    }
     $response = Response::json(array(
       'success' => true,
-      'data'   => $finalArray
+      'data'   => $data
       ));
     return $response;
   }
