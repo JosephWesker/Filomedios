@@ -7,24 +7,16 @@
     <div class="row">
 
         <!-- Modal Show -->                                            
-        <div class="modal fade" id="setComment" tabindex="-1" role="dialog" aria-labelledby="setComment">
+        <div class="modal fade" id="viewComment" tabindex="-1" role="dialog" aria-labelledby="viewComment">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Comentario</h4>
+                        <h4 class="modal-title" id="comentarios_titulo"></h4>
                     </div>
                     <div class="modal-body">
-                        {{ Form::open(array('url' => '#', 'id' => 'enviarComentario')) }} 
-                        <div class="form-group">
-                            {{ Form::label('comment','Comentario')}}
-                            {{ Form::textarea('comment',null,['class' => 'form-control','id'=>'comment']) }}
-                        </div>                                                            
-                        <div class=text-right>
-                            {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'sendReject()']) }}
-                            {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                        </div>
-                        {{ Form::close() }}                        
+                        <div id="comentarios">
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -137,7 +129,8 @@
     <script>       
     var ReadServiceOrderSellerRoute = '{{ action('serviceOrderController@postReadServiceOrderSeller'); }}';    
     var serviceOrderViewRoute = '{{ route('gestor de ordenes de servicios'); }}';
+    var CommentsRoute = '{{ action('serviceOrderController@postReadComments'); }}';
     </script>
-    <script src="{{ asset("assets/scripts/orderManager_ajax.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("assets/scripts/orderManagerSeller_ajax.js") }}" type="text/javascript"></script>
 
 @stop

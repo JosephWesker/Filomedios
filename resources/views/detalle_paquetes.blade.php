@@ -31,7 +31,7 @@
                                 {{ Form::number('impacts',null,['class' => 'form-control','id' => 'pad_impacts','placeholder' => 'Impactos'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('validity','Vigencia (En Días)')}}
+                                {{ Form::label('validity','Vigencia Mensual (En días)')}}
                                 {{ Form::number('validity',null,['class' => 'form-control','id' => 'pad_validity','placeholder' => 'Vigencia'])}}
                             </div>
                             <div class="form-group">
@@ -75,7 +75,7 @@
                                 {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_pad_impacts','placeholder' => 'Impactos'])}}
                             </div>
                             <div class="form-group">
-                                {{ Form::label('validity','Vigencia (En Días)')}}
+                                {{ Form::label('validity','Vigencia Mensual (En días)')}}
                                 {{ Form::number('validity',null,['class' => 'form-control','id' => 'u_pad_validity','placeholder' => 'Vigencia'])}}
                             </div>
                             <div class="form-group">
@@ -129,7 +129,7 @@
                         <th>Nombre del Producto</th>
                         <th>Precio unitario</th>
                         <th>Impactos diarios</th>
-                        <th>Vigencia (Días)</th>
+                        <th>Vigencia Mensual</th>
                         <th>Descuento</th>
                         <th>Precio con descuento</th>
                         <th>Subtotal</th>

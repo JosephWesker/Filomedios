@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use App\fil_customer;
@@ -20,6 +22,7 @@ use App\fil_payment_scheme;
 use App\fil_detail_product;
 use App\fil_transmission_scheme;
 use App\fil_payment_date;
+use App\fil_postal_codes;
 
 class serviceOrderController extends Controller{
 
@@ -260,7 +263,7 @@ class serviceOrderController extends Controller{
     } 
   }
 
-  public function anyReadServiceOrderSeller(){
+  public function postReadServiceOrderSeller(){
     $data = fil_service_order::where('emp_id','like', Session::get('id'))->join('fil_customer', 'ser_fk_customer', '=', 'cus_id')->join('fil_employee', 'cus_fk_employee', '=', 'emp_id')->get();
     $finalArray = [];
 
@@ -478,6 +481,42 @@ class serviceOrderController extends Controller{
   }
 
   public function showServiceOrder($id){
+    $serviceOrder = fil_service_order::find($id);
+    $serviceOrder->customer->taxData;
+    $serviceOrder->paymentScheme->paymentDates;
+    foreach ($serviceOrder->detailsProducts as $value) {
+      $value->product->serviceProyection;
+      $value->product->serviceProduction;
+      $value->detailProduction;
+      $value->show;
+      $value->businessUnit;
+    };
+    $fileNames = [];
+    $filesInFolder = File::files($id);
+    foreach($filesInFolder as $path){
+      $manuals[] = pathinfo($path);
+    }
+    $data['AddressData']= fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code);
+    $data['json'] = json_encode($serviceOrder);
+    $data['files'] = json_encode($fileNames);
+    return view('orden_de_servicio', $data);
+  }  
 
+  public function postReadComments(){
+    $id = Request::input('id');
+    $serviceOrder = fil_service_order::find($id);
+    $modalTitle = "Comentarios de la Orden: ".$id;
+    $modalBody = '<b>Administración: </b>'.$serviceOrder->ser_observations_admin.
+    '<br><b>producción: </b>'.$serviceOrder->ser_observations_production.
+    '<br><b>Ventas: </b>'.$serviceOrder->ser_observations_sales;
+    $data = array(
+      'title'=> $modalTitle,
+      'body' => $modalBody
+    );
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $data
+      ));
+    return $response; 
   }
 }

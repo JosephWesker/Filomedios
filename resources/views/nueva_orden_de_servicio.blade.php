@@ -93,11 +93,11 @@
                                                                     {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                                                                 </div>                                                                
                                                                 <div class="form-group">
-                                                                    {{ Form::label('impacts','Impactos (Por día)')}}
+                                                                    {{ Form::label('impacts','Impactos')}}
                                                                     {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    {{ Form::label('validity','Vigencia (En Días)')}}
+                                                                    {{ Form::label('validity','Vigencia Mensual (En días)')}}
                                                                     {{ Form::number('validity',null,['class' => 'form-control','id' => 'det_validity','placeholder' => 'Vigencia'])}}
                                                                 </div>
                                                             </div>
