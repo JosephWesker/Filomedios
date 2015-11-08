@@ -71,7 +71,7 @@ class serviceOrderController extends Controller{
       'success' => true,
       'show' => $shows,
       'businessUnit' => $businessUnits
-    ));
+      ));
   }
 
   public function postLoadPackages(){
@@ -173,7 +173,7 @@ class serviceOrderController extends Controller{
     $serviceOrder->ser_observations_admin = '';
     $serviceOrder->ser_observations_sales = '';
     $serviceOrder->save();
-       
+
     $this->createDetails($serviceOrder,json_decode(json_encode($values['detail_product'])));
     $this->createPayments($serviceOrder,$values['pay_amount_cash'],$values['pay_amount_kind'],$values['pay_number_payments'],$values['payment_date']);    
   }
@@ -209,7 +209,7 @@ class serviceOrderController extends Controller{
       }
 
       if(property_exists($value, 'det_has_transmission_scheme')){
-          $this->createTransmissionScheme($detail,$value->det_has_transmission_scheme);
+        $this->createTransmissionScheme($detail,$value->det_has_transmission_scheme);
       }
 
     }
@@ -284,18 +284,18 @@ class serviceOrderController extends Controller{
           if ($value->ser_auth_admin == '2' && $value->ser_auth_production == '2' && $value->ser_auth_sales == '2') {
             $row['status'] = 'accepted';
           }else{ 
-  
-          if ($value->ser_auth_admin == '1' || $value->ser_auth_production == '1' || $value->ser_auth_sales == '1') {
+
+            if ($value->ser_auth_admin == '1' || $value->ser_auth_production == '1' || $value->ser_auth_sales == '1') {
               $row['status'] = 'rejected';            
             }else{
               $row['status'] = 'pending';
             }
-  
-          $row['detail_status']  = array(
+
+            $row['detail_status']  = array(
               'admin' => $this->getStatus($value->ser_auth_admin),
               'production' => $this->getStatus($value->ser_auth_production),
               'sales' => $this->getStatus($value->ser_auth_sales),
-            );
+              );
           }
         }
       }else{
@@ -317,13 +317,13 @@ class serviceOrderController extends Controller{
     $response = '';
     switch ($ser_auth) {
       case '0':
-        $response = 'Pendiente';
+      $response = 'Pendiente';
       break;
       case '1':
-       $response = 'Rechazada';
+      $response = 'Rechazada';
       break;
       case '2':
-        $response = 'Aceptada';
+      $response = 'Aceptada';
       break;     
     }
     return $response;
@@ -346,56 +346,56 @@ class serviceOrderController extends Controller{
       $row['ser_id'] = $value->ser_id;
       $row['ser_fk_customer'] = $value->customer->cus_contact_first_name." ".$value->customer->cus_contact_last_name;
       $row['created_at'] = date_format(date_create($value->created_at),'Y-m-d');
-        if($today <= date('Y-m-d', strtotime($value->ser_end_date))){
+      if($today <= date('Y-m-d', strtotime($value->ser_end_date))){
         switch (Session::get('type')) {                
           case 'producción':
-            switch ($value->ser_auth_production) {
-              case '0':                
-                $pending[] = $row;
-              break;
-              case '1':
-                $rejected[] = $row;
-              break;
-              case '2':
-                $accepted[] = $row;
-              break;
-              case '3':
-                $canceled[] = $row;
-              break;            
-            }
+          switch ($value->ser_auth_production) {
+            case '0':                
+            $pending[] = $row;
+            break;
+            case '1':
+            $rejected[] = $row;
+            break;
+            case '2':
+            $accepted[] = $row;
+            break;
+            case '3':
+            $canceled[] = $row;
+            break;            
+          }
           break;
           case 'administrador':
           case 'tesoreria':
-            switch ($value->ser_auth_admin) {
-              case '0':
-                $pending[] = $row;
-              break;
-              case '1':
-                $rejected[] = $row;
-              break;
-              case '2':
-                $accepted[] = $row;
-              break;
-              case '3':
-                $canceled[] = $row;
-              break;             
-            }
+          switch ($value->ser_auth_admin) {
+            case '0':
+            $pending[] = $row;
+            break;
+            case '1':
+            $rejected[] = $row;
+            break;
+            case '2':
+            $accepted[] = $row;
+            break;
+            case '3':
+            $canceled[] = $row;
+            break;             
+          }
           break;
           case 'gerente de ventas':
-            switch ($value->ser_auth_sales) {
-              case '0':
-                $pending[] = $row;
-              break;
-              case '1':
-                $rejected[] = $row;
-              break;
-              case '2':
-                $accepted[] = $row;
-              break;
-              case '3':
-                $canceled[] = $row;
-              break;             
-            }
+          switch ($value->ser_auth_sales) {
+            case '0':
+            $pending[] = $row;
+            break;
+            case '1':
+            $rejected[] = $row;
+            break;
+            case '2':
+            $accepted[] = $row;
+            break;
+            case '3':
+            $canceled[] = $row;
+            break;             
+          }
           break;
         }
       }else{
@@ -418,18 +418,18 @@ class serviceOrderController extends Controller{
     $serviceOrder = fil_service_order::find($values['id']);
     switch (Session::get('type')) {
       case 'producción':
-          $serviceOrder->ser_auth_production = 2;
-          $serviceOrder->ser_observations_production = '';
-        break;
-        case 'administrador':
-        case 'tesoreria':
-          $serviceOrder->ser_auth_admin = 2;
-          $serviceOrder->ser_observations_admin = '';
-        break;
-        case 'gerente de ventas':
-          $serviceOrder->ser_auth_sales = 2;
-          $serviceOrder->ser_observations_sales = '';
-        break;
+      $serviceOrder->ser_auth_production = 2;
+      $serviceOrder->ser_observations_production = '';
+      break;
+      case 'administrador':
+      case 'tesoreria':
+      $serviceOrder->ser_auth_admin = 2;
+      $serviceOrder->ser_observations_admin = '';
+      break;
+      case 'gerente de ventas':
+      $serviceOrder->ser_auth_sales = 2;
+      $serviceOrder->ser_observations_sales = '';
+      break;
     }
     $serviceOrder->save();
   }
@@ -439,18 +439,18 @@ class serviceOrderController extends Controller{
     $serviceOrder = fil_service_order::find($values['id']);
     switch (Session::get('type')) {
       case 'producción':
-          $serviceOrder->ser_observations_production = $values['comment'];
-          $serviceOrder->ser_auth_production = 1;
-        break;
-        case 'administrador':
-        case 'tesoreria':
-          $serviceOrder->ser_observations_admin = $values['comment'];
-          $serviceOrder->ser_auth_admin = 1;
-        break;
-        case 'gerente de ventas':
-          $serviceOrder->ser_observations_sales = $values['comment'];
-          $serviceOrder->ser_auth_sales = 1;
-        break;
+      $serviceOrder->ser_observations_production = $values['comment'];
+      $serviceOrder->ser_auth_production = 1;
+      break;
+      case 'administrador':
+      case 'tesoreria':
+      $serviceOrder->ser_observations_admin = $values['comment'];
+      $serviceOrder->ser_auth_admin = 1;
+      break;
+      case 'gerente de ventas':
+      $serviceOrder->ser_observations_sales = $values['comment'];
+      $serviceOrder->ser_auth_sales = 1;
+      break;
     }
     $serviceOrder->save();
   }
@@ -484,6 +484,7 @@ class serviceOrderController extends Controller{
     $serviceOrder = fil_service_order::find($id);
     $serviceOrder->customer->taxData;
     $serviceOrder->paymentScheme->paymentDates;
+
     foreach ($serviceOrder->detailsProducts as $value) {
       $value->product->serviceProyection;
       $value->product->serviceProduction;
@@ -491,14 +492,51 @@ class serviceOrderController extends Controller{
       $value->show;
       $value->businessUnit;
     };
-    $fileNames = [];
-    $filesInFolder = File::files($id);
-    foreach($filesInFolder as $path){
-      $manuals[] = pathinfo($path);
+
+    $generals = true;
+    $payments = true;
+    $proyection = true;
+    $production = true;
+
+    if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
+      $generals = false;
+      $payments = false;
     }
-    $data['AddressData']= fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code);
+    if (Session::get('type') == "gerente de ventas") {
+      $payments = false;
+    }
+    if (Session::get('type') == "producción") {
+      $proyection = false;
+      $production = false;
+    }
+    if (Session::get('type') == "vendedor") {
+      $generals = true;
+      $payments = true;
+      $proyection = true;
+      $production = true;
+      if ($serviceOrder->ser_auth_admin == 1) {
+        $generals = false;
+        $payments = false;
+      }
+      if ($serviceOrder->ser_auth_sales == 1) {
+        $payments = false;
+      }
+      if ($serviceOrder->ser_auth_production == 1) {
+        $proyection = false;
+        $production = false;
+      }
+    }
+
+    $data['editable'] = array(
+      'generals' => $generals, 
+      'payments' => $payments,
+      'proyection' => $proyection,
+      'production' => $production
+      );
+
+    $data['AddressData'] = fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code);
     $data['json'] = json_encode($serviceOrder);
-    $data['files'] = json_encode($fileNames);
+    $data['editable'] = json_encode($data['editable']);
     return view('orden_de_servicio', $data);
   }  
 
@@ -512,11 +550,15 @@ class serviceOrderController extends Controller{
     $data = array(
       'title'=> $modalTitle,
       'body' => $modalBody
-    );
+      );
     $response = Response::json(array(
       'success' => true,
       'data'   => $data
       ));
     return $response; 
+  }
+
+  public function postUploadFiles(){
+
   }
 }
