@@ -6,6 +6,7 @@ $(document).ready(function () {
     var add_button_date = $(".add_field_button_date");
     var x = 1;
     var a = 2;
+
     $(add_button_date).click(function (e) {
         e.preventDefault();
         if (x < max_fields_date) {
@@ -16,6 +17,7 @@ $(document).ready(function () {
         payments++;
         setAmounts();
     });
+
     //Delete
     $(wrapper_date).on("click", ".remove_field_date", function (e) {
         e.preventDefault();
@@ -62,6 +64,8 @@ $(document).ready(function () {
         payments++;
         setAmounts();
     });
+
+
     // Delete
     $(wrapper_payment).on("click", ".remove_field_payment", function (e) {
         e.preventDefault();
@@ -100,6 +104,26 @@ $(document).ready(function () {
         q = 1;
         w = 2;
         var months_contract = parseInt($('#months_contract').val());
+        prepareIVA();
+        monthsContract = parseInt($('#months_contract').val());         
+        while (months_contract > 1) {
+            --months_contract;
+            q++;
+            w++;
+            $(wrapper_payment).append('<div id="' + w + '" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;"><label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]"></div></div></div><label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label><div class="col-sm-3"><div class=""><div><input class="form-control" id="' + 'payment-' + ++w + '" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]"></div></div></div><a style="margin-left: 10px; color: #c9302c;" href="#" class="remove_field_payment"><i class="fa fa-times-circle" style="float: left; cursor: pointer; font-size: 30px;"></i></a></div>');
+        }
+    });
+
+    $('#months_contract').keyup(function (e) {
+        e.preventDefault();
+        $("[class*='remove_field_payment']").parent('div').remove();
+//        var q = 1;
+//        var w = 2;
+        q = 1;
+        w = 2;
+        var months_contract = parseInt($('#months_contract').val());
+        prepareIVA();
+        monthsContract = parseInt($('#months_contract').val());
         while (months_contract > 1) {
             --months_contract;
             q++;

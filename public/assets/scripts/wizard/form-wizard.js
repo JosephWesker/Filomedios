@@ -1,81 +1,59 @@
 
             $(document).ready(function() {
-                $("#wizard").steps(),
-                $("#form").steps({
-                    bodyTag: "fieldset",
-                    onStepChanging: function(event, currentIndex, newIndex)
-                    {
-                        // Always allow going backward even if the current step contains invalid fields!
-                        if (currentIndex > newIndex)
-                        {
-                            return true;
-                        }
+                $("#wizard").steps({
+                    onStepChanging: function(event, currentIndex, newIndex){
+                        var result = false;
+                        
+                        if (newIndex<currentIndex) {
+                            result = true;
+                        }else{
+                            switch(currentIndex){
+                            case 0:
+                            //Comprobación en el primer paso
+                             if (selectedTr === null) {
+                                   alert("Seleccione un empleado para continuar");
+                                   result = false;
+                               }else{
+                                   result = true;
+                               };
+                            break;
 
-                        // Forbid suppressing "Warning" step if the user is to young
-                        if (newIndex === 3 && Number($("#age").val()) < 18)
-                        {
-                            return false;
-                        }
+                            case 1:
+                            //Comprobación en el segundo paso
+                                
 
-                        var form = $(this);
+                                if (productsRegistered.length == 0) {
+                                    alert("Debe agregar productos para poder continuar");
+                                    result = false;
+                                } else{
+                                    result = true;
+                                };
+                            break;
 
-                        // Clean up if user went backward before
-                        if (currentIndex < newIndex)
-                        {
-                            // To remove error styles
-                            $(".body:eq(" + newIndex + ") label.error", form).remove();
-                            $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
-                        }
+                            default:
+                                result = false; 
+                            break;                           
+                            };
+                        };
 
-                        // Disable validation on fields that are disabled or hidden.
-                        form.validate().settings.ignore = ":disabled,:hidden";
+                        return result;
 
-                        // Start validation; Prevent going forward if false
-                        return form.valid();
                     },
-                    onStepChanged: function(event, currentIndex, priorIndex)
-                    {
-                        // Suppress (skip) "Warning" step if the user is old enough.
-                        if (currentIndex === 2 && Number($("#age").val()) >= 18)
-                        {
-                            $(this).steps("next");
-                        }
-
-                        // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
-                        if (currentIndex === 2 && priorIndex === 3)
-                        {                        
-                            $(this).steps("previous");
-                        }
+                    onStepChanged: function(event, currentIndex, priorIndex){
+                        if (currentIndex == 2) {
+                            if (needProductionRegistry) {
+                                    $('#productionRegistry').modal('show');
+                            };
+                        };
                     },
-                    onFinishing: function(event, currentIndex)
-                    {
-                        var form = $(this);
-
-                        // Disable validation on fields that are disabled.
-                        // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
-                        form.validate().settings.ignore = ":disabled";
-
-                        // Start validation; Prevent form submission if false
-                        return form.valid();
+                    onFinishing: function(event, currentIndex){                
+                        sendServiceOrder();
+                        return true;                        
                     },
-                    onFinished: function(event, currentIndex)
-                    {
-                        var form = $(this);
-
-                        // Submit form input
-                        form.submit();
+                    onFinished: function(event, currentIndex){
+                        window.location.href = "http://localhost/Filomedios/public/nueva_orden_de_servicio"
+                        //Cargar nuevamente la pagina o enviar a gestor de ordenes
                     }
                 })
-//                        .validate({
-//                    errorPlacement: function(error, element)
-//                    {
-//                        element.before(error);
-//                    },
-//                    rules: {
-//                        confirm: {
-//                            equalTo: "#password"
-//                        }
-//                    }
-//                });
             });
         

@@ -191,9 +191,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li {{ (Request::is('*proyeccion') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('proyeccion') }}"><i class="fa fa-film fa-fw"></i> Proyección</a>
-                    </li>
                     <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>
                     </li>                    
