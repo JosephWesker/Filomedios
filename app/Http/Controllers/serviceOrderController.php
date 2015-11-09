@@ -255,6 +255,45 @@ class serviceOrderController extends Controller{
     }
   }
 
+  function postSavePayments(){
+    $values = Request::all();
+    $values = json_decode(json_encode($values));
+    $serviceOrder = fil_service_order::find($values->serviceOrder);
+    $serviceOrder->ser_discount_month = $values->discount;
+    $serviceOrder->ser_outlay_total = $values->totalOutlay;
+    $serviceOrder->ser_iva = $values->iva;
+    $serviceOrder->save();
+    $paymentScheme = $serviceOrder->paymentScheme;
+    $paymentScheme->pay_amount_kind = $values->amountKind;
+    $paymentScheme->pay_amount_cash = $values->amountCash;
+    $paymentScheme->pay_number_payments = $values->numberPayments;
+    $paymentScheme->save();
+    if (property_exists($values,'paymentsold')) {
+      foreach ($values->paymentsold as $value) {
+        $payment = fil_payment_date::find($value->pda_id);
+        $payment->pda_amount = $value->pda_amount;
+        $payment->pda_date = $value->pda_date;
+        $payment->save();
+      }
+    }
+    if (property_exists($values,'paymentsnew')) {
+      foreach ($values->paymentsnew as $value) {
+        $paymentDate = new fil_payment_date;
+        $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
+        $paymentDate->pda_date = $value->pda_date;
+        $paymentDate->pda_amount = $value->pda_amount;
+        $paymentDate->pda_status = "pendiente";
+        $paymentDate->save();
+      }
+    }
+    
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => 'pagos guardados correctamente'
+      ));
+    return $response;
+  }
+
   function convertToTinyint($value){
     if($value=='true'){
       return 1;
@@ -556,6 +595,40 @@ class serviceOrderController extends Controller{
       'data'   => $data
       ));
     return $response; 
+  }
+
+  public function postDeletePayments(){
+    $id = Request::input('id');
+    $payment = fil_payment_date::find($id);
+    $paymentScheme = $payment->paymentScheme;
+    $number = (int) $paymentScheme->pay_number_payments;
+    $paymentScheme->pay_number_payments = --$number;
+    $paymentScheme->save();
+    $payment->delete();
+    foreach ($paymentScheme->paymentDates as $value) {
+      $value->pda_amount = ((float) $paymentScheme->pay_amount_cash)/$number;
+      $value->save();
+    }
+    
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => 'Pago eliminado'
+      ));
+    return $response;
+  }
+
+  public function postUpdateOrderDuration(){
+    $values = Request::all();
+    $serviceOrder = fil_service_order::find($values['id']);
+    $serviceOrder->ser_duration = $values['ser_duration'];
+    $serviceOrder->ser_start_date = $values['ser_start_date'];
+    $serviceOrder->ser_end_date = $values['ser_end_date'];
+    $serviceOrder->save();
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => 'fechas guardadas'
+      ));
+    return $response;
   }
 
   public function postUploadFiles(){

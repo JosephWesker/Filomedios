@@ -6,6 +6,8 @@ var iva = 0;
 var ser_discount = 0;
 var amountKind = 0;
 var monthsContract = 0;
+var newPayments = [];
+var changingPayment = null;
 
 function loadPostalCodes(){
  $.ajaxSetup({
@@ -112,7 +114,7 @@ function setProduction(data){
 
 function setProyection(ser_duration,ser_start_date,ser_end_date,data){
     cont = 0;
-    $('#months_contract').val(ser_duration);
+    $('#months_contract2').val(ser_duration);
     $('#start_date_contract').val(ser_start_date);
     $('#end_date_contract').val(ser_end_date);
     $.each(data, function(index, value){        
@@ -146,11 +148,11 @@ function setPayments(ser_discount_month,ser_iva,ser_outlay_total,data){
     $('#has_iva').prop('checked',check);
     cont = 0;
     $.each(data.payment_dates, function(index, value){
-        $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount+ '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="modalUpdate('+ value.pda_id +')" disabled="true">Modificar</button></div></td></tr>');
+        $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount+ '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate('+ index +',\'old\')" disabled="true">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate('+ value.pda_id +',\'old\')" disabled="true">Eliminar</button></div></td></tr>');
         cont++;
     });
     if (cont==0) {
-        $("#pagos").append('<tr class="gradeX"><td colspan="5">No existen Producciones para esta Orden de Servicio</td>');
+        $("#pagos").append('<tr class="gradeX"><td colspan="5">No existen pagos para esta Orden de Servicio</td>');
     };
 }
 
@@ -228,9 +230,23 @@ function setAmounts(){
     totalOutlay = monthOutlay * monthsContract;    
     $('#ser_outlay_total').val(totalOutlay);
     $('#amount_cash').val((totalOutlay+iva-amountKind-((totalOutlay+iva-amountKind)*(ser_discount/100))).toFixed(2));
-    /*for (var i = 0; i < (payments*2); i+=2) {
-        $('#payment-'+(i+1)).val((((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments).toFixed(2));        
-    };*/
+    setPayments2();    
+}
+
+function setPayments2(){
+    $("#pagos").html('');
+    cont = 0;
+    $.each(json.payment_scheme.payment_dates, function(index, value){
+        value.pda_amount = (((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments).toFixed(2);  
+        $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount+ '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate('+ index +',\'old\')">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate('+ value.pda_id +',\'old\')" >Eliminar</button></div></td></tr>');        
+        cont++;
+    });
+    if (cont<payments) {
+        $.each(newPayments, function(index, value){
+            value.pda_amount = (((totalOutlay+iva-amountKind)-((totalOutlay+iva-amountKind)*(ser_discount/100)))/payments).toFixed(2);  
+            $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount + '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate('+ index +',\'new\')">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate('+ index +',\'new\')" >Eliminar</button></div></td></tr>');        
+        });
+    }; 
 }
 
 function prepareIVA(){
@@ -241,7 +257,7 @@ function prepareIVA(){
 }
 
 function setEnableMonths(){
-    $('#months_contract').prop('disabled',false);
+    $('#months_contract2').prop('disabled',false);
 }
 
 function setIVA(){
@@ -273,6 +289,123 @@ function calculateAmounts(){
     setAmounts();
 }
 
+function addPayment(){
+    payments++;
+    var payment = new Object();
+    payment.pda_amount = 0;
+    payment.pda_date = $('#newPayment').val();
+    newPayments[newPayments.length] = payment;
+    $('#addPayment').modal('hide');
+    setPayments2();
+}
+
+function editDate(id,type){
+    if (type == 'old') {
+        changingPayment = json.payment_scheme.payment_dates[id];        
+    }else{
+        changingPayment = newPayments[id];  
+    }
+    $('#setDate').val(changingPayment.pda_date);
+    $('#editPayment').modal('show');
+}
+
+function editDate(id,type){
+    if (type == 'old') {
+        changingPayment = json.payment_scheme.payment_dates[id];        
+    }else{
+        changingPayment = newPayments[id];  
+    }
+    $('#setDate').val(changingPayment.pda_date);
+    $('#editPayment').modal('show');
+}
+
+function editPayment(){
+    changingPayment.pda_date = $('#setDate').val();
+    $('#editPayment').modal('hide');
+    setPayments2();
+}
+
+function updatePayment(){
+    var data = {
+        'serviceOrder' : json.ser_id,
+        'discount' : ser_discount,
+        'totalOutlay' : totalOutlay,
+        'iva' : iva,
+        'amountCash' : parseFloat((totalOutlay+iva-amountKind-((totalOutlay+iva-amountKind)*(ser_discount/100))).toFixed(2)),
+        'amountKind' : amountKind,
+        'numberPayments' : payments,
+        'paymentsold' : json.payment_scheme.payment_dates,
+        'paymentsnew' : newPayments
+    }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   updatePaymentsRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            alert(data.data);
+            location.reload();        
+        }
+    });
+}
+
+function delateDate(id,type){
+    if (type == 'old') {
+        var data = {
+            'id' : id
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url:   delatePaymentsRoute,
+            data: data,
+            type:  'post',
+            success:  function (data) {
+                alert(data.data);
+                location.reload();        
+            }
+        });           
+    }else{
+        payments--;
+        newPayments.splice(id,1);
+        alert('Pago Eliminado');
+        setPayments2();
+    }
+}
+
+function updateOrderDuration(){
+ var data = {
+        'id' : json.ser_id,
+        'ser_duration' : parseInt($('#months_contract2').val()),
+        'ser_start_date': $("#start_date_contract").val(),
+        'ser_end_date' : $("#end_date_contract").val(),
+    }
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$.ajax({
+    url:   updateOrderDurationRoute,
+    data: data,
+    type:  'post',
+    success:  function (data) {
+        alert(data.data);        
+    }
+});            
+}
+
 function upload(){
 
 }
@@ -284,4 +417,15 @@ $(document).ready(function(){
     setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
     setEditable();
     setVariables();
+    $("#months_contract2").on("change", function () {
+        var date = new Date($("#start_date_contract").val()),
+            months = parseInt($("#months_contract2").val());
+
+        if (!isNaN(date.getTime())) {
+            date.setMonth(date.getMonth() + months);
+            $("#end_date_contract").val(date.toInputFormat());            
+        } else {
+            //     alert("Invalid Date");  
+        }
+    });
 });

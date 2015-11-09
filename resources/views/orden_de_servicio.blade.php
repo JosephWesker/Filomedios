@@ -146,7 +146,7 @@
                     <form class="form col-lg-12">
                         <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-4">
                             <label for="months_contract">Duración del Contrato</label>
-                            <input type="number" id="months_contract" class="form-control proyection" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
+                            <input type="number" id="months_contract2" class="form-control proyection" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
                         </div>
                         <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-4">
                             <label for="start_date_contract">Fecha de Inicio</label>
@@ -154,7 +154,7 @@
                         </div>                                
                         <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-4">
                             <label for="end_date_contract">Fin del Contrato</label>
-                            <input type="date" id="end_date_contract" class="form-control proyection" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" disabled="true"/>
+                            <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" disabled="true"/>
                         </div>                                                                                
                     </form>
                     <h3><b>Proyecciones</b></h3> 
@@ -176,6 +176,9 @@
 
                         </tbody>
                     </table> 
+                    <div class=text-right>
+                            {{ Form::button('Guardar',['class' => 'btn btn-success proyection','onclick' => 'updateOrderDuration()', 'disabled'=>'true']) }}                        
+                    </div>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="payments" aria-labelledby="profile-tab">
@@ -190,7 +193,7 @@
                             </div>
                             <label class="col-sm-4 control-label" for="formGroupInputSmall">Total Contrato</label>
                             <div class="col-sm-2">
-                                <input class="form-control payments" type="number" id="ser_outlay_total" disabled="true">
+                                <input class="form-control" type="number" id="ser_outlay_total" disabled="true">
                             </div>
                             <label class="col-sm-4 control-label" for="formGroupInputSmall">¿Facturar?</label>
                             <div class="col-sm-2">
@@ -198,7 +201,7 @@
                             </div>
                             <label class="col-sm-4 control-label" for="formGroupInputSmall">IVA</label>
                             <div class="col-sm-2">
-                                <input class="form-control payments" type="number" id="ser_iva" disabled="true">
+                                <input class="form-control" type="number" id="ser_iva" disabled="true">
                             </div>
                             <label class="col-sm-4 control-label" for="formGroupInputSmall" >Pago Especie</label>
                             <div class="col-sm-2">
@@ -206,12 +209,68 @@
                             </div>
                             <label class="col-sm-4 control-label" for="formGroupInputSmall">Pago en Moneda</label>
                             <div class="col-sm-2">
-                                <input class="form-control payments" type="number" id="amount_cash" disabled="true">
+                                <input class="form-control" type="number" id="amount_cash" disabled="true">
                             </div>
                         </div>
                     </form>
                     <h3><b>Pagos</b></h3> 
-                    <hr> 
+                    <hr>
+                    <div class="form-group col-lg-6 col-xs-12">
+                        <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPayment">
+                            Agregar Fecha
+                        </button>
+                    </div> 
+
+                    <!-- Modal -->                                            
+                    <div class="modal fade" id="addPayment" tabindex="-1" role="dialog" aria-labelledby="addPayment">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Agregar Pago</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    <div class="form-group">
+                                        {{ Form::label('fk_product','Fecha')}}
+                                        <input class="form-control" id="newPayment" type="date" name="mytext[]">
+                                    </div>                                
+                                    <div class=text-right>
+                                        {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addPayment()']) }}
+                                        {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                    </div>
+                                    {{ Form::close() }}                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Modal-->
+
+                    <!-- Modal For Edit -->                                            
+                    <div class="modal fade" id="editPayment" tabindex="-1" role="dialog" aria-labelledby="editPayment">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Agregar Pago</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    <div class="form-group">
+                                        {{ Form::label('fk_product','Fecha')}}
+                                        <input class="form-control" id="setDate" type="date" name="mytext[]">
+                                    </div>                                
+                                    <div class=text-right>
+                                        {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'editPayment()']) }}
+                                        {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                    </div>
+                                    {{ Form::close() }}                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Modal-->
+
                     <table class="table table-striped table-hover table-bordered margin-top20">
                         <thead>
                             <tr>
@@ -224,6 +283,9 @@
 
                         </tbody>
                     </table>
+                    <div class=text-right>
+                            {{ Form::button('Guardar',['class' => 'btn btn-success payments','onclick' => 'updatePayment()', 'disabled'=>'true']) }}                        
+                    </div>
                 </div>
 
             </div>
@@ -262,6 +324,9 @@
     var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
     var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
     var updateRoute = '{{ action('customerController@postUpdate'); }}';
+    var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
+    var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
+    var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 
