@@ -203,7 +203,6 @@ class serviceOrderController extends Controller{
 
       $detail->save();
 
-
       if(property_exists($value, 'det_has_production_registry')){
         $this->createProductionRegistry($detail,$value->det_has_production_registry);  
       }
@@ -536,33 +535,35 @@ class serviceOrderController extends Controller{
     $payments = true;
     $proyection = true;
     $production = true;
-
-    if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
-      $generals = false;
-      $payments = false;
-    }
-    if (Session::get('type') == "gerente de ventas") {
-      $payments = false;
-    }
-    if (Session::get('type') == "producción") {
-      $proyection = false;
-      $production = false;
-    }
-    if (Session::get('type') == "vendedor") {
-      $generals = true;
-      $payments = true;
-      $proyection = true;
-      $production = true;
-      if ($serviceOrder->ser_auth_admin == 1) {
+    
+    if ($serviceOrder->ser_auth_admin != 3) {
+      if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
         $generals = false;
         $payments = false;
       }
-      if ($serviceOrder->ser_auth_sales == 1) {
+      if (Session::get('type') == "gerente de ventas") {
         $payments = false;
       }
-      if ($serviceOrder->ser_auth_production == 1) {
+      if (Session::get('type') == "producción") {
         $proyection = false;
         $production = false;
+      }
+      if (Session::get('type') == "vendedor") {
+        $generals = true;
+        $payments = true;
+        $proyection = true;
+        $production = true;
+        if ($serviceOrder->ser_auth_admin == 1) {
+          $generals = false;
+          $payments = false;
+        }
+        if ($serviceOrder->ser_auth_sales == 1) {
+          $payments = false;
+        }
+        if ($serviceOrder->ser_auth_production == 1) {
+          $proyection = false;
+          $production = false;
+        }
       }
     }
 
@@ -623,10 +624,86 @@ class serviceOrderController extends Controller{
     $serviceOrder->ser_duration = $values['ser_duration'];
     $serviceOrder->ser_start_date = $values['ser_start_date'];
     $serviceOrder->ser_end_date = $values['ser_end_date'];
+    $serviceOrder->ser_outlay_total = $values['totalOutlay'];
+    $serviceOrder->ser_iva = $values['iva'];
     $serviceOrder->save();
+    $paymentScheme = $serviceOrder->paymentScheme;
+    $paymentScheme->pay_amount_cash = $values['amountCash'];    
+    $paymentScheme->save();
+    foreach ($paymentScheme->paymentDates as $value) {
+      $value->pda_amount = $values['paymentAmount'];
+      $value->save();
+    }
     $response = Response::json(array(
       'success' => true,
       'data'   => 'fechas guardadas'
+      ));
+    return $response;
+  }
+
+  public function postAddProduct(){
+    $values = Request::all();
+    $value = json_decode(json_encode($values['row']));
+    $detail = new fil_detail_product;
+    $detail->det_fk_product = $value->det_fk_product;
+
+    if(property_exists($value, 'det_fk_business_unit')){
+      $detail->det_fk_business_unit = $value->det_fk_business_unit;  
+    }else{
+      $detail->det_fk_business_unit = null;
+    }
+
+    if(property_exists($value, 'det_fk_show')){
+      $detail->det_fk_show = $value->det_fk_show;  
+    }else{
+      $detail->det_fk_show = null;
+    }
+
+    $detail->det_fk_service_order = $values['ser_id'];
+    $detail->det_impacts = $value->det_impacts;
+    $detail->det_validity = $value->det_validity;
+    $detail->det_discount = $value->det_discount;
+    $detail->det_final_price = $value->det_final_price;
+
+    $detail->save(); 
+
+    if(property_exists($value, 'det_has_production_registry')){
+      $this->createProductionRegistry($detail,$value->det_has_production_registry);  
+    }
+
+    if(property_exists($value, 'det_has_transmission_scheme')){
+      $this->createTransmissionScheme($detail,$value->det_has_transmission_scheme);
+    }
+
+    $serviceOrder = fil_service_order::find($values['ser_id']);
+    $serviceOrder->ser_outlay_total = $values['totalOutlay'];
+    $serviceOrder->ser_iva = $values['iva'];
+    $serviceOrder->save();
+
+    $paymentScheme = $serviceOrder->paymentScheme;
+    $paymentScheme->pay_amount_cash = $values['amountCash'];    
+    $paymentScheme->save();
+    foreach ($paymentScheme->paymentDates as $payment) {
+      $payment->pda_amount = $values['paymentAmount'];
+      $payment->save();
+    }
+
+
+
+    $serviceOrder = fil_service_order::find($values['ser_id']);
+    $serviceOrder->customer->taxData;
+    $serviceOrder->paymentScheme->paymentDates;
+    foreach ($serviceOrder->detailsProducts as $value) {
+      $value->product->serviceProyection;
+      $value->product->serviceProduction;
+      $value->detailProduction;
+      $value->show;
+      $value->businessUnit;
+    };
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $serviceOrder,
+      'adressData' => fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code)
       ));
     return $response;
   }

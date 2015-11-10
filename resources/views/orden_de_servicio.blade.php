@@ -13,7 +13,9 @@
                     <li role="presentation" class="fill_width"><a href="#proyection" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Datos para proyección</a></li>
                     <li role="presentation" class="fill_width"><a href="#payments" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Datos Para Cobranza</a></li>
                     <li role="presentation" class="fill_width"><a href="#files" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Archivos</a></li>
-                </ul>
+                    <li role="presentation" class="fill_width"><a href="#addProduct" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Agregar Producto</a></li>
+                </ul>                
+
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="generals" aria-labelledby="home-tab">
                         <div class="col-lg-6">    
@@ -157,6 +159,9 @@
                             <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" disabled="true"/>
                         </div>                                                                                
                     </form>
+                    <div class=text-right>
+                        {{ Form::button('Guardar',['class' => 'btn btn-success proyection','onclick' => 'updateOrderDuration()', 'disabled'=>'true']) }}                        
+                    </div>
                     <h3><b>Proyecciones</b></h3> 
                     <hr>
                     <table class="table table-striped table-hover table-bordered margin-top20">
@@ -175,10 +180,7 @@
                         <tbody id="proyecciones">
 
                         </tbody>
-                    </table> 
-                    <div class=text-right>
-                            {{ Form::button('Guardar',['class' => 'btn btn-success proyection','onclick' => 'updateOrderDuration()', 'disabled'=>'true']) }}                        
-                    </div>
+                    </table>                     
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="payments" aria-labelledby="profile-tab">
@@ -216,7 +218,7 @@
                     <h3><b>Pagos</b></h3> 
                     <hr>
                     <div class="form-group col-lg-6 col-xs-12">
-                        <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPayment">
+                        <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg payments" data-toggle="modal" data-target="#addPayment">
                             Agregar Fecha
                         </button>
                     </div> 
@@ -284,7 +286,7 @@
                         </tbody>
                     </table>
                     <div class=text-right>
-                            {{ Form::button('Guardar',['class' => 'btn btn-success payments','onclick' => 'updatePayment()', 'disabled'=>'true']) }}                        
+                        {{ Form::button('Guardar',['class' => 'btn btn-success payments','onclick' => 'updatePayment()', 'disabled'=>'true']) }}                        
                     </div>
                 </div>
 
@@ -311,22 +313,165 @@
                 </div>
 
             </div>                    
+            <div role="tabpanel" class="tab-pane fade" id="addProduct" aria-labelledby="profile-tab">
+             <!-- Modal Production Registry -->                                            
+             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                            {{ Form::hidden('index', 'index',['id' => 'productionRegistryIndex']) }} 
+                            <div class="form-group">
+                                <label for="recording_date">Fecha de Grabación</label>
+                                <input type="date" id="dpr_recording_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Grabación"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="proposal_1_date">Fecha de Propuesta 1</label>
+                                <input type="date" id="dpr_proposal_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 1"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="proposal_2_date">Fecha de Propuesta 2</label>
+                                <input type="date" id="dpr_proposal_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 2"/>
+                            </div>                                                                                                             
+                            <div class=text-right>
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProductionRegistry()']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                            </div>
+                            {{ Form::close() }}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Modal-->
+
+            <!-- Modal Transmission Scheme -->                                            
+            <div class="modal fade" id="transmissionScheme" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('tuesday', '2', null, ['class' => '','id' => 'tra_tuesday'])}} Martes
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('wednesday', '3', null, ['class' => '','id' => 'tra_wednesday'])}} Miercoles
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('thursday', '4', null, ['class' => '','id' => 'tra_thursday'])}} Jueves
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('friday', '5', null, ['class' => '','id' => 'tra_friday'])}} Viernes
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('saturday', '6', null, ['class' => '','id' => 'tra_saturday'])}} Sabado
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {{ Form::checkbox('sunday', '7', null, ['class' => '','id' => 'tra_sunday'])}} Domingo
+                                </label>
+                            </div>                                                                                                            
+                            <div class=text-right>
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addTransmissionScheme()']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                            </div>
+                            {{ Form::close() }}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Modal-->
+            <div class="col-lg-12">
+                <h3><b>Agregar Producto</b></h3> 
+                <hr>
+            </div>
+            <div class="col-lg-12">                            
+                <div class="modal-body">
+                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                    <div class="form-group">
+                        {{ Form::label('fk_product','Producto')}}
+                        {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product','onchange' => 'setFormVisible()']) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('outlay','Precio')}}
+                        {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
+                    </div>
+                    <div id="proyection_data" style="display:none">
+                        <div class="form-group">
+                            {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
+                            {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
+                        </div>
+                        <div class="form-group" id="fk_show" style="display:none">
+                            {{ Form::label('fk_show','Programa')}}
+                            {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
+                        </div>                                                                
+                        <div class="form-group">
+                            {{ Form::label('impacts','Impactos')}}
+                            {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
+                        </div>
+                        <div class="form-group">
+                            {{ Form::label('validity','Vigencia Mensual (En días)')}}
+                            {{ Form::number('validity',null,['class' => 'form-control','id' => 'det_validity','placeholder' => 'Vigencia'])}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('discount','Descuento (%)')}}
+                        {{ Form::number('discount',null,['onkeyup' => 'toDiscount_number()','class' => 'form-control','id' => 'det_discount','placeholder' => 'Descuento'])}}
+                    </div>                                                            
+                    <div class="form-group">
+                        {{ Form::label('discount_number','Precio con Descuento')}}
+                        {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
+                    </div>
+
+                    <div class=text-right>
+                        {{ Form::button('Guardar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
+                    </div>
+                    {{ Form::close() }}                        
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 </div>
 </div>
+</div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-    var json = {{ $json }};
-    var AddressData = {{ $AddressData }};
-    var editable = {{ $editable }};
-    var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
-    var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
-    var updateRoute = '{{ action('customerController@postUpdate'); }}';
-    var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
-    var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
-    var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
+var json = {{ $json }};
+var AddressData = {{ $AddressData }};
+var editable = {{ $editable }};
+var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
+var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
+var updateRoute = '{{ action('customerController@postUpdate'); }}';
+var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
+var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
+var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
+var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 
