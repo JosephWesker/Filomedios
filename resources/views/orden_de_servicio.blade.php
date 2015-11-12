@@ -19,10 +19,10 @@
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="generals" aria-labelledby="home-tab">
                         <div class="col-lg-6">    
-                           {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
-                           <h3><b>Datos Generales</b></h3>
-                           <hr>
-                           <div class="form-group">
+                         {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                         <h3><b>Datos Generales</b></h3>
+                         <hr>
+                         <div class="form-group">
                             {{ Form::label('commercial_name','Nombre Comercial')}}
                             {{ Form::text('commercial_name',null,['class' => 'form-control generals','id' => 'cus_commercial_name','placeholder' => 'Nombre Comercial', 'disabled' => 'true'])}}
                         </div>
@@ -204,7 +204,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Cambiar Esquema de Producción</h4>
+                                    <h4 class="modal-title">Editar Producto</h4>
                                 </div>
                                 <div class="modal-body">
                                     {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
@@ -243,7 +243,7 @@
                                     </div>
 
                                     <div class=text-right>
-                                        {{ Form::button('Guardar',['class' => 'btn btn-success','onclick' => 'setProyection()']) }}
+                                        {{ Form::button('Guardar',['class' => 'btn btn-success','onclick' => 'setNewProyection()']) }}
                                     </div>
                                     {{ Form::close() }}                        
                                 </div>
@@ -402,8 +402,8 @@
 
             </div>                    
             <div role="tabpanel" class="tab-pane fade" id="addProduct" aria-labelledby="profile-tab">
-             <!-- Modal Production Registry -->                                            
-             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+               <!-- Modal Production Registry -->                                            
+               <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -446,7 +446,7 @@
                         </div>
                         <div class="modal-body">
                             {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
-                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
+                            {{ Form::hidden('index', 'index',['id' => 'detailProductIndex']) }} 
                             <div class="checkbox">
                                 <label>
                                     {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
@@ -549,18 +549,20 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-var json = {{ $json }};
-var AddressData = {{ $AddressData }};
-var editable = {{ $editable }};
-var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
-var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
-var updateRoute = '{{ action('customerController@postUpdate'); }}';
-var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
-var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
-var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
-var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
-var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
+    var json = {{ $json }};
+    var AddressData = {{ $AddressData }};
+    var editable = {{ $editable }};
+    var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
+    var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
+    var updateRoute = '{{ action('customerController@postUpdate'); }}';
+    var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
+    var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
+    var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
+    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+    var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
+    var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
+    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+    var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 

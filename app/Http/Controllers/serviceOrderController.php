@@ -540,12 +540,13 @@ class serviceOrderController extends Controller{
       if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
         $generals = false;
         $payments = false;
+        $proyection = false;
       }
       if (Session::get('type') == "gerente de ventas") {
         $payments = false;
-      }
-      if (Session::get('type') == "producción") {
         $proyection = false;
+      }
+      if (Session::get('type') == "producción") {        
         $production = false;
       }
       if (Session::get('type') == "vendedor") {
@@ -556,12 +557,13 @@ class serviceOrderController extends Controller{
         if ($serviceOrder->ser_auth_admin == 1) {
           $generals = false;
           $payments = false;
+          $proyection = false;
         }
         if ($serviceOrder->ser_auth_sales == 1) {
           $payments = false;
+          $proyection = false;
         }
         if ($serviceOrder->ser_auth_production == 1) {
-          $proyection = false;
           $production = false;
         }
       }
@@ -718,6 +720,32 @@ class serviceOrderController extends Controller{
     $detailProduction->save();
 
     return $this->jsonResponse($detailProduction->detailProduct->serviceOrder->ser_id);
+  }
+
+  public function postUpdateDetailProduct(){
+    $values = Request::all();
+
+    $detail = fil_detail_product::find($values['det_id']);
+    $detail->det_fk_business_unit = $values['det_fk_business_unit'];
+    $detail->det_impacts = $values['det_impacts'];
+    $detail->det_validity = $values['det_validity'];
+    $detail->det_discount = $values['det_discount'];
+    $detail->det_final_price = $values['det_final_price'];
+    $detail->save();
+
+    $serviceOrder = fil_service_order::find($values['ser_id']);
+    $serviceOrder->ser_outlay_total = $values['totalOutlay'];
+    $serviceOrder->ser_iva = $values['iva'];
+    $serviceOrder->save();
+
+    $paymentScheme = $serviceOrder->paymentScheme;
+    $paymentScheme->pay_amount_cash = $values['amountCash'];    
+    $paymentScheme->save();
+    foreach ($paymentScheme->paymentDates as $payment) {
+      $payment->pda_amount = $values['paymentAmount'];
+      $payment->save();
+    }
+    return $this->jsonResponse($values['ser_id']);
   }
 
   public function postUploadFiles(){

@@ -154,9 +154,9 @@ function toDiscount_number(){
     var price = parseFloat($('#pro_outlay').val());
     var discount = parseFloat($('#det_discount').val());
     if(discount<=100){
-        $('#det_discount_number').val(price-(price*(discount/100)));
+        $('#det_discount_number').val((price-(price*(discount/100))).toFixed(2));
     }else{
-        $('#det_discount_number').val(price+(price*((discount-100)/100)));
+        $('#det_discount_number').val((price+(price*((discount-100)/100))).toFixed(2));
     }
 }
 
@@ -164,9 +164,9 @@ function toDiscount(){
     var price = parseFloat($('#pro_outlay').val());
     var discount = parseFloat($('#det_discount_number').val());
     if(price>=discount){
-        $('#det_discount').val(100-((discount*100)/price));
+        $('#det_discount').val((100-((discount*100)/price)).toFixed(2));
     }else{
-        $('#det_discount').val((((discount)*100)/price));
+        $('#det_discount').val(((((discount)*100)/price)).toFixed(2));
     }
 }
 
