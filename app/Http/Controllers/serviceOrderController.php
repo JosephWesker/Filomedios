@@ -687,10 +687,11 @@ class serviceOrderController extends Controller{
       $payment->pda_amount = $values['paymentAmount'];
       $payment->save();
     }
+    return $this->jsonResponse($values['ser_id']);
+  }
 
-
-
-    $serviceOrder = fil_service_order::find($values['ser_id']);
+  public function jsonResponse($id){
+    $serviceOrder = fil_service_order::find($id);
     $serviceOrder->customer->taxData;
     $serviceOrder->paymentScheme->paymentDates;
     foreach ($serviceOrder->detailsProducts as $value) {
@@ -706,6 +707,17 @@ class serviceOrderController extends Controller{
       'adressData' => fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code)
       ));
     return $response;
+  }
+
+  public function postUpdateProductionDates(){
+    $values = Request::all();
+    $detailProduction = fil_detail_production::find($values['dpr_id']);
+    $detailProduction->dpr_recording_date = $values['dpr_recording_date'];
+    $detailProduction->dpr_proposal_1_date = $values['dpr_proposal_1_date'];
+    $detailProduction->dpr_proposal_2_date = $values['dpr_proposal_2_date'];
+    $detailProduction->save();
+
+    return $this->jsonResponse($detailProduction->detailProduct->serviceOrder->ser_id);
   }
 
   public function postUploadFiles(){

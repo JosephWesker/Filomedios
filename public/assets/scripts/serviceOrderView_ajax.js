@@ -52,6 +52,10 @@ function loadProductsData(){
                 .append($("<option></option>")
                  .attr("value",index)
                  .text(value.pro_name));
+                $('#u_det_fk_product')
+                .append($("<option></option>")
+                 .attr("value",value.pro_id)
+                 .text(value.pro_name));
             });
         }
     });
@@ -101,6 +105,45 @@ function setFormVisible(){
     $('#det_validity').val("null");
     $('#det_discount').val("null");
     $('#det_discount_number').val("null");            
+}
+
+function u_setFormVisible(index){
+    if ($('#u_det_fk_product').val() != "null") {
+        $('#u_det_fk_business_unit').html('');
+        $('#u_det_fk_business_unit')
+        .append($("<option></option>")
+         .attr("value","null")
+         .html("---Seleccionar Unidad de Negocio---"));
+        $.each(businessUnit, function(index, value) {   
+            $('#u_det_fk_business_unit')
+            .append($("<option></option>")
+             .attr("value",value.bus_id)
+             .html(value.bus_name));
+        });
+        if (json.details_products[index].product.service_proyection.spy_has_show) {
+            $('#u_fk_show').show();
+            $('#u_det_fk_show').html('');
+            $('#u_det_fk_show')
+            .append($("<option></option>")
+             .attr("value","null")
+             .html("---Seleccionar Programa---"));
+            $.each(shows, function(index, value) {   
+                $('#u_det_fk_show')
+                .append($("<option></option>")
+                 .attr("value",value.sho_id)
+                 .html(value.sho_name));
+            });
+            $('u_det_fk_show').val(json.details_products[index].det_fk_show); 
+        }else{
+            $('#u_fk_show').hide();
+        }        
+    }
+    $('#u_det_fk_business_unit').val("null");
+    $('#u_det_fk_show').val("null");
+    $('#u_det_impacts').val("null");
+    $('#u_det_validity').val("null");
+    $('#u_det_discount').val("null");
+    $('#u_det_discount_number').val("null");            
 }
 
 $( "#tax_postal_code" ).change(function() {
@@ -175,7 +218,7 @@ function setProduction(data){
         if (value.detail_production != null) {
             subtotal = parseFloat(value.det_final_price);
             monthOutlay = monthOutlay + subtotal;
-            $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="modalUpdate('+ value.detail_production.dpr_id +')" disabled="true">Modificar</button></div></td></tr>');
+            $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates('+index+')" disabled="true">Modificar</button></div></td></tr>');
             cont++;
         };
     });
@@ -196,7 +239,7 @@ function setProyection(ser_duration,ser_start_date,ser_end_date,data){
             if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
                 subtotal = parseFloat(subtotal) * 10;
             };
-            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm proyection" type="button" onclick="modalUpdate('+ value.det_id +')" disabled="true">Modificar</button></div></td></tr>');
+            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection('+ index +')" disabled="true">Modificar</button></div></td></tr>');
             cont++;
             monthOutlay = monthOutlay + subtotal;
         };        
@@ -604,6 +647,26 @@ function toDiscount(){
     }
 }
 
+function u_toDiscount_number(){
+    var price = parseFloat($('#u_pro_outlay').val());
+    var discount = parseFloat($('#u_det_discount').val());
+    if(discount<=100){
+        $('#du_et_discount_number').val(price-(price*(discount/100)));
+    }else{
+        $('#u_det_discount_number').val(price+(price*((discount-100)/100)));
+    }
+}
+
+function u_toDiscount(){
+    var price = parseFloat($('#u_pro_outlay').val());
+    var discount = parseFloat($('#u_det_discount_number').val());
+    if(price>=discount){
+        $('#u_det_discount').val(100-((discount*100)/price));
+    }else{
+        $('#u_det_discount').val((((discount)*100)/price));
+    }
+}
+
 function sendProduct(){    
     var data = {
         'row' : row,
@@ -631,9 +694,98 @@ function sendProduct(){
             setProduction(json.details_products);
             setProyection(json.ser_duration,json.ser_start_date,json.ser_end_date,json.details_products);
             setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
-            setEditable();   
+            setEditable();
+            setVariables();
+            $('#det_fk_product').val("null");
+            $('#pro_outlay').val("null");
+            setFormVisible();   
         }
     });   
+}
+
+function editProductionDates(index){
+    $('#u_productionRegistryIndex').val(json.details_products[index].detail_production.dpr_id);
+    $('#u_dpr_recording_date').val(json.details_products[index].detail_production.dpr_recording_date);
+    $('#u_dpr_proposal_1_date').val(json.details_products[index].detail_production.dpr_proposal_1_date);
+    $('#u_dpr_proposal_2_date').val(json.details_products[index].detail_production.dpr_proposal_2_date);
+    $('#detailProduction').modal('show');
+}
+
+function setProductionDates(){
+    var data = {
+        'dpr_id' : $('#u_productionRegistryIndex').val(),
+        'dpr_recording_date' : $('#u_dpr_recording_date').val(),
+        'dpr_proposal_1_date' : $('#u_dpr_proposal_1_date').val(),
+        'dpr_proposal_2_date' : $('#u_dpr_proposal_2_date').val()
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   updateProductionDatesRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            alert('Fechas guardadas con exito');
+            json = data.data;
+            adressData = data.adressData;
+            setProduction(json.details_products);
+            setProyection(json.ser_duration,json.ser_start_date,json.ser_end_date,json.details_products);
+            setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
+            setEditable();
+            setVariables();
+            $('#detailProduction').modal('hide');        
+        }
+    });    
+}
+
+function editProyection(index){
+    u_setFormVisible(index);
+    $('u_productid').val(json.details_products[index].det_id);
+    $('u_det_fk_product').val(json.details_products[index].det_fk_product);
+    $('u_pro_outlay').val(json.details_products[index].product.service_proyection.spy_outlay);
+    $('u_det_fk_business_unit').val(json.details_products[index].det_fk_business_unit);    
+    $('u_det_impacts').val(json.details_products[index].det_impacts);
+    $('u_det_validity').val(json.details_products[index].det_validity);
+    $('u_det_discount').val(json.details_products[index].det_discount);
+    $('u_det_discount_number').val(json.details_products[index].det_final_price);
+    $('#editProyection').modal('show');
+}
+
+function setProyection(){
+    var data = {
+        'dpr_id' : $('#u_productionRegistryIndex').val(),
+        'dpr_recording_date' : $('#u_dpr_recording_date').val(),
+        'dpr_proposal_1_date' : $('#u_dpr_proposal_1_date').val(),
+        'dpr_proposal_2_date' : $('#u_dpr_proposal_2_date').val()
+    }
+
+    /*$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   updateProductionDatesRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            alert('Fechas guardadas con exito');
+            json = data.data;
+            adressData = data.adressData;
+            setProduction(json.details_products);
+            setProyection(json.ser_duration,json.ser_start_date,json.ser_end_date,json.details_products);
+            setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
+            setEditable();
+            setVariables();
+            $('#detailProduction').modal('hide');        
+        }
+    });*/    
 }
 
 function upload(){

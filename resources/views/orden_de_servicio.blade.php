@@ -125,6 +125,39 @@
                 <div class="col-lg-12">                        
                     <h3><b>Producciones</b></h3> 
                     <hr>
+                    <!-- Modal for Edit Production Registry -->                                            
+                    <div class="modal fade" id="detailProduction" tabindex="-1" role="dialog" aria-labelledby="detailProduction">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Cambiar Esquema de Producción</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                    {{ Form::hidden('index', 'index',['id' => 'u_productionRegistryIndex']) }} 
+                                    <div class="form-group">
+                                        <label for="recording_date">Fecha de Grabación</label>
+                                        <input type="date" id="u_dpr_recording_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Grabación"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="proposal_1_date">Fecha de Propuesta 1</label>
+                                        <input type="date" id="u_dpr_proposal_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 1"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="proposal_2_date">Fecha de Propuesta 2</label>
+                                        <input type="date" id="u_dpr_proposal_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 2"/>
+                                    </div>                                                                                                             
+                                    <div class=text-right>
+                                        {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'setProductionDates()']) }}
+                                        {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                    </div>
+                                    {{ Form::close() }}                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Modal-->
                     <table class="table table-striped table-hover table-bordered margin-top20">
                         <thead>
                             <tr>
@@ -164,6 +197,61 @@
                     </div>
                     <h3><b>Proyecciones</b></h3> 
                     <hr>
+
+                    <!-- Modal for Edit Product -->                                            
+                    <div class="modal fade" id="editProyection" tabindex="-1" role="dialog" aria-labelledby="editProyection">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Cambiar Esquema de Producción</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    {{ Form::hidden('index', 'index',['id' => 'u_productid']) }} 
+                                    <div class="form-group">
+                                        {{ Form::label('fk_product','Producto')}}
+                                        {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'u_det_fk_product','disabled']) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ Form::label('outlay','Precio')}}
+                                        {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'u_pro_outlay','placeholder' => 'Precio'])}}
+                                    </div>                                    
+                                    <div class="form-group">
+                                        {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
+                                        {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'u_det_fk_business_unit']) }}
+                                    </div>
+                                    <div class="form-group" id="u_fk_show" style="display:none">
+                                        {{ Form::label('fk_show','Programa')}}
+                                        {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'u_det_fk_show']) }}
+                                    </div>                                                                
+                                    <div class="form-group">
+                                        {{ Form::label('impacts','Impactos')}}
+                                        {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_det_impacts','placeholder' => 'Impactos'])}}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ Form::label('validity','Vigencia Mensual (En días)')}}
+                                        {{ Form::number('validity',null,['class' => 'form-control','id' => 'u_det_validity','placeholder' => 'Vigencia'])}}
+                                    </div>                                    
+                                    <div class="form-group">
+                                        {{ Form::label('discount','Descuento (%)')}}
+                                        {{ Form::number('discount',null,['onkeyup' => 'u_toDiscount_number()','class' => 'form-control','id' => 'u_det_discount','placeholder' => 'Descuento'])}}
+                                    </div>                                                            
+                                    <div class="form-group">
+                                        {{ Form::label('discount_number','Precio con Descuento')}}
+                                        {{ Form::number('discount_number',null,['onkeyup' => 'u_toDiscount()','class' => 'form-control','id' => 'u_det_discount_number','placeholder' => 'Precio con Descuento'])}}
+                                    </div>
+
+                                    <div class=text-right>
+                                        {{ Form::button('Guardar',['class' => 'btn btn-success','onclick' => 'setProyection()']) }}
+                                    </div>
+                                    {{ Form::close() }}                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Modal-->
+
                     <table class="table table-striped table-hover table-bordered margin-top20">
                         <thead>
                             <tr>
@@ -472,6 +560,7 @@ var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'
 var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
 var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
 var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
+var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 

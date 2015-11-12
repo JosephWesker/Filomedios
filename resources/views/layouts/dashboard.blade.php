@@ -172,7 +172,7 @@
                             <li {{ (Request::is('*nueva_orden_de_servicio') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('nueva_orden_de_servicio') }}"><i class="fa fa-file-o fa-fw"></i>  Nueva Órden de Servicio</a>
                             </li>
-                            <li {{ (Request::is('*gestor_de_ordenes_de_servicio') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*gestor_de_ordenes_de_servicio*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('gestor_de_ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i>  Gestor de Órdenes de Servicio</a>
                             </li>
                         </ul>
