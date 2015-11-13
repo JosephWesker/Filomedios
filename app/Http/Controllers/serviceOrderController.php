@@ -173,9 +173,12 @@ class serviceOrderController extends Controller{
     $serviceOrder->ser_observations_admin = '';
     $serviceOrder->ser_observations_sales = '';
     $serviceOrder->save();
+    $customer = fil_customer::find($values['ser_fk_customer']);
+    $customer->cus_status = 'activo';
+    $customer->save();
 
     $this->createDetails($serviceOrder,json_decode(json_encode($values['detail_product'])));
-    $this->createPayments($serviceOrder,$values['pay_amount_cash'],$values['pay_amount_kind'],$values['pay_number_payments'],$values['payment_date']);    
+    $this->createPayments($serviceOrder,$values['pay_amount_cash'],$values['pay_amount_kind'],$values['pay_number_payments'],$values['payment_date']);        
   }
 
   function createDetails($serviceOrder,$details){
@@ -285,12 +288,7 @@ class serviceOrderController extends Controller{
         $paymentDate->save();
       }
     }
-    
-    $response = Response::json(array(
-      'success' => true,
-      'data'   => 'pagos guardados correctamente'
-      ));
-    return $response;
+    return $this->jsonResponse($values->serviceOrder);
   }
 
   function convertToTinyint($value){
@@ -302,7 +300,7 @@ class serviceOrderController extends Controller{
   }
 
   public function postReadServiceOrderSeller(){
-    $data = fil_service_order::where('emp_id','like', Session::get('id'))->join('fil_customer', 'ser_fk_customer', '=', 'cus_id')->join('fil_employee', 'cus_fk_employee', '=', 'emp_id')->get();
+    $data = fil_service_order::where('emp_id','like', Session::get('id'))->join('fil_customer', 'ser_fk_customer', '=', 'cus_id')->join('fil_employee', 'cus_fk_employee', '=', 'emp_id')->orderBy('ser_id','desc')->get();
     $finalArray = [];
 
     $today = date('Y-m-d');
@@ -369,7 +367,7 @@ class serviceOrderController extends Controller{
   
 
   public function postReadServiceOrderAuth(){
-    $data = fil_service_order::all();
+    $data = fil_service_order::orderBy('ser_id','desc')->get();
     $rejected = [];
     $pending = [];
     $accepted = [];
@@ -612,12 +610,7 @@ class serviceOrderController extends Controller{
       $value->pda_amount = ((float) $paymentScheme->pay_amount_cash)/$number;
       $value->save();
     }
-    
-    $response = Response::json(array(
-      'success' => true,
-      'data'   => 'Pago eliminado'
-      ));
-    return $response;
+     return $this->jsonResponse($paymentScheme->serviceOrder->ser_id);
   }
 
   public function postUpdateOrderDuration(){

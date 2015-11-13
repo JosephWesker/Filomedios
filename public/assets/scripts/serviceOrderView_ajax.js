@@ -448,16 +448,6 @@ function editDate(id,type){
     $('#editPayment').modal('show');
 }
 
-function editDate(id,type){
-    if (type == 'old') {
-        changingPayment = json.payment_scheme.payment_dates[id];        
-    }else{
-        changingPayment = newPayments[id];  
-    }
-    $('#setDate').val(changingPayment.pda_date);
-    $('#editPayment').modal('show');
-}
-
 function editPayment(){
     changingPayment.pda_date = $('#setDate').val();
     $('#editPayment').modal('hide');
@@ -487,8 +477,15 @@ function updatePayment(){
         data: data,
         type:  'post',
         success:  function (data) {
-            alert(data.data);
-            location.reload();        
+            alert('Datos para pago guardados con exito');
+            json = data.data;
+            adressData = data.adressData;
+            setProduction(json.details_products);
+            setProyection(json.ser_duration,json.ser_start_date,json.ser_end_date,json.details_products);
+            setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
+            setEditable();
+            setVariables();
+            newPayments = [];     
         }
     });
 }
@@ -509,8 +506,15 @@ function delateDate(id,type){
             data: data,
             type:  'post',
             success:  function (data) {
-                alert(data.data);
-                location.reload();        
+                alert('Datos para pago guardados con exito');
+                json = data.data;
+                adressData = data.adressData;
+                setProduction(json.details_products);
+                setProyection(json.ser_duration,json.ser_start_date,json.ser_end_date,json.details_products);
+                setPayments(json.ser_discount_month,json.ser_iva,json.ser_outlay_total,json.payment_scheme);
+                setEditable();
+                setVariables();       
+                newPayments = [];
             }
         });           
     }else{
