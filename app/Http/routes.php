@@ -104,6 +104,10 @@ Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middlewa
 
 Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
 
+Route::get('/tesoreria/{id}', ['uses' => 'treasuryController@readPayments','middleware' => 'SessionControl']);
+
+Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
@@ -112,4 +116,5 @@ Route::controller('login','loginController');
 Route::controller('package','packageController');
 Route::controller('customer','customerController');
 Route::controller('serviceOrder','serviceOrderController');
+Route::controller('treasury','treasuryController');
 //Route::controller('product','productController');

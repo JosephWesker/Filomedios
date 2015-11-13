@@ -177,7 +177,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li {{ (Request::is('*tesoreria') ? 'class="active"' : '') }}>
+                    <li {{ (Request::is('*tesoreria*') ? 'class="active"' : '') }}>
                         <a href="{{ url ('tesoreria') }}"><i class="fa fa-usd fa-fw"></i> Tesorería</a>
                     </li>
                     <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>

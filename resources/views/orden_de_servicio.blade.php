@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Gestor de Ordenes de Servicio')
+@section('page_heading',$header)
 @section('section')
 <link href="{{ asset("assets/stylesheets/gestor_de_ordenes_de_servicio.css") }}" rel="stylesheet">
 

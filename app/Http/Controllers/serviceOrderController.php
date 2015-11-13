@@ -577,6 +577,7 @@ class serviceOrderController extends Controller{
     $data['AddressData'] = fil_postal_codes::find($serviceOrder->customer->taxData->tax_postal_code);
     $data['json'] = json_encode($serviceOrder);
     $data['editable'] = json_encode($data['editable']);
+    $data['header'] = 'Orden de Servicio: '.$serviceOrder->ser_id;
     return view('orden_de_servicio', $data);
   }  
 
