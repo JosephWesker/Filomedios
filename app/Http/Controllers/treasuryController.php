@@ -12,6 +12,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use App\fil_payment_date;
 use App\fil_service_order;
+use App\fil_invoice_data;
+use App\fil_real_payment;
 
 class treasuryController extends Controller{
   public function postReadPayments(){
@@ -27,11 +29,7 @@ class treasuryController extends Controller{
           foreach ($value->realPayments as $payment) {
             $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
           }          
-          if ($paymentsTotal != 0) {            
-            $value->pda_outstanding = $paymentsTotal;
-          }else{
-            $value->pda_outstanding = $value->pda_amount;
-          }
+          $value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal ;
           $outstanding[] = $value;
         }else{
           $full[] = $value;
@@ -82,11 +80,7 @@ class treasuryController extends Controller{
           foreach ($value->realPayments as $payment) {
             $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
           }          
-          if ($paymentsTotal != 0) {            
-            $value->pda_outstanding = $paymentsTotal;
-          }else{
-            $value->pda_outstanding = $value->pda_amount;
-          }
+          $value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal;
           $outstanding[] = $value;
         }else{
           $full[] = $value;
@@ -100,7 +94,10 @@ class treasuryController extends Controller{
 
   public function detailPayment($id){
     $payment = fil_payment_date::find($id);
-    $serviceOrder = $payment->paymentScheme->serviceOrder;
+    foreach ($payment->realPayments as $realPayment) {
+      $realPayment->invoiceData;
+    }
+    $serviceOrder = fil_payment_date::find($id)->paymentScheme->serviceOrder;
     $hasIVA = false;
     if ($serviceOrder->ser_iva != 0) {
       $hasIVA = true;
@@ -121,11 +118,84 @@ class treasuryController extends Controller{
     '<br><b>Representante Legal: </b>'.$fiscal->tax_legal_representative;
     $data = array(
       'clienteColum1' => $clienteColum1, 
-      'clienteColum2' => $clienteColum2, 
-      'pda_id' => $id, 
+      'clienteColum2' => $clienteColum2,
       'ser_id' => $serviceOrder->ser_id,
-      'hasIVA' => $hasIVA
+      'hasIVA' => $hasIVA,
+      'payment' => json_encode($payment)
       );
     return view('tesoreria_realPayment', $data);
   }
+
+  public function postReadCFDIS(){
+    $invoices = fil_invoice_data::all();
+    $response = Response::json(array(
+      'success' => true,
+      'data' => $invoices
+      ));
+    return $response;
+  }
+
+  public function postCreateRealPayment(){
+    $values = Request::all();
+    $realPayment = new fil_real_payment;
+    $realPayment->rpa_fk_payment_date = $values['rpa_fk_payment_date'];
+    $realPayment->rpa_amount = $values['rpa_amount'];
+    $realPayment->rpa_date = date('Y-m-d');
+    if ($values['rpa_method'] == 'contado') {
+      $realPayment->rpa_method = $values['rpa_method'];
+      $realPayment->rpa_account = '';
+    }else{
+      $realPayment->rpa_method = $values['rpa_method'];
+      $realPayment->rpa_account = $values['rpa_account'];
+    }
+    $realPayment->rpa_has_invoice =  $this->convertToTinyint($values['rpa_has_invoice']);
+    
+    if ($this->convertToBolean($values['new_invoice'])) {
+      $invoice = new fil_invoice_data;
+      $invoice->ind_cfdi = $values['ind_cfdi'];
+      $invoice->save();
+      $realPayment->rpa_invoice_data = $invoice->ind_id;
+    }else{
+      $realPayment->rpa_invoice_data = $values['ind_id'];
+    }
+
+    $realPayment->save();
+
+    $this->checkForStatus($values['rpa_fk_payment_date']);
+
+    $response = Response::json(array(
+      'success' => true,
+      'data' => 'Pago guardado con exito'
+      ));
+    return $response;
+  }
+
+  function convertToTinyint($value){
+    if($value=='true'){
+      return 1;
+    }else{
+      return 0;
+    } 
+  }
+
+  function convertToBolean($value){
+    if($value=='true'){
+      return true;
+    }else{
+      return false;
+    } 
+  }
+
+  function checkForStatus($id){
+    $value = fil_payment_date::find($id);
+    $paymentsTotal = 0;
+    foreach ($value->realPayments as $payment) {
+      $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
+    }
+    if ($paymentsTotal == $value->pda_amount) {
+      $value->pda_status = 'pagado';
+      $value->save();
+    }          
+  }
+
 }
