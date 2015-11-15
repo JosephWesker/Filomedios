@@ -383,6 +383,11 @@
                 <div class="col-lg-12">
                     <h3><b>Cargar Archivos</b></h3> 
                     <hr>
+                    <label for="catagry_name">Logo</label>
+                    <form enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="" >
+                        <input type="file" class="form-control" id="filetoupload">
+                    </form>
+                    <button type="button" class="addbtn">Add</button>
                 </div>
                 <div class="col-lg-12">
                     <h3><b>Archivos Cargados</b></h3> 
@@ -549,20 +554,21 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-    var json = {{ $json }};
-    var AddressData = {{ $AddressData }};
-    var editable = {{ $editable }};
-    var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
-    var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
-    var updateRoute = '{{ action('customerController@postUpdate'); }}';
-    var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
-    var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
-    var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
-    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-    var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
-    var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
-    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
-    var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
+var json = {{ $json }};
+var AddressData = {{ $AddressData }};
+var editable = {{ $editable }};
+var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
+var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
+var updateRoute = '{{ action('customerController@postUpdate'); }}';
+var updatePaymentsRoute = '{{ action('serviceOrderController@postSavePayments'); }}';
+var delatePaymentsRoute = '{{ action('serviceOrderController@postDeletePayments'); }}';
+var updateOrderDurationRoute = '{{ action('serviceOrderController@postUpdateOrderDuration'); }}';
+var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
+var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
+var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
+var loadFilesRoute = '{{ action('serviceOrderController@postUploadFiles'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 

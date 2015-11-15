@@ -611,7 +611,7 @@ class serviceOrderController extends Controller{
       $value->pda_amount = ((float) $paymentScheme->pay_amount_cash)/$number;
       $value->save();
     }
-     return $this->jsonResponse($paymentScheme->serviceOrder->ser_id);
+    return $this->jsonResponse($paymentScheme->serviceOrder->ser_id);
   }
 
   public function postUpdateOrderDuration(){
@@ -742,7 +742,11 @@ class serviceOrderController extends Controller{
     return $this->jsonResponse($values['ser_id']);
   }
 
-  public function postUploadFiles(){
-
+  public function postUploadFiles(){    
+    if (Input::hasFile('file')){
+     return "file undu";
+   }else{
+    return "file illla";
   }
+}
 }

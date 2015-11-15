@@ -835,7 +835,31 @@ function setNewProyection(){
 
 
 function upload(){
+    $(".addbtn").click(function(){
+        var file = new FormData($('#upload_form')[0]);        
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+          url:loadFilesRoute,
+          data:{
+            file: file,
+        },
+
+        dataType:'json',
+        async:false,
+        type:'post',
+        processData: false,
+        contentType: false,
+        success:function(data){
+            console.log(data);
+        },
+    });
+    });
 }
 
 $(document).ready(function(){
@@ -847,6 +871,7 @@ $(document).ready(function(){
     setEditable();
     setVariables();
     loadProductsData();
+    upload();
     $("#months_contract2").on("change", function () {
         var date = new Date($("#start_date_contract").val()),
         months = parseInt($("#months_contract2").val());
