@@ -384,10 +384,10 @@
                     <h3><b>Cargar Archivos</b></h3> 
                     <hr>
                     <label for="catagry_name">Logo</label>
-                    <form enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="" >
-                        <input type="file" class="form-control" id="filetoupload">
+                    <form enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="" name="uploadfiles">
+                        <input type="file" class="form-control" id="filetoupload" multiple>
                     </form>
-                    <button type="button" class="addbtn">Add</button>
+                    <button type="button" class="addbtn" id="uploadButton">cargar</button>
                 </div>
                 <div class="col-lg-12">
                     <h3><b>Archivos Cargados</b></h3> 
@@ -399,7 +399,7 @@
                                 <th>Acciones</th>                                        
                             </tr>
                         </thead>
-                        <tbody id="canceladas">
+                        <tbody id="filesoncloud">
 
                         </tbody>
                     </table>
@@ -568,8 +568,9 @@ var addProductRoute = '{{ action('serviceOrderController@postAddProduct'); }}';
 var updateProductionDatesRoute = '{{ action('serviceOrderController@postUpdateProductionDates'); }}';
 var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
 var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
+var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
 var loadFilesRoute = '{{ action('serviceOrderController@postUploadFiles'); }}';
+var readFilesRoute = '{{ action('serviceOrderController@postFiles'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
-
 @stop

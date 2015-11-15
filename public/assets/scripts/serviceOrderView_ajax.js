@@ -833,33 +833,33 @@ function setNewProyection(){
     });
 }
 
+function getFiles(){
+    var data = {
+        'serviceOrder' : json.ser_id
+    }
 
-function upload(){
-    $(".addbtn").click(function(){
-        var file = new FormData($('#upload_form')[0]);        
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    $.ajax({
+        url:   readFilesRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            $("#filesoncloud").html('');
+            if (data.data !== null && $.isArray(data.data) && data.data.length>0){
+                $.each(data.data, function(index, value){
+                    $("#filesoncloud").append('<tr class="gradeX"><td>' + value.name + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="downloadFile(\''+ value.path +'\')" disabled="true">Descargar</button><button class="btn btn-danger btn-sm production" type="button" onclick="delateFile(\''+ value.path +'\')" disabled="true">Eliminar</button></div></td></tr>');
+                });
+            }else{
+                $("#filesoncloud").append('<tr class="gradeX"><td colspan="2">No existen Archivos en el servidor para esta orden</td>');
             }
-        });
-
-        $.ajax({
-          url:loadFilesRoute,
-          data:{
-            file: file,
-        },
-
-        dataType:'json',
-        async:false,
-        type:'post',
-        processData: false,
-        contentType: false,
-        success:function(data){
-            console.log(data);
-        },
-    });
-    });
+            setEditable();
+        }
+    });    
 }
 
 $(document).ready(function(){
@@ -871,7 +871,7 @@ $(document).ready(function(){
     setEditable();
     setVariables();
     loadProductsData();
-    upload();
+    getFiles();
     $("#months_contract2").on("change", function () {
         var date = new Date($("#start_date_contract").val()),
         months = parseInt($("#months_contract2").val());
@@ -883,4 +883,23 @@ $(document).ready(function(){
             //     alert("Invalid Date");  
         }
     });
+    $("#uploadButton").click(function(){
+        event.preventDefault();
+        var data = new FormData();
+        $.each($('#filetoupload')[0].files, function(i, file) {
+            data.append('file-'+i, file); 
+        });
+        data.append('idServiceOrder',json.ser_id);
+        $.ajax({
+            url:loadFilesRoute,
+                type: "post",   // usualmente post o get var tipo = JSON.stringify(arrayC);
+                dataType: "html",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function(res){
+                getFiles();
+            });
+        });
 });

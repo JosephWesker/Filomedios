@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use App\fil_customer;
@@ -742,11 +743,30 @@ class serviceOrderController extends Controller{
     return $this->jsonResponse($values['ser_id']);
   }
 
-  public function postUploadFiles(){    
-    if (Input::hasFile('file')){
-     return "file undu";
-   }else{
-    return "file illla";
+  public function postUploadFiles(){
+    $serviceOrder = Input::get('idServiceOrder');
+    $path = 'produccionFile/'.$serviceOrder.'/';
+    for ($i=0; $i < count(Request::all())-1; $i++) { 
+      $string = 'file-'.$i;
+      $file = Input::file($string);
+      //Storage::put($path.$file->getClientOriginalName().'.'.$file->getClientOriginalExtension(),  File::get($file));
+      Storage::put($path.$file->getClientOriginalName(),  File::get($file));
+    }  
   }
-}
+
+  public function postFiles(){
+    $path = 'produccionFile/'.Request::get('serviceOrder').'/';
+    $files = Storage::files($path);
+    $finalArray = [];
+    foreach ($files as $value) {      
+      $row['name'] = substr($value, 25);
+      $row['path'] = $value;
+      $finalArray[] = $row;
+    }
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $finalArray
+      ));
+    return $response;
+  }
 }
