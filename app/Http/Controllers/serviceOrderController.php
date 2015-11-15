@@ -750,7 +750,7 @@ class serviceOrderController extends Controller{
       $string = 'file-'.$i;
       $file = Input::file($string);
       //Storage::put($path.$file->getClientOriginalName().'.'.$file->getClientOriginalExtension(),  File::get($file));
-      Storage::put($path.$file->getClientOriginalName(),  File::get($file));
+      Storage::put($this->normaliza($path.$file->getClientOriginalName()),  File::get($file));
     }  
   }
 
@@ -768,5 +768,29 @@ class serviceOrderController extends Controller{
       'data'   => $finalArray
       ));
     return $response;
+  }
+
+  public function downloadFile($folder,$serviceOrder,$file){
+    $finalPath = storage_path().'/app/'.$folder.'/'.$serviceOrder.'/'.$file;
+    return Response::download($finalPath);
+  }
+
+  public function postDelateFile(){
+    $values = Request::all();
+    Storage::delete($values['path']);
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => 'Archivo Eliminado'
+      ));
+    return $response;
+  }
+
+  function normaliza($cadena){
+    $originales = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
+    $modificadas = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+    $cadena = utf8_decode($cadena);
+    $cadena = strtr($cadena, utf8_decode($originales), $modificadas);
+    $cadena = strtolower($cadena);
+    return utf8_encode($cadena);
   }
 }

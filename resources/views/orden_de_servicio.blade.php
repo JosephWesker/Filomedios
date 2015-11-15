@@ -571,6 +571,8 @@ var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProd
 var updateProductRoute = '{{ action('serviceOrderController@postUpdateDetailProduct'); }}';
 var loadFilesRoute = '{{ action('serviceOrderController@postUploadFiles'); }}';
 var readFilesRoute = '{{ action('serviceOrderController@postFiles'); }}';
+var downloadFilesRoute = '{{ route('gestor de ordenes de servicios'); }}';
+var delateFilesRoute = '{{ action('serviceOrderController@postDelateFile'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 @stop

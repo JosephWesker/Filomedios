@@ -104,6 +104,8 @@ Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middlewa
 
 Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
 
+Route::get('/gestor_de_ordenes_de_servicio/download/{folder}/{serviceOrder}/{file}', ['uses' => 'serviceOrderController@downloadFile','middleware' => 'SessionControl']);
+
 Route::get('/tesoreria/{id}', ['uses' => 'treasuryController@readPayments','middleware' => 'SessionControl']);
 
 Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment','middleware' => 'SessionControl']);

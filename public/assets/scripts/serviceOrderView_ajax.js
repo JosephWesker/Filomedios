@@ -862,6 +862,33 @@ function getFiles(){
     });    
 }
 
+function downloadFile(path){
+    var url = downloadFilesRoute+'/download/'+path;
+    window.open(url,'_blank');  
+}
+
+function delateFile(path){
+    var data = {
+        'path' : path
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   delateFilesRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            alert(data.data);
+            getFiles();
+        }
+    });    
+}
+
 $(document).ready(function(){
     loadPostalCodes();
     loadSelects();
