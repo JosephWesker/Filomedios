@@ -416,12 +416,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "cdf32abb5272d2dabd0d9ee566e2d818b0d1d4bf"
+                "reference": "c828dbb70f5bac2ff68167c537e90dece4591156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/cdf32abb5272d2dabd0d9ee566e2d818b0d1d4bf",
-                "reference": "cdf32abb5272d2dabd0d9ee566e2d818b0d1d4bf",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/c828dbb70f5bac2ff68167c537e90dece4591156",
+                "reference": "c828dbb70f5bac2ff68167c537e90dece4591156",
                 "shasum": ""
             },
             "type": "library",
@@ -456,7 +456,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2015-11-05 03:46:29"
+            "time": "2015-11-13 16:04:11"
         },
         {
             "name": "laravel/framework",
@@ -2363,16 +2363,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.16",
+            "version": "4.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e"
+                "reference": "fa33d4ad96481b91df343d83e8c8aabed6b1dfd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/625f8c345606ed0f3a141dfb88f4116f0e22978e",
-                "reference": "625f8c345606ed0f3a141dfb88f4116f0e22978e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fa33d4ad96481b91df343d83e8c8aabed6b1dfd3",
+                "reference": "fa33d4ad96481b91df343d83e8c8aabed6b1dfd3",
                 "shasum": ""
             },
             "require": {
@@ -2431,7 +2431,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-23 06:48:33"
+            "time": "2015-11-11 11:32:49"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
