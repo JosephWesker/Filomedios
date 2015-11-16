@@ -92,6 +92,10 @@ Route::get('/usuarios', ['middleware' => 'SessionControl', 'as' => 'usuarios', f
 	return View::make('usuarios');
 }]);
 
+Route::get('/evaluacion', ['middleware' => 'SessionControl', 'as' => 'evaluacion', function(){
+	return View::make('evaluacion');
+}]);
+
 Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
 	return View::make('login');
 }]);

@@ -179,7 +179,7 @@
                     </li>
                     <li {{ (Request::is('*tesoreria') ? 'class="active"' : '') }}>
                         <a href="{{ url ('tesoreria') }}"><i class="fa fa-usd fa-fw"></i> Tesorería</a>
-                    </li>
+                    </li>                    
                     <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('produccion') }}"><i class="fa fa-video-camera"></i> Producción</a>
                         <ul class="nav nav-second-level">
@@ -193,6 +193,9 @@
                     </li>
                     <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
                         <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>
+                    </li>
+                    <li {{ (Request::is('*evaluacion') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('evaluacion') }}"><i class="fa fa-check-circle fa-fw"></i> Desempeño de Vendedores</a>
                     </li>                    
                     <li {{ (Request::is('*configuracion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('configuracion') }}"><i class="fa fa-cog fa-fw"></i> Configuración</a>
