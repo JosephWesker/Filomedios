@@ -12,60 +12,75 @@
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="results" aria-labelledby="home-tab">
+                        <br>
+                        <button type="button" class="btn btn-success" onclick="updateEvaluations()">
+                            Actualizar Evaluaciones
+                        </button>
                         <div class="col-lg-12">
                             <h3><b>Buscar</b></h3> 
                             <hr>
                             <div class="form-group col-lg-5">
-                               {{ Form::label('employee','Empleado')}}
-                               {{ Form::select('employee', ['null'=>'---Seleccionar Empleado---'],null,['class' => 'form-control','id'=>'eva_emp_id']) }}
-                           </div>                           
-                           <div class="form-group col-lg-5">
-                               {{ Form::label('employee','Mes y Año')}}
-                               {{ Form::select('employee', ['null'=>'---Seleccionar Mes/Año---'],null,['class' => 'form-control','id'=>'eva_emp_id', 'disabled']) }}
-                           </div>
-                           <div class="col-lg-2">
-                                <br>
-                                <button type="button" class="btn btn-success" onclick="updateEvaluations()">
-                                    Actualizar Evaluaciones
-                                </button>
-                            </div>
-                       </div>                   
-                       <h3><b>Tabla de Resultados</b></h3> 
-                       <hr>
-                       <table class="table table-striped table-hover table-bordered margin-top20">
+                             {{ Form::label('employee','Empleado')}}
+                             {{ Form::select('employee', ['null'=>'---Seleccionar Empleado---'],null,['class' => 'form-control','id'=>'eva_emp_id', 'onchange' => 'getDates()']) }}
+                         </div>                           
+                         <div class="form-group col-lg-5">
+                             {{ Form::label('employee','Mes y Año')}}
+                             {{ Form::select('employee', ['null'=>'---Seleccionar Mes/Año---'],null,['class' => 'form-control','id'=>'eva_tim_id', 'disabled', 'onchange'=>'enableSearch()']) }}
+                         </div>
+                         <div class="col-lg-2">
+                            <br>
+                            <button type="button" class="btn btn-success" id='searchButton' onclick="getEvaluation()" disabled>
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                    <hr>                   
+                    <h3><b>Metas a Alcanzar</b></h3> 
+                    <table class="table table-striped table-hover table-bordered margin-top20">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>% de Clientes</th>
                                 <th>Duración Promedio del Contrato</th>
                                 <th>Valumen de Ventas</th>
-                                <th>Metas Conseguidas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="goalsResult">
+                            <td colspan="8">Selecciona Empleado y Fecha para ver resultados</td>
+                        </tbody>
+                    </table>
+                    <h3><b>Resultados</b></h3>
+                    <table class="table table-striped table-hover table-bordered margin-top20">
+                        <thead>
+                            <tr>
+                                <th>% de Clientes</th>
+                                <th>Duración Promedio del Contrato</th>
+                                <th>Valumen de Ventas</th>
                                 <th>Mes</th>
                                 <th>Año</th>
                                 <th>Metas Conseguidas</th>
                             </tr>
                         </thead>
-                        <tbody id="results">
+                        <tbody id="resultsTab">
                             <td colspan="8">Selecciona Empleado y Fecha para ver resultados</td>
                         </tbody>
                     </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="projections" aria-labelledby="profile-tab">
-                   <h3><b>Parámetros</b></h3> 
-                   <hr>
-                   <div class="col-lg-12">
+                 <h3><b>Parámetros</b></h3> 
+                 <hr>
+                 <div class="col-lg-12">
                     <div class="col-lg-4">
                         <div class="form-group">
                             {{ Form::label('amount','% de Clientes Esperado')}}
-                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_customer_porcent','placeholder' => '%'])}}
+                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_customer_porcent','placeholder' => '%', 'onchange' => 'calculateGoaCustomerPorcent()'])}}
                         </div>
                         <div class="form-group">
                             {{ Form::label('amount','Duración Promedio del Contrato Esperado')}}
-                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_duration_average','placeholder' => 'Meses'])}}
+                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_duration_average','placeholder' => 'Meses', 'onchange' => 'calculateGoaDurationAverage()'])}}
                         </div>
                         <div class="form-group">
                             {{ Form::label('amount','Valumen de Ventas Esperado')}}
-                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_sales_volume','placeholder' => '$$$$$'])}}
+                            {{ Form::number('amount',null,['class' => 'form-control','id' => 't_res_sales_volume','placeholder' => '$$$$$', 'onchange' => 'calculateGoaSalesVolume()'])}}
                         </div>
                     </div>                        
                 </div>
@@ -148,10 +163,14 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
-var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
-var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
-var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
+    var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
+    var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
+    var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
+    var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
+    var getEmployeesRoute = '{{ action('evaluationController@postReadEmployees'); }}';
+    var getDatesRoute = '{{ action('evaluationController@postReadDates'); }}';
+    var getEvaluationRoute = '{{ action('evaluationController@postGetEvaluation'); }}';
+    var getProyectionsRoute = '{{ action('evaluationController@postGetDataForProyections'); }}';
 </script>
 <script src="{{ asset("assets/scripts/evaluation_ajax.js") }}" type="text/javascript"></script>
 

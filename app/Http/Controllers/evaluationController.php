@@ -15,33 +15,43 @@ use App\fil_time;
 
 class evaluationController extends Controller{
   public function postEvaluate(){
-    $employees = fil_employee::all();
-    $time = $this->getTime();
-    foreach ($employees as $employee){
-      if ($employee->emp_job == 'vendedor'){
-        $existsEvaluation = $this->existsEvaluation($employee); 
-        if (!$existsEvaluation){
-          $goaCustomerPorcent = $this->calculateCustomerPercent($employee);
-          $goaDurationAverage = $this->calculateDurationAverage($employee);
-          $goaSalesVolume = $this->calculateSalesVolume($employee);
-          $result = new fil_result;
-          $result->res_customer_porcent = $goaCustomerPorcent;
-          $result->res_duration_average = $goaDurationAverage;
-          $result->res_sales_volume = $goaSalesVolume;
-          $result->save();
-          $evaluation = new fil_evaluation;
-          $evaluation->eva_emp_id = $employee->emp_id;
-          $evaluation->eva_tim_id = $time->tim_id;
-          $evaluation->eva_res_id = $result->res_id;
-          $evaluation->eva_goa_id = $this->getGoals()->goa_id;
-          $evaluation->save();
-        }        
+    $goals = fil_goals::count();
+    $response = null;
+    if ($goals == 0) {
+      $response = Response::json(array(
+      'success' => true,
+      'data'   => 'Evaluaciones No Actualizadas, no existen metas con las que evaluar, inserte un conjunto de metas para poder evaluar'
+      ));
+    }else{
+      $employees = fil_employee::all();
+      $time = $this->getTime();
+      foreach ($employees as $employee){
+        if ($employee->emp_job == 'vendedor'){
+          $existsEvaluation = $this->existsEvaluation($employee); 
+          if (!$existsEvaluation){
+            $goaCustomerPorcent = $this->calculateCustomerPercent($employee);
+            $goaDurationAverage = $this->calculateDurationAverage($employee);
+            $goaSalesVolume = $this->calculateSalesVolume($employee);
+            $result = new fil_result;
+            $result->res_customer_porcent = $goaCustomerPorcent;
+            $result->res_duration_average = $goaDurationAverage;
+            $result->res_sales_volume = $goaSalesVolume;
+            $result->save();
+            $evaluation = new fil_evaluation;
+            $evaluation->eva_emp_id = $employee->emp_id;
+            $evaluation->eva_tim_id = $time->tim_id;
+            $evaluation->eva_res_id = $result->res_id;
+            $evaluation->eva_goa_id = $this->getGoals()->goa_id;
+            $evaluation->eva_achieved_goals = $this->calculateGoals($result,$this->getGoals());
+            $evaluation->save();
+          }        
+        }
       }
-    }
-    $response = Response::json(array(
+      $response = Response::json(array(
       'success' => true,
       'data'   => 'Evaluaciones Actualizadas'
       ));
+    }
     return $response;
   }
 
@@ -74,7 +84,7 @@ class evaluationController extends Controller{
     foreach ($times as $time) {
       if ($time->tim_year == date('Y') && $time->tim_month == $month) {
         $valueToReturn = $time;
-        $needNewTime == false;
+        $needNewTime = false;
       }
     }
     if ($needNewTime) {
@@ -138,10 +148,16 @@ class evaluationController extends Controller{
   function calculateDurationAverage($employee){
     $contDuration = 0;
     $durationTotal = 0;
+    $month = ((date('n'))-1);
+    if ($month == 0) {
+      $month = 12;
+    }
     foreach ($employee->customers as $customer) {
       foreach ($customer->ServiceOrders as $serviceOrder) {
-        $durationTotal += (int) $serviceOrder->ser_duration;
-        $contDuration++;
+        if ((date('n', strtotime($serviceOrder->created_at))) == ($month)) {
+          $durationTotal += (int) $serviceOrder->ser_duration;
+          $contDuration++;
+        }        
       }
     }
     if ($contDuration) {
@@ -154,14 +170,32 @@ class evaluationController extends Controller{
 
   function calculateSalesVolume($employee){
     $sales = 0;
+    $month = ((date('n'))-1);
+    if ($month == 0) {
+      $month = 12;
+    }
     foreach ($employee->customers as $customer) {
       foreach ($customer->ServiceOrders as $serviceOrder) {
-        foreach ($serviceOrder->fil_product_fil_service_order as $detail) {
-          $sales += (float) $detail->pso_subtotal;
+        if ((date('n', strtotime($serviceOrder->created_at))) == ($month)) {
+          $sales += (float) $serviceOrder->ser_outlay;
         }
       }
     }
     return $sales;
+  }
+
+  function calculateGoals($result,$goals){
+    $cont = 0;
+    if (((float) $result->res_customer_porcent) >= ((float) $goals->goa_customer_porcent)){
+      $cont++;
+    }
+    if (((float) $result->res_duration_average) >= ((float) $goals->goa_duration_average)){
+      $cont++;
+    }
+    if (((float) $result->res_sales_volume) >= ((float) $goals->goa_sales_volume)){
+      $cont++;
+    }
+    return $cont;
   }
 
   function setGoalsOff(){
@@ -204,6 +238,80 @@ class evaluationController extends Controller{
     $response = Response::json(array(
       'success' => true,
       'data'   => 'Meta activada'
+      ));
+    return $response;
+  }
+
+  public function postReadEmployees(){
+    $evaluations = fil_evaluation::all();
+    $arrayOfEmployees = [];
+    foreach ($evaluations as $evaluation) {
+      $row = [];
+      $row['name'] = $evaluation->employee->emp_first_name.' '.$evaluation->employee->emp_last_name;
+      $row['id'] = $evaluation->employee->emp_id;
+      $arrayOfEmployees[$row['id']] = $row;
+    }
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $arrayOfEmployees
+      ));
+    return $response;
+  }
+
+  public function postReadDates(){
+    $dates = fil_evaluation::where('eva_emp_id','=',Request::get('id'))->get();
+    $finalArray = [];
+    foreach ($dates as $date) {
+      $row = [];
+      $row['id'] = $date->eva_id;
+      $row['value'] = $date->time->tim_month.'/'.$date->time->tim_year;
+      $finalArray[] = $row;
+    }
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $finalArray
+      ));
+    return $response;
+  }
+
+  public function postGetEvaluation(){
+    $evaluation = fil_evaluation::find(Request::get('eva_id'));
+    $evaluation->result;
+    $evaluation->goals;
+    $evaluation->time;
+    $evaluation->employee;
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $evaluation
+      ));
+    return $response;
+  }
+
+  public function postGetDataForProyections(){
+    $employees = fil_employee::where('emp_job','like','vendedor')->get();
+    $finalArray = [];
+    foreach ($employees as $employee) {
+      $evaluations = fil_evaluation::where('eva_emp_id','=',$employee->emp_id)->orderBy('created_at')->take(3)->get();
+      $res_customer_porcent = 0;
+      $res_duration_average = 0;
+      $res_sales_volume = 0;
+      $cont = 0;
+      foreach ($evaluations as $value) {
+        $res_customer_porcent += (float) $value->result->res_customer_porcent;
+        $res_duration_average += (float) $value->result->res_duration_average;
+        $res_sales_volume += (float) $value->result->res_sales_volume;  
+        $cont++;      
+      }
+      $row = [];
+      $row['res_customer_porcent'] = ($res_customer_porcent/$cont);
+      $row['res_duration_average'] = ($res_duration_average/$cont);
+      $row['res_sales_volume'] = ($res_sales_volume/$cont);
+      $row['name'] = $employee->emp_first_name.' '.$employee->emp_last_name;
+      $finalArray[$employee->emp_id] = $row;      
+    }
+    $response = Response::json(array(
+      'success' => true,
+      'data'   => $finalArray
       ));
     return $response;
   }

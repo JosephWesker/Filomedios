@@ -1,3 +1,8 @@
+var dataForProyection = null;
+var goaCustomerPorcent = 0;
+var goaDurationAverage = 0;
+var goaSalesVolume = 0;
+
 function saveGoals(){
     var data = {
         'res_customer_porcent' : $('#res_customer_porcent').val(),
@@ -85,11 +90,176 @@ function updateEvaluations(){
         url: updateEvaluationsRoute,
         type:  'post',
         success:  function (data) {
-            alert(data.data); 
+            alert(data.data);
+            setEmployees();
+            getProyections(); 
         }
     });
 }
 
+function setEmployees(){
+    $('#eva_emp_id').html('');
+    $('#eva_emp_id')
+    .append($("<option></option>")
+       .attr("value",'null')
+       .text('---Seleccionar Empleado---'));
+
+    $('#searchButton').prop('disabled',true);
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: getEmployeesRoute,
+        type:  'post',
+        success:  function (data) {
+            $.each(data.data, function(index, value) {   
+                $('#eva_emp_id')
+                .append($("<option></option>")
+                   .attr("value",value.id)
+                   .text(value.name));
+            }); 
+        }
+    });
+}
+
+function getDates(){
+    $('#eva_tim_id').html('');
+    $('#eva_tim_id')
+    .append($("<option></option>")
+       .attr("value",'null')
+       .text('---Seleccionar Mes/Año---'));
+
+    $('#searchButton').prop('disabled',true);   
+
+    if ($('#eva_emp_id').val() != 'null') {
+        var data = {
+            'id' : $('#eva_emp_id').val(),
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: getDatesRoute,
+            data: data,
+            type:  'post',
+            success:  function (data) {
+                $.each(data.data, function(index, value) {   
+                    $('#eva_tim_id')
+                    .append($("<option></option>")
+                       .attr("value",value.id)
+                       .text(value.value));
+                }); 
+                $('#eva_tim_id').prop('disabled',false);
+
+            }
+        });
+    }else{
+        $('#eva_tim_id').prop('disabled',true);
+    };
+}
+
+function enableSearch(){
+    if ( $('#eva_tim_id').val()!='null') {
+        $('#searchButton').prop('disabled',false);
+    }else{
+        $('#searchButton').prop('disabled',true);
+    };
+}
+
+function getEvaluation(){
+    var data = {
+        'eva_id' : $('#eva_tim_id').val(),
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: getEvaluationRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+           $("#goalsResult").html('');
+           $("#resultsTab").html('');
+           $("#goalsResult").append('<tr class="gradeX"><td>'+ data.data.goals.goa_customer_porcent +'</td><td>'+ data.data.goals.goa_duration_average +'</td><td>'+ data.data.goals.goa_sales_volume +'</td></tr>');
+           $("#resultsTab").append('<tr class="gradeX"><td>'+ data.data.result.res_customer_porcent +'</td><td>'+ data.data.result.res_duration_average +'</td><td>'+ data.data.result.res_sales_volume +'</td><td>'+ data.data.time.tim_month +'</td><td>'+ data.data.time.tim_year +'</td><td>'+ data.data.eva_achieved_goals +'</td></tr>');
+       }
+   });
+}
+
+function getProyections(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: getProyectionsRoute,
+        type:  'post',
+        success:  function (data) {
+           dataForProyection = data.data;
+           setProyectionTable();
+       }
+   });
+}
+
+function setProyectionTable(){
+    $('#proyections').html('');
+    $.each(dataForProyection, function(index,value){
+        var result = 0;
+        if (value.res_customer_porcent >= goaCustomerPorcent) {
+            result = result + 1;
+        };
+        if (value.res_duration_average >= goaDurationAverage) {
+            result = result + 1;
+        };
+        if (value.res_sales_volume >= goaSalesVolume) {
+            result = result + 1;
+        };
+        $('#proyections').append('<tr class="gradeX"><td>'+ value.name +'</td><td>'+ value.res_customer_porcent +'</td><td>'+ value.res_duration_average +'</td><td>'+ value.res_sales_volume +'</td><td>'+ result +'</td></tr>');
+    });
+
+}
+
+function calculateGoaCustomerPorcent(){
+    goaCustomerPorcent = parseFloat($('#t_res_customer_porcent').val());
+    if($('#t_res_customer_porcent').val() == ''){
+        goaCustomerPorcent = 0;
+    }
+    setProyectionTable();
+}
+
+function calculateGoaDurationAverage(){
+    goaDurationAverage = parseFloat($('#t_res_duration_average').val());
+    if($('#t_res_duration_average').val() == ''){
+        goaDurationAverage = 0;
+    }
+    setProyectionTable();
+}
+
+function calculateGoaSalesVolume(){
+    goaSalesVolume = parseFloat($('#t_res_sales_volume').val());
+    if($('#t_res_sales_volume').val() == ''){
+        goaSalesVolume = 0;
+    }
+    setProyectionTable();
+}
+
+
 $(document).ready(function(){
     readGoals();
+    setEmployees();
+    getProyections();
 });
