@@ -7,6 +7,7 @@
             <div class="full-width-tabs">
                 <ul id="myTabs" class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active fill_width"><a href="#outstanding" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Pagos Pendientes</a></li>
+                    <li role="presentation" class="fill_width"><a href="#overcome" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos Vencidos</a></li>
                     <li role="presentation" class="fill_width"><a href="#full" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos Competos</a></li>
                     <li role="presentation" class="fill_width"><a href="#serviceOrderActive" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos por Orden de Servicio Vigentes</a></li>
                     <li role="presentation" class="fill_width"><a href="#serviceOrderHistory" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos por Orden de Servicio Anteriores</a></li>
@@ -24,12 +25,33 @@
                                     <th>Monto Pendiente</th>
                                     <th>Fecha</th>
                                     <th>Orden de Servicio</th>
+                                    <th>Cliente</th>
                                     <th>ver Detalles</th>                      
                                 </tr>
                             </thead>
                             <tbody id="pendientes">
 
                             </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="overcome" aria-labelledby="profile-tab">
+                    <div class="col-lg-12">
+                        <h3><b>Pagos Vencidos</b></h3> 
+                        <hr>
+                        <table class="table table-striped table-hover table-bordered margin-top20">
+                            <thead>
+                                <tr>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>Orden de Servicio</th>
+                                    <th>Cliente</th>
+                                    <th>Ver Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vencidos">
+
+                            </tbody>                        
                         </table>
                     </div>
                 </div>
@@ -43,6 +65,7 @@
                                     <th>Monto</th>
                                     <th>Fecha</th>
                                     <th>Orden de Servicio</th>
+                                    <th>Cliente</th>
                                     <th>Ver Detalles</th>
                                 </tr>
                             </thead>

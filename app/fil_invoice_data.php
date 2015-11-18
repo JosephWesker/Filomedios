@@ -8,8 +8,8 @@ class fil_invoice_data extends Model {
 	protected $primaryKey = 'ind_id';
 	protected $fillable = ['ind_cfdi'];
 
-	public function realPayments(){
-		return $this->hasMany('App\fil_real_payment','rpa_invoice_data','ind_id');
+	public function paymentDate(){
+		return $this->belongsTo('App\fil_payment_date','ind_id','pda_id');
 	}
 
 }

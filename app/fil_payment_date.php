@@ -16,4 +16,8 @@ class fil_payment_date extends Model {
 		return $this->hasMany('App\fil_real_payment','rpa_fk_payment_date','pda_id');
 	}
 
+	public function invoiceDatas(){
+		return $this->hasMany('App\fil_invoice_data','ind_id','pda_id');
+	}
+
 }
