@@ -83,6 +83,7 @@
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
     var readPaymentsRoute = '{{ action('treasuryController@postReadPaymentsToInvoice'); }}';
+    var saveInvoiceRoute = '{{ action('treasuryController@postSaveInvoice'); }}';
 </script>
 <script src="{{ asset("assets/scripts/invoice_ajax.js") }}" type="text/javascript"></script>
 

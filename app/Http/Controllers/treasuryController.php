@@ -38,7 +38,9 @@ class treasuryController extends Controller{
             $late[] = $value;
           }          
         }else{
-          $full[] = $value;
+          if ($value->pda_status == 'pagado') {
+            $full[] = $value;
+          } 
         }
       }
       
@@ -96,7 +98,9 @@ class treasuryController extends Controller{
             $late[] = $value;
           }    
         }else{
-          $full[] = $value;
+          if ($value->pda_status == 'pagado') {
+            $full[] = $value;
+          }          
         }
       }
       

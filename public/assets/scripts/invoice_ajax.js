@@ -49,7 +49,7 @@ function sendData(){
     });
 
     $.ajax({
-        url:   readPaymentsRoute,
+        url:   saveInvoiceRoute,
         data: data,
         type:  'post',
         success:  function (data) {
