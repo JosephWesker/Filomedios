@@ -17,21 +17,21 @@ class productionController extends Controller{
     foreach ($dates as $date) {
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Grabación con el cliente '/*.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name*/,
+        'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
         'url' => '',
         'class' =>'event-important',
         'start' => strtotime($date->dpr_recording_date).'000',
         'end' => strtotime($date->dpr_recording_date).'000' );
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Entrega de la primera propuesta al cliente '/*.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name*/,
+        'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
         'url' => '',
         'class' =>'event-info',  
         'start' => strtotime($date->dpr_proposal_1_date).'000',
         'end' => strtotime($date->dpr_proposal_1_date).'000' );
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Entrega de la segunda propuesta al cliente '/*.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name*/,
+        'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
         'url' => '',
         'class' =>'event-info',
         'start' => strtotime($date->dpr_proposal_2_date).'000',
