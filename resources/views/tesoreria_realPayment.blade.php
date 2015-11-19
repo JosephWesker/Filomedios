@@ -33,21 +33,6 @@
                             {{ Form::label('account','Cuenta de pago (ultimos 4 digitos)')}}
                             {{ Form::number('account',null,['class' => 'form-control','id' => 'rpa_account','placeholder' => 'Cuenta de Pago'])}}
                         </div>                        
-                        <div class="checkbox">
-                            <label>
-                                {{ Form::checkbox('has_invoice', '2', null, ['class' => '','id' => 'rpa_has_invoice'])}} ¿Tiene Factura?
-                            </label>
-                        </div>
-                        <div id="hasInvoice" style="display:none">
-                            <div class="form-group">
-                                {{ Form::label('invoice_data','Factura')}}
-                                {{ Form::select('invoice_data', ['nueva'=>'---Nueva Factura---'] ,'nueva', ['class' => 'form-control','id'=>'rpa_fk_invoice_data','onchange' => 'checkForInvoice()']) }}
-                            </div>
-                            <div class="form-group" id="invoice" style="display:bloc">
-                                {{ Form::label('invoice','CFDI de la Nueva Factura')}}
-                                {{ Form::text('invoice',null,['class' => 'form-control','id' => 'ind_cfdi','placeholder' => 'CFDI'])}}
-                            </div>
-                        </div>
                         <div class=text-right>
                             {{ Form::button('Guardar',['class' => 'btn btn-success','onclick' => 'sendPayment()']) }}
                             {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -70,7 +55,7 @@
             </div>
         </div>
         <div class="col-lg-12">     
-            <div id="datos_fiscales" class="col-lg-7">
+            <div id="datos_fiscales" class="col-lg-12">
                 <h3><b>Pagos</b></h3> 
                 <hr>
                 <table class="table table-striped table-hover table-bordered margin-top20">
@@ -101,20 +86,7 @@
                         </tbody>                    
                     </table>
                 </div>
-            </div>                
-            <div id="datos_fiscales" class="col-lg-5">
-                <h3><b>Facturas Asociadas</b></h3> 
-                <hr>
-                <table class="table table-striped table-hover table-bordered margin-top20">
-                    <thead>
-                        <tr>
-                            <th>CFDI de la Factura</th>                            
-                        </tr>
-                    </thead>
-                    <tbody id="cfdis">
-                    </tbody>
-                </table>
-            </div>
+            </div>                            
         </div>
     </div>
 </div>
@@ -122,7 +94,6 @@
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
     var payment = {{ $payment }};
-    var readCFDISRoute = '{{ action('treasuryController@postReadCFDIS'); }}';
     var sendPaymentRoute = '{{ action('treasuryController@postCreateRealPayment'); }}';
 </script>
 <script src="{{ asset("assets/scripts/treasury_payment_ajax.js") }}" type="text/javascript"></script>

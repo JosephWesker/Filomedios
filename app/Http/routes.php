@@ -123,4 +123,5 @@ Route::controller('package','packageController');
 Route::controller('customer','customerController');
 Route::controller('serviceOrder','serviceOrderController');
 Route::controller('treasury','treasuryController');
+Route::controller('production','productionController');
 //Route::controller('product','productController');

@@ -46,7 +46,7 @@
         <script src="{{ asset("assets/scripts/bootstrap-calendar/underscore-min.js") }}" type="text/javascript"></script>
 <!--        <script src="{{ asset("assets/scripts/bootstrap-calendar/bootstrap.min.js") }}" type="text/javascript"></script>-->
         <script src="{{ asset("assets/scripts/bootstrap-calendar/js/calendar.js") }}" type="text/javascript"></script>
-        <script src="{{ asset("assets/scripts/bootstrap-calendar/js/app.js") }}" type="text/javascript"></script>
+        <!--<script src="{{ asset("assets/scripts/bootstrap-calendar/js/app.js") }}" type="text/javascript"></script>-->
         <!-- Bootstrap Table JS -->
         <script src="{{ asset("assets/scripts/bootstrap-table-master/dist/bootstrap-table.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/bootstrap-table-master/src/locale/bootstrap-table-es-MX.js") }}" type="text/javascript"></script>

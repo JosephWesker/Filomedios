@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Tesorería')
+@section('page_heading','Pagos')
 @section('section')
 <div class="col-sm-12">
     <div class="row">                
@@ -42,89 +42,90 @@
                         <table class="table table-striped table-hover table-bordered margin-top20">
                             <thead>
                                 <tr>
-                                    <th>Monto</th>
-                                    <th>Fecha</th>
-                                    <th>Orden de Servicio</th>
-                                    <th>Cliente</th>
-                                    <th>Ver Detalles</th>
-                                </tr>
-                            </thead>
-                            <tbody id="vencidos">
+                                   <th>Monto Total</th>
+                                   <th>Monto Pendiente</th>
+                                   <th>Fecha</th>
+                                   <th>Orden de Servicio</th>
+                                   <th>Cliente</th>
+                                   <th>ver Detalles</th>          
+                               </tr>
+                           </thead>
+                           <tbody id="vencidos">
 
-                            </tbody>                        
-                        </table>
-                    </div>
+                           </tbody>                        
+                       </table>
+                   </div>
+               </div>
+               <div role="tabpanel" class="tab-pane fade" id="full" aria-labelledby="profile-tab">
+                <div class="col-lg-12">
+                    <h3><b>Pagos Completados</b></h3> 
+                    <hr>
+                    <table class="table table-striped table-hover table-bordered margin-top20">
+                        <thead>
+                            <tr>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Orden de Servicio</th>
+                                <th>Cliente</th>
+                                <th>Ver Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody id="completados">
+
+                        </tbody>                        
+                    </table>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="full" aria-labelledby="profile-tab">
-                    <div class="col-lg-12">
-                        <h3><b>Pagos Completados</b></h3> 
-                        <hr>
-                        <table class="table table-striped table-hover table-bordered margin-top20">
-                            <thead>
-                                <tr>
-                                    <th>Monto</th>
-                                    <th>Fecha</th>
-                                    <th>Orden de Servicio</th>
-                                    <th>Cliente</th>
-                                    <th>Ver Detalles</th>
-                                </tr>
-                            </thead>
-                            <tbody id="completados">
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="serviceOrderActive" aria-labelledby="profile-tab">
+                <div class="col-lg-12">
+                    <h3><b>Ordenes de Servicio Vigentes</b></h3> 
+                    <hr>
+                    <table class="table table-striped table-hover table-bordered margin-top20">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Termino</th>
+                                <th>Ver Pagos</th>                                        
+                            </tr>
+                        </thead>
+                        <tbody id="vigentes">
 
-                            </tbody>                        
-                        </table>
-                    </div>
+                        </tbody>
+                    </table> 
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="serviceOrderActive" aria-labelledby="profile-tab">
-                    <div class="col-lg-12">
-                        <h3><b>Ordenes de Servicio Vigentes</b></h3> 
-                        <hr>
-                        <table class="table table-striped table-hover table-bordered margin-top20">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Termino</th>
-                                    <th>Ver Pagos</th>                                        
-                                </tr>
-                            </thead>
-                            <tbody id="vigentes">
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="serviceOrderHistory" aria-labelledby="profile-tab">
+                <div class="col-lg-12">
+                    <h3><b>Ordenes de Servicio Anteriores</b></h3> 
+                    <hr>
+                    <table class="table table-striped table-hover table-bordered margin-top20">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Termino</th>
+                                <th>Ver Pagos</th>                                        
+                            </tr>
+                        </thead>
+                        <tbody id="anteriores">
 
-                            </tbody>
-                        </table> 
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="serviceOrderHistory" aria-labelledby="profile-tab">
-                    <div class="col-lg-12">
-                        <h3><b>Ordenes de Servicio Anteriores</b></h3> 
-                        <hr>
-                        <table class="table table-striped table-hover table-bordered margin-top20">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Termino</th>
-                                    <th>Ver Pagos</th>                                        
-                                </tr>
-                            </thead>
-                            <tbody id="anteriores">
-
-                            </tbody>
-                        </table> 
-                    </div>
+                        </tbody>
+                    </table> 
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
+</div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-var readPaymentsRoute = '{{ action('treasuryController@postReadPayments'); }}';
-var readServiceOrderRoute = '{{ action('treasuryController@postReadServiceOrder'); }}';
-var paymentsServiceOrderRoute = '{{ route('tesoreria'); }}';
+    var readPaymentsRoute = '{{ action('treasuryController@postReadPayments'); }}';
+    var readServiceOrderRoute = '{{ action('treasuryController@postReadServiceOrder'); }}';
+    var paymentsServiceOrderRoute = '{{ route('tesoreria'); }}';
 </script>
 <script src="{{ asset("assets/scripts/treasury_ajax.js") }}" type="text/javascript"></script>
 

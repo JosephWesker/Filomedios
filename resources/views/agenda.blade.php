@@ -9,10 +9,10 @@
                     <tr>
                         <th>ID</th>
                         <th>Cliente</th>
-                        <th>Item Price</th>
+                        <th>Fecha de Inicio</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="serviceOrders">
                 </tbody>
             </table>
         </div>
@@ -52,4 +52,10 @@
         </div>
     </div>
 </div>
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script>       
+var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
+var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
+</script>
+<script src="{{ asset("assets/scripts/production_ajax.js") }}" type="text/javascript"></script>
 @stop
