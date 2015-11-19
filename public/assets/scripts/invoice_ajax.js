@@ -36,7 +36,7 @@ function detail(id){
     $('#add').modal('show');
 }
 
-function loadPayments(){
+function sendData(){
     var data = {
         'id': id,
         'content': $('#ind_content').val()
