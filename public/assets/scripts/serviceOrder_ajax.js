@@ -14,6 +14,8 @@ var amountKind = 0;
 var paymentsData = [];
 var json = null;
 var monthsContract = 0;
+var isAllBusinessUnitsFine = true;
+var isAllProgramsFine = true;
 
 function loadCustomers(){
     $.ajaxSetup({
@@ -217,6 +219,8 @@ function addProduct(){
 function loadProductsTable(){
     $("#products").html('');
     monthOutlay = 0;
+    isAllBusinessUnitsFine = true;
+    isAllProgramsFine = true;
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length>0){
         $('#start_date_contract').prop('disabled',false);        
         $.each(productsRegistered, function(index, value){            
@@ -225,7 +229,7 @@ function loadProductsTable(){
             var text = '<tr class="gradeX"><td>'+value.det_name+'</td><td>'+value.det_impacts+'</td><td>'+value.det_validity+'</td><td>'+value.det_final_price+'</td><td>'+value.det_subtotal+'</td><td><div class="btn-group" role="group" aria-label="...">';
 
             if (value.hasOwnProperty('det_has_transmission_scheme')) {
-                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme('+index+')">Definir Esquema transmisión</button>';
+                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme('+index+')">Definir Esquema transmisión</button>';                
             }
 
             if (value.hasOwnProperty('det_has_production_registry')) {
@@ -234,12 +238,14 @@ function loadProductsTable(){
             if (value.hasOwnProperty('det_fk_business_unit')) {
                 if (value.det_fk_business_unit == null || value.det_fk_business_unit == 'null') {
                     text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setBusinessUnit('+index+')">Definir Unidad de Negocio</button>';
+                    isAllBusinessUnitsFine = false;
                 }
             }
 
             if (value.hasOwnProperty('det_fk_show')) {
                 if (value.det_fk_show == null || value.det_fk_show == 'null') {
                     text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setShow('+index+')">Definir Programa</button>';
+                    isAllProgramsFine = false;
                 };                
             }
 

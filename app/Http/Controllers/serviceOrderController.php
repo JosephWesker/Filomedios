@@ -221,9 +221,15 @@ class serviceOrderController extends Controller{
   function createProductionRegistry($detail,$values){
     $detailProduction = new fil_detail_production;
     $detailProduction->dpr_id = $detail->det_id;
-    $detailProduction->dpr_recording_date = $values->dpr_recording_date;
-    $detailProduction->dpr_proposal_1_date = $values->dpr_proposal_1_date;
-    $detailProduction->dpr_proposal_2_date = $values->dpr_proposal_2_date;
+    if ($values == null) {
+      $detailProduction->dpr_recording_date = '0000-00-00';
+      $detailProduction->dpr_proposal_1_date = '0000-00-00';
+      $detailProduction->dpr_proposal_2_date = '0000-00-00';
+    }else{
+      $detailProduction->dpr_recording_date = $values->dpr_recording_date;
+      $detailProduction->dpr_proposal_1_date = $values->dpr_proposal_1_date;
+      $detailProduction->dpr_proposal_2_date = $values->dpr_proposal_2_date;
+    }
     $detailProduction->dpr_status = "Pendiente";
     $detailProduction->save();
   }
@@ -231,14 +237,25 @@ class serviceOrderController extends Controller{
   function createTransmissionScheme($detail,$values){
     $transmissionScheme = new fil_transmission_scheme;
     $transmissionScheme->tra_id = $detail->det_id;
-    $transmissionScheme->tra_monday = $this->convertToTinyint($values->tra_monday);
-    $transmissionScheme->tra_tuesday = $this->convertToTinyint($values->tra_tuesday);
-    $transmissionScheme->tra_wednesday = $this->convertToTinyint($values->tra_wednesday);
-    $transmissionScheme->tra_thursday = $this->convertToTinyint($values->tra_thursday);
-    $transmissionScheme->tra_friday = $this->convertToTinyint($values->tra_friday);
-    $transmissionScheme->tra_saturday = $this->convertToTinyint($values->tra_saturday);
-    $transmissionScheme->tra_sunday = $this->convertToTinyint($values->tra_sunday);
-    $transmissionScheme->save();
+    if ($values == null) {      
+      $transmissionScheme->tra_monday = 1;
+      $transmissionScheme->tra_tuesday = 1;
+      $transmissionScheme->tra_wednesday = 1;
+      $transmissionScheme->tra_thursday = 1;
+      $transmissionScheme->tra_friday = 1;
+      $transmissionScheme->tra_saturday = 1;
+      $transmissionScheme->tra_sunday = 1;
+    }else{
+      $transmissionScheme->tra_id = $detail->det_id;
+      $transmissionScheme->tra_monday = $this->convertToTinyint($values->tra_monday);
+      $transmissionScheme->tra_tuesday = $this->convertToTinyint($values->tra_tuesday);
+      $transmissionScheme->tra_wednesday = $this->convertToTinyint($values->tra_wednesday);
+      $transmissionScheme->tra_thursday = $this->convertToTinyint($values->tra_thursday);
+      $transmissionScheme->tra_friday = $this->convertToTinyint($values->tra_friday);
+      $transmissionScheme->tra_saturday = $this->convertToTinyint($values->tra_saturday);
+      $transmissionScheme->tra_sunday = $this->convertToTinyint($values->tra_sunday);
+      $transmissionScheme->save();
+    }
   }
 
   function createPayments($serviceOrder,$amountCash,$amountKind,$numberPayments,$payments){

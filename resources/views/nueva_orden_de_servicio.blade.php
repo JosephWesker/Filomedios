@@ -368,9 +368,6 @@
                                                         </a>
                                                     </div>
                                                 </div>
-
-
-
                                                 {{ Form::close() }}                        
                                             </div>
                                         </div>
@@ -393,6 +390,7 @@
     var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
     var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
     var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';
     </script>
     <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
     @stop

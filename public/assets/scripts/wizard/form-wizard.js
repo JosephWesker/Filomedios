@@ -24,7 +24,18 @@
                                     alert("Debe agregar productos para poder continuar");
                                     result = false;
                                 } else{
-                                    result = true;
+                                    if (isAllBusinessUnitsFine) {
+                                        result = true;                                        
+                                    }else{
+                                        result = false;
+                                        alert("Debe Definir las unidades de negocio para cada producto");
+                                    };
+                                    if (isAllProgramsFine) {
+                                        result = true;                                        
+                                    }else{
+                                        result = false;
+                                        alert("Debe definir todos los programas necesarios");
+                                    };
                                 };
                             break;
 
@@ -45,7 +56,7 @@
                         return true;                        
                     },
                     onFinished: function(event, currentIndex){
-                        window.location.href = "http://localhost/Filomedios/public/nueva_orden_de_servicio"
+                        //window.location.href = valueToReturn;
                         //Cargar nuevamente la pagina o enviar a gestor de ordenes
                     }
                 })
