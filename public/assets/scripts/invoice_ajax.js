@@ -14,7 +14,7 @@ function loadPayments(){
             $("#factura").html('');
             if (data.invoice !== null && $.isArray(data.invoice) && data.invoice.length>0){
                 $.each(data.invoice, function(index, value){
-                    $("#factura").append('<tr class="gradeX"><td>'+ value.pda_amount +'</td><td>'+ value.pda_date +'</td><td>'+ value.pda_fk_payment_data +'</td><td>'+ value.payment_scheme.service_order.customer.cus_contact_first_name +' '+ value.payment_scheme.service_order.customer.cus_contact_last_name +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detail('+value.pda_id+')">Registrar Factura</button></div></td></tr>');
+                    $("#factura").append('<tr class="gradeX"><td>'+ value.pda_amount +'</td><td>'+ value.pda_date +'</td><td>'+ value.pda_fk_payment_data +'</td><td><b>Contacto:</b> '+ value.payment_scheme.service_order.customer.cus_contact_first_name +' '+ value.payment_scheme.service_order.customer.cus_contact_last_name +', <b>Empresa:</b> '+ value.payment_scheme.service_order.customer.cus_commercial_name +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detail('+value.pda_id+')">Registrar Factura</button><button class="btn btn-info btn-sm" type="button" onclick="modalFiscalData('+ value.payment_scheme.service_order.customer.cus_id +')">Ver datos fiscales</button></div></td></tr>');
                 });
             }else{
                 $("#factura").append('<tr class="gradeX"><td colspan="7">No existen pagos pendientes de factura</td>');
@@ -22,7 +22,7 @@ function loadPayments(){
             $("#nota").html('');
             if (data.recipt !== null && $.isArray(data.recipt) && data.recipt.length>0){
                 $.each(data.recipt, function(index, value){
-                    $("#nota").append('<tr class="gradeX"><td>'+ value.pda_amount +'</td><td>'+ value.pda_date +'</td><td>'+ value.pda_fk_payment_data +'</td><td>'+ value.payment_scheme.service_order.customer.cus_contact_first_name +' '+ value.payment_scheme.service_order.customer.cus_contact_last_name +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detail('+value.pda_id+')">Registrar Nota de Venta</button></div></td></tr>');
+                    $("#nota").append('<tr class="gradeX"><td>'+ value.pda_amount +'</td><td>'+ value.pda_date +'</td><td>'+ value.pda_fk_payment_data +'</td><td><b>Contacto:</b> '+ value.payment_scheme.service_order.customer.cus_contact_first_name +' '+ value.payment_scheme.service_order.customer.cus_contact_last_name +', <b>Empresa:</b> '+ value.payment_scheme.service_order.customer.cus_commercial_name +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detail('+value.pda_id+')">Registrar Nota de Venta</button><button class="btn btn-info btn-sm" type="button" onclick="modalFiscalData('+ value.payment_scheme.service_order.customer.cus_id +')">Ver datos fiscales</button></div></td></tr>');
                 });
             }else{
                 $("#nota").append('<tr class="gradeX"><td colspan="7">No hay fechas pendientes de cobro vencidas</td>');
@@ -32,7 +32,7 @@ function loadPayments(){
 }
 
 function detail(id){
-    id = id;
+    this.id = id;
     $('#add').modal('show');
 }
 
@@ -58,6 +58,29 @@ function sendData(){
             loadPayments();
         }
     });
+}
+
+function modalFiscalData(id){
+  var data = {
+        "id" : id,
+    };
+
+   $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+   $.ajax({
+    url:   readfiscalData,
+    data: data,
+    type:  'post',
+    success:  function (data) {
+        $('#datos_fiscales_titulo').html(data.data['title']);  
+        $('#datos_fiscales').html(data.data['body']);
+        $('#taxDataModal').modal('show'); 
+    }
+});  
 }
 
 $(document).ready(function(){

@@ -17,21 +17,60 @@ class productionController extends Controller{
     foreach ($dates as $date) {
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
+        'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
         'url' => '',
         'class' =>'event-important',
         'start' => strtotime($date->dpr_recording_date).'000',
         'end' => strtotime($date->dpr_recording_date).'000' );
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
+        'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
         'url' => '',
         'class' =>'event-info',  
         'start' => strtotime($date->dpr_proposal_1_date).'000',
         'end' => strtotime($date->dpr_proposal_1_date).'000' );
       $out[] = array(
         'id' => $date->dpr_id,
-        'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name,
+        'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+        'url' => '',
+        'class' =>'event-info',
+        'start' => strtotime($date->dpr_proposal_2_date).'000',
+        'end' => strtotime($date->dpr_proposal_2_date).'000' ); 
+    }
+    $response = Response::json(array(
+      'success' => 1,
+      'result'   => $out
+      ));
+    return $response;
+  }
+
+  public function postReadDatesByServiceOrder(){
+    $products = fil_service_order::find(Request::get('id'))->detailsProducts;
+    $dates = [];
+    foreach ($products as $product) {
+      if ($product->detailProduction != null) {
+        $dates[] = $product->detailProduction;
+      }
+    }
+    $out = [];
+    foreach ($dates as $date) {
+      $out[] = array(
+        'id' => $date->dpr_id,
+        'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+        'url' => '',
+        'class' =>'event-important',
+        'start' => strtotime($date->dpr_recording_date).'000',
+        'end' => strtotime($date->dpr_recording_date).'000' );
+      $out[] = array(
+        'id' => $date->dpr_id,
+        'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+        'url' => '',
+        'class' =>'event-info',  
+        'start' => strtotime($date->dpr_proposal_1_date).'000',
+        'end' => strtotime($date->dpr_proposal_1_date).'000' );
+      $out[] = array(
+        'id' => $date->dpr_id,
+        'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
         'url' => '',
         'class' =>'event-info',
         'start' => strtotime($date->dpr_proposal_2_date).'000',
@@ -53,7 +92,7 @@ class productionController extends Controller{
       if(($today <= date('Y-m-d', strtotime($order->ser_end_date))) && ($order->ser_auth_admin == 2) && ($order->ser_auth_production == 2)&& ($order->ser_auth_sales == 2)){
         $out[]= array(
           'id' => $order->ser_id,
-          'customer' => $order->customer->cus_contact_first_name.' '.$order->customer->cus_contact_last_name,
+          'customer' => 'Contacto: '.$order->customer->cus_contact_first_name.' '.$order->customer->cus_contact_last_name.', Empresa: '.$order->customer->cus_commercial_name,
           'start_date' => $order->ser_start_date, );
       }
     }

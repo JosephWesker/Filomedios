@@ -62,10 +62,12 @@ class treasuryController extends Controller{
     $historyServiceOrder = [];
     foreach ($serviceOrder as $value) {
       $value->customer;
-      if(($today <= date('Y-m-d', strtotime($value->ser_end_date))) && ($value->ser_auth_admin == 2) && ($value->ser_auth_production == 2)&& ($value->ser_auth_sales == 2)){
-        $activeServiceOrder[] = $value;
-      }else{
-        $historyServiceOrder[] = $value;
+      if (($value->ser_auth_admin == 2) && ($value->ser_auth_production == 2)&& ($value->ser_auth_sales == 2)) {
+        if(($today <= date('Y-m-d', strtotime($value->ser_end_date)))){
+          $activeServiceOrder[] = $value;
+        }else{
+          $historyServiceOrder[] = $value;
+        }
       }
     }
     $response = Response::json(array(
@@ -102,10 +104,11 @@ class treasuryController extends Controller{
             $full[] = $value;
           }          
         }
-      }
-      
+      }      
     }
-    $data  = array('outstanding' => json_encode($outstanding), 'full' => json_encode($full), 'late' => json_encode($late), 'header' => $id);
+    $customer = fil_service_order::find($id)->customer->cus_contact_first_name.' '.fil_service_order::find($id)->customer->cus_contact_last_name;
+    $commercialName = fil_service_order::find($id)->customer->cus_commercial_name;
+    $data  = array('outstanding' => json_encode($outstanding), 'full' => json_encode($full), 'late' => json_encode($late), 'header' => $id, 'customer' => $customer, 'commercialName' => $commercialName);
     return view('tesoreria_orden_de_servicio', $data);
   }
 

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Pagos de la Orden de Servicio: '.$header)
+@section('page_heading','Pagos de la Orden de Servicio: '.$header.' Cliente: '.$customer.', Empresa: '.$commercialName)
 @section('section')
 <div class="col-sm-12">
     <div class="row">                

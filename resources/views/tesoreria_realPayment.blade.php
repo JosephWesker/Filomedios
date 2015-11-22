@@ -3,7 +3,7 @@
 @section('section')
 <div class="col-sm-12">
     <div class="row"> 
-        <div class="col-lg-9" {{ ($hasIVA) ? '' : 'style="display:none"' }} >    
+        <div class="col-lg-9" {{ (false) ? '' : 'style="display:none"' }} >    
             <h4><b>Importante este pago requiere factura</b></h4>
         </div>
         <div class="col-lg-3">    

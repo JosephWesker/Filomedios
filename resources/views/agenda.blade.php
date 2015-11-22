@@ -56,6 +56,7 @@
 <script>       
 var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
 var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
+var getDatesByServiceOrderRoute = '{{ action('productionController@postReadDatesByServiceOrder'); }}';
 </script>
 <script src="{{ asset("assets/scripts/production_ajax.js") }}" type="text/javascript"></script>
 @stop
