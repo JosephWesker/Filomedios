@@ -12,21 +12,21 @@ function loadServiceOrders(){
         url:   getServiceOrdersRoute,
         type:  'post',
         success:  function (data) {
-            $("#serviceOrders").html('');
+            $("#pendientes").html('');
             if (data.data !== null && $.isArray(data.data) && data.data.length>0){
                 $.each(data.data, function(index, value){
-                    $("#serviceOrders").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td></tr>');
+                    $("#pendientes").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-success btn-sm" type="button" onclick="detail(\''+value.id+'\')">En Proceso</button></div></td></tr>');
                 });
-                tableSelect();
+                tableSelect('pendientes');
             }else{
-                $("#serviceOrders").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio vigentes</td>');
+                $("#pendientes").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio vigentes</td>');
             }
         }
     });
 }
 
-function tableSelect(){
-    var table = document.getElementById("serviceOrders");
+function tableSelect(id){
+    var table = document.getElementById(id);
     var tr = table.getElementsByTagName('tr');
     for (var i=0;i<tr.length;i++){
         tr[i].addEventListener('click',function(){
@@ -79,11 +79,11 @@ function loadCalendar(values){
         tmpl_cache: false,
         day: 'now',
         language: 'es-MX',
-        modal: "#events-modal",
-        modal_type: "ajax",
-        modal_title: function (e) {
+        //modal: "#events-modal",
+        //modal_type: "ajax",
+        /*modal_title: function (e) {
             return e.title;
-        },
+        },*/
         format12: true,
         am_suffix: "AM",
         pm_suffix: "PM",
@@ -166,6 +166,9 @@ function loadCalendar(values){
     $('#events-modal .modal-footer').click(function (e) {
 
     });
+}
+
+function detail(id){
 }
 
 

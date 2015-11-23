@@ -3,20 +3,79 @@
 @section('section')
 <div class="col-sm-12">
     <div class="row">
-        <div class="col-lg-4">
-            <table data-toggle="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Fecha de Inicio</th>
-                    </tr>
-                </thead>
-                <tbody id="serviceOrders">
-                </tbody>
-            </table>
+        <div class="col-lg-5">
+            <div class="full-width-tabs">
+                <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active fill_width"><a href="#outstanding" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Pendientes</a></li>
+                    <li role="presentation" class="fill_width"><a href="#overcome" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">En Proceso</a></li>
+                    <li role="presentation" class="fill_width"><a href="#full" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Completas</a></li>                   
+                    <li role="presentation" class="fill_width"><a href="#finish" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Historial</a></li>
+                </ul>                
+
+                <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="outstanding" aria-labelledby="home-tab">
+                        <br>
+                        <table data-toggle="table">
+                            <thead>
+                                <tr>
+                                    <th>Orden</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha de Inicio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendientes">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="overcome" aria-labelledby="profile-tab">
+                        <br>
+                        <table data-toggle="table">
+                            <thead>
+                                <tr>
+                                    <th>Orden</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha de Inicio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="enProceso">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="full" aria-labelledby="profile-tab">
+                        <br>
+                        <table data-toggle="table">
+                            <thead>
+                                <tr>
+                                    <th>Orden</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha de Inicio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="completas">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="finish" aria-labelledby="profile-tab">
+                        <br>
+                        <table data-toggle="table">
+                            <thead>
+                                <tr>
+                                    <th>Orden</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha de Inicio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historial">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
             <div class="page-header">
                 <div class="pull-right form-inline">
                     <div class="btn-group">
@@ -54,9 +113,9 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
-var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
-var getDatesByServiceOrderRoute = '{{ action('productionController@postReadDatesByServiceOrder'); }}';
+    var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
+    var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
+    var getDatesByServiceOrderRoute = '{{ action('productionController@postReadDatesByServiceOrder'); }}';
 </script>
 <script src="{{ asset("assets/scripts/production_ajax.js") }}" type="text/javascript"></script>
 @stop

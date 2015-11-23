@@ -15,7 +15,8 @@ class productionController extends Controller{
     $dates = fil_detail_production::all();
     $out = [];
     foreach ($dates as $date) {
-      $out[] = array(
+      if ($date->dpr_status == 'Pendiente') {
+        $out[] = array(
         'id' => $date->dpr_id,
         'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
         'url' => '',
@@ -36,6 +37,7 @@ class productionController extends Controller{
         'class' =>'event-info',
         'start' => strtotime($date->dpr_proposal_2_date).'000',
         'end' => strtotime($date->dpr_proposal_2_date).'000' ); 
+      }      
     }
     $response = Response::json(array(
       'success' => 1,
@@ -92,7 +94,7 @@ class productionController extends Controller{
       if(($today <= date('Y-m-d', strtotime($order->ser_end_date))) && ($order->ser_auth_admin == 2) && ($order->ser_auth_production == 2)&& ($order->ser_auth_sales == 2)){
         $out[]= array(
           'id' => $order->ser_id,
-          'customer' => 'Contacto: '.$order->customer->cus_contact_first_name.' '.$order->customer->cus_contact_last_name.', Empresa: '.$order->customer->cus_commercial_name,
+          'customer' => '<b>Contacto:</b> '.$order->customer->cus_contact_first_name.' '.$order->customer->cus_contact_last_name.', <b>Empresa:</b> '.$order->customer->cus_commercial_name,
           'start_date' => $order->ser_start_date, );
       }
     }
