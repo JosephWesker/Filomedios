@@ -1,5 +1,6 @@
 var calendar = null;
 var selectedTr = null;
+var idForRegistry = null;
 
 function loadServiceOrders(){
     $.ajaxSetup({
@@ -13,13 +14,40 @@ function loadServiceOrders(){
         type:  'post',
         success:  function (data) {
             $("#pendientes").html('');
-            if (data.data !== null && $.isArray(data.data) && data.data.length>0){
-                $.each(data.data, function(index, value){
+            $("#enProceso").html('');
+            $("#completas").html('');
+            $("#historial").html('');
+            if (data.pending !== null && $.isArray(data.pending) && data.pending.length>0){
+                $.each(data.pending, function(index, value){
                     $("#pendientes").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-success btn-sm" type="button" onclick="detail(\''+value.id+'\')">En Proceso</button></div></td></tr>');
                 });
                 tableSelect('pendientes');
             }else{
                 $("#pendientes").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio vigentes</td>');
+            }
+            if (data.process !== null && $.isArray(data.process) && data.process.length>0){
+                $.each(data.process, function(index, value){
+                    $("#enProceso").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-success btn-sm" type="button" onclick="updateModal(\''+value.id+'\')">Siguiente Registro</button></div></td></tr>');
+                });
+                tableSelect('enProceso');
+            }else{
+                $("#enProceso").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio en proceso</td>');
+            }
+            if (data.full !== null && $.isArray(data.full) && data.full.length>0){
+                $.each(data.full, function(index, value){
+                    $("#completas").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td></tr>');
+                });
+                tableSelect('completas');
+            }else{
+                $("#completas").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio completas</td>');
+            }
+            if (data.historial !== null && $.isArray(data.historial) && data.historial.length>0){
+                $.each(data.historial, function(index, value){
+                    $("#historial").append('<tr class="gradeX"><td>'+ value.id +'</td><td>'+ value.customer +'</td><td>'+ value.start_date +'</td></tr>');
+                });
+                tableSelect('historial');
+            }else{
+                $("#historial").append('<tr class="gradeX"><td colspan="7">No existen ordenes de servicio anteriores</td>');
             }
         }
     });
@@ -79,9 +107,9 @@ function loadCalendar(values){
         tmpl_cache: false,
         day: 'now',
         language: 'es-MX',
-        //modal: "#events-modal",
-        //modal_type: "ajax",
-        /*modal_title: function (e) {
+        /*modal: "#events-modal",
+        modal_type: "ajax",
+        modal_title: function (e) {
             return e.title;
         },*/
         format12: true,
@@ -169,8 +197,105 @@ function loadCalendar(values){
 }
 
 function detail(id){
+    var data = {
+        'id' : id,
+    }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   setToInProcessRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {            
+            alert(data.message);
+            loadServiceOrders();
+            loadCalendar(getDatesRoute);
+        }
+    });
 }
 
+function updateModal(id){
+    idForRegistry = id;
+    var data = {
+        'id' : id,
+    }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   checkRegistryRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {            
+            checkRegistry(data);
+        }
+    });   
+}
+
+function checkRegistry(data){
+    switch(data){
+        case 'prr_proposal_1':
+        alert('Fecha de propuesta 1 registrada');
+        loadServiceOrders();
+        loadCalendar(getDatesRoute);
+        break;
+        case 'prr_proposal_2':
+        alert('Fecha de propuesta 2 registrada');
+        loadServiceOrders();
+        loadCalendar(getDatesRoute);
+        break;
+        case 'prr_proposal_3':
+        alert('Fecha de propuesta 3 registrada');
+        loadServiceOrders();
+        loadCalendar(getDatesRoute);
+        break;
+        case 'prr_customer_answer_1':
+        $('#ModalTitle').text("Respuesta 1 del Cliente");
+        $('#registryModal').modal('show');
+        break;
+        case 'prr_customer_answer_2':
+        $('#ModalTitle').text("Respuesta 2 del Cliente");
+        $('#registryModal').modal('show');
+        break;
+        case 'prr_customer_answer_3':
+        $('#ModalTitle').text("Respuesta 2 del Cliente");
+        $('#registryModal').modal('show');
+        break;
+    }
+}
+
+function save(){
+    var data = {
+        'id' : idForRegistry,
+        'comment' : $('#comment').val(),
+        'aprobate' : $('#aprobate').is(':checked')
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   setCustomerResponseRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {            
+            alert(data);
+            loadServiceOrders();
+            loadCalendar(getDatesRoute);
+            $('#registryModal').modal('hide');
+        }
+    });   
+}
 
 $(document).ready(function(){
     loadServiceOrders();

@@ -5,6 +5,36 @@
     <div class="row">
         <div class="col-lg-5">
             <div class="full-width-tabs">
+
+                <!-- Modal -->
+                <div class="modal fade" id="registryModal" tabindex="-1" role="dialog" aria-labelledby="registryModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="ModalTitle"></h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                <div class="form-group">
+                                    {{ Form::label('comment','Comentario')}}
+                                    {{ Form::textArea('comment',null,['class' => 'form-control','id' => 'comment','placeholder' => 'Comentario...'])}}
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('aprobate', '1', null, ['class' => '','id' => 'aprobate'])}} ¿Aprobación del cliente?
+                                    </label>
+                                </div>
+                                <div class=text-right>
+                                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'save()']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}                           
+                                </div>
+                                {{ Form::close() }}                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <ul id="myTabs" class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active fill_width"><a href="#outstanding" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Pendientes</a></li>
                     <li role="presentation" class="fill_width"><a href="#overcome" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">En Proceso</a></li>
@@ -113,9 +143,12 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>       
-    var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
-    var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
-    var getDatesByServiceOrderRoute = '{{ action('productionController@postReadDatesByServiceOrder'); }}';
+var getDatesRoute = '{{ action('productionController@getReadDates'); }}';
+var getServiceOrdersRoute = '{{ action('productionController@postReadServiceOrder'); }}';
+var getDatesByServiceOrderRoute = '{{ action('productionController@postReadDatesByServiceOrder'); }}';
+var setToInProcessRoute = '{{ action('productionController@postInProcess'); }}';
+var checkRegistryRoute = '{{ action('productionController@postCheckRegistry'); }}';
+var setCustomerResponseRoute = '{{ action('productionController@postSaveComment'); }}';
 </script>
 <script src="{{ asset("assets/scripts/production_ajax.js") }}" type="text/javascript"></script>
 @stop
