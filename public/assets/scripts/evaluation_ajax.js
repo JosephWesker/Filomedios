@@ -92,7 +92,15 @@ function updateEvaluations(){
         success:  function (data) {
             alert(data.data);
             setEmployees();
-            getProyections(); 
+            getProyections();
+            $('.charts').hide();
+            resetTable();
+            $('#eva_tim_id').html('');
+            $('#eva_tim_id')
+            .append($("<option></option>")
+               .attr("value",'null')
+               .text('---Seleccionar Mes/Año---'));
+            $('#eva_tim_id').prop('disabled',true); 
         }
     });
 }
@@ -127,6 +135,8 @@ function setEmployees(){
 }
 
 function getDates(){
+    $('.charts').hide();
+    resetTable();
     $('#eva_tim_id').html('');
     $('#eva_tim_id')
     .append($("<option></option>")
@@ -167,6 +177,8 @@ function getDates(){
 }
 
 function enableSearch(){
+    $('.charts').hide();
+    resetTable();
     if ( $('#eva_tim_id').val()!='null') {
         $('#searchButton').prop('disabled',false);
     }else{
@@ -194,6 +206,12 @@ function getEvaluation(){
            $("#resultsTab").html('');
            $("#goalsResult").append('<tr class="gradeX"><td>'+ data.data.goals.goa_customer_porcent +'</td><td>'+ data.data.goals.goa_duration_average +'</td><td>'+ data.data.goals.goa_sales_volume +'</td></tr>');
            $("#resultsTab").append('<tr class="gradeX"><td>'+ data.data.result.res_customer_porcent +'</td><td>'+ data.data.result.res_duration_average +'</td><td>'+ data.data.result.res_sales_volume +'</td><td>'+ data.data.time.tim_month +'</td><td>'+ data.data.time.tim_year +'</td><td>'+ data.data.eva_achieved_goals +'</td></tr>');
+           var name = data.data.employee.emp_first_name +' '+ data.data.employee.emp_last_name;
+           var date = data.data.time.tim_month +'/'+ data.data.time.tim_year;
+           $('.charts').show();
+           loadCharts(name,data.data.goals.goa_customer_porcent,data.data.result.res_customer_porcent,'% de Clientes','charts1','Porcentaje',date);
+           loadCharts(name,parseFloat(data.data.goals.goa_duration_average),parseFloat(data.data.result.res_duration_average),'Duración Promedio del Contrato','charts2','Meses',date);
+           loadCharts(name,parseFloat(data.data.goals.goa_sales_volume),parseFloat(data.data.result.res_sales_volume),'Volumen de Ventas','charts3','Pesos',date);
        }
    });
 }
@@ -257,9 +275,42 @@ function calculateGoaSalesVolume(){
     setProyectionTable();
 }
 
+function loadCharts(employee,goal,result,categorie,render,title,date){
+    var chart = new Highcharts.Chart({
+        chart: {
+            type: 'bar',
+            renderTo: render
+        },
+        title: {
+            text: categorie
+        },
+        xAxis: {
+            categories: [date]
+        },
+        yAxis: {
+            title: {
+                text: title
+            }
+        },
+        series: [{
+            name: 'Meta',
+            data: [goal]
+        }, {
+            name: employee,
+            data: [result]
+        }]
+    });
+}
+
+function resetTable(){
+ $("#goalsResult").html('');
+ $("#resultsTab").html('');
+ $("#goalsResult").append('<tr class="gradeX"><td colspan="3">Selecciona Empleado y Fecha para ver resultados</td></tr>');
+ $("#resultsTab").append('<tr class="gradeX"><td colspan="3">Selecciona Empleado y Fecha para ver resultados</td></tr>'); 
+}
 
 $(document).ready(function(){
     readGoals();
     setEmployees();
-    getProyections();
+    getProyections();   
 });

@@ -20,14 +20,14 @@
                             <h3><b>Buscar</b></h3> 
                             <hr>
                             <div class="form-group col-lg-5">
-                             {{ Form::label('employee','Empleado')}}
-                             {{ Form::select('employee', ['null'=>'---Seleccionar Empleado---'],null,['class' => 'form-control','id'=>'eva_emp_id', 'onchange' => 'getDates()']) }}
-                         </div>                           
-                         <div class="form-group col-lg-5">
-                             {{ Form::label('employee','Mes y Año')}}
-                             {{ Form::select('employee', ['null'=>'---Seleccionar Mes/Año---'],null,['class' => 'form-control','id'=>'eva_tim_id', 'disabled', 'onchange'=>'enableSearch()']) }}
-                         </div>
-                         <div class="col-lg-2">
+                               {{ Form::label('employee','Empleado')}}
+                               {{ Form::select('employee', ['null'=>'---Seleccionar Empleado---'],null,['class' => 'form-control','id'=>'eva_emp_id', 'onchange' => 'getDates()']) }}
+                           </div>                           
+                           <div class="form-group col-lg-5">
+                               {{ Form::label('employee','Mes y Año')}}
+                               {{ Form::select('employee', ['null'=>'---Seleccionar Mes/Año---'],null,['class' => 'form-control','id'=>'eva_tim_id', 'disabled', 'onchange'=>'enableSearch()']) }}
+                           </div>
+                           <div class="col-lg-2">
                             <br>
                             <button type="button" class="btn btn-success" id='searchButton' onclick="getEvaluation()" disabled>
                                 Buscar
@@ -64,11 +64,27 @@
                             <td colspan="8">Selecciona Empleado y Fecha para ver resultados</td>
                         </tbody>
                     </table>
+                    <div class="col-lg-12">
+                        <div style="display:none" class="col-lg-6 charts">
+                            <div  style="width:100%; height:400px;" id='charts1'>
+
+                            </div>
+                            <div  style="width:100%; height:400px;" id='charts3'>
+
+                            </div>
+                        </div>
+                        <div style="display:none" class="col-lg-6 charts">
+                            <div  style="width:100%; height:400px;" id='charts2'>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="projections" aria-labelledby="profile-tab">
-                 <h3><b>Parámetros</b></h3> 
-                 <hr>
-                 <div class="col-lg-12">
+                   <h3><b>Parámetros</b></h3> 
+                   <hr>
+                   <div class="col-lg-12">
                     <div class="col-lg-4">
                         <div class="form-group">
                             {{ Form::label('amount','% de Clientes Esperado')}}
@@ -162,15 +178,17 @@
 </div>
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/highcharts.js") }}" type="text/javascript"></script>
+<script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/modules/exporting.js") }}" type="text/javascript"></script>
 <script>       
-    var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
-    var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
-    var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
-    var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
-    var getEmployeesRoute = '{{ action('evaluationController@postReadEmployees'); }}';
-    var getDatesRoute = '{{ action('evaluationController@postReadDates'); }}';
-    var getEvaluationRoute = '{{ action('evaluationController@postGetEvaluation'); }}';
-    var getProyectionsRoute = '{{ action('evaluationController@postGetDataForProyections'); }}';
+var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
+var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
+var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
+var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
+var getEmployeesRoute = '{{ action('evaluationController@postReadEmployees'); }}';
+var getDatesRoute = '{{ action('evaluationController@postReadDates'); }}';
+var getEvaluationRoute = '{{ action('evaluationController@postGetEvaluation'); }}';
+var getProyectionsRoute = '{{ action('evaluationController@postGetDataForProyections'); }}';
 </script>
 <script src="{{ asset("assets/scripts/evaluation_ajax.js") }}" type="text/javascript"></script>
 
