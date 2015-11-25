@@ -761,6 +761,7 @@ class serviceOrderController extends Controller{
   }
 
   public function postUploadFiles(){
+    //ini_set('memory_limit', '-1');
     $serviceOrder = Input::get('idServiceOrder');
     $path = 'produccionFile/'.$serviceOrder.'/';
     for ($i=0; $i < count(Request::all())-1; $i++) { 

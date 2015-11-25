@@ -19,10 +19,10 @@
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="generals" aria-labelledby="home-tab">
                         <div class="col-lg-6">    
-                         {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
-                         <h3><b>Datos Generales</b></h3>
-                         <hr>
-                         <div class="form-group">
+                           {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                           <h3><b>Datos Generales</b></h3>
+                           <hr>
+                           <div class="form-group">
                             {{ Form::label('commercial_name','Nombre Comercial')}}
                             {{ Form::text('commercial_name',null,['class' => 'form-control generals','id' => 'cus_commercial_name','placeholder' => 'Nombre Comercial', 'disabled' => 'true'])}}
                         </div>
@@ -379,14 +379,17 @@
                 </div>
 
             </div>
+
+
             <div role="tabpanel" class="tab-pane fade" id="files" aria-labelledby="profile-tab">
                 <div class="col-lg-12">
                     <h3><b>Cargar Archivos</b></h3> 
                     <hr>
-                    <label for="catagry_name">Logo</label>
                     <form enctype="multipart/form-data" id="upload_form" role="form" method="POST" action="" name="uploadfiles">
                         <input type="file" class="form-control" id="filetoupload" multiple>
                     </form>
+                    <progress id='fileProgress' value="0" max="1">
+                    </progress>
                     <button type="button" class="addbtn" id="uploadButton">cargar</button>
                 </div>
                 <div class="col-lg-12">
@@ -404,11 +407,12 @@
                         </tbody>
                     </table>
                 </div>
+            </div>    
 
-            </div>                    
+
             <div role="tabpanel" class="tab-pane fade" id="addProduct" aria-labelledby="profile-tab">
-               <!-- Modal Production Registry -->                                            
-               <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+             <!-- Modal Production Registry -->                                            
+             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

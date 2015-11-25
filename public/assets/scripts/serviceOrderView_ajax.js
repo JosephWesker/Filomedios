@@ -910,6 +910,7 @@ $(document).ready(function(){
             //     alert("Invalid Date");  
         }
     });
+    
     $("#uploadButton").click(function(){
         event.preventDefault();
         var data = new FormData();
@@ -917,16 +918,39 @@ $(document).ready(function(){
             data.append('file-'+i, file); 
         });
         data.append('idServiceOrder',json.ser_id);
+
         $.ajax({
+            xhr: function(){
+                var xhr = new window.XMLHttpRequest();
+                //Upload progress
+                xhr.upload.addEventListener("progress", function(evt){
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        //Do something with upload progress
+                        //console.log(percentComplete);
+                        $('#fileProgress').val(percentComplete);
+                    }
+                }, false);
+                //Download progress
+                xhr.addEventListener("progress", function(evt){
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        //Do something with download progress
+                        console.log(percentComplete);
+                    }
+                }, false);                
+                return xhr;
+            },
             url:loadFilesRoute,
-                type: "post",   // usualmente post o get var tipo = JSON.stringify(arrayC);
-                dataType: "html",
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false
+            type: "post",   // usualmente post o get var tipo = JSON.stringify(arrayC);
+            dataType: "html",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false
             }).done(function(res){
                 getFiles();
+                $('#fileProgress').val(0);
             });
         });
 });
