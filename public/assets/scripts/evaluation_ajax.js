@@ -248,7 +248,6 @@ function setProyectionTable(){
         };
         $('#proyections').append('<tr class="gradeX"><td>'+ value.name +'</td><td>'+ value.res_customer_porcent +'</td><td>'+ value.res_duration_average +'</td><td>'+ value.res_sales_volume +'</td><td>'+ result +'</td></tr>');
     });
-
 }
 
 function calculateGoaCustomerPorcent(){
@@ -257,6 +256,7 @@ function calculateGoaCustomerPorcent(){
         goaCustomerPorcent = 0;
     }
     setProyectionTable();
+     prepareProyectionCharts();
 }
 
 function calculateGoaDurationAverage(){
@@ -265,6 +265,7 @@ function calculateGoaDurationAverage(){
         goaDurationAverage = 0;
     }
     setProyectionTable();
+     prepareProyectionCharts();
 }
 
 function calculateGoaSalesVolume(){
@@ -272,7 +273,8 @@ function calculateGoaSalesVolume(){
     if($('#t_res_sales_volume').val() == ''){
         goaSalesVolume = 0;
     }
-    setProyectionTable();
+    setProyectionTable(); 
+    prepareProyectionCharts();
 }
 
 function loadCharts(employee,goal,result,categorie,render,title,date){
@@ -302,6 +304,63 @@ function loadCharts(employee,goal,result,categorie,render,title,date){
     });
 }
 
+function prepareProyectionCharts(){
+    var array = [];
+    array[array.length] = {
+        'name' : 'Metas',
+        'data': [goaCustomerPorcent]
+    }
+    $.each(dataForProyection, function(index, value) {   
+        array[array.length] = {
+            'name' : value.name,
+            'data': [value.res_customer_porcent]
+        }
+    });
+    loadProyectionCharts('ProyectionCharts1','% de Clientes','Porcentaje',array);
+    var array2 = [];
+    array2[array2.length] = {
+        'name' : 'Metas',
+        'data': [goaDurationAverage]
+    }
+    $.each(dataForProyection, function(index, value) {   
+        array2[array2.length] = {
+            'name' : value.name,
+            'data': [value.res_duration_average]
+        }
+    });
+    loadProyectionCharts('ProyectionCharts2','Duración Promedio del Contrato','Meses',array2);
+    var array3 = [];
+    array3[array3.length] = {
+        'name' : 'Metas',
+        'data': [goaSalesVolume]
+    }
+    $.each(dataForProyection, function(index, value) {   
+        array3[array3.length] = {
+            'name' : value.name,
+            'data': [value.res_sales_volume]
+        }
+    }); 
+    loadProyectionCharts('ProyectionCharts3','Volumen de Ventas','Pesos',array3);
+}
+
+function loadProyectionCharts(render,title,datatype,series){
+    var chart = new Highcharts.Chart({
+        chart: {
+            type: 'bar',
+            renderTo: render
+        },
+        title: {
+            text: title
+        },
+        yAxis: {
+            title: {
+                text: datatype
+            }
+        },
+        series: series
+    });
+}
+
 function resetTable(){
  $("#goalsResult").html('');
  $("#resultsTab").html('');
@@ -312,5 +371,6 @@ function resetTable(){
 $(document).ready(function(){
     readGoals();
     setEmployees();
-    getProyections();   
+    getProyections();
+    setTabListener();   
 });

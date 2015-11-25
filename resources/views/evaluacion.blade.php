@@ -7,7 +7,7 @@
             <div class="full-width-tabs">
                 <ul id="myTabs" class="nav nav-tabs" role="tablist">                    
                     <li role="presentation" class="active fill_width"><a href="#results" role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Consultar Resultados</a></li>
-                    <li role="presentation" class="fill_width"><a href="#projections" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Proyecciones</a></li>
+                    <li role="presentation" class="fill_width"><a href="#projections" role="tab" id="proyection-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Proyecciones</a></li>
                     <li role="presentation" class="fill_width"><a href="#goals" id="profile-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Registro de Metas</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
@@ -115,8 +115,22 @@
                     <tbody id="proyections">
 
                     </tbody>
-                </table> 
+                </table>
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <div  style="width:100%; height:400px;" id='ProyectionCharts1'>
 
+                        </div>
+                        <div  style="width:100%; height:400px;" id='ProyectionCharts3'>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div  style="width:100%; height:400px;" id='ProyectionCharts2'>
+
+                        </div>
+                    </div>
+                </div>                
             </div>
             <div role="tabpanel" class="tab-pane fade" id="goals" aria-labelledby="profile-tab">
                 <div class="col-lg-12">
@@ -181,14 +195,14 @@
 <script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/highcharts.js") }}" type="text/javascript"></script>
 <script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/modules/exporting.js") }}" type="text/javascript"></script>
 <script>       
-var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
-var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
-var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
-var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
-var getEmployeesRoute = '{{ action('evaluationController@postReadEmployees'); }}';
-var getDatesRoute = '{{ action('evaluationController@postReadDates'); }}';
-var getEvaluationRoute = '{{ action('evaluationController@postGetEvaluation'); }}';
-var getProyectionsRoute = '{{ action('evaluationController@postGetDataForProyections'); }}';
+    var createGoalsRoute = '{{ action('evaluationController@postCreateGoal'); }}';
+    var readGoalsRoute = '{{ action('evaluationController@postReadGoals'); }}';
+    var activateRoute = '{{ action('evaluationController@postActivateGoal'); }}';
+    var updateEvaluationsRoute = '{{ action('evaluationController@postEvaluate'); }}';
+    var getEmployeesRoute = '{{ action('evaluationController@postReadEmployees'); }}';
+    var getDatesRoute = '{{ action('evaluationController@postReadDates'); }}';
+    var getEvaluationRoute = '{{ action('evaluationController@postGetEvaluation'); }}';
+    var getProyectionsRoute = '{{ action('evaluationController@postGetDataForProyections'); }}';
 </script>
 <script src="{{ asset("assets/scripts/evaluation_ajax.js") }}" type="text/javascript"></script>
 
