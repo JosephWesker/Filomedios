@@ -324,7 +324,7 @@ $.ajax({
 }
 
 function setVariables(){
-    totalOutlay = parseFloat(json.ser_outlay_total);
+    totalOutlay = parseFloat(json.ser_outlay);
     payments = parseFloat(json.payments_date.length);
     iva = parseFloat(json.ser_iva);
     if (iva != 0) {
@@ -548,51 +548,27 @@ function addProduct(){
     row = new Object();
     row.det_fk_product = products[$('#det_fk_product').val()].pro_id;
     row.det_name = products[$('#det_fk_product').val()].pro_name;
-    
-    row.det_impacts = $('#det_impacts').val();
-    row.det_validity = $('#det_validity').val();
-    row.det_discount = $('#det_discount').val();
-    row.det_final_price = $('#det_discount_number').val();    
-    
-    if(products[$('#det_fk_product').val()].pro_type == "transmisión"){        
-
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
-            row.det_fk_show = $('#det_fk_show').val();
-        };
-
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_transmission_scheme) {
-            row.det_has_transmission_scheme = null;
-        };
-
-        row.det_fk_business_unit = $('#det_fk_business_unit').val();
-
-        row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
-        
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
-            row.det_subtotal = parseFloat(row.det_subtotal) * 10;
-        };
-
-    }else{
-        if (products[$('#det_fk_product').val()].pro_extra.spr_has_production_registry) {
-            row.det_has_production_registry = null;
-        };
-        row.det_subtotal = row.det_final_price;
-    }
+    row.det_final_price = products[$('#det_fk_product').val()].pro_outlay;
+    row.det_type = products[$('#det_fk_product').val()].pro_type;    
+    row.det_amount = $('#pso_amount').val();
+    row.det_subtotal = parseFloat(row.det_final_price) * parseFloat(row.det_amount);    
+    $('#det_fk_product').val("null");
+    $('#pso_amount').val("null");
     monthOutlay = monthOutlay + parseFloat(row.det_subtotal);
     setAmounts();
     checkifneedExtras();
 }
 
 function checkifneedExtras(){
-    if (row.hasOwnProperty('det_has_transmission_scheme')) {        
-        setTransmissionScheme();
-    }else{
-        if (row.hasOwnProperty('det_has_production_registry')) {
+    //if (row.hasOwnProperty('det_has_transmission_scheme')) {        
+     //   setTransmissionScheme();
+    //}else{
+        if (row.det_type == 'Producción') {
             setProductionRegistry();
         }else{
             sendProduct();
         }
-    } 
+    //} 
 }
 
 function setProductionRegistry(){

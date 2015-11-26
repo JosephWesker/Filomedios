@@ -142,7 +142,10 @@ class serviceOrderController extends Controller{
   }
 
   function createProductionRegistry($serviceOrder,$values){
-    $detailProduction = new fil_detail_production;
+    $detailProduction = fil_detail_production::find($serviceOrder->ser_id);
+    if ($detailProduction == null) {
+      $detailProduction = new fil_detail_production;
+    }
     $detailProduction->dpr_ser_id = $serviceOrder->ser_id;
     $detailProduction->dpr_recording_date = $values->dpr_recording_date;
     $detailProduction->dpr_proposal_1_date = $values->dpr_proposal_1_date;
@@ -563,46 +566,46 @@ class serviceOrderController extends Controller{
   public function postAddProduct(){
     $values = Request::all();
     $value = json_decode(json_encode($values['row']));
-    $detail = new fil_detail_product;
-    $detail->det_fk_product = $value->det_fk_product;
+    $detail = new fil_product_fil_service_order;
+    $detail->pso_pro_id = $value->det_fk_product;
 
-    if(property_exists($value, 'det_fk_business_unit')){
+    /*if(property_exists($value, 'det_fk_business_unit')){
       $detail->det_fk_business_unit = $value->det_fk_business_unit;  
     }else{
       $detail->det_fk_business_unit = null;
-    }
+    }*/
 
-    if(property_exists($value, 'det_fk_show')){
+    /*if(property_exists($value, 'det_fk_show')){
       $detail->det_fk_show = $value->det_fk_show;  
     }else{
       $detail->det_fk_show = null;
-    }
+    }*/
 
-    $detail->det_fk_service_order = $values['ser_id'];
-    $detail->det_impacts = $value->det_impacts;
-    $detail->det_validity = $value->det_validity;
-    $detail->det_discount = $value->det_discount;
-    $detail->det_final_price = $value->det_final_price;
+    $detail->pso_ser_id = $values['ser_id'];
+    $detail->pso_amount = $value->det_amount;
+    $detail->pso_subtotal = $value->det_subtotal;
+    //$detail->det_discount = $value->det_discount;
+    //$detail->det_final_price = $value->det_final_price;
 
     $detail->save(); 
 
-    if(property_exists($value, 'det_has_production_registry')){
-      $this->createProductionRegistry($detail,$value->det_has_production_registry);  
-    }
-
-    if(property_exists($value, 'det_has_transmission_scheme')){
-      $this->createTransmissionScheme($detail,$value->det_has_transmission_scheme);
-    }
-
     $serviceOrder = fil_service_order::find($values['ser_id']);
-    $serviceOrder->ser_outlay_total = $values['totalOutlay'];
+    $serviceOrder->ser_outlay = $values['totalOutlay'];
     $serviceOrder->ser_iva = $values['iva'];
     $serviceOrder->save();
 
-    $paymentScheme = $serviceOrder->paymentScheme;
+    if(property_exists($value, 'det_has_production_registry')){
+      $this->createProductionRegistry($serviceOrder,$value->det_has_production_registry);  
+    }
+
+    /*if(property_exists($value, 'det_has_transmission_scheme')){
+      $this->createTransmissionScheme($detail,$value->det_has_transmission_scheme);
+    }*/
+
+    /*$paymentScheme = $serviceOrder->paymentScheme;
     $paymentScheme->pay_amount_cash = $values['amountCash'];    
-    $paymentScheme->save();
-    foreach ($paymentScheme->paymentDates as $payment) {
+    $paymentScheme->save();*/
+    foreach ($serviceOrder->paymentsDate as $payment) {
       $payment->pda_amount = $values['paymentAmount'];
       $payment->save();
     }
@@ -708,14 +711,14 @@ class serviceOrderController extends Controller{
     $values = json_decode(json_encode($values));
     $serviceOrder = fil_service_order::find($values->serviceOrder);
     $serviceOrder->ser_discount_month = $values->discount;
-    $serviceOrder->ser_outlay_total = $values->totalOutlay;
+    $serviceOrder->ser_outlay = $values->totalOutlay;
     $serviceOrder->ser_iva = $values->iva;
     $serviceOrder->save();
-    $paymentScheme = $serviceOrder->paymentScheme;
+    /*$paymentScheme = $serviceOrder->paymentScheme;
     $paymentScheme->pay_amount_kind = $values->amountKind;
     $paymentScheme->pay_amount_cash = $values->amountCash;
     $paymentScheme->pay_number_payments = $values->numberPayments;
-    $paymentScheme->save();
+    $paymentScheme->save();*/
     if (property_exists($values,'paymentsold')) {
       foreach ($values->paymentsold as $value) {
         $payment = fil_payment_date::find($value->pda_id);
@@ -727,7 +730,7 @@ class serviceOrderController extends Controller{
     if (property_exists($values,'paymentsnew')) {
       foreach ($values->paymentsnew as $value) {
         $paymentDate = new fil_payment_date;
-        $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
+        $paymentDate->pda_ser_id = $serviceOrder->ser_id;
         $paymentDate->pda_date = $value->pda_date;
         $paymentDate->pda_amount = $value->pda_amount;
         $paymentDate->pda_status = "pendiente";
