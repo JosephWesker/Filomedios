@@ -194,9 +194,6 @@
                             <li {{ (Request::is('*agenda') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('agenda') }}"><i class="fa fa-bars"></i>  Agenda</a>
                             </li>
-                            <li {{ (Request::is('*gestor_de_archivos') ? 'class="active"' : '') }}>
-                                <a href="{{ url ('gestor_de_archivos') }}"><i class="fa fa-file-video-o"></i>  Gestor de Archivos</a>
-                            </li>
                         </ul>
                     </li>
                     <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
