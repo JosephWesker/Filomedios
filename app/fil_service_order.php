@@ -18,7 +18,7 @@ class fil_service_order extends Model {
 	}
 
 	public function paymentsDate(){
-		return $this->hasMany('App\fil_payment_date','pad_ser_id','ser_id');
+		return $this->hasMany('App\fil_payment_date','pda_ser_id','ser_id');
 	}
 
 	public function fil_product_fil_service_order(){
