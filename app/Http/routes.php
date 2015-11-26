@@ -48,6 +48,10 @@ Route::get('/tesoreria', ['middleware' => 'SessionControl', 'as' => 'tesoreria',
 	return View::make('tesoreria');
 }]);
 
+Route::get('/facturas', ['middleware' => 'SessionControl', 'as' => 'facturas', function(){
+	return View::make('facturas');
+}]);
+
 Route::get('/clientes', ['middleware' => 'SessionControl', 'as' => 'clientes', function(){
 	return View::make('clientes');
 }]);

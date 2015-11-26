@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
 use App\fil_payment_date;
 use App\fil_service_order;
-use App\fil_invoice_data;
+use App\fil_invoice;
 use App\fil_real_payment;
 
 class treasuryController extends Controller{
@@ -24,14 +24,14 @@ class treasuryController extends Controller{
     $today = date('Y-m-d');
     $today = date('Y-m-d', strtotime($today));
     foreach ($payments as $value) {
-      if (($value->paymentScheme->serviceOrder->ser_auth_admin == 2) && ($value->paymentScheme->serviceOrder->ser_auth_production == 2) && ($value->paymentScheme->serviceOrder->ser_auth_sales == 2)) {
+      $value->serviceOrder->customer;
+      if (($value->serviceOrder->ser_auth_admin == 2) && ($value->serviceOrder->ser_auth_production == 2) && ($value->serviceOrder->ser_auth_sales == 2)) {
         if ($value->pda_status == 'facturado') {          
           $paymentsTotal = 0;
-          foreach ($value->realPayments as $payment) {
+          /*foreach ($value->realPayments as $payment) {
             $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
-          }          
-          $value->paymentScheme->serviceOrder->customer;
-          $value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal ;
+          }*/                    
+          //$value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal ;
           if (($today <= date('Y-m-d', strtotime($value->pda_date)))) {
             $outstanding[] = $value;
           }else{
@@ -79,21 +79,21 @@ class treasuryController extends Controller{
   }
 
   public function readPayments($id){
-    $payments = fil_service_order::find($id)->paymentScheme->paymentDates;
+    $payments = fil_service_order::find($id)->paymentsDate;
     $outstanding = [];
     $full = [];
     $late = [];
     $today = date('Y-m-d');
     $today = date('Y-m-d', strtotime($today));
     foreach ($payments as $value) {
-      if (($value->paymentScheme->serviceOrder->ser_auth_admin == 2) && ($value->paymentScheme->serviceOrder->ser_auth_production == 2) && ($value->paymentScheme->serviceOrder->ser_auth_sales == 2)) {
+      if (($value->serviceOrder->ser_auth_admin == 2) && ($value->serviceOrder->ser_auth_production == 2) && ($value->serviceOrder->ser_auth_sales == 2)) {
         if ($value->pda_status == 'facturado') {
           $paymentsTotal = 0;
-          foreach ($value->realPayments as $payment) {
+          /*foreach ($value->realPayments as $payment) {
             $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
-          }   
-          $value->paymentScheme->serviceOrder->customer;       
-          $value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal;
+          }*/   
+          $value->serviceOrder->customer;       
+          //$value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal;
           if (($today <= date('Y-m-d', strtotime($value->pda_date)))) {
             $outstanding[] = $value;
           }else{
@@ -114,7 +114,7 @@ class treasuryController extends Controller{
 
   public function detailPayment($id){
     $payment = fil_payment_date::find($id);
-    $serviceOrder = fil_payment_date::find($id)->paymentScheme->serviceOrder;
+    $serviceOrder = fil_payment_date::find($id)->serviceOrder;
     $hasIVA = false;
     if ($serviceOrder->ser_iva != 0) {
       $hasIVA = true;
@@ -154,21 +154,19 @@ class treasuryController extends Controller{
 
   public function postCreateRealPayment(){
     $values = Request::all();
-    $realPayment = new fil_real_payment;
-    $realPayment->rpa_fk_payment_date = $values['rpa_fk_payment_date'];
-    $realPayment->rpa_amount = $values['rpa_amount'];
-    $realPayment->rpa_date = date('Y-m-d');
+    $payment = fil_payment_date::find($values['rpa_fk_payment_date']);
+    $payment->pda_real_date = date('Y-m-d');
     if ($values['rpa_method'] == 'contado') {
-      $realPayment->rpa_method = $values['rpa_method'];
-      $realPayment->rpa_account = '';
+      $payment->pda_method = $values['rpa_method'];
+      $payment->pda_account = '';
     }else{
-      $realPayment->rpa_method = $values['rpa_method'];
-      $realPayment->rpa_account = $values['rpa_account'];
+      $payment->pda_method = $values['rpa_method'];
+      $payment->pda_account = $values['rpa_account'];
     }
+    $payment->pda_status = 'pagado';
+    $payment->save();
 
-    $realPayment->save();
-
-    $this->checkForStatus($values['rpa_fk_payment_date']);
+    //$this->checkForStatus($values['rpa_fk_payment_date']);
 
     $response = Response::json(array(
       'success' => true,
@@ -210,10 +208,10 @@ class treasuryController extends Controller{
     $invoice = [];
     $recipt = [];
     foreach ($payments as $value) {
-      if (($value->paymentScheme->serviceOrder->ser_auth_admin == 2) && ($value->paymentScheme->serviceOrder->ser_auth_production == 2) && ($value->paymentScheme->serviceOrder->ser_auth_sales == 2)) {
+      if (($value->serviceOrder->ser_auth_admin == 2) && ($value->serviceOrder->ser_auth_production == 2) && ($value->serviceOrder->ser_auth_sales == 2)) {
         if ($value->pda_status == 'pendiente') {                    
-          $value->paymentScheme->serviceOrder->customer;
-          if ($value->paymentScheme->serviceOrder->ser_iva == 0) {
+          $value->serviceOrder->customer;
+          if ($value->serviceOrder->ser_iva == 0) {
             $recipt[] = $value;
           }else{
             $invoice[] = $value;
@@ -231,9 +229,9 @@ class treasuryController extends Controller{
 
   public function postSaveInvoice(){
     $payment = fil_payment_date::find(Request::get('id'));
-    $invoice = new fil_invoice_data;
-    $invoice->ind_id = $payment->pda_id;
-    $invoice->ind_cfdi = Request::get('content');
+    $invoice = new fil_invoice;
+    $invoice->inv_pda_id = $payment->pda_id;
+    $invoice->inv_cfdi = Request::get('content');
     $invoice->save();
     $payment->pda_status = 'facturado';
     $payment->save();
