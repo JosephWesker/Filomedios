@@ -16,3 +16,9 @@ First copy all but if this doesn't work follow the instructions below.
 - `php artisan cache:clear`
 
 If this doesn't work please send me a message.
+
+
+#IMPORTANT FOR INSTALLATION
+
+-Configure the POST Content-Length to accept files with length bigger than 2GB
+-Uncomment extension=php_fileinfo.dll from the PHP.ini file

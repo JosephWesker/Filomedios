@@ -177,9 +177,9 @@ function toDiscount_number(){
     var price = parseFloat($('#pro_outlay').val());
     var discount = parseFloat($('#pad_discount').val());
     if(discount<=100){
-        $('#pad_discount_number').val(price-(price*(discount/100)));
+        $('#pad_discount_number').val((price-(price*(discount/100))).toFixed(2));
     }else{
-        $('#pad_discount_number').val(price+(price*((discount-100)/100)));
+        $('#pad_discount_number').val((price+(price*((discount-100)/100))).toFixed(2));
     }
 }
 
@@ -187,9 +187,9 @@ function toDiscount(){
     var price = parseFloat($('#pro_outlay').val());
     var discount = parseFloat($('#pad_discount_number').val());
     if(price>=discount){
-        $('#pad_discount').val(100-((discount*100)/price));
+        $('#pad_discount').val((100-((discount*100)/price)).toFixed(2));
     }else{
-        $('#pad_discount').val((((discount)*100)/price));
+        $('#pad_discount').val(((((discount)*100)/price)).toFixed(2));
     }
 }
 
@@ -197,9 +197,9 @@ function u_toDiscount_number(){
     var price = parseFloat($('#u_pro_outlay').val());
     var discount = parseFloat($('#u_pad_discount').val());
     if(discount<=100){
-        $('#u_pad_discount_number').val(price-(price*(discount/100)));
+        $('#u_pad_discount_number').val((price-(price*(discount/100))).toFixed(2));
     }else{
-        $('#u_pad_discount_number').val(price+(price*((discount-100)/100)));
+        $('#u_pad_discount_number').val((price+(price*((discount-100)/100))).toFixed(2));
     }
 }
 
@@ -207,9 +207,9 @@ function u_toDiscount(){
     var price = parseFloat($('#u_pro_outlay').val());
     var discount = parseFloat($('#u_pad_discount_number').val());
     if(price>=discount){
-        $('#u_pad_discount').val(100-((discount*100)/price));
+        $('#u_pad_discount').val((100-((discount*100)/price)).toFixed(2));
     }else{
-        $('#u_pad_discount').val((((discount)*100)/price));
+        $('#u_pad_discount').val(((((discount)*100)/price)).toFixed(2));
     }
 }
 

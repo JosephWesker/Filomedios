@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
-                                {{ Form::select('job', ['vendedor'=>'Vendedor','administrador'=>'Administrador','producción'=>'Producción','tesoreria' => 'Tesoreria'],null,['class' => 'form-control','id'=>'emp_job']) }}
+                                {{ Form::select('job', ['vendedor'=>'Vendedor','administrador'=>'Administrador','producción'=>'Producción','tesoreria' => 'Tesoreria', 'gerente de ventas'=>'Gerente de Ventas'],null,['class' => 'form-control','id'=>'emp_job']) }}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('fk_business_unit','Unidad de Negocio')}}
@@ -99,7 +99,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
-                                {{ Form::select('job', ['vendedor'=>'Vendedor','administrador'=>'Administrador','producción'=>'Producción','tesoreria' => 'Tesoreria'],null,['class' => 'form-control','id'=>'u_emp_job']) }}
+                                {{ Form::select('job', ['vendedor'=>'Vendedor','administrador'=>'Administrador','producción'=>'Producción','tesoreria' => 'Tesoreria', 'gerente de ventas'=>'Gerente de Ventas'],null,['class' => 'form-control','id'=>'u_emp_job']) }}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('fk_business_unit','Unidad de Negocio')}}

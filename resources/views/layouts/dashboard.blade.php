@@ -172,13 +172,21 @@
                             <li {{ (Request::is('*nueva_orden_de_servicio') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('nueva_orden_de_servicio') }}"><i class="fa fa-file-o fa-fw"></i>  Nueva Órden de Servicio</a>
                             </li>
-                            <li {{ (Request::is('*gestor_de_ordenes_de_servicio') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*gestor_de_ordenes_de_servicio*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('gestor_de_ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i>  Gestor de Órdenes de Servicio</a>
                             </li>
                         </ul>
                     </li>
-                    <li {{ (Request::is('*tesoreria') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('tesoreria') }}"><i class="fa fa-usd fa-fw"></i> Tesorería</a>
+                    <li {{ (Request::is('*tesor*') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('tesor') }}"><i class="fa  fa-university fa-fw"></i> Tesorería</a>
+                        <ul class="nav nav-second-level">
+                            <li {{ (Request::is('*tesoreria*') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('tesoreria') }}"><i class="fa fa-usd fa-fw"></i>  Pagos</a>
+                            </li>
+                            <li {{ (Request::is('*facturas*') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('facturas') }}"><i class="fa fa-file-text-o fa-fw"></i>  Facturas</a>
+                            </li>
+                        </ul>
                     </li>
                     <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('produccion') }}"><i class="fa fa-video-camera"></i> Producción</a>

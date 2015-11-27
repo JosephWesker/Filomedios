@@ -12,23 +12,17 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="ibox float-e-margins">
-<!--                                <div class="ibox-title">
-                                    <h5>Nueva Orden de Servicio</h5>
-                                </div>-->
                                 <div class="ibox-content">
                                     <div id="wizard">
+
                                         <h1>Cliente</h1> 
                                         <div class="step-content offset" style="position: relative; width: 100%;">                      
-                                            <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
+                                            <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Nombre Comercial</th>
-                                                        <th>Contacto</th>
-                                                        <th>Dirección</th>
-                                                        <th>Teléfono Fijo</th>
-                                                        <th>Celular o Nextel</th>
-                                                        <th>Email</th>
+                                                        <th>Contacto</th>                                                                                                        
                                                         <th>Razón Social</th>
                                                         <th>RFC</th>
                                                     </tr>
@@ -44,196 +38,310 @@
                                             <form class="form-inline col-lg-12">
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
-                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
+                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="months_contract">Duración del Contrato</label>
-                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses"/>
+                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="end_date_contract">Fin del Contrato</label>
                                                     <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
                                                 </div>
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Cobro total</label>
-                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro total" readonly/>
-                                                </div> 
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Impactos totales</label>
-                                                    <input type="text" id="ser_contract_impacts" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Impactos totales" readonly/>
-                                                </div> 
-                                                <div class="form-group col-lg-12 col-xs-12">
+                                                    <label for="end_date_contract">Cobro Mensual</label>
+                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro Mensual" readonly/>
+                                                </div>                                                 
+                                                <div class="form-group col-lg-6 col-xs-12">
                                                     <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
                                                         Agregar Producto
                                                     </button>
                                                 </div>
-                                                    
+                                                <div class="form-group col-lg-6 col-xs-12">
+                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
+                                                        Agregar Paquete
+                                                    </button>
+                                                </div>
                                             </form>
 
-
                                             <!-- Button trigger modal -->
-
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProductLabel">
+                                            <!-- Modal -->                                            
+                                            <div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="myModalLabel">Agregar Producto</h4>
+                                                            <h4 class="modal-title">Agregar Producto</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            {{ Form::open(array('url' => '', 'id' => 'agregarProducto')) }}                            
-
-                                                            <Select id="productSelector" class="form-control">
-                                                                <option value= "disabled" disabled selected>-- Selecciona un producto --</option>
-                                                                <option value="spots">Spots</option>
-                                                                <option value="cintillos">Cintillos</option>
-                                                                <option value="programas">Programas</option>
-                                                                <option value="portalNoticias">Portal Noticias</option>
-                                                            </Select>
-
-                                                            <div id="spots" class="product" style="display:none">
-                                                                <h3>Spots</h3>
-                                                                <form class="form-inline">
-                                                                    <div class="form-group">
-                                                                        <label>Spots por Hora</label>
-                                                                        <input type="text" id="hour3" class="form-control" placeholder="Spots por Hora"/>
-                                                                        <br>
-                                                                        <label class="">Spots por Día: </label>
-                                                                        <span id="day3"></span>
-                                                                        <br>
-                                                                        <label class="">Spots por Mes: </label>
-                                                                        <span id="month3"></span>
-                                                                    </div>
-                                                                    <br>
-                                                                    <div id="myRadioGroup">
-                                                                        <h4>Producción Filomedios</h4>
-                                                                        <label class="checkbox-inline">
-                                                                            <input type="radio" name="cars" checked="checked" value="2" id="radioSpots" />Si
-                                                                        </label>
-                                                                        <label class="checkbox-inline">
-                                                                            <input type="radio" name="cars" value="3" />No
-                                                                        </label>
-                                                                        <div id="option2" class="desc">
-                                                                            <div class="form-group">
-                                                                                <label for="start_date">Fecha de grabación o junta de producción</label>
-                                                                                <input type="date" id="grabacion_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="start_date">Fecha Estimada 1 Propuesta</label>
-                                                                                <input type="date" id="propuesta_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="start_date">Fecha Estimada 2 Propuesta</label>
-                                                                                <input type="date" id="propuesta_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div id="option3" class="desc" style="display: none;">
-                                                                            <div class="form-group">
-                                                                                <label for="start_date">Fecha de Entrega Spot de Cliente</label>
-                                                                                <input type="date" id="entrega_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio"/>
-                                                                            </div>
-                                                                            <br>
-                                                                            <div class="form-group">
-                                                                                <label for="format">Formato</label>
-                                                                                <input type="text" id="format" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Formato"/>
-                                                                            </div>
-                                                                            <br>
-                                                                        </div>                                                                        
-                                                                        <label>Descripción del producto</label>
-                                                                        <textarea type="text" id="descripcion_spot" class="form-control" placeholder="Descripción del producto"/></textarea>
-                                                                    </div>
-                                                                </form>
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                                            <div class="form-group">
+                                                                {{ Form::label('fk_product','Producto')}}
+                                                                {{ Form::select('fk_product', ['null'=>'---Seleccionar producto---'],null,['class' => 'form-control','id'=>'det_fk_product','onchange' => 'setFormVisible()']) }}
                                                             </div>
-                                                            <div id="cintillos" class="product" style="display:none">
-                                                                <h3>Cintillos</h3>
-                                                                <label>Cintillos por Hora</label>
-                                                                <input type="text" id="hour" class="form-control" placeholder="Spots por Hora"/>
-                                                                <br>
-                                                                <label class="">Cintillos por Día: </label>
-                                                                <span id="day"></span>
-                                                                <br>
-                                                                <label class="">Cintillos por Mes: </label>
-                                                                <span id="month"></span>
-                                                                <br>
-                                                                <br>
-                                                                <label>Descripción del producto</label>
-                                                                <textarea type="text" id="descripcion_cintillo" class="form-control" placeholder="Descripción del producto"/></textarea>
+                                                            <div class="form-group">
+                                                                {{ Form::label('outlay','Precio')}}
+                                                                {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                                                             </div>
-                                                            <div id="programas" class="product" style="display:none">
-                                                                <h3>Programas</h3>
-                                                                <label>Spots por Hora</label>
-                                                                <input type="text" id="hour2" class="form-control" placeholder="Spots por Hora"/>
-                                                                <br>
-                                                                <label class="">Spots por Día: </label>
-                                                                <span id="day2"></span>
-                                                                <br>
-                                                                <label class="">Spots por Mes: </label>
-                                                                <span id="month2"></span>
-                                                                <br>
-                                                                <br>
-                                                                <Select id="program" class="form-control">
-                                                                    <option disabled selected>-- Selecciona un programa --</option>
-                                                                    <option value="al aire">Al Aire</option>
-                                                                    <option value="americas Life">Americas Life</option>
-                                                                    <option value="deporte al 100">Deporte al 100</option>
-                                                                    <option value="venue">Venue</option>
-                                                                    <option value="bloopers">Bloopers</option>
-                                                                    <option value="veracruz en tus sentidos">Veracruz en tu sentidos</option>
-                                                                    <option value="los 5 mejores goles">Los 5 mejores goles</option>
-                                                                </Select>
-                                                                <br>
-                                                                <label>Descripción del producto</label>
-                                                                <textarea type="text" id="descripcion_programas" class="form-control" placeholder="Descripción del producto"/></textarea>                                                 
+                                                            <div id="proyection_data" style="display:none">
+                                                                <div class="form-group">
+                                                                    {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
+                                                                    {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
+                                                                </div>
+                                                                <div class="form-group" id="fk_show" style="display:none">
+                                                                    {{ Form::label('fk_show','Programa')}}
+                                                                    {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
+                                                                </div>                                                                
+                                                                <div class="form-group">
+                                                                    {{ Form::label('impacts','Impactos')}}
+                                                                    {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    {{ Form::label('validity','Vigencia Mensual (En días)')}}
+                                                                    {{ Form::number('validity',null,['class' => 'form-control','id' => 'det_validity','placeholder' => 'Vigencia'])}}
+                                                                </div>
                                                             </div>
-                                                            <div id="portalNoticias" class="product" style="display:none">
-                                                                <h3>Portal Noticias</h3>
-                                                                <label>Descripción del producto</label>
-                                                                <textarea type="text" id="descripcion_noticias" class="form-control" placeholder="Descripción del producto"/></textarea>
+                                                            <div class="form-group">
+                                                                {{ Form::label('discount','Descuento (%)')}}
+                                                                {{ Form::number('discount',null,['onkeyup' => 'toDiscount_number()','class' => 'form-control','id' => 'det_discount','placeholder' => 'Descuento'])}}
+                                                            </div>                                                            
+                                                            <div class="form-group">
+                                                                {{ Form::label('discount_number','Precio con Descuento')}}
+                                                                {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
-                                                            <br>
-                                                            <label>Costo</label>
-                                                            <input type="number" step="0.01" id="amount" class="form-control" placeholder="Costo"/>
-                                                            <br>
+                                                            
                                                             <div class=text-right>
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss'=> "modal"]) }}
-                                                                {{ Form::button('Agregar',['class' => 'btn btn-success', 'id' => 'createProduct', 'onclick'=>'buttonCreateProduct()']) }}
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                                                             </div>
-                                                            {{ Form::close() }}
+                                                            {{ Form::close() }}                        
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                                            
-                                                <table class="table table-striped table-hover table-bordered margin-top20" id="selectTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Producto</th>
-                                                            <th>Descripción</th>
-                                                            <th>Monto</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="products">
+                                            </div>
+                                            <!--End Modal-->
 
-                                                    </tbody>
-                                                </table> 
+
+                                            <!-- Modal Production Registry -->                                            
+                                            <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                                            {{ Form::hidden('index', 'index',['id' => 'productionRegistryIndex']) }} 
+                                                            <div class="form-group">
+                                                                <label for="recording_date">Fecha de Grabación</label>
+                                                                <input type="date" id="dpr_recording_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Grabación"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="proposal_1_date">Fecha de Propuesta 1</label>
+                                                                <input type="date" id="dpr_proposal_1_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 1"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="proposal_2_date">Fecha de Propuesta 2</label>
+                                                                <input type="date" id="dpr_proposal_2_date" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Propuesta 2"/>
+                                                            </div>                                                                                                             
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProductionRegistry()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Transmission Scheme -->                                            
+                                            <div class="modal fade" id="transmissionScheme" tabindex="-1" role="dialog" aria-labelledby="addProduct">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('tuesday', '2', null, ['class' => '','id' => 'tra_tuesday'])}} Martes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('wednesday', '3', null, ['class' => '','id' => 'tra_wednesday'])}} Miercoles
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('thursday', '4', null, ['class' => '','id' => 'tra_thursday'])}} Jueves
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('friday', '5', null, ['class' => '','id' => 'tra_friday'])}} Viernes
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('saturday', '6', null, ['class' => '','id' => 'tra_saturday'])}} Sabado
+                                                                </label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {{ Form::checkbox('sunday', '7', null, ['class' => '','id' => 'tra_sunday'])}} Domingo
+                                                                </label>
+                                                            </div>                                                                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addTransmissionScheme()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Package -->                                            
+                                            <div class="modal fade" id="addPackage" tabindex="-1" role="dialog" aria-labelledby="addPackage">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Agregar Paquete</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'agregarPaquete')) }} 
+                                                            <div class="form-group">
+                                                                {{ Form::label('package','Paquete')}}
+                                                                {{ Form::select('package', ['null'=>'---Seleccionar paquete---'],null,['class' => 'form-control','id'=>'det_add_package']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addPackage()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Business Unit -->                                            
+                                            <div class="modal fade" id="setBusinessUnit" tabindex="-1" role="dialog" aria-labelledby="setBusinessUnit">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Unidad de Negocio</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'definirUnidad')) }} 
+                                                            {{ Form::hidden('index', 'index',['id' => 'businessUnitIndex']) }}
+                                                            <div class="form-group">
+                                                                {{ Form::label('business_unit','Unidad de Negocio')}}
+                                                                {{ Form::select('business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_business_unit']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addBusinessUnit()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <!-- Modal Show -->                                            
+                                            <div class="modal fade" id="setShow" tabindex="-1" role="dialog" aria-labelledby="setShow">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Definir Programa</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'definirPrograma')) }} 
+                                                            {{ Form::hidden('index', 'index',['id' => 'showIndex']) }}
+                                                            <div class="form-group">
+                                                                {{ Form::label('show','Programa')}}
+                                                                {{ Form::select('show', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_show']) }}
+                                                            </div>                                                            
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addShow()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+
+                                            <table class="table table-striped table-hover table-bordered margin-top20">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre del Producto</th>
+                                                        <th>Impactos</th>
+                                                        <th>Vigencia (Días)</th>
+                                                        <th>Precio</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="products">
+
+                                                </tbody>
+                                            </table> 
                                         </div>                                                                          
                                         
 
                                         <h1>Pagos</h1>
-
-
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
 
-                                                <div class="form-group form-group-sm">
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Últimos 4 dígitos cuenta que paga</label>
+                                                <div class="form-group form-group-sm">                                                                                                    
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Descuento Mensual</label>
                                                     <div class="col-sm-2">
-                                                        <input class="form-control" type="text" id="ser_account_payment">
+                                                        <input class="form-control" type="number" id="ser_discount_month" onkeyup="calculateDiscount()" onmouseup="calculateDiscount()">
                                                     </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Total Contrato</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="ser_outlay_total" readonly>
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">¿Facturar?</label>
+                                                    <div class="col-sm-2">
+                                                        {{ Form::checkbox('iva', '8', null, ['id' => 'has_iva','onclick' => 'setIVA()']) }}
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">IVA</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="ser_iva" readonly>
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall" >Pago Especie</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="amount_kind" onkeyup="calculateAmounts()" onmouseup="calculateAmounts()">
+                                                    </div>
+                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Pago en Moneda</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="number" id="amount_cash" readonly>
+                                                    </div>                                                                                                    
                                                 </div>
 
+                                                <div class="form-group form-group-sm">
 
+                                                </div>
 
                                                 <div class="input_fields_wrap_payment">
                                                     <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
@@ -260,9 +368,6 @@
                                                         </a>
                                                     </div>
                                                 </div>
-
-
-
                                                 {{ Form::close() }}                        
                                             </div>
                                         </div>
@@ -278,10 +383,14 @@
         </div>
     </div>
     <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-    <script>
-    var showCustomersRoute = '{{ action('customerController@postShowCustomers'); }}';
-    var showEmployeesSelectRoute = '{{ action('customerController@postShowEmployeesSelect'); }}';
-    var createCustomerRoute = '{{ action('customerController@postCreateCustomer'); }}';        
+    <script>       
+    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';
     </script>
-    <script src="{{ asset("assets/scripts/orden_de_servicio_ajax.js") }}" type="text/javascript"></script>
-@stop
+    <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
+    @stop
