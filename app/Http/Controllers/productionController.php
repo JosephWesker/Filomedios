@@ -15,29 +15,35 @@ class productionController extends Controller{
   public function getReadDates(){
     $dates = fil_detail_production::all();
     $out = [];
+    $addToView = false;
     foreach ($dates as $date) {
-      if ($date->dpr_status == 'Pendiente') {
-        $out[] = array(
-          'id' => $date->dpr_id,
-          'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-important',
-          'start' => strtotime($date->dpr_recording_date).'000',
-          'end' => strtotime($date->dpr_recording_date).'000' );
-        $out[] = array(
-          'id' => $date->dpr_id,
-          'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-info',  
-          'start' => strtotime($date->dpr_proposal_1_date).'000',
-          'end' => strtotime($date->dpr_proposal_1_date).'000' );
-        $out[] = array(
-          'id' => $date->dpr_id,
-          'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-info',
-          'start' => strtotime($date->dpr_proposal_2_date).'000',
-          'end' => strtotime($date->dpr_proposal_2_date).'000' ); 
+      if (($order->detailProduct->serviceOrder->ser_auth_admin == 2) && ($order->detailProduct->serviceOrder->ser_auth_production == 2) && ($order->detailProduct->serviceOrder->ser_auth_sales == 2)) {
+        $addToView = true;
+      }
+      if ($addToView) {
+        if ($date->dpr_status == 'Pendiente') {
+          $out[] = array(
+            'id' => $date->dpr_id,
+            'title' => 'Grabación con el cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-important',
+            'start' => strtotime($date->dpr_recording_date).'000',
+            'end' => strtotime($date->dpr_recording_date).'000' );
+          $out[] = array(
+            'id' => $date->dpr_id,
+            'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-info',  
+            'start' => strtotime($date->dpr_proposal_1_date).'000',
+            'end' => strtotime($date->dpr_proposal_1_date).'000' );
+          $out[] = array(
+            'id' => $date->dpr_id,
+            'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-info',
+            'start' => strtotime($date->dpr_proposal_2_date).'000',
+            'end' => strtotime($date->dpr_proposal_2_date).'000' ); 
+        }      
       }      
     }
     $response = Response::json(array(
@@ -78,60 +84,62 @@ class productionController extends Controller{
         'class' =>'event-info',
         'start' => strtotime($date->dpr_proposal_2_date).'000',
         'end' => strtotime($date->dpr_proposal_2_date).'000' );
-      if ($date->productionRegistry->prr_proposal_1 != null || $date->productionRegistry->prr_proposal_1 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_proposal_1).'000',
-          'end' => strtotime($date->productionRegistry->prr_proposal_1).'000' ); 
+      if ($date->productionRegistry != null) {
+        if ($date->productionRegistry->prr_proposal_1 != null || $date->productionRegistry->prr_proposal_1 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'Entrega de la primera propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_proposal_1).'000',
+            'end' => strtotime($date->productionRegistry->prr_proposal_1).'000' ); 
+        }
+        if ($date->productionRegistry->prr_customer_answer_1 != null || $date->productionRegistry->prr_customer_answer_1 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'primera respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_1_comment,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_customer_answer_1).'000',
+            'end' => strtotime($date->productionRegistry->prr_customer_answer_1).'000' ); 
+        }
+        if ($date->productionRegistry->prr_proposal_2 != null || $date->productionRegistry->prr_proposal_2 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_proposal_2).'000',
+            'end' => strtotime($date->productionRegistry->prr_proposal_2).'000' ); 
+        }
+        if ($date->productionRegistry->prr_customer_answer_2 != null || $date->productionRegistry->prr_customer_answer_2 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'segunda respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_2_comment,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_customer_answer_2).'000',
+            'end' => strtotime($date->productionRegistry->prr_customer_answer_2).'000' ); 
+        }
+        if ($date->productionRegistry->prr_proposal_3 != null || $date->productionRegistry->prr_proposal_3 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'Entrega de la tercer propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_proposal_3).'000',
+            'end' => strtotime($date->productionRegistry->prr_proposal_3).'000' ); 
+        }
+        if ($date->productionRegistry->prr_customer_answer_3 != null || $date->productionRegistry->prr_customer_answer_3 != '0000-00-00') {
+          $out[] = array(
+            'id' => $date->productionRegistry->prr_id,
+            'title' => 'tercer respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_3_comment,
+            'url' => '',
+            'class' =>'event-special',
+            'start' => strtotime($date->productionRegistry->prr_customer_answer_3).'000',
+            'end' => strtotime($date->productionRegistry->prr_customer_answer_3).'000' ); 
+        }
       }
-      if ($date->productionRegistry->prr_customer_answer_1 != null || $date->productionRegistry->prr_customer_answer_1 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'primera respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_1_comment,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_customer_answer_1).'000',
-          'end' => strtotime($date->productionRegistry->prr_customer_answer_1).'000' ); 
-      }
-      if ($date->productionRegistry->prr_proposal_2 != null || $date->productionRegistry->prr_proposal_2 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'Entrega de la segunda propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_proposal_2).'000',
-          'end' => strtotime($date->productionRegistry->prr_proposal_2).'000' ); 
-      }
-      if ($date->productionRegistry->prr_customer_answer_2 != null || $date->productionRegistry->prr_customer_answer_2 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'segunda respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_2_comment,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_customer_answer_2).'000',
-          'end' => strtotime($date->productionRegistry->prr_customer_answer_2).'000' ); 
-      }
-      if ($date->productionRegistry->prr_proposal_3 != null || $date->productionRegistry->prr_proposal_3 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'Entrega de la tercer propuesta al cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_proposal_3).'000',
-          'end' => strtotime($date->productionRegistry->prr_proposal_3).'000' ); 
-      }
-      if ($date->productionRegistry->prr_customer_answer_3 != null || $date->productionRegistry->prr_customer_answer_3 != '0000-00-00') {
-        $out[] = array(
-          'id' => $date->productionRegistry->prr_id,
-          'title' => 'tercer respuesta cliente '.$date->detailProduct->serviceOrder->customer->cus_contact_first_name.' '.$date->detailProduct->serviceOrder->customer->cus_contact_last_name.', Empresa: '.$date->detailProduct->serviceOrder->customer->cus_commercial_name.', Comentario del Cliente: '.$date->productionRegistry->prr_customer_answer_3_comment,
-          'url' => '',
-          'class' =>'event-special',
-          'start' => strtotime($date->productionRegistry->prr_customer_answer_3).'000',
-          'end' => strtotime($date->productionRegistry->prr_customer_answer_3).'000' ); 
-      }      
     } 
     $response = Response::json(array(
       'success' => 1,
@@ -290,7 +298,7 @@ class productionController extends Controller{
             $registry->prr_customer_answer_3_comment = Request::get('comment');
           }            
         }        
-        if (Request::get('aprobate')) {
+        if ($this->convertToBoolean(Request::get('aprobate'))) {
           $registry->prr_customer_approbation = 1;
           $detail->detailProduction->dpr_status = 'Completa';
           $detail->detailProduction->save();
@@ -299,5 +307,13 @@ class productionController extends Controller{
       }
     }
     return 'Respuesta guardada';
+  }
+
+  function convertToBoolean($string){
+    if ($string=='true') {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
