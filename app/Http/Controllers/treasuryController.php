@@ -25,12 +25,12 @@ class treasuryController extends Controller{
     $today = date('Y-m-d', strtotime($today));
     foreach ($payments as $value) {
       if (($value->paymentScheme->serviceOrder->ser_auth_admin == 2) && ($value->paymentScheme->serviceOrder->ser_auth_production == 2) && ($value->paymentScheme->serviceOrder->ser_auth_sales == 2)) {
+        $value->paymentScheme->serviceOrder->customer;
         if ($value->pda_status == 'facturado') {          
           $paymentsTotal = 0;
           foreach ($value->realPayments as $payment) {
             $paymentsTotal = $paymentsTotal + (float) $payment->rpa_amount;
-          }          
-          $value->paymentScheme->serviceOrder->customer;
+          }                    
           $value->pda_outstanding = ((float) $value->pda_amount) - $paymentsTotal ;
           if (($today <= date('Y-m-d', strtotime($value->pda_date)))) {
             $outstanding[] = $value;
@@ -114,6 +114,7 @@ class treasuryController extends Controller{
 
   public function detailPayment($id){
     $payment = fil_payment_date::find($id);
+    $payment->realPayments;
     $serviceOrder = fil_payment_date::find($id)->paymentScheme->serviceOrder;
     $hasIVA = false;
     if ($serviceOrder->ser_iva != 0) {
