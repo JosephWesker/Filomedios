@@ -283,6 +283,9 @@ function loadCharts(employee,goal,result,categorie,render,title,date){
             type: 'bar',
             renderTo: render
         },
+        credits: {
+            enabled: false
+        },
         title: {
             text: categorie
         },
@@ -348,6 +351,9 @@ function loadProyectionCharts(render,title,datatype,series){
         chart: {
             type: 'bar',
             renderTo: render
+        },
+        credits: {
+            enabled: false
         },
         title: {
             text: title
