@@ -1,6 +1,10 @@
 @extends('layouts.plane')
 
 @section('body')
+
+<!--        <link rel="stylesheet" href="{{ asset("assets/stylesheets/custom.css") }}" />-->
+
+
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -12,6 +16,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <div id="logo-filomedios"></div>
             <a class="navbar-brand" href="{{ url ('') }}">Filomedios</a>
         </div>
         <!-- /.navbar-header -->

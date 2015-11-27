@@ -1,29 +1,27 @@
 @extends ('layouts.plane')
 @section ('body')
-<div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-            <br /><br /><br />
-               @section ('login_panel_title','Please Sign In')
-               @section ('login_panel_body')
-                        <form role="form">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" id="email" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="">
-                                </div>                               
-                                <!-- Change this to a button or input when using this as a form -->
-                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'login()']) }}
-                            </fieldset>
-                        </form>
-                    
-                @endsection
-                @include('widgets.panel', array('as'=>'login', 'header'=>true))
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/animate.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/login.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/style.css") }}" />
+
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+            <div id="logo-filomedios"></div>
+
+            <form class="m-t" role="form">
+                <div class="form-group">
+                    <input required class="form-control" placeholder="E-mail" name="email" type="email" id="email" autofocus >
+                </div>
+                <div class="form-group">
+                    <input required class="form-control" placeholder="Contraseña" name="password" type="password" id="password" value="" >
+                </div>
+                {{ Form::button('Aceptar',['class' => 'btn btn-primary block full-width m-b','onclick' => 'login()']) }}
+                
+                
+            </form>
+
             </div>
-        </div>
-    </div>
+
     <script>
         var loginRoute = '{{ action('loginController@postLogon'); }}';
         var homeRoute = '{{ route('home'); }}';
