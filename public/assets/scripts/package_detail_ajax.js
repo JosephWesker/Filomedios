@@ -10,26 +10,31 @@ function create(){
         "pad_final_price" : $('#pad_discount_number').val()
     };
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-$.ajax({
-    url:   createRoute,
-    data: data,
-    type:  'post',
-    success:  function (data) {
-        alert(data.data);
-        loadTable();
-        $('#add').modal('hide');
-        $(':input', '#agregar')
-        .not(':button, :submit, :reset, :hidden')
-        .val('');
-        $('#pad_fk_product').val('null');     
-    }
-});
+    $.ajax({
+        url:   createRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            if (data.success) {
+                alert(data.data);
+                loadTable();
+                $('#add').modal('hide');
+                $(':input', '#agregar')
+                .not(':button, :submit, :reset, :hidden')
+                .val('');
+                $('#pad_fk_product').val('null');
+            }else{
+                failure(data.data);
+            };
+            
+        }
+    });
 }
 
 function read(id){
@@ -37,26 +42,31 @@ function read(id){
         "id" : id,
     };
 
-   $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-   $.ajax({
-    url:   readRoute,
-    data: data,
-    type:  'post',
-    success:  function (data) {       
-        $('#u_pad_fk_product').val(data.data.pro_id);
-        $('#u_pro_outlay').val(data.data.pro_outlay);
-        $('#u_pad_impacts').val(data.data.pad_impacts);
-        $('#u_pad_validity').val(data.data.pad_validity);
-        $('#u_pad_discount').val(data.data.pad_discount);
-        $('#u_pad_discount_number').val(data.data.pad_final_price);
-        $('#updateModal').modal('show'); 
-    }
-});
+    $.ajax({
+        url:   readRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) { 
+            if (data.success) {
+                $('#u_pad_fk_product').val(data.data.pro_id);
+                $('#u_pro_outlay').val(data.data.pro_outlay);
+                $('#u_pad_impacts').val(data.data.pad_impacts);
+                $('#u_pad_validity').val(data.data.pad_validity);
+                $('#u_pad_discount').val(data.data.pad_discount);
+                $('#u_pad_discount_number').val(data.data.pad_final_price);
+                $('#updateModal').modal('show'); 
+            }else{
+                failure(data.data);
+            };      
+            
+        }
+    });
 }
 
 function update(){
@@ -79,14 +89,19 @@ function update(){
         data: data,
         type:  'post',
         success:  function (data) {
-            alert(data.data);
-            loadTable();
-            $('#updateModal').modal('hide'); 
-            $(':input', '#actualizar')
-            .not(':button, :submit, :reset, :hidden')
-            .val('')
-            .removeAttr('checked')
-            .removeAttr('selected')
+            if (data.success) {
+                alert(data.data);
+                loadTable();
+                $('#updateModal').modal('hide'); 
+                $(':input', '#actualizar')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .removeAttr('checked')
+                .removeAttr('selected')
+            }else{
+                failure(data.data);
+            };
+            
         }
     });
 }
@@ -96,21 +111,26 @@ function delet(id){
         "id" : id,
     };
 
-   $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-   $.ajax({
-    url:   deleteRoute,
-    data: data,
-    type:  'post',
-    success:  function (data) {
-        alert(data.data);
-        loadTable();
-    }
-});
+    $.ajax({
+        url:   deleteRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            if (data.success) {
+                alert(data.data);
+                loadTable();
+            }else{
+                failure(data.data);
+            };
+            
+        }
+    });
 }
 
 function loadTable(){
@@ -118,28 +138,33 @@ function loadTable(){
         "pad_fk_package" : $('#pad_fk_package').text()
     };
 
-   $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
-   $.ajax({
-    url:   readAllRoute,
-    data: data,
-    type:  'post',
-    success:  function (data) {
-        $("#detalles").html('');
-        if (data.data !== null && $.isArray(data.data) && data.data.length>0){
-            $.each(data.data, function(index, value){
-                $("#detalles").append('<tr class="gradeX"><td>'+value.pad_id+'</td><td>'+value.pro_name+'</td><td>'+value.pro_outlay+'</td><td>'+value.pad_impacts+'</td><td>'+value.pad_validity+'</td><td>'+value.pad_discount+'</td><td>'+value.pad_finalPrice+'</td><td>'+value.pad_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
-            });
-        }else{
-            $("#detalles").append('<tr class="gradeX"><td colspan="9">no existen detalles para este Paquete</td>');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-        $("#total_outlay").html(data.total_outlay);
-    }
-});
+    });
+
+    $.ajax({
+        url:   readAllRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            if (data.success) {
+                $("#detalles").html('');
+                if (data.data !== null && $.isArray(data.data) && data.data.length>0){
+                    $.each(data.data, function(index, value){
+                        $("#detalles").append('<tr class="gradeX"><td>'+value.pad_id+'</td><td>'+value.pro_name+'</td><td>'+value.pro_outlay+'</td><td>'+value.pad_impacts+'</td><td>'+value.pad_validity+'</td><td>'+value.pad_discount+'</td><td>'+value.pad_finalPrice+'</td><td>'+value.pad_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
+                    });
+                }else{
+                    $("#detalles").append('<tr class="gradeX"><td colspan="9">no existen detalles para este Paquete</td>');
+                }
+                $("#total_outlay").html(data.total_outlay);
+            }else{
+                failure(data.data);
+            };
+            
+        }
+    });
 }
 
 function modalUpdate(id){  
@@ -158,17 +183,22 @@ function loadProducts(){
     $.ajax({
         url:   loadProductsRoute,
         type:  'post',
-        success:  function (data) {  
-            $.each(data.data, function(index, value) {   
-                $('#pad_fk_product')
-                .append($("<option></option>")
-                   .attr("value",value.pro_id)
-                   .text(value.pro_name));
-                $('#u_pad_fk_product')
-                .append($("<option></option>")
-                   .attr("value",value.pro_id)
-                   .text(value.pro_name));
-            });        
+        success:  function (data) { 
+            if (data.success) {
+                $.each(data.data, function(index, value) {   
+                    $('#pad_fk_product')
+                    .append($("<option></option>")
+                       .attr("value",value.pro_id)
+                       .text(value.pro_name));
+                    $('#u_pad_fk_product')
+                    .append($("<option></option>")
+                       .attr("value",value.pro_id)
+                       .text(value.pro_name));
+                });        
+            }else{
+                failure(data.data);
+            }; 
+            
         }
     });
 }
@@ -230,8 +260,13 @@ function loadListeners(){
             data: data,
             type:  'post',
             success:  function (data) {  
-                  $('#pro_outlay').val(data);
-                  toDiscount_number();
+                if (data.success) {
+                    $('#pro_outlay').val(data);
+                    toDiscount_number();
+                }else{
+                    failure(data.data);
+                };
+                
             }
         });
     });
@@ -252,8 +287,13 @@ function loadListeners(){
             data: data,
             type:  'post',
             success:  function (data) {  
-                  $('#u_pro_outlay').val(data);
-                  u_toDiscount_number();                  
+                if (data.success) {
+                    $('#u_pro_outlay').val(data);
+                    u_toDiscount_number();
+                }else{
+                    failure(data.data);
+                };
+                
             }
         });
     });
