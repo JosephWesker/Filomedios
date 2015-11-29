@@ -16,7 +16,11 @@ Route::get('/', ['middleware' => 'SessionControl', 'as' => 'home', function(){
 }]);
 
 Route::get('/gestor_de_ordenes_de_servicio', ['middleware' => 'SessionControl', 'as' => 'gestor de ordenes de servicios', function(){
-	return View::make('gestor_de_ordenes_de_servicio');
+	if (Session::get('type') == 'vendedor') {
+		return View::make('gestor_de_ordenes_de_servicio_vendedor');
+	} else {
+		return View::make('gestor_de_ordenes_de_servicio');
+	}	
 }]);
 
 Route::get('/nueva_orden_de_servicio', ['middleware' => 'SessionControl', 'as' => 'nueva orden de servicio', function(){
@@ -42,6 +46,10 @@ Route::get('/negocios', ['middleware' => 'SessionControl', 'as' => 'negocios', f
 
 Route::get('/tesoreria', ['middleware' => 'SessionControl', 'as' => 'tesoreria', function(){
 	return View::make('tesoreria');
+}]);
+
+Route::get('/facturas', ['middleware' => 'SessionControl', 'as' => 'facturas', function(){
+	return View::make('facturas');
 }]);
 
 Route::get('/clientes', ['middleware' => 'SessionControl', 'as' => 'clientes', function(){
@@ -98,6 +106,14 @@ Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(
 
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
 
+Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
+
+Route::get('/gestor_de_ordenes_de_servicio/download/{folder}/{serviceOrder}/{file}', ['uses' => 'serviceOrderController@downloadFile','middleware' => 'SessionControl']);
+
+Route::get('/tesoreria/{id}', ['uses' => 'treasuryController@readPayments','middleware' => 'SessionControl']);
+
+Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
@@ -105,4 +121,7 @@ Route::controller('employee','employeeController');
 Route::controller('login','loginController');
 Route::controller('package','packageController');
 Route::controller('customer','customerController');
+Route::controller('serviceOrder','serviceOrderController');
+Route::controller('treasury','treasuryController');
+Route::controller('production','productionController');
 //Route::controller('product','productController');

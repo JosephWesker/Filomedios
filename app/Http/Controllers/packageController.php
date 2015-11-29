@@ -71,7 +71,7 @@ class packageController extends Controller{
     foreach ($details as $detail) {
       $product = $detail->product;
       $tempRow['pad_id'] = $detail->pad_id;
-      $tempRow['pro_name'] = $product->pro_name;
+      $tempRow['pro_name'] = $product->pro_name;            
       if($product->pro_type == 'transmisión'){
         $tempRow['pro_outlay'] = $product->serviceProyection->spy_outlay;
       }else{
@@ -81,7 +81,13 @@ class packageController extends Controller{
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
       $tempRow['pad_discount'] = $detail->pad_discount.' %';
       $tempRow['pad_finalPrice'] = $detail->pad_final_price;
-      $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
+      if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
+        $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts * 10;
+        $tempRow['pad_impacts'] = (int) $detail->pad_impacts * 10;
+      }else{
+        $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
+      }
+      
       $finalArray[] = $tempRow;
     }
     $data['total_outlay'] = fil_package::find($id)->pac_outlay;
@@ -168,8 +174,13 @@ class packageController extends Controller{
       $tempRow['pad_impacts'] = $detail->pad_impacts;
       $tempRow['pad_validity'] = $detail->pad_validity.' Días';
       $tempRow['pad_discount'] = $detail->pad_discount.' %';
-      $tempRow['pad_finalPrice'] = $detail->pad_final_price; 
-      $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
+      $tempRow['pad_finalPrice'] = $detail->pad_final_price;
+      if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
+        $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts * 10;
+        $tempRow['pad_impacts'] = (int) $detail->pad_impacts * 10;
+      }else{
+        $tempRow['pad_subtotal'] = (float) $tempRow['pad_finalPrice'] * (float) $detail->pad_validity * (float) $detail->pad_impacts;
+      }
       $total_outlay += (float) $tempRow['pad_subtotal'];
       $finalArray[] = $tempRow;
     }
