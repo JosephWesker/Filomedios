@@ -209,9 +209,9 @@ function getEvaluation(){
            var name = data.data.employee.emp_first_name +' '+ data.data.employee.emp_last_name;
            var date = data.data.time.tim_month +'/'+ data.data.time.tim_year;
            $('.charts').show();
-           loadCharts(name,data.data.goals.goa_customer_porcent,data.data.result.res_customer_porcent,'% de Clientes','charts1','Porcentaje',date);
-           loadCharts(name,parseFloat(data.data.goals.goa_duration_average),parseFloat(data.data.result.res_duration_average),'Duración Promedio del Contrato','charts2','Meses',date);
-           loadCharts(name,parseFloat(data.data.goals.goa_sales_volume),parseFloat(data.data.result.res_sales_volume),'Volumen de Ventas','charts3','Pesos',date);
+           loadCharts(name,data.data.goals.goa_customer_porcent,data.data.result.res_customer_porcent,'% de Clientes','charts1','Porcentaje',date,' %');
+           loadCharts(name,parseFloat(data.data.goals.goa_duration_average),parseFloat(data.data.result.res_duration_average),'Duración Promedio del Contrato','charts2','Meses',date,' Meses');
+           loadCharts(name,parseFloat(data.data.goals.goa_sales_volume),parseFloat(data.data.result.res_sales_volume),'Volumen de Ventas','charts3','Pesos',date,' Pesos');
        }
    });
 }
@@ -277,7 +277,7 @@ function calculateGoaSalesVolume(){
     prepareProyectionCharts();
 }
 
-function loadCharts(employee,goal,result,categorie,render,title,date){
+function loadCharts(employee,goal,result,categorie,render,title,date,suffix){
     var chart = new Highcharts.Chart({
         chart: {
             type: 'bar',
@@ -296,6 +296,9 @@ function loadCharts(employee,goal,result,categorie,render,title,date){
             title: {
                 text: title
             }
+        },
+        tooltip: {
+            valueSuffix: suffix
         },
         series: [{
             name: 'Meta',
@@ -319,7 +322,7 @@ function prepareProyectionCharts(){
             'data': [value.res_customer_porcent]
         }
     });
-    loadProyectionCharts('ProyectionCharts1','% de Clientes','Porcentaje',array);
+    loadProyectionCharts('ProyectionCharts1','% de Clientes','Porcentaje',array,' %');
     var array2 = [];
     array2[array2.length] = {
         'name' : 'Metas',
@@ -331,7 +334,7 @@ function prepareProyectionCharts(){
             'data': [value.res_duration_average]
         }
     });
-    loadProyectionCharts('ProyectionCharts2','Duración Promedio del Contrato','Meses',array2);
+    loadProyectionCharts('ProyectionCharts2','Duración Promedio del Contrato','Meses',array2,' Meses');
     var array3 = [];
     array3[array3.length] = {
         'name' : 'Metas',
@@ -343,10 +346,10 @@ function prepareProyectionCharts(){
             'data': [value.res_sales_volume]
         }
     }); 
-    loadProyectionCharts('ProyectionCharts3','Volumen de Ventas','Pesos',array3);
+    loadProyectionCharts('ProyectionCharts3','Volumen de Ventas','Pesos',array3,' Pesos');
 }
 
-function loadProyectionCharts(render,title,datatype,series){
+function loadProyectionCharts(render,title,datatype,series,suffix){
     var chart = new Highcharts.Chart({
         chart: {
             type: 'bar',
@@ -357,6 +360,9 @@ function loadProyectionCharts(render,title,datatype,series){
         },
         title: {
             text: title
+        },
+        tooltip: {
+            valueSuffix: suffix
         },
         yAxis: {
             title: {
