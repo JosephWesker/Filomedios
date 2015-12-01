@@ -127,4 +127,5 @@ Route::controller('service_order','serviceOrderController');
 Route::controller('evaluation','evaluationController');
 Route::controller('treasury','treasuryController');
 Route::controller('production','productionController');
+Route::controller('home','homeController');
 //Route::controller('product','productController');

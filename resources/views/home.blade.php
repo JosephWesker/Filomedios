@@ -20,5 +20,13 @@
 		</div>
 	</div>
 </div>
-    
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/highcharts.js") }}" type="text/javascript"></script>
+<script src="{{ asset("assets/scripts/Highcharts-4.1.9/js/modules/exporting.js") }}" type="text/javascript"></script>
+<script>
+var chartSalesRoute = "{{ action('homeController@postLoadChartSales'); }}";
+var chartPaymentsRoute = "{{ action('homeController@postLoadChartPayments'); }}";
+var chartSalersRoute = "{{ action('homeController@postGetSalesByEmployee'); }}";
+</script>
+<script src="{{ asset("assets/scripts/home_ajax.js") }}" type="text/javascript"></script>
 @stop
