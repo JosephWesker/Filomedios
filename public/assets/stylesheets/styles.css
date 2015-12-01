@@ -3886,7 +3886,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 15px 15px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -4080,6 +4080,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 @media (min-width: 768px) {
   .navbar-header {
     float: left;
+    /* Wesker */
+    width: 250px; 
+    padding: 0 40px 0 40px;
   }
 }
 .navbar-collapse {
@@ -4396,7 +4399,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #f8f8f8;
+  background-color: #e9eff3;
   border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
@@ -8392,17 +8395,19 @@ button.close {
  */
 
 body {
-    background-color: #f8f8f8;
+/*    background-color: #f8f8f8;*/
+    background-color: #fff;
 }
 
 #wrapper {
     width: 100%;
+    background-color: #e9eff3;
 }
 
 #page-wrapper {
     padding: 0 15px;
     min-height: 568px;
-    background-color: #fff;
+    background-color: #f9fbfd;
 }
 
 @media(min-width:768px) {
@@ -8483,10 +8488,12 @@ body {
 
 .sidebar ul li {
     border-bottom: 1px solid #e7e7e7;
+    background-color: #e9eff3;
 }
 
 .sidebar ul li.active > a {
-    background-color: #eee;
+    background-color: #87a6bc;
+    color: #fff;
 }
 
 .sidebar .arrow {

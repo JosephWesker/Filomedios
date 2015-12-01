@@ -42,8 +42,7 @@ class homeController extends Controller
                     }
                 }
             }
-        }
-        $series = ['name' => 'Ventas', 'data' => $data];
+        }        
         switch ($endMonth) {
             case 1:
                 unset($data[0]);
@@ -54,6 +53,7 @@ class homeController extends Controller
                 unset($data[0]);
                 break;
         }
+        $series = ['name' => 'Ventas', 'data' => $data];
         $categories = null;
         switch ($endMonth) {
             case 1:
@@ -97,7 +97,9 @@ class homeController extends Controller
                 $sales = 0;
                 foreach ($employee->customers as $customer) {
                     foreach ($customer->serviceOrders as $order) {
-                        $sales+= (float)$order->ser_outlay;
+                        if (date('n-Y') == date('n-Y', strtotime($order->created_at))) {
+                            $sales+= (float)$order->ser_outlay;
+                        }
                     }
                 }
                 $data[] = ['name' => $employee->emp_first_name . ' ' . $employee->emp_last_name, 'y' => $sales];

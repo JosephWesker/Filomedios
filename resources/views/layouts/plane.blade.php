@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/form-wizard.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/jquery.steps.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/selectTable.css") }}" />
+        
         <link rel="stylesheet" href="{{ asset("assets/scripts/tabs-products/jquery-ui.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/scripts/tabs-products/tabs-products.css") }}" />
         <!-- Bootstrap Calendar CSS -->

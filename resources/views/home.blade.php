@@ -7,6 +7,7 @@
 		<div  style="width:100%; height:400px;" id='charts1'>
 
 		</div>
+		<br>
 		<div  style="width:100%; height:400px;" id='charts3'>
 
 		</div>
@@ -15,6 +16,7 @@
 		<div  style="width:100%; height:400px;" id='charts2'>
 
 		</div>
+		<br>
 		<div  style="width:100%; height:400px;" id='charts4'>
 
 		</div>
