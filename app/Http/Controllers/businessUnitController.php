@@ -49,6 +49,9 @@ class businessUnitController extends Controller
             return Response::json(array('success' => false, 'data' => 'Campo dirección requerido'));
         }
         $data = fil_business_unit::find($values['id']);
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado la unidad de negocio a actualizar'));
+        }
         $data->bus_name = $values['bus_name'];
         $data->bus_address = $values['bus_address'];
         if ($data->save()) {
@@ -63,6 +66,9 @@ class businessUnitController extends Controller
     public function postDelete() {
         $values = Request::all();
         $data = fil_business_unit::find($values['id']);
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado la unidad de negocio a eliminar'));
+        }
         if ($data->delete()) {
             $response = Response::json(array('success' => true, 'data' => 'unidad de Negocio eliminada exitosamente'));
         } 
