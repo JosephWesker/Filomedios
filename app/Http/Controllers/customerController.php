@@ -90,7 +90,7 @@ class customerController extends Controller
             $response = Response::json(array('success' => true, 'data' => 'Cliente actualizado con exito'));
         } 
         else {
-            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al guardar el cliente'));
+            return Response::json(array('success' => false, 'data' => 'Ocurrió un error al guardar el cliente'));
         }
         
         $dataTaxData = $dataCustomer->taxData;

@@ -261,7 +261,7 @@ function loadListeners(){
             type:  'post',
             success:  function (data) {  
                 if (data.success) {
-                    $('#pro_outlay').val(data);
+                    $('#pro_outlay').val(data.data);
                     toDiscount_number();
                 }else{
                     failure(data.data);
@@ -288,7 +288,7 @@ function loadListeners(){
             type:  'post',
             success:  function (data) {  
                 if (data.success) {
-                    $('#u_pro_outlay').val(data);
+                    $('#u_pro_outlay').val(data.data);
                     u_toDiscount_number();
                 }else{
                     failure(data.data);

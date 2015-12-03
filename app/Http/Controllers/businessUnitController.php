@@ -19,6 +19,7 @@ class businessUnitController extends Controller
         $rowAtStart = fil_business_unit::count();
         fil_business_unit::create($values);
         $rowAtEnd = fil_business_unit::count();
+        $response = null;
         if ($rowAtStart == $rowAtEnd) {
             $response = Response::json(array('success' => false, 'data' => 'Error al registrar en base de datos'));
         } 
@@ -31,6 +32,7 @@ class businessUnitController extends Controller
     public function postRead() {
         $values = Request::all();
         $data = fil_business_unit::select(['bus_name', 'bus_address'])->find($values['id']);
+        $response = null;
         if ($data == null) {
             $response = Response::json(array('success' => false, 'data' => 'Error al leer las Unidades de Negocio'));
         } 
@@ -54,6 +56,7 @@ class businessUnitController extends Controller
         }
         $data->bus_name = $values['bus_name'];
         $data->bus_address = $values['bus_address'];
+        $response = null;
         if ($data->save()) {
             $response = Response::json(array('success' => true, 'data' => 'Unidad de Negocio actualizada con exito'));
         } 
@@ -69,6 +72,7 @@ class businessUnitController extends Controller
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'No se ha encontrado la unidad de negocio a eliminar'));
         }
+        $response = null;
         if ($data->delete()) {
             $response = Response::json(array('success' => true, 'data' => 'unidad de Negocio eliminada exitosamente'));
         } 
