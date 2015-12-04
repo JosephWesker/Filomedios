@@ -841,7 +841,7 @@ class serviceOrderController extends Controller
     public function postUploadFiles() {
         $serviceOrder = Input::get('idServiceOrder');
         $path = 'produccionFile/' . $serviceOrder . '/';
-        for ($i = 0; $i < count(Request::all()) - 1; $i++) {
+        for ($i = 0; $i < count(Input::all()) - 1; $i++) {
             $string = 'file-' . $i;
             $file = Input::file($string);
             Storage::put($this->normaliza($path . $file->getClientOriginalName()), File::get($file));

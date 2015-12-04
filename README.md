@@ -20,5 +20,11 @@ If this doesn't work please send me a message.
 
 #IMPORTANT FOR INSTALLATION
 
--Configure the POST Content-Length to accept files with length bigger than 2GB
+-Configure the next variables in the php.ini file
+
+	upload_max_filesize 5000M
+	post_max_size 5000M
+	max_input_time -1
+	max_execution_time -1
+
 -Uncomment extension=php_fileinfo.dll from the PHP.ini file
