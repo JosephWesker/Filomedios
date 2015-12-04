@@ -1,14 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Session;
 use App\fil_payment_date;
 use App\fil_service_order;
 use App\fil_invoice_data;
