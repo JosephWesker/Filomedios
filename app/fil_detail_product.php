@@ -6,7 +6,7 @@ class fil_detail_product extends Model {
 
 	protected $table = 'fil_detail_product';
 	protected $primaryKey = 'det_id';
-	protected $fillable = ['det_fk_service_order','det_fk_product','det_fk_business_unit','det_fk_show','det_impacts','det_validity','det_discount','det_final_price','det_description'];
+	protected $fillable = ['det_fk_service_order','det_fk_product','det_fk_show','det_impacts','det_validity','det_discount','det_final_price','det_description'];
 
 	public function transmissionScheme(){
 		return $this->hasOne('App\fil_transmission_scheme','tra_id','det_id');

@@ -213,7 +213,7 @@
                     <li {{ (Request::is('*configuracion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('configuracion') }}"><i class="fa fa-cog fa-fw"></i> Configuración</a>
                         <ul class="nav nav-second-level">
-                            <li {{ (Request::is('*unidades_negocio') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*unidades_negocio*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('unidades_negocio') }}"><i class="fa fa-building-o"></i> Unidades de Negocio</a>
                             </li>
                             <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>

@@ -217,10 +217,6 @@
                                         {{ Form::label('outlay','Precio')}}
                                         {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'u_pro_outlay','placeholder' => 'Precio'])}}
                                     </div>                                    
-                                    <div class="form-group">
-                                        {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
-                                        {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'u_det_fk_business_unit']) }}
-                                    </div>
                                     <div class="form-group" id="u_fk_show" style="display:none">
                                         {{ Form::label('fk_show','Programa')}}
                                         {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'u_det_fk_show']) }}
@@ -390,7 +386,7 @@
                     </form>
                     <progress id='fileProgress' value="0" max="1">
                     </progress>
-                    <button type="button" class="addbtn" id="uploadButton">cargar</button>
+                    <button type="button" class="addbtn" id="uploadButton" onclick="uploadFiles()">cargar</button>
                 </div>
                 <div class="col-lg-12">
                     <h3><b>Archivos Cargados</b></h3> 
@@ -517,10 +513,6 @@
                         {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                     </div>
                     <div id="proyection_data" style="display:none">
-                        <div class="form-group">
-                            {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
-                            {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
-                        </div>
                         <div class="form-group" id="fk_show" style="display:none">
                             {{ Form::label('fk_show','Programa')}}
                             {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
