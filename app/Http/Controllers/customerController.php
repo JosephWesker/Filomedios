@@ -131,7 +131,13 @@ class customerController extends Controller
     }
     
     public function postReadAll() {
-        $dataCustomer = fil_customer::all();
+        $dataCustomer = null;
+        if (Session::get('type') == 'vendedor') {
+            $dataCustomer = fil_customer::where('cus_fk_employee', '=', Session::get('id'))->get();
+        } 
+        else {
+            $dataCustomer = fil_customer::all();
+        }
         $finalArray = [];
         foreach ($dataCustomer as $value) {
             $tempRow['cus_id'] = $value->cus_id;

@@ -118,11 +118,33 @@ class employeeController extends Controller
     
     public function postReadAll() {
         $data = fil_employee::all();
+        foreach ($data as $value) {
+            $value->businessUnit;
+        }
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los empleados'));
         }
         $response = Response::json(array('success' => true, 'data' => $data));
         return $response;
+    }
+
+    public function postReadAllByUnit() {
+        $values = Request::all();
+        $data = fil_business_unit::find($values['id'])->employees;
+        foreach ($data as $value) {
+            $value->businessUnit;
+        }
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'Error al leer los empleados'));
+        }
+        $response = Response::json(array('success' => true, 'data' => $data));
+        return $response;
+    }
+
+    public function loadEmployeesByBusinessUnit($id) {
+        $valuesToReturn['id'] = $id;
+        $valuesToReturn['name'] = fil_business_unit::find($id)->bus_name;
+        return view('usuariosByUnit', $valuesToReturn);
     }
     
     public function postLoadBusinessUnit() {

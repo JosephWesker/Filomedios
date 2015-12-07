@@ -87,6 +87,7 @@
 </div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
+var businessUnitsRoute = '{{ route('unidades negocio'); }}';
 var createRoute = '{{ action('businessUnitController@postCreate'); }}';
 var readRoute = '{{ action('businessUnitController@postRead'); }}';
 var updateRoute = '{{ action('businessUnitController@postUpdate'); }}';

@@ -132,6 +132,9 @@ function delet(id) {
 }
 
 function loadTable() {
+    var data = {
+        'id': businessUnitId,
+    }
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -139,6 +142,7 @@ function loadTable() {
     });
     $.ajax({
         url: readAllRoute,
+        data: data,
         type: 'post',
         success: function(data) {
             if (data.success) {

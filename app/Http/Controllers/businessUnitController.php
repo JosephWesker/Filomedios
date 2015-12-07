@@ -71,6 +71,9 @@ class businessUnitController extends Controller
         $data = fil_business_unit::find($values['id']);
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'No se ha encontrado la unidad de negocio a eliminar'));
+        }        
+        if (count($data->employees) != 0) {
+            return Response::json(array('success' => false, 'data' => 'Aún hay empleados asignados a esta unidad de negocio, cámbielos de unidad de negocio o elimínelos todos antes de eliminar la unidad'));
         }
         $response = null;
         if ($data->delete()) {

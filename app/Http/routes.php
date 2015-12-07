@@ -114,6 +114,8 @@ Route::get('/tesoreria/{id}', ['uses' => 'treasuryController@readPayments','midd
 
 Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment','middleware' => 'SessionControl']);
 
+Route::get('/unidades_negocio/{id}/empleados', ['uses' => 'employeeController@loadEmployeesByBusinessUnit','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
