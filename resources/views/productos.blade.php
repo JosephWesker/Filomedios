@@ -42,11 +42,6 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        {{ Form::checkbox('transmission_scheme', '2', null, ['class' => '','id' => 'spy_has_transmission_scheme'])}} ¿Debe tener un esquema de transmisión?
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
                                         {{ Form::checkbox('duration', '3', null, ['class' => '','id' => 'spy_has_duration'])}} ¿Tiene una duración en segundos?
                                     </label>
                                 </div>
@@ -109,11 +104,6 @@
                                     <div class="checkbox">
                                         <label>
                                             {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'u_spy_has_show'])}} ¿Pertenece a un programa?
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            {{ Form::checkbox('transmission_scheme', '2', null, ['class' => '','id' => 'u_spy_has_transmission_scheme'])}} ¿Debe tener un esquema de transmisión?
                                         </label>
                                     </div>
                                     <div class="checkbox">

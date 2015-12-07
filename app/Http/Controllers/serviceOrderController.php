@@ -20,7 +20,6 @@ use App\fil_service_order;
 use App\fil_detail_production;
 use App\fil_payment_scheme;
 use App\fil_detail_product;
-use App\fil_transmission_scheme;
 use App\fil_payment_date;
 use App\fil_postal_codes;
 
@@ -74,11 +73,10 @@ class serviceOrderController extends Controller
     
     public function postLoadSelects() {
         $shows = fil_show::all(['sho_id', 'sho_name']);
-        $businessUnits = fil_business_unit::all(['bus_id', 'bus_name']);
-        if ($shows == null || $businessUnits == null) {
+        if ($shows == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer datos de los programas y de las unidades de negocio'));
         }
-        return $response = Response::json(array('success' => true, 'show' => $shows, 'businessUnit' => $businessUnits));
+        return $response = Response::json(array('success' => true, 'show' => $shows));
     }
     
     public function postLoadPackages() {
@@ -103,14 +101,9 @@ class serviceOrderController extends Controller
             $row['det_fk_product'] = $value->product->pro_id;
             $row['det_name'] = $value->product->pro_name;
             $row['det_type'] = $value->product->pro_type;
-            $row['det_fk_business_unit'] = null;
             
             if ($value->product->serviceProyection->spy_has_show) {
                 $row['det_fk_show'] = null;
-            };
-            
-            if ($value->product->serviceProyection->spy_has_transmission_scheme == 1) {
-                $row['det_has_transmission_scheme'] = null;
             };
             
             $row['det_impacts'] = $value->pad_impacts;
@@ -203,13 +196,6 @@ class serviceOrderController extends Controller
             $detail = new fil_detail_product;
             $detail->det_fk_product = $value->det_fk_product;
             
-            if (property_exists($value, 'det_fk_business_unit')) {
-                $detail->det_fk_business_unit = $value->det_fk_business_unit;
-            } 
-            else {
-                $detail->det_fk_business_unit = null;
-            }
-            
             if (property_exists($value, 'det_fk_show')) {
                 $detail->det_fk_show = $value->det_fk_show;
             } 
@@ -227,11 +213,7 @@ class serviceOrderController extends Controller
             
             if (property_exists($value, 'det_has_production_registry')) {
                 $this->createProductionRegistry($detail, $value->det_has_production_registry);
-            }
-            
-            if (property_exists($value, 'det_has_transmission_scheme')) {
-                $this->createTransmissionScheme($detail, $value->det_has_transmission_scheme);
-            }
+            }            
         }
     }
     
@@ -250,32 +232,7 @@ class serviceOrderController extends Controller
         }
         $detailProduction->dpr_status = "Pendiente";
         $detailProduction->save();
-    }
-    
-    function createTransmissionScheme($detail, $values) {
-        $transmissionScheme = new fil_transmission_scheme;
-        $transmissionScheme->tra_id = $detail->det_id;
-        if ($values == null) {
-            $transmissionScheme->tra_monday = 1;
-            $transmissionScheme->tra_tuesday = 1;
-            $transmissionScheme->tra_wednesday = 1;
-            $transmissionScheme->tra_thursday = 1;
-            $transmissionScheme->tra_friday = 1;
-            $transmissionScheme->tra_saturday = 1;
-            $transmissionScheme->tra_sunday = 1;
-        } 
-        else {
-            $transmissionScheme->tra_id = $detail->det_id;
-            $transmissionScheme->tra_monday = $this->convertToTinyint($values->tra_monday);
-            $transmissionScheme->tra_tuesday = $this->convertToTinyint($values->tra_tuesday);
-            $transmissionScheme->tra_wednesday = $this->convertToTinyint($values->tra_wednesday);
-            $transmissionScheme->tra_thursday = $this->convertToTinyint($values->tra_thursday);
-            $transmissionScheme->tra_friday = $this->convertToTinyint($values->tra_friday);
-            $transmissionScheme->tra_saturday = $this->convertToTinyint($values->tra_saturday);
-            $transmissionScheme->tra_sunday = $this->convertToTinyint($values->tra_sunday);
-            $transmissionScheme->save();
-        }
-    }
+    }    
     
     function createPayments($serviceOrder, $amountCash, $amountKind, $numberPayments, $payments) {
         $paymentScheme = new fil_payment_scheme;
@@ -714,13 +671,6 @@ class serviceOrderController extends Controller
         $detail = new fil_detail_product;
         $detail->det_fk_product = $value->det_fk_product;
         
-        if (property_exists($value, 'det_fk_business_unit')) {
-            $detail->det_fk_business_unit = $value->det_fk_business_unit;
-        } 
-        else {
-            $detail->det_fk_business_unit = null;
-        }
-        
         if (property_exists($value, 'det_fk_show')) {
             $detail->det_fk_show = $value->det_fk_show;
         } 
@@ -740,10 +690,6 @@ class serviceOrderController extends Controller
         
         if (property_exists($value, 'det_has_production_registry')) {
             $this->createProductionRegistry($detail, $value->det_has_production_registry);
-        }
-        
-        if (property_exists($value, 'det_has_transmission_scheme')) {
-            $this->createTransmissionScheme($detail, $value->det_has_transmission_scheme);
         }
         
         $serviceOrder = fil_service_order::find($values['ser_id']);
@@ -809,7 +755,6 @@ class serviceOrderController extends Controller
         if ($detail == null) {
             return Response::json(array('success' => false, 'data' => 'Detalle no encontrado'));
         }
-        $detail->det_fk_business_unit = $values['det_fk_business_unit'];
         $detail->det_impacts = $values['det_impacts'];
         $detail->det_validity = $values['det_validity'];
         $detail->det_discount = $values['det_discount'];

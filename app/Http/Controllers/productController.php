@@ -52,7 +52,6 @@ class productController extends Controller
             $fil_service->spy_id = $product->pro_id;
             $fil_service->spy_proyection_media = $values['spy_proyection_media'];
             $fil_service->spy_has_show = $this->convertToTinyint($values['spy_has_show']);
-            $fil_service->spy_has_transmission_scheme = $this->convertToTinyint($values['spy_has_transmission_scheme']);
             if ($values['spy_has_duration'] == 'true') {
                 $fil_service->spy_duration = $values['spy_duration'];
             } 
@@ -133,7 +132,6 @@ class productController extends Controller
             $fil_service = $product->serviceProyection;
             $fil_service->spy_proyection_media = $values['spy_proyection_media'];
             $fil_service->spy_has_show = $this->convertToTinyint($values['spy_has_show']);
-            $fil_service->spy_has_transmission_scheme = $this->convertToTinyint($values['spy_has_transmission_scheme']);
             if ($values['spy_has_duration'] == 'true') {
                 $fil_service->spy_duration = $values['spy_duration'];
             } 
@@ -183,7 +181,7 @@ class productController extends Controller
             $tempRow['pro_type'] = $row->pro_type;
             if ($row->pro_type == 'transmisión') {
                 $temp = $row->serviceProyection;
-                $tempRow['pro_details'] = 'Medio de transmisión: ' . $temp->spy_proyection_media . '<br>Requiere Programa: ' . $this->convertToYesNo($temp->spy_has_show) . '<br>Requiere Esquema: ' . $this->convertToYesNo($temp->spy_has_transmission_scheme) . '<br>Duración: ' . $this->checkDuration($temp->spy_duration);
+                $tempRow['pro_details'] = 'Medio de transmisión: ' . $temp->spy_proyection_media . '<br>Requiere Programa: ' . $this->convertToYesNo($temp->spy_has_show) .'<br>Duración: ' . $this->checkDuration($temp->spy_duration);
                 $tempRow['pro_outlay'] = $temp->spy_outlay;
             } 
             else {

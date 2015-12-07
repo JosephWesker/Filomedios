@@ -3,7 +3,6 @@ var products = null;
 var packages = null;
 var productsRegistered = [];
 var shows = null;
-var businessUnit = null;
 var monthOutlay = 0;
 var productionOutlay = 0;
 var totalOutlay = 0;
@@ -15,7 +14,6 @@ var amountKind = 0;
 var paymentsData = [];
 var json = null;
 var monthsContract = 0;
-var isAllBusinessUnitsFine = true;
 var isAllProgramsFine = true;
 
 function loadCustomers() {
@@ -93,10 +91,6 @@ function loadSelects() {
         success: function(data) {
             if (data.success) {
                 shows = data.show;
-                businessUnit = data.businessUnit;
-                $.each(data.businessUnit, function(index, value) {
-                    $('#set_business_unit').append($("<option></option>").attr("value", value.bus_id).html(value.bus_name));
-                });
                 $.each(data.show, function(index, value) {
                     $('#set_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
                 });
@@ -110,12 +104,7 @@ function loadSelects() {
 function setFormVisible() {
     if ($('#det_fk_product').val() != "null") {
         if (products[parseInt($('#det_fk_product').val())].pro_type == 'transmisión') {
-            $('#proyection_data').show();
-            $('#det_fk_business_unit').html('');
-            $('#det_fk_business_unit').append($("<option></option>").attr("value", "null").html("---Seleccionar Unidad de Negocio---"));
-            $.each(businessUnit, function(index, value) {
-                $('#det_fk_business_unit').append($("<option></option>").attr("value", value.bus_id).html(value.bus_name));
-            });
+            $('#proyection_data').show();            
             if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
                 $('#fk_show').show();
                 $('#det_fk_show').html('');
@@ -133,7 +122,6 @@ function setFormVisible() {
             $('#pro_outlay').val(products[parseInt($('#det_fk_product').val())].pro_extra.spr_outlay);
         }
     }
-    $('#det_fk_business_unit').val("null");
     $('#det_fk_show').val("null");
     $('#det_impacts').val("null");
     $('#det_validity').val("null");
@@ -173,11 +161,7 @@ function addProduct() {
     if (products[$('#det_fk_product').val()].pro_type == "transmisión") {
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
             row.det_fk_show = $('#det_fk_show').val();
-        }
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_transmission_scheme) {
-            row.det_has_transmission_scheme = null;
-        }
-        row.det_fk_business_unit = $('#det_fk_business_unit').val();
+        }        
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
             row.det_subtotal = parseFloat(row.det_subtotal) * 10;
@@ -199,7 +183,6 @@ function loadProductsTable() {
     $("#products").html('');
     monthOutlay = 0;
     productionOutlay = 0;
-    isAllBusinessUnitsFine = true;
     isAllProgramsFine = true;
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length > 0) {
         $('#start_date_contract').prop('disabled', false);
@@ -210,17 +193,8 @@ function loadProductsTable() {
                 productionOutlay += parseFloat(value.det_subtotal);
             }
             var text = '<tr class="gradeX"><td>' + value.det_name + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_final_price + '</td><td>' + value.det_subtotal + '</td><td><div class="btn-group" role="group" aria-label="...">';
-            if (value.hasOwnProperty('det_has_transmission_scheme')) {
-                text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme(' + index + ')">Definir Esquema transmisión</button>';
-            }
             if (value.hasOwnProperty('det_has_production_registry')) {
                 text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry(' + index + ')">Definir Fechas Producción</button>';
-            }
-            if (value.hasOwnProperty('det_fk_business_unit')) {
-                if (value.det_fk_business_unit == null || value.det_fk_business_unit == 'null') {
-                    text = text + '<button class="btn btn-warning btn-sm" type="button" onclick="setBusinessUnit(' + index + ')">Definir Unidad de Negocio</button>';
-                    isAllBusinessUnitsFine = false;
-                }
             }
             if (value.hasOwnProperty('det_fk_show')) {
                 if (value.det_fk_show == null || value.det_fk_show == 'null') {
@@ -278,42 +252,6 @@ function addProductionRegistry() {
     $('#productionRegistry').modal('hide');
 }
 
-function setTransmissionScheme(index) {
-    $('#tra_monday').prop('checked', false);
-    $('#tra_tuesday').prop('checked', false);
-    $('#tra_wednesday').prop('checked', false);
-    $('#tra_thrusday').prop('checked', false);
-    $('#tra_friday').prop('checked', false);
-    $('#tra_saturday').prop('checked', false);
-    $('#tra_sunday').prop('checked', false);
-    if (productsRegistered[index].det_has_transmission_scheme != null) {
-        $('#tra_monday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_monday));
-        $('#tra_tuesday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_tuesday));
-        $('#tra_wednesday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_wednesday));
-        $('#tra_thrusday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_thrusday));
-        $('#tra_friday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_friday));
-        $('#tra_saturday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_saturday));
-        $('#tra_sunday').prop('checked', Boolean(productsRegistered[index].det_has_transmission_scheme.tra_sunday));
-    }
-    $('#transmissionSchemeIndex').val(index);
-    $('#transmissionScheme').modal('show');
-}
-
-function addTransmissionScheme() {
-    var index = $('#transmissionSchemeIndex').val();
-    var TransmissionScheme = {
-        'tra_monday': $('#tra_monday').is(':checked'),
-        'tra_tuesday': $('#tra_tuesday').is(':checked'),
-        'tra_wednesday': $('#tra_wednesday').is(':checked'),
-        'tra_thursday': $('#tra_thursday').is(':checked'),
-        'tra_friday': $('#tra_friday').is(':checked'),
-        'tra_saturday': $('#tra_saturday').is(':checked'),
-        'tra_sunday': $('#tra_sunday').is(':checked')
-    };
-    productsRegistered[index].det_has_transmission_scheme = TransmissionScheme;
-    $('#transmissionSchemeIndex').val("null");
-    $('#transmissionScheme').modal('hide');
-}
 
 function loadPackages() {
     $.ajaxSetup({
@@ -377,19 +315,6 @@ function addShow() {
     productsRegistered[index].det_fk_show = $('#set_show').val();
     $('#setShow').modal('hide');
     $('#set_show').val("null");
-    loadProductsTable();
-}
-
-function setBusinessUnit(index) {
-    $('#businessUnitIndex').val(index);
-    $('#setBusinessUnit').modal('show');
-}
-
-function addBusinessUnit() {
-    var index = $('#businessUnitIndex').val();
-    productsRegistered[index].det_fk_business_unit = $('#set_business_unit').val();
-    $('#setBusinessUnit').modal('hide');
-    $('#set_business_unit').val("null");
     loadProductsTable();
 }
 

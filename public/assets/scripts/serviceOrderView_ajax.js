@@ -11,7 +11,6 @@ var newPayments = [];
 var changingPayment = null;
 var row = null;
 var show = null;
-var businessUnit = null;
 var products = null;
 
 function loadPostalCodes() {
@@ -52,7 +51,6 @@ function loadSelects() {
         success: function(data) {
             if (data.success) {
                 shows = data.show;
-                businessUnit = data.businessUnit;
             } else {
                 failure(data.data);
             }
@@ -87,11 +85,6 @@ function setFormVisible() {
     if ($('#det_fk_product').val() != "null") {
         if (products[parseInt($('#det_fk_product').val())].pro_type == 'transmisión') {
             $('#proyection_data').show();
-            $('#det_fk_business_unit').html('');
-            $('#det_fk_business_unit').append($("<option></option>").attr("value", "null").html("---Seleccionar Unidad de Negocio---"));
-            $.each(businessUnit, function(index, value) {
-                $('#det_fk_business_unit').append($("<option></option>").attr("value", value.bus_id).html(value.bus_name));
-            });
             if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
                 $('#fk_show').show();
                 $('#det_fk_show').html('');
@@ -109,7 +102,6 @@ function setFormVisible() {
             $('#pro_outlay').val(products[parseInt($('#det_fk_product').val())].pro_extra.spr_outlay);
         }
     }
-    $('#det_fk_business_unit').val("null");
     $('#det_fk_show').val("null");
     $('#det_impacts').val("null");
     $('#det_validity').val("null");
@@ -118,11 +110,6 @@ function setFormVisible() {
 }
 
 function u_setFormVisible(ind) {
-    $('#u_det_fk_business_unit').html('');
-    $('#u_det_fk_business_unit').append($("<option></option>").attr("value", "null").html("---Seleccionar Unidad de Negocio---"));
-    $.each(businessUnit, function(index, value) {
-        $('#u_det_fk_business_unit').append($("<option></option>").attr("value", value.bus_id).html(value.bus_name));
-    });
     if (json.details_products[ind].product.service_proyection.spy_has_show) {
         $('#u_fk_show').show();
         $('#u_det_fk_show').html('');
@@ -134,7 +121,6 @@ function u_setFormVisible(ind) {
     } else {
         $('#u_fk_show').hide();
     }
-    $('#u_det_fk_business_unit').val("null");
     $('#u_det_fk_show').val("null");
     $('#u_det_impacts').val("null");
     $('#u_det_validity').val("null");
@@ -564,10 +550,6 @@ function addProduct() {
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
             row.det_fk_show = $('#det_fk_show').val();
         }
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_transmission_scheme) {
-            row.det_has_transmission_scheme = null;
-        }
-        row.det_fk_business_unit = $('#det_fk_business_unit').val();
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
             row.det_subtotal = parseFloat(row.det_subtotal) * 10;
@@ -585,15 +567,11 @@ function addProduct() {
 }
 
 function checkifneedExtras() {
-    if (row.hasOwnProperty('det_has_transmission_scheme')) {
-        setTransmissionScheme();
-    } else {
         if (row.hasOwnProperty('det_has_production_registry')) {
             setProductionRegistry();
         } else {
             sendProduct();
         }
-    }
 }
 
 function setProductionRegistry() {
@@ -622,21 +600,6 @@ function addProductionRegistry() {
     };
     row.det_has_production_registry = productionRegistry;
     $('#productionRegistry').modal('hide');
-    sendProduct();
-}
-
-function addTransmissionScheme() {
-    var TransmissionScheme = {
-        'tra_monday': $('#tra_monday').is(':checked'),
-        'tra_tuesday': $('#tra_tuesday').is(':checked'),
-        'tra_wednesday': $('#tra_wednesday').is(':checked'),
-        'tra_thursday': $('#tra_thursday').is(':checked'),
-        'tra_friday': $('#tra_friday').is(':checked'),
-        'tra_saturday': $('#tra_saturday').is(':checked'),
-        'tra_sunday': $('#tra_sunday').is(':checked')
-    };
-    row.det_has_transmission_scheme = TransmissionScheme;
-    $('#transmissionScheme').modal('hide');
     sendProduct();
 }
 
@@ -766,7 +729,6 @@ function editProyection(index) {
     $('#u_productid').val(json.details_products[index].det_id);
     $('#u_det_fk_product').val(json.details_products[index].det_fk_product);
     $('#u_pro_outlay').val(json.details_products[index].product.service_proyection.spy_outlay);
-    $('#u_det_fk_business_unit').val(json.details_products[index].det_fk_business_unit);
     $('#u_det_impacts').val(json.details_products[index].det_impacts);
     $('#u_det_validity').val(json.details_products[index].det_validity);
     $('#u_det_discount').val(json.details_products[index].det_discount);
@@ -785,7 +747,6 @@ function setNewProyection() {
     setAmounts();
     var data = {
         'det_id': $('#u_productid').val(),
-        'det_fk_business_unit': $('#u_det_fk_business_unit').val(),
         'det_impacts': $('#u_det_impacts').val(),
         'det_validity': $('#u_det_validity').val(),
         'det_discount': $('#u_det_discount').val(),

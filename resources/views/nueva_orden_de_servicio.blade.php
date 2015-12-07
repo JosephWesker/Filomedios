@@ -84,10 +84,6 @@
                                                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                                                             </div>
                                                             <div id="proyection_data" style="display:none">
-                                                                <div class="form-group">
-                                                                    {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
-                                                                    {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
-                                                                </div>
                                                                 <div class="form-group" id="fk_show" style="display:none">
                                                                     {{ Form::label('fk_show','Programa')}}
                                                                     {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
@@ -154,64 +150,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--End Modal-->
-
-                                            <!-- Modal Transmission Scheme -->                                            
-                                            <div class="modal fade" id="transmissionScheme" tabindex="-1" role="dialog" aria-labelledby="addProduct">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
-                                                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('tuesday', '2', null, ['class' => '','id' => 'tra_tuesday'])}} Martes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('wednesday', '3', null, ['class' => '','id' => 'tra_wednesday'])}} Miercoles
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('thursday', '4', null, ['class' => '','id' => 'tra_thursday'])}} Jueves
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('friday', '5', null, ['class' => '','id' => 'tra_friday'])}} Viernes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('saturday', '6', null, ['class' => '','id' => 'tra_saturday'])}} Sabado
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('sunday', '7', null, ['class' => '','id' => 'tra_sunday'])}} Domingo
-                                                                </label>
-                                                            </div>                                                                                                            
-                                                            <div class=text-right>
-                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addTransmissionScheme()']) }}
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                                                            </div>
-                                                            {{ Form::close() }}                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--End Modal-->
+                                            <!--End Modal-->                                           
 
                                             <!-- Modal Package -->                                            
                                             <div class="modal fade" id="addPackage" tabindex="-1" role="dialog" aria-labelledby="addPackage">
@@ -237,32 +176,7 @@
                                                 </div>
                                             </div>
                                             <!--End Modal-->
-
-                                            <!-- Modal Business Unit -->                                            
-                                            <div class="modal fade" id="setBusinessUnit" tabindex="-1" role="dialog" aria-labelledby="setBusinessUnit">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">Definir Unidad de Negocio</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ Form::open(array('url' => '#', 'id' => 'definirUnidad')) }} 
-                                                            {{ Form::hidden('index', 'index',['id' => 'businessUnitIndex']) }}
-                                                            <div class="form-group">
-                                                                {{ Form::label('business_unit','Unidad de Negocio')}}
-                                                                {{ Form::select('business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_business_unit']) }}
-                                                            </div>                                                            
-                                                            <div class=text-right>
-                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addBusinessUnit()']) }}
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                                                            </div>
-                                                            {{ Form::close() }}                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--End Modal-->
+                                        
 
                                             <!-- Modal Show -->                                            
                                             <div class="modal fade" id="setShow" tabindex="-1" role="dialog" aria-labelledby="setShow">
