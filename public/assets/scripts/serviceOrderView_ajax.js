@@ -1,4 +1,5 @@
 var monthOutlay = 0;
+var productionOutlay = 0;
 var totalOutlay = 0;
 var payments = 0;
 var hasIVA = false;
@@ -212,12 +213,17 @@ function setCustomer(data) {
 
 function setProduction(data) {
     cont = 0;
+    productionOutlay = 0;
     $("#producciones").html('');
     $.each(data, function(index, value) {
-        if (value.detail_production != null) {
+        if (value.product.pro_type == "producción") {
             subtotal = parseFloat(value.det_final_price);
-            monthOutlay = monthOutlay + subtotal;
-            $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+            productionOutlay = productionOutlay + subtotal;
+            if (value.detail_production != null) {
+                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+            }else{
+                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td></td><td></td><td></td><td><div class="btn-group" role="group" aria-label="..."></div></td></tr>');
+            }            
             cont++;
         }
     });
@@ -228,6 +234,7 @@ function setProduction(data) {
 
 function setProyection(ser_duration, ser_start_date, ser_end_date, data) {
     cont = 0;
+    monthOutlay = 0;
     $('#months_contract2').val(ser_duration);
     $('#start_date_contract').val(ser_start_date);
     $('#end_date_contract').val(ser_end_date);
@@ -343,7 +350,7 @@ function setEditable() {
 }
 
 function setAmounts() {
-    totalOutlay = monthOutlay * monthsContract;
+    totalOutlay = (monthOutlay * monthsContract) + productionOutlay;
     if (hasIVA) {
         iva = totalOutlay * 0.16;
         $('#ser_iva').val(iva);
@@ -565,13 +572,14 @@ function addProduct() {
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
             row.det_subtotal = parseFloat(row.det_subtotal) * 10;
         }
+        monthOutlay = monthOutlay + parseFloat(row.det_subtotal);
     } else {
         if (products[$('#det_fk_product').val()].pro_extra.spr_has_production_registry) {
             row.det_has_production_registry = null;
         }
         row.det_subtotal = row.det_final_price;
-    }
-    monthOutlay = monthOutlay + parseFloat(row.det_subtotal);
+        productionOutlay = productionOutlay + parseFloat(row.det_subtotal);
+    }    
     setAmounts();
     checkifneedExtras();
 }

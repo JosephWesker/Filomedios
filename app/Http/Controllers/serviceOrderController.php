@@ -102,6 +102,7 @@ class serviceOrderController extends Controller
             $row = [];
             $row['det_fk_product'] = $value->product->pro_id;
             $row['det_name'] = $value->product->pro_name;
+            $row['det_type'] = $value->product->pro_type;
             $row['det_fk_business_unit'] = null;
             
             if ($value->product->serviceProyection->spy_has_show) {

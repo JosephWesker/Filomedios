@@ -5,6 +5,7 @@ var productsRegistered = [];
 var shows = null;
 var businessUnit = null;
 var monthOutlay = 0;
+var productionOutlay = 0;
 var totalOutlay = 0;
 var payments = 0;
 var hasIVA = false;
@@ -164,6 +165,7 @@ function addProduct() {
     var row = new Object();
     row.det_fk_product = products[$('#det_fk_product').val()].pro_id;
     row.det_name = products[$('#det_fk_product').val()].pro_name;
+    row.det_type = products[$('#det_fk_product').val()].pro_type;
     row.det_impacts = $('#det_impacts').val();
     row.det_validity = $('#det_validity').val();
     row.det_discount = $('#det_discount').val();
@@ -196,12 +198,17 @@ function addProduct() {
 function loadProductsTable() {
     $("#products").html('');
     monthOutlay = 0;
+    productionOutlay = 0;
     isAllBusinessUnitsFine = true;
     isAllProgramsFine = true;
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length > 0) {
         $('#start_date_contract').prop('disabled', false);
         $.each(productsRegistered, function(index, value) {
-            monthOutlay += parseFloat(value.det_subtotal);
+            if (value.det_type == 'transmisión') {
+                monthOutlay += parseFloat(value.det_subtotal);
+            }else{
+                productionOutlay += parseFloat(value.det_subtotal);
+            }
             var text = '<tr class="gradeX"><td>' + value.det_name + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_final_price + '</td><td>' + value.det_subtotal + '</td><td><div class="btn-group" role="group" aria-label="...">';
             if (value.hasOwnProperty('det_has_transmission_scheme')) {
                 text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setTransmissionScheme(' + index + ')">Definir Esquema transmisión</button>';
@@ -387,7 +394,7 @@ function addBusinessUnit() {
 }
 
 function setAmounts() {
-    totalOutlay = monthOutlay * monthsContract;
+    totalOutlay = (monthOutlay * monthsContract) + productionOutlay;
     $('#ser_outlay_total').val(totalOutlay);
     $('#amount_cash').val((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2));
     for (var i = 0; i < (payments * 2); i += 2) {
