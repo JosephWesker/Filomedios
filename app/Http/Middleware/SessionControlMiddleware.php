@@ -14,7 +14,7 @@ class SessionControlMiddleware {
 	 */
 	public function handle($request, Closure $next)
 	{		
-		if(Session::has('logged')){
+		if(Session::has('logged')){				
 			return $next($request);
 		}else{
 			return redirect()->Route('login');			

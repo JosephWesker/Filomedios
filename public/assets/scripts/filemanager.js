@@ -229,7 +229,7 @@ $(function() {
             }
             breadcrumbs.text('').append(url);
             // Show the generated elements
-            filemanager.find('.data.animated').show();
+            filemanager.find('.data').show();
             //fileList.animate({'display':'inline-block'});
             fileList.animate();
         }

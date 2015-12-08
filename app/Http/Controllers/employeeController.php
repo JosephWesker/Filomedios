@@ -127,7 +127,7 @@ class employeeController extends Controller
         $response = Response::json(array('success' => true, 'data' => $data));
         return $response;
     }
-
+    
     public function postReadAllByUnit() {
         $values = Request::all();
         $data = fil_business_unit::find($values['id'])->employees;
@@ -140,7 +140,7 @@ class employeeController extends Controller
         $response = Response::json(array('success' => true, 'data' => $data));
         return $response;
     }
-
+    
     public function loadEmployeesByBusinessUnit($id) {
         $valuesToReturn['id'] = $id;
         $valuesToReturn['name'] = fil_business_unit::find($id)->bus_name;
@@ -153,6 +153,65 @@ class employeeController extends Controller
             return Response::json(array('success' => false, 'data' => 'Error al leer las unidades de negocio'));
         }
         $response = Response::json(array('success' => true, 'data' => $data));
+        return $response;
+    }
+    
+    public function postUpdateProfile() {
+        $values = Request::all();
+        if ($values['emp_first_name'] == '' || $values['emp_first_name'] == null) {
+            return Response::json(array('success' => false, 'data' => 'Campo Nombre requerido'));
+        }
+        if ($values['emp_last_name'] == '' || $values['emp_last_name'] == null) {
+            return Response::json(array('success' => false, 'data' => 'Campo Apellido requerido'));
+        }
+        if ($values['emp_address'] == '' || $values['emp_address'] == null) {
+            return Response::json(array('success' => false, 'data' => 'Campo Dirección requerido'));
+        }
+        if ($values['emp_phone_number'] == '' || $values['emp_phone_number'] == null) {
+            return Response::json(array('success' => false, 'data' => 'Campo Número Fijo requerido'));
+        }
+        if ($values['emp_email'] == '' || $values['emp_email'] == null) {
+            return Response::json(array('success' => false, 'data' => 'Campo Correo/Usuario requerido'));
+        }
+        if ($values['emp_password_change'] == 'true') {
+            if ($values['emp_password'] == '' || $values['emp_password'] == null) {
+                return Response::json(array('success' => false, 'data' => 'campo Contraseña anterior requerido'));
+            }
+            if ($values['emp_new_password'] == '' || $values['emp_new_password'] == null) {
+                return Response::json(array('success' => false, 'data' => 'Campo nueva contraseña requerido'));
+            }
+            if ($values['emp_rep_password'] == '' || $values['emp_rep_password'] == null) {
+                return Response::json(array('success' => false, 'data' => 'Campo confirmar contraseña requerido'));
+            }
+        }
+        $data = fil_employee::find($values['id']);
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado el empleado a actualizar'));
+        }
+        $data->emp_first_name = $values['emp_first_name'];
+        $data->emp_last_name = $values['emp_last_name'];
+        $data->emp_address = $values['emp_address'];
+        $data->emp_phone_number = $values['emp_phone_number'];
+        $data->emp_cellphone_number = $values['emp_cellphone_number'];
+        $data->emp_email = $values['emp_email'];
+        if ($values['emp_password_change'] == 'true') {
+            if(Hash::check($values['emp_password'], $data->emp_password)){
+                if ($values['emp_new_password'] == $values['emp_rep_password']) {
+                    $data->emp_password = Hash::make($values['emp_new_password']);
+                }else{
+                    return Response::json(array('success' => false, 'data' => 'las contraseñas no coinciden, verifique que las contraseñas coincidan'));
+                }
+            }else{
+                return Response::json(array('success' => false, 'data' => 'Contraseña anterior errónea, por favor ingrese la contraseña correcta'));
+            }
+        }
+        $response = null;
+        if ($data->save()) {
+            $response = Response::json(array('success' => true, 'data' => 'Empleado actualizado con exito'));
+        } 
+        else {
+            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al guardar el empleado'));
+        }
         return $response;
     }
 }
