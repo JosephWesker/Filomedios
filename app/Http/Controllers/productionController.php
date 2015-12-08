@@ -12,10 +12,10 @@ class productionController extends Controller
 {
     public function getReadDates() {
         $dates = fil_detail_production::all();
-        $out = [];
-        $addToView = false;
+        $out = [];        
         foreach ($dates as $date) {
-            if (($order->detailProduct->serviceOrder->ser_auth_admin == 2) && ($order->detailProduct->serviceOrder->ser_auth_production == 2) && ($order->detailProduct->serviceOrder->ser_auth_sales == 2)) {
+            $addToView = false;
+            if (($date->detailProduct->serviceOrder->ser_auth_admin == 2) && ($date->detailProduct->serviceOrder->ser_auth_production == 2) && ($date->detailProduct->serviceOrder->ser_auth_sales == 2)) {
                 $addToView = true;
             }
             if ($addToView) {

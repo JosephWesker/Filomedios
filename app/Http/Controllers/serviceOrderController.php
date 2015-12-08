@@ -213,7 +213,7 @@ class serviceOrderController extends Controller
             
             if (property_exists($value, 'det_has_production_registry')) {
                 $this->createProductionRegistry($detail, $value->det_has_production_registry);
-            }            
+            }
         }
     }
     
@@ -232,7 +232,7 @@ class serviceOrderController extends Controller
         }
         $detailProduction->dpr_status = "Pendiente";
         $detailProduction->save();
-    }    
+    }
     
     function createPayments($serviceOrder, $amountCash, $amountKind, $numberPayments, $payments) {
         $paymentScheme = new fil_payment_scheme;
@@ -817,6 +817,51 @@ class serviceOrderController extends Controller
         Storage::delete($values['path']);
         $response = Response::json(array('success' => true, 'data' => 'Archivo Eliminado'));
         return $response;
+    }
+    
+    public function getFileManager() {
+        $dir = storage_path('app/produccionFile');
+        $dir = str_replace('/', '\\', $dir);
+        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = str_replace('/', '\\', $stringToRemove);
+        $response = $this->scan($dir);
+        return Response::json(array("name" => str_replace($stringToRemove, '', $dir), "type" => "folder", "path" => str_replace($stringToRemove, '', $dir), "items" => $response));
+    }
+    
+    function scan($dir) {
+        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = str_replace('/', '\\', $stringToRemove);
+        $files = array();
+        
+        // Is there actually such a folder/file?
+        if (file_exists($dir)) {
+            foreach (scandir($dir) as $f) {
+                if (!$f || $f[0] == '.') {
+                    continue;
+                    
+                    // Ignore hidden files
+                    
+                    
+                }
+                if (is_dir($dir . '/' . $f)) {
+                    
+                    // The path is a folder
+                    $files[] = array("name" => $f, "type" => "folder", "path" => str_replace($stringToRemove, '', $dir) . '/' . $f, "items" => $this->scan($dir . '/' . $f)
+                    
+                    // Recursively get the contents of the folder
+                    );
+                } 
+                else {
+                    
+                    // It is a file
+                    $files[] = array("name" => $f, "type" => "file", "path" => str_replace($stringToRemove, '', $dir) . '/' . $f, "size" => filesize($dir . '/' . $f)
+                    
+                    // Gets the size of this file
+                    );
+                }
+            }
+        }
+        return $files;
     }
     
     function normaliza($cadena) {
