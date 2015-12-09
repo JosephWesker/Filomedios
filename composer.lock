@@ -536,12 +536,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "186574d6540e6f5ca8c848f54473e3c64ca3f071"
+                "reference": "b8c379620daa79b4f8fa171242c3568c5233fd79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/186574d6540e6f5ca8c848f54473e3c64ca3f071",
-                "reference": "186574d6540e6f5ca8c848f54473e3c64ca3f071",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/b8c379620daa79b4f8fa171242c3568c5233fd79",
+                "reference": "b8c379620daa79b4f8fa171242c3568c5233fd79",
                 "shasum": ""
             },
             "type": "library",
@@ -576,7 +576,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2015-11-30 16:04:18"
+            "time": "2015-12-08 16:35:59"
         },
         {
             "name": "laravel/framework",
