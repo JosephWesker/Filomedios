@@ -14,7 +14,7 @@ class LoginControlMiddleware {
 	 */
 	public function handle($request, Closure $next)
 	{		
-		if(Session::has('logged')){
+		if(Session::has('logged')){			
 			return redirect()->Route('home');			
 		}else{
 			return $next($request);	

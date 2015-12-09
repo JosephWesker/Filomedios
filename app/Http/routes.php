@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
+	return View::make('login');
+}]);
+
+Route::controller('logincont','loginController');
+
 Route::get('/', ['middleware' => 'SessionControl', 'as' => 'home', function(){
 	return View::make('home'); 
 }]);
@@ -100,8 +106,8 @@ Route::get('/usuarios', ['middleware' => 'SessionControl', 'as' => 'usuarios', f
 	return View::make('usuarios');
 }]);
 
-Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
-	return View::make('login');
+Route::get('/perfil', ['middleware' => 'SessionControl', 'as' => 'perfil', function(){
+	return View::make('profile');
 }]);
 
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
@@ -120,7 +126,6 @@ Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
 Route::controller('employee','employeeController');
-Route::controller('login','loginController');
 Route::controller('package','packageController');
 Route::controller('customer','customerController');
 Route::controller('serviceOrder','serviceOrderController');
