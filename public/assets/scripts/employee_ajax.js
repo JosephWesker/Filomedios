@@ -201,19 +201,19 @@ function loadBusinessUnit() {
 
 function checkEmployee() {
     id = $("#employee_old").val();
-    html = $("#employee_old option[value="+id+"]").text();
+    html = $("#employee_old option[value=" + id + "]").text();
     if (id === null || id == 'null') {
         loadTable();
         addToNewSelect = null;
     } else {
-        addtoNew(id,html);
+        addtoNew(id, html);
         $("#changecustomers").prop("disabled", false);
         $("#employee_new option[value=" + id + "]").remove();
         getCustomers(id);
     }
 }
 
-function addtoNew(id,html){
+function addtoNew(id, html) {
     if (addToNewSelect !== null) {
         $('#employee_new').append(addToNewSelect);
     }
@@ -226,9 +226,9 @@ function setifnull() {
     $("#changecustomers").prop("disabled", true);
 }
 
-function getCustomers(id){
+function getCustomers(id) {
     var data = {
-        'id' : id
+        'id': id
     };
     $.ajaxSetup({
         headers: {
@@ -243,8 +243,8 @@ function getCustomers(id){
             if (data.success) {
                 $("#clientes").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {                        
-                        $("#clientes").append('<tr class="gradeX"><td><input class="tochange" type="checkbox" value="'+ value.cus_id +'"></td><td>' + value.cus_name + '</td><td>' + value.cus_enterprise + '</td><td>' + value.cus_contact + '</td></tr>');                       
+                    $.each(data.data, function(index, value) {
+                        $("#clientes").append('<tr class="gradeX"><td><input class="tochange" onclick="setDisabledAll()" type="checkbox" value="' + value.cus_id + '"></td><td>' + value.cus_name + '</td><td>' + value.cus_enterprise + '</td><td>' + value.cus_contact + '</td></tr>');
                     });
                 } else {
                     $("#clientes").append('<tr class="gradeX"><td colspan="6">No existen Empleados registrados en la base de datos</td>');
@@ -254,6 +254,70 @@ function getCustomers(id){
             };
         }
     });
+}
+
+function setallselect() {
+    if ($('#employee_change_all').is(':checked')) {
+        $(".tochange").prop('checked', true);
+    } else {
+        $(".tochange").prop('checked', false);
+    }
+}
+
+function setDisabledAll() {
+    var values = $(".tochange");
+    result = true;
+    $.each(values, function(index, value) {
+        if (!value.checked) {
+            result = false;
+        }
+    });
+    $('#employee_change_all').prop('checked', result);
+}
+
+function changeCustomers() {
+    var allValues = $(".tochange");
+    var valuesToSend = [];
+    $.each(allValues, function(index, value) {
+        if (value.checked) {
+            valuesToSend[valuesToSend.length] = value.value;
+        }
+    });
+    if (valuesToSend.length === 0) {
+        alert('no hay empleados seleccionados');
+    } else {
+        sendCustomersToChange(valuesToSend);
+    }
+}
+
+function sendCustomersToChange(customers) {
+    if ($('#employee_new').val() == 'null') {
+        alert('Seleccione un empleado a recibir los clientes');
+    } else {
+        var data = {
+            'customers': customers,
+            'id': $('#employee_new').val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: updateCustomersRoute,
+            data: data,
+            type: 'post',
+            success: function(data) {
+                if (data.success) {
+                    alert(data.data);
+                    $('#customerschange').modal('hide');
+                    loadTable();
+                } else {
+                    failure(data.data);
+                };
+            }
+        });
+    }
 }
 $(document).ready(function() {
     loadTable();

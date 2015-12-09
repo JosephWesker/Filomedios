@@ -222,5 +222,6 @@ class employeeController extends Controller
             $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al guardar el empleado'));
         }
         return $response;
-    }    
+    }
+       
 }

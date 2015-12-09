@@ -91,7 +91,7 @@
                             </div>
                             <div class="checkbox">
                                     <label>
-                                        {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'employee_change_all'])}} Todos
+                                        {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'employee_change_all','onclick' => 'setallselect()' ])}} Todos
                                     </label>
                                 </div>
                             <div class="col-lg-12 table-responsive">
@@ -198,6 +198,7 @@ var updateRoute = '{{ action('employeeController@postUpdate'); }}';
 var deleteRoute = '{{ action('employeeController@postDelete'); }}';
 var readAllRoute = '{{ action('employeeController@postReadAll'); }}';
 var readCustomersRoute = '{{ action('customerController@postGetByEmployee'); }}';
+var updateCustomersRoute = '{{ action('customerController@postChangeEmployee'); }}';
 var loadBusinessUnitRoute = '{{ action('employeeController@postLoadBusinessUnit'); }}';
 </script>
 <script src="{{ asset("assets/scripts/employee_ajax.js") }}" type="text/javascript"></script>

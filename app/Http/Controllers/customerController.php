@@ -214,4 +214,14 @@ class customerController extends Controller
             return Response::json(array('success' => true, 'data' => $finalArray));
         }
     }
+
+    public function postChangeEmployee(){
+        $values = Request::all();
+        foreach ($values['customers'] as $value) {
+            $customer = fil_customer::find($value);
+            $customer->cus_fk_employee = $values['id'];
+            $customer->save();
+        };
+        return Response::json(array('success' => true, 'data' => 'Clientes actualizados con exíto'));
+    } 
 }
