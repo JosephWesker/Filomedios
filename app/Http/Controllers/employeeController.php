@@ -106,8 +106,17 @@ class employeeController extends Controller
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'No se ha encontrado el empleado a eliminar'));
         }
+        if (count($data->customers) == 0) {
+            return $this->finalDelete($data);
+        }else{
+            return Response::json(array('success' => false, 'data' => 'Aun hay clientes asignados a este empleado, asignelos a otro empleado antes de eliminarlo'));
+        }
+        
+    }
+
+    function finalDelete($employee){
         $response = null;
-        if ($data->delete()) {
+        if ($employee->delete()) {
             $response = Response::json(array('success' => true, 'data' => 'Empleado eliminado con exito'));
         } 
         else {
@@ -213,5 +222,5 @@ class employeeController extends Controller
             $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al guardar el empleado'));
         }
         return $response;
-    }
+    }    
 }

@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\fil_customer;
 use App\fil_tax_data;
 use App\fil_postal_codes;
+use App\fil_employee;
 
 class customerController extends Controller
 {
@@ -193,5 +194,24 @@ class customerController extends Controller
         $data = array('title' => $modalTitle, 'body' => $modalBody);
         $response = Response::json(array('success' => true, 'data' => $data));
         return $response;
+    }
+    
+    public function postGetByEmployee() {
+        $id = Request::input('id');
+        $data = fil_employee::find($id)->customers;
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'Error al leer clientes'));
+        } 
+        else {
+            $finalArray = [];
+            foreach ($data as $value) {
+                $tempRow['cus_id'] = $value->cus_id;
+                $tempRow['cus_name'] = $value->cus_contact_first_name . ' ' . $value->cus_contact_last_name;
+                $tempRow['cus_enterprise'] = 'Nombre Comercial: ' . $value->cus_commercial_name . '<br>Actividad o Giro: ' . $value->cus_business_activity;
+                $tempRow['cus_contact'] = 'Puesto: ' . $value->cus_job . '<br>Teléfono Fijo: ' . $value->cus_phone_number . '<br>Teléfono Celular: ' . $value->cus_cellphone_number . '<br>Correo: ' . $value->cus_email . '<br>Dirección: ' . $value->cus_address;
+                $finalArray[] = $tempRow;
+            }
+            return Response::json(array('success' => true, 'data' => $finalArray));
+        }
     }
 }

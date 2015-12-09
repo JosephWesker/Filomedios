@@ -11,6 +11,10 @@
                 Agregar Empleado
             </button>
 
+            <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#customerschange">
+                Traspasar clientes
+            </button>
+
             <!-- Modal -->
             <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addBusinessUnit">
                 <div class="modal-dialog" role="document">
@@ -60,6 +64,53 @@
                             <div class=text-right>
                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}                           
+                            </div>
+                            {{ Form::close() }}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Change Customers -->
+            <div class="modal fade" id="customerschange" tabindex="-1" role="dialog" aria-labelledby="updateBusinessUnit">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Traspasar clientes</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ Form::open(array('url' => '#', 'id' => 'actualizar')) }}                             
+                            <div class="form-group">
+                                {{ Form::label('employee','Empleado a cambiar clientes')}}
+                                {{ Form::select('employee', [],null,['class' => 'form-control','id'=>'employee_old','onchange' => 'checkEmployee()']) }}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('employee','Empleado a recibir clientes')}}
+                                {{ Form::select('employee', [],null,['class' => 'form-control','id'=>'employee_new']) }}
+                            </div>
+                            <div class="checkbox">
+                                    <label>
+                                        {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'employee_change_all'])}} Todos
+                                    </label>
+                                </div>
+                            <div class="col-lg-12 table-responsive">
+                                <table class="table table-striped table-hover table-bordered margin-top20">
+                                    <thead>
+                                        <tr>
+                                            <th>Traspasar</th>
+                                            <th>Nombre</th>
+                                            <th>Empresa</th>
+                                            <th>Contacto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientes">
+                                    </tbody>
+                                </table>
+                            </div>                        
+                            <div class=text-right>
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'changeCustomers()','id' => 'changecustomers']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                             </div>
                             {{ Form::close() }}                        
                         </div>
@@ -146,6 +197,7 @@ var readRoute = '{{ action('employeeController@postRead'); }}';
 var updateRoute = '{{ action('employeeController@postUpdate'); }}';
 var deleteRoute = '{{ action('employeeController@postDelete'); }}';
 var readAllRoute = '{{ action('employeeController@postReadAll'); }}';
+var readCustomersRoute = '{{ action('customerController@postGetByEmployee'); }}';
 var loadBusinessUnitRoute = '{{ action('employeeController@postLoadBusinessUnit'); }}';
 </script>
 <script src="{{ asset("assets/scripts/employee_ajax.js") }}" type="text/javascript"></script>

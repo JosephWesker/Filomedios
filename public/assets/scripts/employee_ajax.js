@@ -1,5 +1,6 @@
 var id = '';
 var businessUnitCount = 0;
+var addToNewSelect = null;
 
 function create() {
     if (businessUnitCount > 0) {
@@ -143,6 +144,10 @@ function loadTable() {
         success: function(data) {
             if (data.success) {
                 $("#empleados").html('');
+                $("#employee_old").html('');
+                $("#employee_new").html('');
+                $('#employee_old').append($("<option></option>").attr("value", "null").text("---Seleccionar empleado---"));
+                $('#employee_new').append($("<option></option>").attr("value", "null").text("---Seleccionar empleado---"));
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
                     $.each(data.data, function(index, value) {
                         var businessUnitPrint = '';
@@ -151,11 +156,14 @@ function loadTable() {
                         } else {
                             businessUnitPrint = '';
                         }
-                        $("#empleados").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + ' ' + value.emp_last_name + '</td><td><b>Diracción:</b> ' + value.emp_address + '<br><b>Unidad de Negocio: </b>' + businessUnitPrint +'</td><td>' + 'Telefono Fijo: ' + value.emp_phone_number + '<br>Celular: ' + value.emp_cellphone_number + '</td><td>' + value.emp_email + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.emp_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.emp_id + ')">Elminar</button></div></td></tr>');
+                        $("#empleados").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + ' ' + value.emp_last_name + '</td><td><b>Diracción:</b> ' + value.emp_address + '<br><b>Unidad de Negocio: </b>' + businessUnitPrint + '</td><td>' + 'Telefono Fijo: ' + value.emp_phone_number + '<br>Celular: ' + value.emp_cellphone_number + '</td><td>' + value.emp_email + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.emp_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.emp_id + ')">Eliminar</button></div></td></tr>');
+                        $('#employee_old').append($("<option></option>").attr("value", value.emp_id).text(value.emp_first_name + ' ' + value.emp_last_name));
+                        $('#employee_new').append($("<option></option>").attr("value", value.emp_id).text(value.emp_first_name + ' ' + value.emp_last_name));
                     });
                 } else {
                     $("#empleados").append('<tr class="gradeX"><td colspan="6">No existen Empleados registrados en la base de datos</td>');
                 }
+                setifnull();
             } else {
                 failure(data.data);
             };
@@ -184,6 +192,63 @@ function loadBusinessUnit() {
                     $('#u_emp_fk_business_unit').append($("<option></option>").attr("value", value.bus_id).text(value.bus_name));
                     businessUnitCount++;
                 });
+            } else {
+                failure(data.data);
+            };
+        }
+    });
+}
+
+function checkEmployee() {
+    id = $("#employee_old").val();
+    html = $("#employee_old option[value="+id+"]").text();
+    if (id === null || id == 'null') {
+        loadTable();
+        addToNewSelect = null;
+    } else {
+        addtoNew(id,html);
+        $("#changecustomers").prop("disabled", false);
+        $("#employee_new option[value=" + id + "]").remove();
+        getCustomers(id);
+    }
+}
+
+function addtoNew(id,html){
+    if (addToNewSelect !== null) {
+        $('#employee_new').append(addToNewSelect);
+    }
+    addToNewSelect = $("<option></option>").attr("value", id).text(html);
+}
+
+function setifnull() {
+    $("#clientes").html('');
+    $("#clientes").append('<tr class="gradeX"><td colspan="4">Seleccionar empleado</td>/tr>');
+    $("#changecustomers").prop("disabled", true);
+}
+
+function getCustomers(id){
+    var data = {
+        'id' : id
+    };
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: readCustomersRoute,
+        data: data,
+        type: 'post',
+        success: function(data) {
+            if (data.success) {
+                $("#clientes").html('');
+                if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
+                    $.each(data.data, function(index, value) {                        
+                        $("#clientes").append('<tr class="gradeX"><td><input class="tochange" type="checkbox" value="'+ value.cus_id +'"></td><td>' + value.cus_name + '</td><td>' + value.cus_enterprise + '</td><td>' + value.cus_contact + '</td></tr>');                       
+                    });
+                } else {
+                    $("#clientes").append('<tr class="gradeX"><td colspan="6">No existen Empleados registrados en la base de datos</td>');
+                }
             } else {
                 failure(data.data);
             };
