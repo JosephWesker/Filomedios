@@ -51,7 +51,7 @@ class serviceOrderController extends Controller
     }
     
     public function postLoadProductsData() {
-        $products = fil_product::all();
+        $products = fil_product::where('pro_status', 'like', 'activo')->get();
         if ($products == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los productos'));
         }

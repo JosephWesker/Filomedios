@@ -99,7 +99,11 @@ Route::get('/programas/eliminados', ['middleware' => 'SessionControl', 'as' => '
 }]);
 
 Route::get('/productos', ['middleware' => 'SessionControl', 'as' => 'productos', function(){
-	return View::make('productos');
+	return View::make('productos', array('title' => 'Productos', 'readAll' => action('productController@postReadAll'), 'delete' => action('productController@postDelete')));
+}]);
+
+Route::get('/productos/eliminados', ['middleware' => 'SessionControl', 'as' => 'productos eliminados', function(){
+	return View::make('productos', array('title' => 'Productos Eliminados', 'readAll' => action('productController@postReadAllDelete'), 'delete' => action('productController@postActivate')));
 }]);
 
 Route::get('/paquetes', ['middleware' => 'SessionControl', 'as' => 'paquetes', function(){

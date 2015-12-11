@@ -123,7 +123,7 @@ function loadTable() {
                 $("#unidades_negocio").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
                     $.each(data.data, function(index, value) {
-                        textToBtn = 'Eliminar';
+                        var textToBtn = 'Eliminar';
                         if (value.sho_status == 'eliminado') {
                              textToBtn = 'Restaurar';
                         }
