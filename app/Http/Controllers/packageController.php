@@ -248,7 +248,7 @@ class packageController extends Controller
     }
     
     public function postLoadProducts() {
-        $data = fil_product::where('pro_type', 'like', 'transmisión')->select('pro_id', 'pro_name')->get();
+        $data = fil_product::where('pro_type', 'like', 'transmisión')->where('pro_status', 'like', 'activo')->select('pro_id', 'pro_name')->get();
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los productos'));
         }

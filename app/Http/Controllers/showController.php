@@ -19,6 +19,7 @@ class showController extends Controller
         if ($values['sho_media'] == '' || $values['sho_media'] == null || $values['sho_media'] == 'null') {
             return Response::json(array('success' => false, 'data' => 'Campo Medio de transmisión requerido'));
         }
+        $values['sho_status'] = 'activo';
         fil_show::create($values);
         $response = Response::json(array('success' => true, 'data' => 'Programa guardado con exito'));
         return $response;
@@ -72,23 +73,49 @@ class showController extends Controller
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'No se ha encontrado el programa a eliminar'));
         }
+        $data->sho_status = 'eliminado';
         $Response = null;
-        if ($data->delete()) {
+        if ($data->save()) {
             $response = Response::json(array('success' => true, 'data' => 'Programa eliminado con exito'));
         } 
         else {
             $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al eliminar el programa'));
         }
-        $response = Response::json(array('success' => true, 'data' => 'Programa eliminado exitosamente'));
         return $response;
     }
     
     public function postReadAll() {
-        $data = fil_show::all();
+        $data = fil_show::where('sho_status','like','activo')->get();
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los datos de los programas'));
         }
         $response = Response::json(array('success' => true, 'data' => $data));
+        return $response;
+    }
+
+    public function postReadAllDelete() {
+        $data = fil_show::where('sho_status','like','eliminado')->get();
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'Error al leer los datos de los programas'));
+        }
+        $response = Response::json(array('success' => true, 'data' => $data));
+        return $response;
+    }
+
+    public function postActivate() {
+        $values = Request::all();
+        $data = fil_show::find($values['id']);
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado el programa a restaurar'));
+        }
+        $data->sho_status = 'activo';
+        $Response = null;
+        if ($data->save()) {
+            $response = Response::json(array('success' => true, 'data' => 'Programa restaurado con exito'));
+        } 
+        else {
+            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al restaurar el programa'));
+        }
         return $response;
     }
 }

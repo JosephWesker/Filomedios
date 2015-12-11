@@ -155,7 +155,7 @@ function loadTable() {
                         } else {
                             businessUnitPrint = '';
                         }
-                        $("#empleados").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + ' ' + value.emp_last_name + '</td><td><b>Diracción:</b> ' + value.emp_address + '<br><b>Unidad de Negocio: </b>' + businessUnitPrint +'</td><td>' + 'Telefono Fijo: ' + value.emp_phone_number + '<br>Celular: ' + value.emp_cellphone_number + '</td><td>' + value.emp_email + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.emp_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.emp_id + ')">Elminar</button></div></td></tr>');
+                        $("#empleados").append('<tr class="gradeX"><td>' + value.emp_id + '</td><td>' + value.emp_first_name + ' ' + value.emp_last_name + '</td><td><b>Diracción:</b> ' + value.emp_address + '<br><b>Unidad de Negocio: </b>' + businessUnitPrint +'</td><td>' + 'Telefono Fijo: ' + value.emp_phone_number + '<br>Celular: ' + value.emp_cellphone_number + '</td><td>' + value.emp_email + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.emp_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.emp_id + ')">Eliminar</button></div></td></tr>');
                     });
                 } else {
                     $("#empleados").append('<tr class="gradeX"><td colspan="6">No existen Empleados registrados en la base de datos</td>');

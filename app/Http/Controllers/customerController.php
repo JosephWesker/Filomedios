@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\fil_customer;
 use App\fil_tax_data;
 use App\fil_postal_codes;
+use App\fil_employee;
 
 class customerController extends Controller
 {
@@ -120,8 +121,18 @@ class customerController extends Controller
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'No se ha encontrado el cliente a eliminar'));
         }
+        foreach ($data->ServiceOrders as $serviceOrder) {
+            $serviceOrder->ser_auth_production = 3;
+            $serviceOrder->ser_auth_admin = 3;
+            $serviceOrder->ser_auth_sales = 3;
+            $serviceOrder->ser_observations_production = '';
+            $serviceOrder->ser_observations_admin = '';
+            $serviceOrder->ser_observations_sales = '';
+            $serviceOrder->save();
+        }
+        $data->cus_status = 'eliminado';
         $response = null;
-        if ($data->delete()) {
+        if ($data->save()) {
             $response = Response::json(array('success' => true, 'data' => 'Cliente eliminado exitosamente'));
         } 
         else {
@@ -129,14 +140,31 @@ class customerController extends Controller
         }
         return $response;
     }
+
+    public function postActivate() {
+        $values = Request::all();
+        $data = fil_customer::find($values['id']);
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado el cliente a restaurar'));
+        }       
+        $data->cus_status = 'prospecto';
+        $response = null;
+        if ($data->save()) {
+            $response = Response::json(array('success' => true, 'data' => 'Cliente restaurado exitosamente'));
+        } 
+        else {
+            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al restaurar al cliente'));
+        }
+        return $response;
+    }
     
     public function postReadAll() {
         $dataCustomer = null;
         if (Session::get('type') == 'vendedor') {
-            $dataCustomer = fil_customer::where('cus_fk_employee', '=', Session::get('id'))->get();
+            $dataCustomer = fil_customer::where('cus_fk_employee', '=', Session::get('id'))->where('cus_status', 'not like', 'eliminado')->get();
         } 
         else {
-            $dataCustomer = fil_customer::all();
+            $dataCustomer = fil_customer::where('cus_status', 'not like', 'eliminado')->get();
         }
         $finalArray = [];
         foreach ($dataCustomer as $value) {
@@ -144,6 +172,7 @@ class customerController extends Controller
             $tempRow['cus_name'] = $value->cus_contact_first_name . ' ' . $value->cus_contact_last_name;
             $tempRow['cus_enterprise'] = 'Nombre Comercial: ' . $value->cus_commercial_name . '<br>Actividad o Giro: ' . $value->cus_business_activity;
             $tempRow['cus_contact'] = 'Puesto: ' . $value->cus_job . '<br>Teléfono Fijo: ' . $value->cus_phone_number . '<br>Teléfono Celular: ' . $value->cus_cellphone_number . '<br>Correo: ' . $value->cus_email . '<br>Dirección: ' . $value->cus_address;
+            $tempRow['cus_status'] = $value->cus_status;
             $finalArray[] = $tempRow;
         }
         $response = null;
@@ -156,6 +185,27 @@ class customerController extends Controller
         return $response;
     }
     
+    public function postReadAllDelete() {
+        $dataCustomer = fil_customer::where('cus_status', 'like', 'eliminado')->get();
+        $finalArray = [];
+        foreach ($dataCustomer as $value) {
+            $tempRow['cus_id'] = $value->cus_id;
+            $tempRow['cus_name'] = $value->cus_contact_first_name . ' ' . $value->cus_contact_last_name;
+            $tempRow['cus_enterprise'] = 'Nombre Comercial: ' . $value->cus_commercial_name . '<br>Actividad o Giro: ' . $value->cus_business_activity;
+            $tempRow['cus_contact'] = 'Puesto: ' . $value->cus_job . '<br>Teléfono Fijo: ' . $value->cus_phone_number . '<br>Teléfono Celular: ' . $value->cus_cellphone_number . '<br>Correo: ' . $value->cus_email . '<br>Dirección: ' . $value->cus_address;
+            $tempRow['cus_status'] = $value->cus_status;
+            $finalArray[] = $tempRow;
+        }
+        $response = null;
+        if ($dataCustomer == null) {
+            $response = Response::json(array('success' => false, 'data' => 'Error al leer los datos de los clientes'));
+        } 
+        else {
+            $response = Response::json(array('success' => true, 'data' => $finalArray));
+        }
+        return $response;
+    }
+
     public function postReadPostalCodes() {
         $data = fil_postal_codes::select('pos_postal_code')->orderBy('pos_postal_code', 'asc')->get();
         $response = null;
@@ -194,4 +244,33 @@ class customerController extends Controller
         $response = Response::json(array('success' => true, 'data' => $data));
         return $response;
     }
+    
+    public function postGetByEmployee() {
+        $id = Request::input('id');
+        $data = fil_employee::find($id)->customers;
+        if ($data == null) {
+            return Response::json(array('success' => false, 'data' => 'Error al leer clientes'));
+        } 
+        else {
+            $finalArray = [];
+            foreach ($data as $value) {
+                $tempRow['cus_id'] = $value->cus_id;
+                $tempRow['cus_name'] = $value->cus_contact_first_name . ' ' . $value->cus_contact_last_name;
+                $tempRow['cus_enterprise'] = 'Nombre Comercial: ' . $value->cus_commercial_name . '<br>Actividad o Giro: ' . $value->cus_business_activity;
+                $tempRow['cus_contact'] = 'Puesto: ' . $value->cus_job . '<br>Teléfono Fijo: ' . $value->cus_phone_number . '<br>Teléfono Celular: ' . $value->cus_cellphone_number . '<br>Correo: ' . $value->cus_email . '<br>Dirección: ' . $value->cus_address;                
+                $finalArray[] = $tempRow;
+            }
+            return Response::json(array('success' => true, 'data' => $finalArray));
+        }
+    }
+
+    public function postChangeEmployee(){
+        $values = Request::all();
+        foreach ($values['customers'] as $value) {
+            $customer = fil_customer::find($value);
+            $customer->cus_fk_employee = $values['id'];
+            $customer->save();
+        };
+        return Response::json(array('success' => true, 'data' => 'Clientes actualizados con exíto'));
+    } 
 }

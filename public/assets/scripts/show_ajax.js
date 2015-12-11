@@ -123,7 +123,11 @@ function loadTable() {
                 $("#unidades_negocio").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
                     $.each(data.data, function(index, value) {
-                        $("#unidades_negocio").append('<tr class="gradeX"><td>' + value.sho_id + '</td><td>' + value.sho_name + '</td><td>' + value.sho_description + '</td><td>' + value.sho_media + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.sho_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.sho_id + ')">Elminar</button></div></td></tr>');
+                        var textToBtn = 'Eliminar';
+                        if (value.sho_status == 'eliminado') {
+                             textToBtn = 'Restaurar';
+                        }
+                        $("#unidades_negocio").append('<tr class="gradeX"><td>' + value.sho_id + '</td><td>' + value.sho_name + '</td><td>' + value.sho_description + '</td><td>' + value.sho_media + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.sho_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.sho_id + ')">'+ textToBtn +'</button></div></td></tr>');
                     });
                 } else {
                     $("#unidades_negocio").append('<tr class="gradeX"><td colspan="5">No existen Programas registradas en la base de datos</td>');
@@ -138,6 +142,10 @@ function loadTable() {
 function modalUpdate(id) {
     this.id = id;
     read(id);
+}
+
+function toDelete(){
+    window.location.href = toDeleteRoute;
 }
 $(document).ready(function() {
     loadTable();
