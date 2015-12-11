@@ -72,7 +72,7 @@ class serviceOrderController extends Controller
     }
     
     public function postLoadSelects() {
-        $shows = fil_show::all(['sho_id', 'sho_name']);
+        $shows = fil_show::where('sho_status','like','activo')->get(['sho_id', 'sho_name']);
         if ($shows == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer datos de los programas y de las unidades de negocio'));
         }

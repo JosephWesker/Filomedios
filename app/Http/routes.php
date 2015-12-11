@@ -87,7 +87,11 @@ Route::get('/unidades_negocio', ['middleware' => 'SessionControl', 'as' => 'unid
 }]);
 
 Route::get('/programas', ['middleware' => 'SessionControl', 'as' => 'programas', function(){
-	return View::make('programas');
+	return View::make('programas', array('title' => 'Programas', 'readAll' => action('showController@postReadAll'), 'delete' => action('showController@postDelete')));
+}]);
+
+Route::get('/programas/eliminados', ['middleware' => 'SessionControl', 'as' => 'programas eliminados', function(){
+	return View::make('programas', array('title' => 'Programas Eliminados', 'readAll' => action('showController@postReadAllDelete'), 'delete' => action('showController@postActivate')));
 }]);
 
 Route::get('/productos', ['middleware' => 'SessionControl', 'as' => 'productos', function(){

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading',$title)
+@section('page_heading','Programas')
 @section('section')
 
 <div class="col-sm-12">
@@ -7,16 +7,10 @@
         <div class="col-lg-12">
 
             <!-- Button trigger modal -->
-            @if ($title == 'Programas')
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
                 Agregar Programa
             </button>
 
-            
-            <button type="button" class="btn btn-warning btn-lg" onclick="toDelete()">
-                Programas Eliminados
-            </button>
-            @endif
             <!-- Modal -->
             <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addShow">
                 <div class="modal-dialog" role="document">
@@ -105,9 +99,8 @@
 var createRoute = '{{ action('showController@postCreate'); }}';
 var readRoute = '{{ action('showController@postRead'); }}';
 var updateRoute = '{{ action('showController@postUpdate'); }}';
-var deleteRoute = '{{ $delete; }}';
-var readAllRoute = '{{ $readAll; }}';
-var toDeleteRoute = '{{ route('programas eliminados') }}';
+var deleteRoute = '{{ action('showController@postDelete'); }}';
+var readAllRoute = '{{ action('showController@postReadAll'); }}';
 </script>
 <script src="{{ asset("assets/scripts/show_ajax.js") }}" type="text/javascript"></script>
 
