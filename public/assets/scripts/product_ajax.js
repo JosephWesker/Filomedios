@@ -180,7 +180,7 @@ function loadTable(){
             $("#productos").html('');
             if (data.data !== null && $.isArray(data.data) && data.data.length>0){
                 $.each(data.data, function(index, value){
-                    $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_details +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Elminar</button></div></td></tr>');
+                    $("#productos").append('<tr class="gradeX"><td>'+ value.pro_id +'</td><td>'+ value.pro_name +'</td><td>'+ value.pro_description +'</td><td>'+ value.pro_type +'</td><td>'+ value.pro_details +'</td><td>'+ value.pro_outlay +'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pro_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pro_id +')">Eliminar</button></div></td></tr>');
                 });
             }else{
                 $("#productos").append('<tr class="gradeX"><td colspan="7">No existen Productos registrados en la base de datos</td>');

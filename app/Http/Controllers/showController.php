@@ -81,7 +81,6 @@ class showController extends Controller
         else {
             $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al eliminar el programa'));
         }
-        $response = Response::json(array('success' => true, 'data' => 'Programa eliminado exitosamente'));
         return $response;
     }
     
@@ -107,17 +106,16 @@ class showController extends Controller
         $values = Request::all();
         $data = fil_show::find($values['id']);
         if ($data == null) {
-            return Response::json(array('success' => false, 'data' => 'No se ha encontrado el programa a eliminar'));
+            return Response::json(array('success' => false, 'data' => 'No se ha encontrado el programa a restaurar'));
         }
         $data->sho_status = 'activo';
         $Response = null;
         if ($data->save()) {
-            $response = Response::json(array('success' => true, 'data' => 'Programa eliminado con exito'));
+            $response = Response::json(array('success' => true, 'data' => 'Programa restaurado con exito'));
         } 
         else {
-            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al eliminar el programa'));
+            $response = Response::json(array('success' => false, 'data' => 'Ocurrió un error al restaurar el programa'));
         }
-        $response = Response::json(array('success' => true, 'data' => 'Programa eliminado exitosamente'));
         return $response;
     }
 }

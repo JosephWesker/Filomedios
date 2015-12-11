@@ -30,10 +30,10 @@ class serviceOrderController extends Controller
         $finalArray = [];
         $customers = null;
         if (Session::get('type') == 'vendedor') {
-            $customers = fil_customer::where('cus_fk_employee', '=', Session::get('id'))->get();
+            $customers = fil_customer::where('cus_fk_employee', '=', Session::get('id'))->where('cus_status', 'not like', 'eliminado')->get();
         } 
         else {
-            $customers = fil_customer::all();
+            $customers = fil_customer::where('cus_status', 'not like', 'eliminado')->get();
         }
         if ($customers == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los clientes'));

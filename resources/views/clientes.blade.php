@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Clientes')
+@section('page_heading',$title)
 @section('section')
 
 <div class="col-sm-12">
@@ -7,9 +7,17 @@
         <div class="col-lg-12">
 
             <!-- Button trigger modal -->
+            @if ($title == 'Clientes')
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
                 Agregar Cliente
             </button>
+            @endif
+
+            @if ((Session::get('type') == 'administrador') && ($title == 'Clientes'))
+                <button type="button" class="btn btn-warning btn-lg" onclick="toDelete()">
+                    Clientes eliminados
+                </button>
+            @endif
 
             <!-- Modal -->
             <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addCustomer">
@@ -276,11 +284,12 @@
 var createRoute = '{{ action('customerController@postCreate'); }}';
 var readRoute = '{{ action('customerController@postRead'); }}';
 var updateRoute = '{{ action('customerController@postUpdate'); }}';
-var deleteRoute = '{{ action('customerController@postDelete'); }}';
-var readAllRoute = '{{ action('customerController@postReadAll'); }}';
+var deleteRoute = '{{ $delete; }}';
+var readAllRoute = '{{ $readAll; }}';
 var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
 var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
 var readfiscalData = '{{ action('customerController@postReadFiscalData'); }}';
+var toDeleteRoute = '{{ route('clientes eliminados') }}';
 </script>
 <script src="{{ asset("assets/scripts/customer_ajax.js") }}" type="text/javascript"></script>
 

@@ -59,7 +59,11 @@ Route::get('/facturas', ['middleware' => 'SessionControl', 'as' => 'facturas', f
 }]);
 
 Route::get('/clientes', ['middleware' => 'SessionControl', 'as' => 'clientes', function(){
-	return View::make('clientes');
+	return View::make('clientes', array('title' => 'Clientes', 'readAll' => action('customerController@postReadAll'), 'delete' => action('customerController@postDelete')));
+}]);
+
+Route::get('/clientes/eliminados', ['middleware' => 'SessionControl', 'as' => 'clientes eliminados', function(){
+	return View::make('clientes', array('title' => 'Clientes Eliminados', 'readAll' => action('customerController@postReadAllDelete'), 'delete' => action('customerController@postActivate')));
 }]);
 
 Route::get('/proyeccion', ['middleware' => 'SessionControl', 'as' => 'proyeccion', function(){

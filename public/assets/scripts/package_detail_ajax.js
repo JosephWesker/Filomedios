@@ -153,7 +153,7 @@ function loadTable(){
                 $("#detalles").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length>0){
                     $.each(data.data, function(index, value){
-                        $("#detalles").append('<tr class="gradeX"><td>'+value.pad_id+'</td><td>'+value.pro_name+'</td><td>'+value.pro_outlay+'</td><td>'+value.pad_impacts+'</td><td>'+value.pad_validity+'</td><td>'+value.pad_discount+'</td><td>'+value.pad_finalPrice+'</td><td>'+value.pad_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Elminar</button></div></td></tr>');
+                        $("#detalles").append('<tr class="gradeX"><td>'+value.pad_id+'</td><td>'+value.pro_name+'</td><td>'+value.pro_outlay+'</td><td>'+value.pad_impacts+'</td><td>'+value.pad_validity+'</td><td>'+value.pad_discount+'</td><td>'+value.pad_finalPrice+'</td><td>'+value.pad_subtotal+'</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+value.pad_id+')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+value.pad_id+')">Eliminar</button></div></td></tr>');
                     });
                 }else{
                     $("#detalles").append('<tr class="gradeX"><td colspan="9">no existen detalles para este Paquete</td>');
