@@ -146,7 +146,7 @@
                         </ul>
                     </li>
                     @endif
-                    @if (Session::get('type') == 'producción')
+                    @if (Session::get('type') == 'producción' || Session::get('type') == 'administrador')
                     <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('produccion') }}"><i class="fa fa-video-camera"></i> Producción</a>
                         <ul class="nav nav-second-level">
