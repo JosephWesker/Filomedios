@@ -14,14 +14,14 @@
                 <h4 class="modal-title">Cargar video</h4>
             </div>
             <div class="modal-body">
-                {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                {{ Form::open(array('url' => '#', 'id' => 'agregar', 'enctype' => 'multipart/form-data')) }} 
                 <div class="form-group">
                     {{ Form::label('name','Nombre')}}
                     {{ Form::text('name',null,['class' => 'form-control','id' => 'vid_name','placeholder' => 'Nombre'])}}
                 </div>
                 <div class="form-group">
                     {{ Form::label('type','Tipo de video')}}
-                    {{ Form::select('type', ['producción'=>'Producción','relleno'=>'Relleno'] ,null, ['class' => 'form-control','id'=>'vid_type']) }}
+                    {{ Form::select('type', ['producción'=>'Producción','relleno'=>'Relleno'] ,null, ['class' => 'form-control','id'=>'vid_type', 'onchange' => 'setServiceOrderDisabled()']) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label('service_order','Orden de Servicio')}}
@@ -47,30 +47,30 @@
                     {{ Form::label('days','Dias de Transmisión')}}
                     <div class="checkbox">
 	                   	<label>
-	                        {{ Form::checkbox('all', '1', null, ['id' => 'day_all'])}} Todos
+	                        {{ Form::checkbox('all', '1', null, ['id' => 'day_all', 'onclick' => 'setallselect($(this))'])}} Todos
 	                    </label>
                     </div>
                     <div class="checkbox">
 	                   	<label>
-	                        {{ Form::checkbox('monday', '1', null, ['id' => 'day_monday'])}} Lunes
+	                        {{ Form::checkbox('monday', '1', null, ['id' => 'day_monday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Lunes
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('tuesday', '1', null, ['id' => 'day_tuesday'])}} Martes
+	                        {{ Form::checkbox('tuesday', '1', null, ['id' => 'day_tuesday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Martes
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('wednesday', '1', null, ['id' => 'day_wednesday'])}} Miercoles
+	                        {{ Form::checkbox('wednesday', '1', null, ['id' => 'day_wednesday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Miercoles
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('thursday', '1', null, ['id' => 'day_wednesday'])}} Jueves
+	                        {{ Form::checkbox('thursday', '1', null, ['id' => 'day_thursday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Jueves
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('friday', '1', null, ['id' => 'day_wednesday'])}} Viernes
+	                        {{ Form::checkbox('friday', '1', null, ['id' => 'day_friday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Viernes
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('saturday', '1', null, ['id' => 'day_wednesday'])}} Sabado
+	                        {{ Form::checkbox('saturday', '1', null, ['id' => 'day_saturday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Sabado
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('sunday', '1', null, ['id' => 'day_wednesday'])}} Domingo
+	                        {{ Form::checkbox('sunday', '1', null, ['id' => 'day_sunday', 'class' => 'day_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Domingo
 	                    </label>
                     </div>
                 </div>
@@ -78,23 +78,27 @@
                     {{ Form::label('schedule','Horario')}}
                     <div class="checkbox">
 	                   	<label>
-	                        {{ Form::checkbox('all', '1', null, ['id' => 'sch_all'])}} Todos
+	                        {{ Form::checkbox('all', '1', null, ['id' => 'sch_all', 'onclick' => 'setallselect($(this))'])}} Todos
 	                    </label>
                     </div>
                     <div class="checkbox">
 	                   	<label>
-	                        {{ Form::checkbox('one', '1', null, ['id' => 'sch_one'])}} Uno
+	                        {{ Form::checkbox('one', '1', null, ['id' => 'sch_one', 'class' => 'sch_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Uno
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('two', '1', null, ['id' => 'sch_two'])}} Dos
+	                        {{ Form::checkbox('two', '1', null, ['id' => 'sch_two', 'class' => 'sch_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Dos
 	                    </label>
 	                    <label>
-	                        {{ Form::checkbox('three', '1', null, ['id' => 'sch_three'])}} Tres
+	                        {{ Form::checkbox('three', '1', null, ['id' => 'sch_three', 'class' => 'sch_all', 'onclick' => 'setDisabledAll($(this).attr(\'class\'))'])}} Tres
 	                    </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="file">Archivo</label>
+                    <input type="file" class="form-control" id="file">
+                </div>
                 <div class=text-right>
-                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'create()']) }}
+                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'sendFile()']) }}
                     {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
                 </div>                
                 {{ Form::close() }}                        
@@ -120,5 +124,10 @@
 
         </tbody>
     </table>
-</div>      
+</div>
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script>       
+
+</script>
+<script src="{{ asset("assets/scripts/videos_ajax.js") }}" type="text/javascript"></script>      
 @stop

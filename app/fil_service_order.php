@@ -20,4 +20,8 @@ class fil_service_order extends Model {
 	public function detailsProducts(){
 		return $this->hasMany('App\fil_detail_product','det_fk_service_order','ser_id');
 	}
+
+	public function videos(){
+		return $this->hasMany('App\fil_videos','vid_service_order','ser_id');
+	}
 }
