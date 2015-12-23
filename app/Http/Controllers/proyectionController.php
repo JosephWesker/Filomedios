@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller;
 
-class businessUnitController extends Controller
+class proyectionController extends Controller
 {
     
 }
