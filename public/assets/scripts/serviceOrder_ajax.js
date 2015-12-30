@@ -163,9 +163,9 @@ function addProduct() {
             row.det_fk_show = $('#det_fk_show').val();
         }        
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
-            row.det_subtotal = parseFloat(row.det_subtotal) * 10;
-        }
+        //if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
+        //    row.det_subtotal = parseFloat(row.det_subtotal) * 10;
+        //}
     } else {
         if (products[$('#det_fk_product').val()].pro_extra.spr_has_production_registry) {
             row.det_has_production_registry = null;

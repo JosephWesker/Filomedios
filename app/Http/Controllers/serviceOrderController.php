@@ -72,7 +72,7 @@ class serviceOrderController extends Controller
     }
     
     public function postLoadSelects() {
-        $shows = fil_show::where('sho_status','like','activo')->get(['sho_id', 'sho_name']);
+        $shows = fil_show::where('sho_status', 'like', 'activo')->get(['sho_id', 'sho_name']);
         if ($shows == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer datos de los programas y de las unidades de negocio'));
         }
@@ -111,12 +111,12 @@ class serviceOrderController extends Controller
             $row['det_discount'] = $value->pad_discount;
             $row['det_final_price'] = $value->pad_final_price;
             
-            if (($value->product->serviceProyection->spy_proyection_media == 'televisión') and ($value->product->serviceProyection->spy_has_show == "0")) {
-                $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'] * 10;
-            } 
-            else {
+            //if (($value->product->serviceProyection->spy_proyection_media == 'televisión') and ($value->product->serviceProyection->spy_has_show == "0")) {
+            //    $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'] * 10;
+            //} 
+            //else {
                 $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'];
-            }
+            //}
             
             $finalArray[] = $row;
         }
@@ -364,6 +364,7 @@ class serviceOrderController extends Controller
         return $response;
     }
     
+    // 0 = Pendiente, 1 = Rechazada, 2 = Aceptada, 3 = Cancelada
     public function postReadServiceOrderAuth() {
         $data = fil_service_order::orderBy('ser_id', 'desc')->get();
         if ($data == null) {
@@ -560,34 +561,36 @@ class serviceOrderController extends Controller
         $production = true;
         
         if ($serviceOrder->ser_auth_admin != 3) {
-            if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
-                $generals = false;
-                $payments = false;
-                $proyection = false;
-            }
-            if (Session::get('type') == "gerente de ventas") {
-                $payments = false;
-                $proyection = false;
-            }
-            if (Session::get('type') == "producción") {
-                $production = false;
-            }
-            if (Session::get('type') == "vendedor") {
-                $generals = true;
-                $payments = true;
-                $proyection = true;
-                $production = true;
-                if ($serviceOrder->ser_auth_admin == 1) {
+            if ($serviceOrder->ser_auth_admin != 2 || $serviceOrder->ser_auth_sales != 2 || $serviceOrder->ser_auth_production != 2) {
+                if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
                     $generals = false;
                     $payments = false;
                     $proyection = false;
                 }
-                if ($serviceOrder->ser_auth_sales == 1) {
+                if (Session::get('type') == "gerente de ventas") {
                     $payments = false;
                     $proyection = false;
                 }
-                if ($serviceOrder->ser_auth_production == 1) {
+                if (Session::get('type') == "producción") {
                     $production = false;
+                }
+                if (Session::get('type') == "vendedor") {
+                    $generals = true;
+                    $payments = true;
+                    $proyection = true;
+                    $production = true;
+                    if ($serviceOrder->ser_auth_admin == 1) {
+                        $generals = false;
+                        $payments = false;
+                        $proyection = false;
+                    }
+                    if ($serviceOrder->ser_auth_sales == 1) {
+                        $payments = false;
+                        $proyection = false;
+                    }
+                    if ($serviceOrder->ser_auth_production == 1) {
+                        $production = false;
+                    }
                 }
             }
         }
@@ -822,14 +825,14 @@ class serviceOrderController extends Controller
     public function getFileManager() {
         $dir = storage_path('app/produccionFile');
         $dir = str_replace('/', '\\', $dir);
-        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = storage_path('app') . '\\';
         $stringToRemove = str_replace('/', '\\', $stringToRemove);
         $response = $this->scan($dir);
         return Response::json(array("name" => str_replace($stringToRemove, '', $dir), "type" => "folder", "path" => str_replace($stringToRemove, '', $dir), "items" => $response));
     }
     
     function scan($dir) {
-        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = storage_path('app') . '\\';
         $stringToRemove = str_replace('/', '\\', $stringToRemove);
         $files = array();
         

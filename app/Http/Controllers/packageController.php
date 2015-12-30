@@ -102,13 +102,13 @@ class packageController extends Controller
             $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
             $tempRow['pad_discount'] = $detail->pad_discount . ' %';
             $tempRow['pad_finalPrice'] = $detail->pad_final_price;
-            if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
-                $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
-                $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
-            } 
-            else {
+            //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
+            //    $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
+            //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
+            //} 
+            //else {
                 $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts;
-            }
+            //}
             
             $finalArray[] = $tempRow;
         }
@@ -230,13 +230,13 @@ class packageController extends Controller
             $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
             $tempRow['pad_discount'] = $detail->pad_discount . ' %';
             $tempRow['pad_finalPrice'] = $detail->pad_final_price;
-            if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
-                $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
-                $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
-            } 
-            else {
+            //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
+            //    $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
+            //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
+            //} 
+            //else {
                 $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts;
-            }
+            //}
             $total_outlay+= (float)$tempRow['pad_subtotal'];
             $finalArray[] = $tempRow;
         }

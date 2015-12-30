@@ -228,9 +228,9 @@ function setProyection(ser_duration, ser_start_date, ser_end_date, data) {
     $.each(data, function(index, value) {
         if (value.product.pro_type == "transmisión") {
             subtotal = parseFloat(value.det_impacts) * parseFloat(value.det_validity) * parseFloat(value.det_final_price);
-            if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
-                subtotal = parseFloat(subtotal) * 10;
-            }
+            //if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
+            //    subtotal = parseFloat(subtotal) * 10;
+            //}
             $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
             cont++;
             monthOutlay = monthOutlay + subtotal;
@@ -551,9 +551,9 @@ function addProduct() {
             row.det_fk_show = $('#det_fk_show').val();
         }
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
-            row.det_subtotal = parseFloat(row.det_subtotal) * 10;
-        }
+        //if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
+        //    row.det_subtotal = parseFloat(row.det_subtotal) * 10;
+        //}
         monthOutlay = monthOutlay + parseFloat(row.det_subtotal);
     } else {
         if (products[$('#det_fk_product').val()].pro_extra.spr_has_production_registry) {
@@ -739,10 +739,10 @@ function editProyection(index) {
 function setNewProyection() {
     var det_subtotal = parseFloat(json.details_products[$('#detailProductIndex').val()].det_impacts) * parseFloat(json.details_products[$('#detailProductIndex').val()].det_validity) * parseFloat(json.details_products[$('#detailProductIndex').val()].det_final_price);
     var det_new_subtotal = parseFloat($('#u_det_impacts').val()) * parseFloat($('#u_det_validity').val()) * parseFloat($('#u_det_discount_number').val());
-    if (json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_has_show == 0 && json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_proyection_media == "televisión") {
-        det_subtotal = parseFloat(det_subtotal) * 10;
-        det_new_subtotal = parseFloat(det_new_subtotal) * 10;
-    }
+    //if (json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_has_show == 0 && json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_proyection_media == "televisión") {
+    //    det_subtotal = parseFloat(det_subtotal) * 10;
+    //    det_new_subtotal = parseFloat(det_new_subtotal) * 10;
+    //}
     monthOutlay = monthOutlay - det_subtotal + det_new_subtotal;
     setAmounts();
     var data = {
