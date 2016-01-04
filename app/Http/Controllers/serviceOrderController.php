@@ -867,6 +867,16 @@ class serviceOrderController extends Controller
         return $files;
     }
     
+    public function postReadServiceOrder(){
+        return Response::json(array('success' => true, 'data' => fil_service_order::all(['ser_id'])));
+    }
+    
+    public function postReadDetails(){
+        $values = Request::all();
+        $detail = fil_service_order::find($values['ser_id'])->detailsProducts;   
+        return Response::json(array('success' => true, 'data' => $detail)); 
+    }
+    
     function normaliza($cadena) {
         $originales = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŔŕ';
         $modificadas = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';

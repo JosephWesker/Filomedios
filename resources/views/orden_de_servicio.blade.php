@@ -222,7 +222,7 @@
                                         {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'u_det_fk_show']) }}
                                     </div>                                                                
                                     <div class="form-group">
-                                        {{ Form::label('impacts','Impactos')}}
+                                        {{ Form::label('impacts','Impactos diarios')}}
                                         {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_det_impacts','placeholder' => 'Impactos'])}}
                                     </div>
                                     <div class="form-group">
@@ -518,7 +518,7 @@
                             {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                         </div>                                                                
                         <div class="form-group">
-                            {{ Form::label('impacts','Impactos')}}
+                            {{ Form::label('impacts','Impactos diarios')}}
                             {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
                         </div>
                         <div class="form-group">

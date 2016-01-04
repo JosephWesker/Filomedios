@@ -89,7 +89,7 @@
                                                                     {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                                                                 </div>                                                                
                                                                 <div class="form-group">
-                                                                    {{ Form::label('impacts','Impactos')}}
+                                                                    {{ Form::label('impacts','Impactos diarios')}}
                                                                     {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
                                                                 </div>
                                                                 <div class="form-group">
@@ -208,7 +208,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre del Producto</th>
-                                                        <th>Impactos</th>
+                                                        <th>Impactos diarios</th>
                                                         <th>Vigencia (Días)</th>
                                                         <th>Precio</th>
                                                         <th>Subtotal</th>

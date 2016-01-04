@@ -8,14 +8,6 @@ class fil_videos extends Model {
 	protected $primaryKey = 'vid_id';
 
 	public function serviceOrder(){
-		return $this->belongsTo('App\fil_service_order','vid_service_order','ser_id');
-	}
-
-	public function days(){
-		return $this->belongsTo('App\fil_days','vid_fk_days','day_id');
-	}
-
-	public function schedule(){
-		return $this->belongsTo('App\fil_schedule','vid_fk_schedule','sch_id');
+		return $this->belongsTo('App\fil_detail_product','vid_detail_product','det_id');
 	}
 }

@@ -1,52 +1,69 @@
-function setallselect(select) {
-    if (select.is(':checked')) {
-        $("."+select.attr('id')).prop('checked', true);
+function disableDetail() {
+    if ($('#vid_service_order').val() == 'null') {
+        $('#vid_detail_product').prop('disabled', true);
     } else {
-        $("."+select.attr('id')).prop('checked', false);
+        $('#vid_detail_product').prop('disabled', false);
     }
 }
 
-function setDisabledAll(classToChange) {
-    var values = $("."+classToChange);
-    result = true;
-    $.each(values, function(index, value) {
-        if (!value.checked) {
-            result = false;
+function sendFile() {
+    var data = {
+        'vid_name': $('#vid_name').val(),
+        'vid_detail_product': $('#vid_detail_product').val(),
+        'file': ($('#file').prop('files'))[0]
+    };
+
+}
+
+function loadServiceOrders() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#'+classToChange).prop('checked', result);
-}
 
-function setServiceOrderDisabled(){
-    $('#vid_service_order').val('null');
-    $('#vid_service_order').prop('disabled',!($('#vid_service_order').prop('disabled')));
-}
+    $.ajax({
+        url: serviceOrdersRoute,
+        type: 'post',
+        success: function (data) {
+            if (data.success) {
+                $.each(data.data, function (index, value) {
+                    $('#vid_service_order').append('<option value=\'' + value.ser_id + '\'>' + value.ser_id + '</option>');
+                });
+            } else {
+                failure(data.data);
+            }
 
-function getDimension(classToEvaluate){
-    var array = {};
-    var checks = $('.'+classToEvaluate);
-    $.each(checks, function(index, value){
-        array[value.id] = value.checked;
+        }
     });
-    return array;
 }
 
-function sendFile(){
-    var data = {
-        'vid_name' : $('#vid_name').val(),
-        'vid_type' : $('#vid_type').val(),
-        'vid_service_order' : $('#vid_service_order').val(),
-        'vid_type_impacts' : $('#vid_type_impacts').val(),
-        'vid_impacts' : $('#vid_impacts').val(),
-        'vid_start_date' : $('#vid_start_date').val(),
-        'vid_end_date' : $('#vid_end_date').val(),
-        'vid_fk_days' : getDimension('day_all'),
-        'vid_fk_schedule' : getDimension('sch_all'),
-        'file' : ($('#file').prop('files'))[0]
+function loadDetails() {
+    data = {
+        'ser_id': $('#vid_service_order').val()
     };
-    
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: serviceOrdersRoute,
+        data: data,
+        type: 'post',
+        success: function (data) {
+            if (data.success) {
+                $.each(data.data, function (index, value) {
+                    $('#vid_service_order').append('<option value=\'' + value.ser_id + '\'>' + value.ser_id + '</option>');
+                });
+            } else {
+                failure(data.data);
+            }
+        }
+    });
 }
 
-$(document).ready(function() {
-
+$(document).ready(function () {
+    loadServiceOrders();
 });
