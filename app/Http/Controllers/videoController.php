@@ -34,14 +34,29 @@ class videoController extends Controller
         Storage::put($this->normaliza($path.$finalName), File::get($file));
         $row = new fil_videos;
         $row->vid_detail_product = $detailId;
-        $row->vid_name = $finalName;
+        $row->vid_name = $this->normaliza($finalName);
         $row->vid_type = $type;
         $getID3 = new \getID3;
         $analizedFile = $getID3->analyze($file);
         $row->vid_duration = $analizedFile['playtime_string'];
-        $row->vid_url = Storage_path().'/app/'.$path.$finalName;
+        $row->vid_url = Storage_path().'/app/'.$this->normaliza($path.$finalName);
         $row->save();
         return Response::json(array('success' => true, 'data' => 'Video Registrado'));
+    }
+    
+    public function postReadAll(){
+        $array = fil_videos::all();
+        $finalArray = [];
+        foreach ($array as $video) {
+            $row = [];
+            $row['id'] = $video->vid_id;
+            $row['name'] = $video->vid_name;
+            $row['type'] = $video->vid_type;
+            $row['service_order'] = $video->detailProduct->serviceOrder->ser_id;
+            $row['detail'] ='<b>Producto</b>: '.$video->detailProduct->product->pro_name.'<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->detailProduct->serviceOrder->ser_start_date.'<br><b>Fecha de Termino:</b> '.$video->detailProduct->serviceOrder->ser_end_date;
+            $finalArray[] = $row;
+        }
+        return Response::json(array('success' => true, 'data' => $finalArray));
     }
     
     function normaliza($cadena) {
@@ -51,5 +66,13 @@ class videoController extends Controller
         $cadena = strtr($cadena, utf8_decode($originales), $modificadas);
         $cadena = strtolower($cadena);
         return utf8_encode($cadena);
+    }
+    
+    public function postDelete(){
+        $values = Request::all();
+        $row = fil_videos::find($values['id']);
+        Storage::delete('/videos/'.$row->vid_name);
+        $row->delete();
+        return Response::json(array('success' => true, 'data' => 'Video eliminado'));
     }
 }

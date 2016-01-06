@@ -44,7 +44,8 @@ function sendFile() {
                 $('#file').val('');
                 $('#vid_detail_product').html('');
                 $('#add').modal('hide');
-                disableDetail(); 
+                disableDetail();                
+                loadTable(); 
             } else {
                 failure(data.data);
             }
@@ -64,7 +65,7 @@ function loadServiceOrders() {
         url: serviceOrdersRoute,
         type: 'post',
         success: function (data) {
-            if (data.success) {
+            if (data.success) {                
                 $.each(data.data, function (index, value) {
                     $('#vid_service_order').append('<option value=\'' + value.ser_id + '\'>' + value.ser_id + '</option>');
                 });
@@ -72,6 +73,58 @@ function loadServiceOrders() {
                 failure(data.data);
             }
 
+        }
+    });
+}
+
+function loadTable() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url: readAllRoute,
+        type: 'post',
+        success: function (data) {
+            if (data.success) {
+                $("#filesoncloud").html('');
+                if (data.pending !== null && $.isArray(data.pending) && data.pending.length > 0) {  
+                    $.each(data.data, function (index, value) {
+                        $("#filesoncloud").append('<tr class="gradeX"><td>' + value.id + '</td><td>' + value.name + '</td><td>' + value.type + '</td><td>' + value.service_order + '</td><td>' + value.detail + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.id + ')">Eliminar</button></div></td></tr>');
+                    });
+                } else {
+                    $("#filesoncloud").append('<tr class="gradeX"><td colspan="6">No existen videos registrados en la base de datos</td>');
+                }
+            } else {
+                failure(data.data);
+            }
+
+        }
+    });
+}
+
+function delet(id) {
+    var data = {
+        "id": id,
+    };
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: deleteRoute,
+        data: data,
+        type: 'post',
+        success: function(data) {
+            if (data.success) {
+                alert(data.data);
+                loadTable();
+            } else {
+                failure(data.data);
+            }
         }
     });
 }
@@ -107,4 +160,5 @@ function loadDetails() {
 
 $(document).ready(function () {
     loadServiceOrders();
+    loadTable();
 });

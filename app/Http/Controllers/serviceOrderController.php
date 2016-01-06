@@ -875,9 +875,9 @@ class serviceOrderController extends Controller
         $values = Request::all();
         $details = fil_service_order::find($values['ser_id'])->detailsProducts;
         $finalArray = [];
-        if($values['vid_type']=='program'){
+        if($values['vid_type']=='programación'){
             foreach ($details as $value) {
-                if($value->product->pro_type == 'transmisión'){
+                if($value->product->pro_type == 'transmisión' && $value->video == null){
                     if($value->product->serviceProyection->spy_has_show == '1'){
                         $finalArray[] = $value;
                     }   
@@ -885,7 +885,7 @@ class serviceOrderController extends Controller
             }       
         }else{
             foreach ($details as $value) {
-                if($value->product->pro_type == 'transmisión'){
+                if($value->product->pro_type == 'transmisión' && $value->video == null){
                     if($value->product->serviceProyection->spy_has_show == '0'){
                         $finalArray[] = $value;
                     }   

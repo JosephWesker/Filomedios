@@ -27,4 +27,8 @@ class fil_detail_product extends Model {
 	public function show(){
 		return $this->belongsTo('App\fil_show','det_fk_show','sho_id');
 	}
+    
+    public function video(){
+		return $this->hasOne('App\fil_videos','vid_detail_product','det_id');
+	}
 }
