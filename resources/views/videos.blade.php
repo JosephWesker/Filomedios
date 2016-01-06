@@ -18,11 +18,13 @@
                         'Nombre'])}}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('service_order','Orden de Servicio')}} {{ Form::select('service_order', ['null' => '---Seleccionar Orden de Servicio---'] ,null, ['class' => 'form-control','id'=>'vid_service_order','onchange' => 'disableDetail()'])                        }}
+                        {{ Form::label('service_order','Orden de Servicio')}} {{ Form::select('service_order', ['null' => '---Seleccionar Orden de Servicio---'] ,null, ['class' => 'form-control','id'=>'vid_service_order','onchange' => 'disableDetail()']) }}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('detail_product','Producto')}} {{ Form::select('detail_product', [] ,null, ['class' => 'form-control','id'=>'vid_detail_product','disabled'])
-                        }}
+                        {{ Form::label('type','Tipo de Video')}} {{ Form::select('type', ['program' => 'Programación','spot' => 'Video Comercial'] ,null, ['class' => 'form-control','id'=>'vid_type','onchange' => 'loadDetails()','disabled']) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::label('detail_product','Producto')}} {{ Form::select('detail_product', [] ,null, ['class' => 'form-control','id'=>'vid_detail_product','disabled']) }}
                     </div>
                     <div class="form-group">
                         <label for="file">Archivo</label>
@@ -59,6 +61,8 @@
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js ") }}" type="text/javascript"></script>
 <script>
     var serviceOrdersRoute = '{{ action('serviceOrderController@postReadServiceOrder'); }}';
+    var detailsRoute = '{{ action('serviceOrderController@postReadDetails'); }}';
+    var sendFileRoute = '{{ action('videoController@postUploadVideo'); }}';
 </script>
 <script src="{{ asset("assets/scripts/videos_ajax.js ") }}" type="text/javascript"></script>
 @stop

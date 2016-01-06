@@ -873,8 +873,26 @@ class serviceOrderController extends Controller
     
     public function postReadDetails(){
         $values = Request::all();
-        $detail = fil_service_order::find($values['ser_id'])->detailsProducts;   
-        return Response::json(array('success' => true, 'data' => $detail)); 
+        $details = fil_service_order::find($values['ser_id'])->detailsProducts;
+        $finalArray = [];
+        if($values['vid_type']=='program'){
+            foreach ($details as $value) {
+                if($value->product->pro_type == 'transmisión'){
+                    if($value->product->serviceProyection->spy_has_show == '1'){
+                        $finalArray[] = $value;
+                    }   
+                }                
+            }       
+        }else{
+            foreach ($details as $value) {
+                if($value->product->pro_type == 'transmisión'){
+                    if($value->product->serviceProyection->spy_has_show == '0'){
+                        $finalArray[] = $value;
+                    }   
+                }                
+            }
+        }           
+        return Response::json(array('success' => true, 'data' => $finalArray)); 
     }
     
     function normaliza($cadena) {
