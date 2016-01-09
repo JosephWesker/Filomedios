@@ -138,6 +138,8 @@ Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment'
 
 Route::get('/unidades_negocio/{id}/empleados', ['uses' => 'employeeController@loadEmployeesByBusinessUnit','middleware' => 'SessionControl']);
 
+Route::get('/videos/{name}', ['uses' => 'videoController@getVideoStreaming','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Routing\Controller;
 use App\fil_videos;
+use App\Helpers\VideoStream;
 
 class videoController extends Controller
 {
@@ -74,5 +75,11 @@ class videoController extends Controller
         Storage::delete('/videos/'.$row->vid_name);
         $row->delete();
         return Response::json(array('success' => true, 'data' => 'Video eliminado'));
+    }
+    
+    public function getVideoStreaming($name){
+        $path = Storage_path().'/app/'.'/videos/'.$name;
+        $stream = new VideoStream($path);
+        $stream->start(); 
     }
 }

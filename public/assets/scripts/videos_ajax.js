@@ -90,7 +90,7 @@ function loadTable() {
         success: function (data) {
             if (data.success) {
                 $("#filesoncloud").html('');
-                if (data.pending !== null && $.isArray(data.pending) && data.pending.length > 0) {  
+                if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {  
                     $.each(data.data, function (index, value) {
                         $("#filesoncloud").append('<tr class="gradeX"><td>' + value.id + '</td><td>' + value.name + '</td><td>' + value.type + '</td><td>' + value.service_order + '</td><td>' + value.detail + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.id + ')">Eliminar</button></div></td></tr>');
                     });

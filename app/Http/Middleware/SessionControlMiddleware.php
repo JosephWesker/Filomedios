@@ -22,7 +22,7 @@ class SessionControlMiddleware
        		$first = '/';
        	}
         if (Session::has('logged')) {
-            if (in_array($first, $permissions[Session::get('type') ])) {
+            if (in_array($first, $permissions[Session::get('type')])) {
                 return $next($request);
             } 
             else {
