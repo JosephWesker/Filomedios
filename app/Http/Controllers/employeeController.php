@@ -37,6 +37,10 @@ class employeeController extends Controller
             return Response::json(array('success' => false, 'data' => 'Campo Contraseña requerido'));
         }
         $values['emp_password'] = hash::make($values['emp_password']);
+        $rows = fil_employee::where('emp_email','=',$values['emp_email'])->count();
+        if($rows == 1){
+            return Response::json(array('success' => false, 'data' => 'Este correo ya está en uso, por favor utilice otro correo'));
+        }
         fil_employee::create($values);
         $response = Response::json(array('success' => true, 'data' => 'Empleado guardado con exito'));
         return $response;

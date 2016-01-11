@@ -192,6 +192,9 @@
                             </li>
                             <li {{ (Request::is('*programas*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('programas') }}"><i class="fa fa-tv"></i> Catálogo de programas</a>
+                            </li>
+                            <li {{ (Request::is('*giros*') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('giros') }}"><i class="fa fa-briefcase"></i> Catálogo de giros</a>
                             </li>                            
                             <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Empleados y Usuarios</a>

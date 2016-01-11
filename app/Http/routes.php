@@ -126,6 +126,10 @@ Route::get('/perfil', ['middleware' => 'SessionControl', 'as' => 'perfil', funct
 	return View::make('profile');
 }]);
 
+Route::get('/giros', ['middleware' => 'SessionControl', 'as' => 'giros', function(){
+	return View::make('giro_comercial');
+}]);
+
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
 
 Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
@@ -151,3 +155,4 @@ Route::controller('treasury','treasuryController');
 Route::controller('production','productionController');
 Route::controller('proyection','proyectionController');
 Route::controller('video','videoController');
+Route::controller('business_activity','businessActivityController');

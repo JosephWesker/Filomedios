@@ -39,11 +39,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone','Teléfono Fijo')}}
-                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone',null,['class' => 'form-control','id' => 'emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone','Celular')}}
-                                {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'emp_cellphone_number','placeholder' => 'Celular'])}}
+                                {{ Form::number('cellphone',null,['class' => 'form-control','id' => 'emp_cellphone_number','placeholder' => 'Celular'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
@@ -142,11 +142,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone','Teléfono Fijo')}}
-                                {{ Form::text('phone',null,['class' => 'form-control','id' => 'u_emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone',null,['class' => 'form-control','id' => 'u_emp_phone_number','placeholder' => 'Teléfono Fijo'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone','Celular')}}
-                                {{ Form::text('cellphone',null,['class' => 'form-control','id' => 'u_emp_cellphone_number','placeholder' => 'Celular'])}}
+                                {{ Form::number('cellphone',null,['class' => 'form-control','id' => 'u_emp_cellphone_number','placeholder' => 'Celular'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('job','Puesto')}}
