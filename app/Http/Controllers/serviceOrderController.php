@@ -101,21 +101,31 @@ class serviceOrderController extends Controller
             $row['det_fk_product'] = $value->product->pro_id;
             $row['det_name'] = $value->product->pro_name;
             $row['det_type'] = $value->product->pro_type;
-            
-            if ($value->product->serviceProyection->spy_has_show) {
-                $row['det_fk_show'] = null;
-            };
-            
-            $row['det_impacts'] = $value->pad_impacts;
-            $row['det_validity'] = $value->pad_validity;
             $row['det_discount'] = $value->pad_discount;
             $row['det_final_price'] = $value->pad_final_price;
+            if($value->product->pro_type == 'transmisión'){
+                if ($value->product->serviceProyection->spy_has_show) {
+                    $row['det_fk_show'] = null;
+                }
+                $row['det_impacts'] = $value->pad_impacts;
+                $row['det_validity'] = $value->pad_validity;
+                $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'];
+            }else{
+                if ($value->product->serviceProduction->spr_has_production_registry) {
+                    $row['det_has_production_registry'] = null;
+                }
+                $row['det_impacts'] = "";
+                $row['det_validity'] = "";
+                $row['det_subtotal'] = (float)$row['det_final_price'];
+            }            
+            
+            
             
             //if (($value->product->serviceProyection->spy_proyection_media == 'televisión') and ($value->product->serviceProyection->spy_has_show == "0")) {
             //    $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'] * 10;
             //} 
             //else {
-                $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'];
+                
             //}
             
             $finalArray[] = $row;

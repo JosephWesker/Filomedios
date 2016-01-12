@@ -288,51 +288,75 @@ class packageController extends Controller
         return Response::json(array('success' => true, 'data' => $package->pac_outlay));
     }
     
-    public function postUpdatePrice(){
+    //Update the price based on the number of products in the package, isn't exact
+    /*public function postUpdatePrice(){
         $values = Request::all();
         $package = fil_package::find($values['pac_id']);
-        $details = $package->packagesDetail;
-        if (count($details) == 0){
-           return Response::json(array('success' => false, 'data' => 'El paquete no tiene productos, agrege por lo menos uno para poder modificar el precio'));
-        }
-        $totalImpacts = 0;
-        foreach ($details as $value) {
-            $totalImpacts += (((float) $value->pad_impacts) * ((float) $value->pad_validity));
-        }
-        $ImpactPrice = round(((float) $values['pac_outlay'])/$totalImpacts,2);
-        foreach ($details as $value) {
-            $price = (float) $value->product->serviceProyection->spy_outlay;
-            $percent = ($ImpactPrice * 100)/$price;
-            if($percent>=100){
-               $value->pad_discount = $percent; 
+        $count = count($package->packagesDetail);
+        $outlayPerDetail = ((float) $values['pac_outlay']) / $count;
+        $totalOutlay = 0;
+        foreach ($package->packagesDetail as $detail) {
+            if($detail->product->pro_type == 'transmisión'){
+                $newPrice = round($outlayPerDetail / (((float) $detail->pad_impacts) * ((float) $detail->pad_validity)),2);
+                $percent = ($newPrice * 100) / ((float) $detail->product->serviceProyection->spy_outlay);
+                $detail->pad_final_price = $newPrice;
+                if($percent>100){
+                    $detail->pad_discount = $percent;
+                }else{
+                    $detail->pad_discount = (100 - $percent);
+                }
+                $detail->save();
+                $totalOutlay += (((float) $detail->pad_impacts) * ((float) $detail->pad_validity) * ((float) $detail->pad_final_price));
             }else{
-               $value->pad_discount = 100 - $percent; 
-            }            
-            $value->pad_final_price = $ImpactPrice;
-            $value->save();
-        }
-        $calculatedOutlay = $ImpactPrice * $totalImpacts;
-        if($calculatedOutlay != ((float) $values['pac_outlay'])){
-            $result = $calculatedOutlay - ((float) $values['pac_outlay']);
-            $impacts = (((float) $details[0]->pad_impacts) * ((float) $details[0]->pad_validity));
-            $priceOfFirst = $impacts * ((float) $details[0]->pad_final_price);            
-            $priceOfFirst -= $result;                        
-            $newFinalPrice = $priceOfFirst/$impacts;            
-            $price = (float) $details[0]->product->serviceProyection->spy_outlay;
-            $percent = ($newFinalPrice * 100)/$price;
-            if($percent>=100){
-                $details[0]->pad_discount = $percent; 
-            }else{
-                $details[0]->pad_discount = 100 - $percent; 
-            }            
-            $details[0]->pad_final_price = $newFinalPrice;
-            $details[0]->save();
-            $calculatedOutlay = 0;
-            foreach ($details as $value) {
-                $calculatedOutlay += (((float) $value->pad_impacts) * ((float) $value->pad_validity) * ((float) $value->pad_final_price));
+                $percent = ($outlayPerDetail * 100) / ((float) $detail->product->serviceProduction->spr_outlay);
+                $detail->pad_final_price = $outlayPerDetail;
+                if($percent>100){
+                    $detail->pad_discount = $percent;
+                }else{
+                    $detail->pad_discount = (100 - $percent);
+                }
+                $detail->save();
+                $totalOutlay += $outlayPerDetail;                
             }
-        }   
-        $package->pac_outlay = $calculatedOutlay;
+        }
+        $package->pac_outlay = $totalOutlay;
+        $package->save();
+        return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
+    }*/
+    
+    //To set the first element with the new price and set the rest in 0, isn't exact
+    public function postUpdatePrice(){
+        $values = Request::all();
+        $package = fil_package::find($values['pac_id']);        
+        $count = count($package->packagesDetail);
+        if($package->packagesDetail[0]->product->pro_type == "transmisión"){
+            $newPrice = round(((float) $values['pac_outlay']) / (((float) $package->packagesDetail[0]->pad_impacts) * ((float) $package->packagesDetail[0]->pad_validity)),2);
+            $percent = ($newPrice * 100) / ((float) $package->packagesDetail[0]->product->serviceProyection->spy_outlay);
+            $package->packagesDetail[0]->pad_final_price = $newPrice;
+            if($percent>100){
+                $package->packagesDetail[0]->pad_discount = $percent;
+            }else{
+                $package->packagesDetail[0]->pad_discount = (100 - $percent);
+            }
+            $package->packagesDetail[0]->save();
+            $package->pac_outlay = (((float) $package->packagesDetail[0]->pad_impacts) * ((float) $package->packagesDetail[0]->pad_validity) * ((float) $package->packagesDetail[0]->pad_final_price)); 
+        }else{
+            $package->packagesDetail[0]->pad_final_price = $values['pac_outlay'];
+            $percent = (((float) $values['pac_outlay']) * 100) / ((float) $package->packagesDetail[0]->product->serviceProduction->spr_outlay);
+            if($percent>100){
+                $package->packagesDetail[0]->pad_discount = $percent;
+            }else{
+                $package->packagesDetail[0]->pad_discount = (100 - $percent);
+            }
+            $package->packagesDetail[0]->save();
+            $package->pac_outlay = $values['pac_outlay'];
+        }
+        for ($i=1; $i <= $count-1; $i++) { 
+            $package->packagesDetail[$i]->pad_discount = 100;
+            $package->packagesDetail[$i]->pad_final_price = 0;
+            $package->packagesDetail[$i]->save();
+            
+        }
         $package->save();
         return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
     }
