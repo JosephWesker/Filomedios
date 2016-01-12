@@ -94,20 +94,23 @@ class packageController extends Controller
             $tempRow['pro_name'] = $product->pro_name;
             if ($product->pro_type == 'transmisión') {
                 $tempRow['pro_outlay'] = $product->serviceProyection->spy_outlay;
+                $tempRow['pad_subtotal'] = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
+                $tempRow['pad_impacts'] = $detail->pad_impacts;
+                $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
             } 
             else {
                 $tempRow['pro_outlay'] = $product->serviceProduction->spr_outlay;
-            }
-            $tempRow['pad_impacts'] = $detail->pad_impacts;
-            $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
+                $tempRow['pad_subtotal'] = (float)$detail->pad_final_price;
+                $tempRow['pad_impacts'] = 'No Aplica';
+                $tempRow['pad_validity'] = 'No Aplica';
+            }            
             $tempRow['pad_discount'] = $detail->pad_discount . ' %';
             $tempRow['pad_finalPrice'] = $detail->pad_final_price;
             //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
             //    $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
             //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
             //} 
-            //else {
-                $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts;
+            //else {                
             //}
             
             $finalArray[] = $tempRow;
@@ -126,12 +129,14 @@ class packageController extends Controller
         if ($values['pad_fk_product'] == '' || $values['pad_fk_product'] == null || $values['pad_fk_product'] == 'null') {
             return Response::json(array('success' => false, 'data' => 'Campo producto requerido'));
         }
-        if ($values['pad_impacts'] == '' || $values['pad_impacts'] == null) {
-            return Response::json(array('success' => false, 'data' => 'Campo impactos requerido'));
-        }
-        if ($values['pad_validity'] == '' || $values['pad_validity'] == null) {
-            return Response::json(array('success' => false, 'data' => 'Campo vigencia requerido'));
-        }
+        if(fil_product::find($values['pad_fk_product'])->pro_type == 'transmisión'){
+            if ($values['pad_impacts'] == '' || $values['pad_impacts'] == null) {
+                return Response::json(array('success' => false, 'data' => 'Campo impactos requerido'));
+            }
+            if ($values['pad_validity'] == '' || $values['pad_validity'] == null) {
+                return Response::json(array('success' => false, 'data' => 'Campo vigencia requerido'));
+            }   
+        }        
         if ($values['pad_discount'] == '' || $values['pad_discount'] == null) {
             return Response::json(array('success' => false, 'data' => 'Campo descuento requerido'));
         }
@@ -157,7 +162,7 @@ class packageController extends Controller
         else {
             $price = $dataProduct->serviceProduction->spr_outlay;
         }
-        $finalData = array('pro_id' => $dataProduct->pro_id, 'pro_outlay' => $price, 'pad_impacts' => $dataDetail->pad_impacts, 'pad_validity' => $dataDetail->pad_validity, 'pad_discount' => $dataDetail->pad_discount, 'pad_final_price' => $dataDetail->pad_final_price);
+        $finalData = array('pro_id' => $dataProduct->pro_id, 'pro_outlay' => $price, 'pad_impacts' => $dataDetail->pad_impacts, 'pad_validity' => $dataDetail->pad_validity, 'pad_discount' => $dataDetail->pad_discount, 'pad_final_price' => $dataDetail->pad_final_price, 'type' => $dataProduct->pro_type);
         $response = Response::json(array('success' => true, 'data' => $finalData));
         return $response;
     }
@@ -222,12 +227,16 @@ class packageController extends Controller
             $tempRow['pro_name'] = $product->pro_name;
             if ($product->pro_type == 'transmisión') {
                 $tempRow['pro_outlay'] = $product->serviceProyection->spy_outlay;
+                $tempRow['pad_subtotal'] = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
+                $tempRow['pad_impacts'] = $detail->pad_impacts;
+                $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
             } 
             else {
                 $tempRow['pro_outlay'] = $product->serviceProduction->spr_outlay;
-            }
-            $tempRow['pad_impacts'] = $detail->pad_impacts;
-            $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
+                $tempRow['pad_subtotal'] = (float)$detail->pad_final_price;
+                $tempRow['pad_impacts'] = 'No Aplica';
+                $tempRow['pad_validity'] = 'No Aplica';
+            }            
             $tempRow['pad_discount'] = $detail->pad_discount . ' %';
             $tempRow['pad_finalPrice'] = $detail->pad_final_price;
             //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
@@ -235,7 +244,7 @@ class packageController extends Controller
             //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
             //} 
             //else {
-                $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts;
+                
             //}
             $total_outlay+= (float)$tempRow['pad_subtotal'];
             $finalArray[] = $tempRow;
@@ -248,7 +257,7 @@ class packageController extends Controller
     }
     
     public function postLoadProducts() {
-        $data = fil_product::where('pro_type', 'like', 'transmisión')->where('pro_status', 'like', 'activo')->select('pro_id', 'pro_name')->get();
+        $data = fil_product::where('pro_status', 'like', 'activo')->select('pro_id', 'pro_name')->get();
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer los productos'));
         }
@@ -269,7 +278,7 @@ class packageController extends Controller
         else {
             $data = $product->serviceProduction->spr_outlay;
         }
-        $response = Response::json(array('success' => true, 'data' => $data));
+        $response = Response::json(array('success' => true, 'data' => $data, 'type' => $product->pro_type));
         return $response;
     }
     

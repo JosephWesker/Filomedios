@@ -26,13 +26,15 @@
                                 {{ Form::label('outlay','Precio')}}
                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('impacts','Impactos diarios')}}
-                                {{ Form::number('impacts',null,['class' => 'form-control','id' => 'pad_impacts','placeholder' => 'Impactos'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('validity','Vigencia Mensual (En días)')}}
-                                {{ Form::number('validity',null,['class' => 'form-control','id' => 'pad_validity','placeholder' => 'Vigencia'])}}
+                            <div id="forType">
+                                <div class="form-group">
+                                    {{ Form::label('impacts','Impactos diarios')}}
+                                    {{ Form::number('impacts',null,['class' => 'form-control','id' => 'pad_impacts','placeholder' => 'Impactos'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('validity','Vigencia Mensual (En días)')}}
+                                    {{ Form::number('validity',null,['class' => 'form-control','id' => 'pad_validity','placeholder' => 'Vigencia'])}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('discount','Descuento (%)')}}
@@ -70,13 +72,15 @@
                                 {{ Form::label('outlay','Precio')}}
                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'u_pro_outlay','placeholder' => 'Precio'])}}
                             </div>
-                            <div class="form-group">
-                                {{ Form::label('impacts','Impactos diarios')}}
-                                {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_pad_impacts','placeholder' => 'Impactos'])}}
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('validity','Vigencia Mensual (En días)')}}
-                                {{ Form::number('validity',null,['class' => 'form-control','id' => 'u_pad_validity','placeholder' => 'Vigencia'])}}
+                            <div id="u_forType">
+                                <div class="form-group">
+                                    {{ Form::label('impacts','Impactos diarios')}}
+                                    {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_pad_impacts','placeholder' => 'Impactos'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('validity','Vigencia Mensual (En días)')}}
+                                    {{ Form::number('validity',null,['class' => 'form-control','id' => 'u_pad_validity','placeholder' => 'Vigencia'])}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 {{ Form::label('discount','Descuento (%)')}}

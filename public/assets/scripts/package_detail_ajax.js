@@ -60,6 +60,11 @@ function read(id){
                 $('#u_pad_validity').val(data.data.pad_validity);
                 $('#u_pad_discount').val(data.data.pad_discount);
                 $('#u_pad_discount_number').val(data.data.pad_final_price);
+                if(data.data.type == 'transmisión'){
+                    $('#u_forType').show();                        
+                }else{
+                    $('#u_forType').hide();
+                }
                 $('#updateModal').modal('show'); 
             }else{
                 failure(data.data);
@@ -262,6 +267,11 @@ function loadListeners(){
             success:  function (data) {  
                 if (data.success) {
                     $('#pro_outlay').val(data.data);
+                    if(data.type == 'transmisión'){
+                        $('#forType').show();                        
+                    }else{
+                        $('#forType').hide();
+                    }
                     toDiscount_number();
                 }else{
                     failure(data.data);
