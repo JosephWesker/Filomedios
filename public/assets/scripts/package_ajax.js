@@ -139,7 +139,7 @@ function loadTable(){
             $("#paquetes").html('');
             if (data.data !== null && $.isArray(data.data) && data.data.length>0){
                 $.each(data.data, function(index, value){
-                    $("#paquetes").append('<tr class="gradeX"><td>' + value.pac_id + '</td><td>' + value.pac_name + '</td><td>' + value.pac_description + '</td><td>' + value.pac_outlay + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detailPackage('+ value.pac_id +')">Editar productos</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pac_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pac_id +')">Eliminar</button></div></td></tr>');
+                    $("#paquetes").append('<tr class="gradeX"><td>' + value.pac_id + '</td><td>' + value.pac_name + '</td><td>' + value.pac_description + '</td><td>' + value.pac_outlay + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="detailPackage('+ value.pac_id +')">Editar productos</button><button class="btn btn-info btn-sm" type="button" onclick="setPrice('+ value.pac_id +')">Editar precio</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate('+ value.pac_id +')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet('+ value.pac_id +')">Eliminar</button></div></td></tr>');
                 });
             }else{
                 $("#paquetes").append('<tr class="gradeX"><td colspan="5">No existen Paquetes registrados en la base de datos</td>');
@@ -155,6 +155,67 @@ function loadTable(){
 function modalUpdate(id){  
     this.id = id;
     read(id);                   
+}
+
+function setPrice(id){  
+    this.id = id;
+    readPrice(id);                   
+}
+
+function updatePrice(){
+    var data = {
+        "pac_id" : id,
+        "pac_outlay" : $('#u_pac_outlay').val()
+    };
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   updatePriceRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            if (data.success) {
+                alert(data.data);
+                $('#updatePackagePrice').modal('hide');
+                loadTable();         
+            }else{
+                failure(data.data);
+            };
+            
+        }
+    });
+}
+
+function readPrice(id){
+    var data = {
+        "id" : id,
+    };
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   readPriceRoute,
+        data: data,
+        type:  'post',
+        success:  function (data) {
+            if (data.success) {
+               $('#u_pac_outlay').val(data.data);  
+               $('#updatePackagePrice').modal('show');               
+            }else{
+                failure(data.data);
+            };
+            
+        }
+    });
 }
 
 function detailPackage(id){
