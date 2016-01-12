@@ -263,7 +263,7 @@
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]">
+                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]" onkeyup="setFixedPayment(this)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -282,7 +282,10 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                {{ Form::close() }}                        
+                                                {{ Form::close() }}
+                                                <div class="reset">
+                                                    {{ Form::button('Resetear Montos',['class' => 'btn btn-success','onclick' => 'resetFixeds()']) }}
+                                                </div>                            
                                             </div>
                                         </div>
 

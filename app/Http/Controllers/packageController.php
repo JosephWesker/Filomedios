@@ -289,7 +289,7 @@ class packageController extends Controller
     }
     
     //Update the price based on the number of products in the package, isn't exact
-    /*public function postUpdatePrice(){
+    public function postUpdatePrice(){
         $values = Request::all();
         $package = fil_package::find($values['pac_id']);
         $count = count($package->packagesDetail);
@@ -322,10 +322,10 @@ class packageController extends Controller
         $package->pac_outlay = $totalOutlay;
         $package->save();
         return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
-    }*/
+    }
     
     //To set the first element with the new price and set the rest in 0, isn't exact
-    public function postUpdatePrice(){
+    /*public function postUpdatePrice(){
         $values = Request::all();
         $package = fil_package::find($values['pac_id']);        
         $count = count($package->packagesDetail);
@@ -359,5 +359,5 @@ class packageController extends Controller
         }
         $package->save();
         return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
-    }
+    }*/
 }

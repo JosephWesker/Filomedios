@@ -256,6 +256,7 @@ class serviceOrderController extends Controller
             $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
             $paymentDate->pda_date = $payments[$i]['pda_date'];
             $paymentDate->pda_amount = $payments[$i]['pda_amount'];
+            $paymentDate->pda_is_fixed = $this->convertToTinyint($payments[$i]['pda_is_fixed']);
             $paymentDate->pda_status = "pendiente";
             $paymentDate->save();
         }

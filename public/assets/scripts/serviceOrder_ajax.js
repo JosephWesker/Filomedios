@@ -319,11 +319,18 @@ function addShow() {
 }
 
 function setAmounts() {
+    var fixedElements = $('.fixed');
+    var fixedAmount = 0;
+    $.each(fixedElements, function(index,value){
+        fixedAmount = fixedAmount + parseFloat(value.value);
+    });
     totalOutlay = (monthOutlay * monthsContract) + productionOutlay;
     $('#ser_outlay_total').val(totalOutlay);
     $('#amount_cash').val((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2));
     for (var i = 0; i < (payments * 2); i += 2) {
-        $('#payment-' + (i + 1)).val((((totalOutlay + iva - amountKind) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / payments).toFixed(2));
+        if(!$('#payment-' + (i + 1)).hasClass('fixed')){
+            $('#payment-' + (i + 1)).val((((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments-fixedElements.length)).toFixed(2));   
+        }        
     }
 }
 
@@ -373,6 +380,7 @@ function getPayments() {
         row = new Object();
         row.pda_date = $('#payment-' + (i + 1)).val();
         row.pda_amount = parseFloat($('#payment-' + (i)).val());
+        row.pda_is_fixed = $('#payment-' + (i)).hasClass('fixed');
         paymentsData[paymentsData.length] = row;
     }
 }
@@ -412,6 +420,20 @@ function sendServiceOrder() {
         }
     });
 }
+
+function setFixedPayment(input){
+    $(input).addClass("fixed");
+    setAmounts();    
+}
+
+function resetFixeds(){
+    var elements = $('.fixed');
+    $.each(elements, function(index, element){
+        $(element).removeClass('fixed');
+    });
+    setAmounts();
+}
+
 $(document).ready(function() {
     loadCustomers();
     loadProductsData();
