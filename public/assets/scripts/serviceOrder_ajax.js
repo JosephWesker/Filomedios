@@ -322,6 +322,15 @@ function addShow() {
 function setAmounts() {
     var fixedElements = $('.fixed');
     var fixedAmount = 0;
+    
+    var ArrayStartDate = $('#start_date_contract').val().split("-");
+    var startDate = new Date(ArrayStartDate[0],ArrayStartDate[1]-1,ArrayStartDate[2]);
+    startDate.setDate(startDate.getDate()+5);
+    var ArrayEndDate = $('#end_date_contract').val().split("-");
+    var endDate = new Date(ArrayEndDate[0],ArrayEndDate[1]-1,ArrayEndDate[2]);
+    endDate.setDate(endDate.getDate()-5);
+    var diferenceInDays = Math.round((endDate-startDate)/(1000*60*60*24));
+    
     $.each(fixedElements, function (index, value) {
         fixedAmount = fixedAmount + parseFloat(value.value);
     });
@@ -332,6 +341,19 @@ function setAmounts() {
         if (!$('#payment-' + (i + 1)).hasClass('fixed')) {
             $('#payment-' + (i + 1)).val((((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments - fixedElements.length)).toFixed(2));
         }
+              
+        var yyyy = startDate.getFullYear().toString();
+        var mm = (startDate.getMonth()+1).toString(); // getMonth() is zero-based
+        if(mm.length == 1){
+            mm = '0'+mm;
+        }
+        var dd  = startDate.getDate().toString();
+        if(dd.length == 1){
+            dd = '0'+dd;
+        }
+        var str = yyyy +'-'+ mm +'-'+ dd;
+        $('#payment-' + (i + 2)).val(str);
+        startDate.setDate(startDate.getDate() + (diferenceInDays/payments));
     }
 }
 
@@ -447,6 +469,7 @@ function resetFixeds() {
     });
     setAmounts();
 }
+
 
 $(document).ready(function () {
     loadCustomers();
