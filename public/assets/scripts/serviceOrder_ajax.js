@@ -15,6 +15,7 @@ var paymentsData = [];
 var json = null;
 var monthsContract = 0;
 var isAllProgramsFine = true;
+var finished = false;
 
 function loadCustomers() {
     $.ajaxSetup({
@@ -25,11 +26,11 @@ function loadCustomers() {
     $.ajax({
         url: loadCustomersRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 $("#clientes").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {
+                    $.each(data.data, function (index, value) {
                         $("#clientes").append('<tr class="gradeX"><td>' + value.cus_id + '</td><td>' + value.cus_commercial_name + '</td><td>' + value.cus_contact + '</td><td>' + value.tax_business_name + '</td><td>' + value.tax_rfc + '</td></tr>');
                     });
                     tableSelect();
@@ -47,7 +48,7 @@ function tableSelect() {
     var table = document.getElementById("clientes");
     var tr = table.getElementsByTagName('tr');
     for (var i = 0; i < tr.length; i++) {
-        tr[i].addEventListener('click', function() {
+        tr[i].addEventListener('click', function () {
             if (selectedTr !== null) {
                 selectedTr.removeAttr('style');
             }
@@ -66,10 +67,10 @@ function loadProductsData() {
     $.ajax({
         url: loadProductsDataRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 products = data.data;
-                $.each(data.data, function(index, value) {
+                $.each(data.data, function (index, value) {
                     $('#det_fk_product').append($("<option></option>").attr("value", index).text(value.pro_name));
                 });
             } else {
@@ -88,10 +89,10 @@ function loadSelects() {
     $.ajax({
         url: loadSelectsRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 shows = data.show;
-                $.each(data.show, function(index, value) {
+                $.each(data.show, function (index, value) {
                     $('#set_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
                 });
             } else {
@@ -104,12 +105,12 @@ function loadSelects() {
 function setFormVisible() {
     if ($('#det_fk_product').val() != "null") {
         if (products[parseInt($('#det_fk_product').val())].pro_type == 'transmisión') {
-            $('#proyection_data').show();            
+            $('#proyection_data').show();
             if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
                 $('#fk_show').show();
                 $('#det_fk_show').html('');
                 $('#det_fk_show').append($("<option></option>").attr("value", "null").html("---Seleccionar Programa---"));
-                $.each(shows, function(index, value) {
+                $.each(shows, function (index, value) {
                     $('#det_fk_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
                 });
             } else {
@@ -161,7 +162,7 @@ function addProduct() {
     if (products[$('#det_fk_product').val()].pro_type == "transmisión") {
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
             row.det_fk_show = $('#det_fk_show').val();
-        }        
+        }
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
         //if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
         //    row.det_subtotal = parseFloat(row.det_subtotal) * 10;
@@ -186,10 +187,10 @@ function loadProductsTable() {
     isAllProgramsFine = true;
     if (productsRegistered !== null && $.isArray(productsRegistered) && productsRegistered.length > 0) {
         $('#start_date_contract').prop('disabled', false);
-        $.each(productsRegistered, function(index, value) {
+        $.each(productsRegistered, function (index, value) {
             if (value.det_type == 'transmisión') {
                 monthOutlay += parseFloat(value.det_subtotal);
-            }else{
+            } else {
                 productionOutlay += parseFloat(value.det_subtotal);
             }
             var text = '<tr class="gradeX"><td>' + value.det_name + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_final_price + '</td><td>' + value.det_subtotal + '</td><td><div class="btn-group" role="group" aria-label="...">';
@@ -262,10 +263,10 @@ function loadPackages() {
     $.ajax({
         url: loadPackageRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {
+                    $.each(data.data, function (index, value) {
                         $('#det_add_package').append($("<option></option>").attr("value", value.pac_id).html(value.pac_name));
                     });
                 }
@@ -289,10 +290,10 @@ function addPackage() {
         url: loadPackageDetailRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {
+                    $.each(data.data, function (index, value) {
                         productsRegistered.push(value);
                     });
                 }
@@ -321,16 +322,16 @@ function addShow() {
 function setAmounts() {
     var fixedElements = $('.fixed');
     var fixedAmount = 0;
-    $.each(fixedElements, function(index,value){
+    $.each(fixedElements, function (index, value) {
         fixedAmount = fixedAmount + parseFloat(value.value);
     });
     totalOutlay = (monthOutlay * monthsContract) + productionOutlay;
     $('#ser_outlay_total').val(totalOutlay);
     $('#amount_cash').val((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2));
     for (var i = 0; i < (payments * 2); i += 2) {
-        if(!$('#payment-' + (i + 1)).hasClass('fixed')){
-            $('#payment-' + (i + 1)).val((((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments-fixedElements.length)).toFixed(2));   
-        }        
+        if (!$('#payment-' + (i + 1)).hasClass('fixed')) {
+            $('#payment-' + (i + 1)).val((((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments - fixedElements.length)).toFixed(2));
+        }
     }
 }
 
@@ -375,66 +376,79 @@ function calculateAmounts() {
 }
 
 function getPayments() {
+    var outlayfromPayments = 0;
     paymentsData = [];
     for (var i = 1; i < (payments * 2); i += 2) {
         row = new Object();
         row.pda_date = $('#payment-' + (i + 1)).val();
         row.pda_amount = parseFloat($('#payment-' + (i)).val());
         row.pda_is_fixed = $('#payment-' + (i)).hasClass('fixed');
+        outlayfromPayments = outlayfromPayments + parseFloat($('#payment-' + (i)).val());
         paymentsData[paymentsData.length] = row;
+    }
+    if (outlayfromPayments == parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2))) {
+        return true;
+    } else {
+        return false;
     }
 }
 
 function sendServiceOrder() {
-    getPayments();
-    var data = {
-        'ser_discount_month': ser_discount,
-        'ser_outlay_total': totalOutlay,
-        'ser_iva': iva,
-        'ser_duration': parseInt($('#months_contract').val()),
-        'ser_start_date': $("#start_date_contract").val(),
-        'ser_end_date': $("#end_date_contract").val(),
-        'ser_fk_customer': selectedTr.children().eq(0).html(),
-        'pay_amount_cash': parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2)),
-        'pay_amount_kind': amountKind,
-        'pay_number_payments': payments,
-        'detail_product': productsRegistered,
-        'payment_date': paymentsData
-    };
-    json = JSON.stringify(data);
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: createServiceOrderRoute,
-        data: data,
-        type: 'post',
-        success: function(data) {
-            if (data.success) {
-                alert(data.data);
-            } else {
-                failure(data.data);
+    if (getPayments()) {
+        var data = {
+            'ser_discount_month': ser_discount,
+            'ser_outlay_total': totalOutlay,
+            'ser_iva': iva,
+            'ser_duration': parseInt($('#months_contract').val()),
+            'ser_start_date': $("#start_date_contract").val(),
+            'ser_end_date': $("#end_date_contract").val(),
+            'ser_fk_customer': selectedTr.children().eq(0).html(),
+            'pay_amount_cash': parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2)),
+            'pay_amount_kind': amountKind,
+            'pay_number_payments': payments,
+            'detail_product': productsRegistered,
+            'payment_date': paymentsData
+        };
+        json = JSON.stringify(data);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
-    });
+        });
+        $.ajax({
+            url: createServiceOrderRoute,
+            data: data,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    alert(data.data);
+                } else {
+                    failure(data.data);
+                }
+            }
+        });
+        return true;
+    }else{
+       alert('Los pagos no coinciden con la cantidad, por favor ajuste los pagos');
+       return false; 
+    }
+
 }
 
-function setFixedPayment(input){
+function setFixedPayment(input) {
     $(input).addClass("fixed");
-    setAmounts();    
+    setAmounts();
 }
 
-function resetFixeds(){
+function resetFixeds() {
     var elements = $('.fixed');
-    $.each(elements, function(index, element){
+    $.each(elements, function (index, element) {
         $(element).removeClass('fixed');
     });
     setAmounts();
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     loadCustomers();
     loadProductsData();
     loadSelects();

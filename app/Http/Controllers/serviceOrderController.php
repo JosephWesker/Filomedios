@@ -287,6 +287,7 @@ class serviceOrderController extends Controller
                 $payment = fil_payment_date::find($value->pda_id);
                 $payment->pda_amount = $value->pda_amount;
                 $payment->pda_date = $value->pda_date;
+                $payment->pda_is_fixed = $value->pda_is_fixed;
                 if (!$payment->save()) {
                     return Response::json(array('success' => false, 'data' => 'Error al guardar los pagos'));
                 }
@@ -298,6 +299,7 @@ class serviceOrderController extends Controller
                 $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
                 $paymentDate->pda_date = $value->pda_date;
                 $paymentDate->pda_amount = $value->pda_amount;
+                $paymentDate->pda_is_fixed = $value->pda_is_fixed;
                 $paymentDate->pda_status = "pendiente";
                 if (!$paymentDate->save()) {
                     return Response::json(array('success' => false, 'data' => 'Error al guardar los pagos'));
@@ -641,8 +643,18 @@ class serviceOrderController extends Controller
         if (!$payment->delete()) {
             return Response::json(array('success' => false, 'data' => 'Error al eliminar el pago'));
         }
+        $fixedAmount = 0;
+        $fixedCount = 0;
         foreach ($paymentScheme->paymentDates as $value) {
-            $value->pda_amount = ((float)$paymentScheme->pay_amount_cash) / $number;
+            if($value->pda_is_fixed){
+                $fixedAmount += (float) $value->pda_amount;
+                $fixedCount++;
+            }
+        }
+        foreach ($paymentScheme->paymentDates as $value) {
+            if(!$value->pda_is_fixed){
+                 $value->pda_amount = (((float)$paymentScheme->pay_amount_cash)-$fixedAmount) / ($number-$fixedCount);
+            }           
             if (!$value->save()) {
                 return Response::json(array('success' => false, 'data' => 'Error al guardar nuevos pagos'));
             }

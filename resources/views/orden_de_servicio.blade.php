@@ -316,7 +316,11 @@
                                     <h4 class="modal-title">Agregar Pago</h4>
                                 </div>
                                 <div class="modal-body">
-                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                    <div class="form-group">
+                                        {{ Form::label('amount','Cantidad')}}
+                                        {{ Form::number('amount',null,['class' => 'form-control','id' => 'newAmount','placeholder' => 'Dejar vacio para que el monto sea autocalculado'])}}
+                                    </div> 
                                     <div class="form-group">
                                         {{ Form::label('fk_product','Fecha')}}
                                         <input class="form-control" id="newPayment" type="date" name="mytext[]">
@@ -341,7 +345,11 @@
                                     <h4 class="modal-title">Agregar Pago</h4>
                                 </div>
                                 <div class="modal-body">
-                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                    <div class="form-group">
+                                        {{ Form::label('amount','Cantidad')}}
+                                        {{ Form::number('amount',null,['class' => 'form-control','id' => 'setAmount','placeholder' => 'Dejar vacio para que el monto sea autocalculado'])}}
+                                    </div>  
                                     <div class="form-group">
                                         {{ Form::label('fk_product','Fecha')}}
                                         <input class="form-control" id="setDate" type="date" name="mytext[]">

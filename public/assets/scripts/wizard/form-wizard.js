@@ -46,11 +46,13 @@
 
                     },
                     onFinishing: function(event, currentIndex){                
-                        sendServiceOrder();
-                        return true;                        
+                        finished = sendServiceOrder();   
+                        return finished;                    
                     },
                     onFinished: function(event, currentIndex){
-                        window.location.href = valueToReturn;
+                        if(finished){
+                            window.location.href = valueToReturn;
+                        }                        
                         //Cargar nuevamente la pagina o enviar a gestor de ordenes
                     }
                 })
