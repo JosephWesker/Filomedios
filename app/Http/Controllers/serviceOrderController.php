@@ -401,22 +401,24 @@ class serviceOrderController extends Controller
             if ($today <= date('Y-m-d', strtotime($value->ser_end_date))) {
                 switch (Session::get('type')) {
                     case 'producción':
-                        switch ($value->ser_auth_production) {
-                            case '0':
-                                $pending[] = $row;
-                                break;
+                        if($value->ser_auth_admin == 2 && $value->ser_auth_sales == 2){
+                            switch ($value->ser_auth_production) {
+                                case '0':
+                                    $pending[] = $row;
+                                    break;
 
-                            case '1':
-                                $rejected[] = $row;
-                                break;
+                                case '1':
+                                    $rejected[] = $row;
+                                    break;
 
-                            case '2':
-                                $accepted[] = $row;
-                                break;
+                                case '2':
+                                    $accepted[] = $row;
+                                    break;
 
-                            case '3':
-                                $canceled[] = $row;
-                                break;
+                                case '3':
+                                    $canceled[] = $row;
+                                    break;
+                            }
                         }
                         break;
 

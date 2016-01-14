@@ -182,6 +182,63 @@ function addProduct() {
     setFormVisible();
 }
 
+function autocalculateProductionRegistry(){
+    var startDate = new Date($('#start_date_contract').val());
+    startDate.setDate(startDate.getDate()-2);
+    while(startDate.getDay() == 6 || startDate.getDay() == 0){
+        startDate.setDate(startDate.getDate()-1);
+    }
+    var yyyy = startDate.getFullYear().toString();
+    var mm = (startDate.getMonth()+1).toString(); // getMonth() is zero-based
+    if(mm.length == 1){
+        mm = '0'+mm;
+    }
+    var dd  = startDate.getDate().toString();
+    if(dd.length == 1){
+        dd = '0'+dd;
+    }
+    var strProposalTwo = yyyy +'-'+ mm +'-'+ dd;
+    startDate.setDate(startDate.getDate()-2);
+    while(startDate.getDay() == 6 || startDate.getDay() == 0){
+        startDate.setDate(startDate.getDate()-1);
+    }
+    var yyyy = startDate.getFullYear().toString();
+    var mm = (startDate.getMonth()+1).toString(); // getMonth() is zero-based
+    if(mm.length == 1){
+        mm = '0'+mm;
+    }
+    var dd  = startDate.getDate().toString();
+    if(dd.length == 1){
+        dd = '0'+dd;
+    }
+    var strProposalOne = yyyy +'-'+ mm +'-'+ dd;
+    startDate.setDate(startDate.getDate()-2);
+    while(startDate.getDay() == 6 || startDate.getDay() == 0){
+        startDate.setDate(startDate.getDate()-1);
+    }
+    var yyyy = startDate.getFullYear().toString();
+    var mm = (startDate.getMonth()+1).toString(); // getMonth() is zero-based
+    if(mm.length == 1){
+        mm = '0'+mm;
+    }
+    var dd  = startDate.getDate().toString();
+    if(dd.length == 1){
+        dd = '0'+dd;
+    }
+    var strRecordingDate = yyyy +'-'+ mm +'-'+ dd;
+    
+    $.each(productsRegistered, function(index,value){
+        if(value.hasOwnProperty('det_has_production_registry')){
+            var productionRegistry = {
+                'dpr_recording_date': strRecordingDate,
+                'dpr_proposal_1_date': strProposalOne,
+                'dpr_proposal_2_date': strProposalTwo
+            };
+            value.det_has_production_registry = productionRegistry;
+        }
+    });
+}
+
 function loadProductsTable() {
     $("#products").html('');
     monthOutlay = 0;
@@ -198,6 +255,7 @@ function loadProductsTable() {
             var text = '<tr class="gradeX"><td>' + value.det_name + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_final_price + '</td><td>' + value.det_subtotal + '</td><td><div class="btn-group" role="group" aria-label="...">';
             if (value.hasOwnProperty('det_has_production_registry')) {
                 text = text + '<button class="btn btn-info btn-sm" type="button" onclick="setProductionRegistry(' + index + ')">Definir Fechas Producción</button>';
+                autocalculateProductionRegistry();
             }
             if (value.hasOwnProperty('det_fk_show')) {
                 if (value.det_fk_show == null || value.det_fk_show == 'null') {
