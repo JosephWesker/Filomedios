@@ -218,6 +218,7 @@ class serviceOrderController extends Controller
             $detail->det_validity = $value->det_validity;
             $detail->det_discount = $value->det_discount;
             $detail->det_final_price = $value->det_final_price;
+            $detail->det_description = $value->det_description;
             
             $detail->save();
             
@@ -916,6 +917,14 @@ class serviceOrderController extends Controller
             }
         }           
         return Response::json(array('success' => true, 'data' => $finalArray)); 
+    }
+    
+    public function postUpdateDescription(){
+        $values = Request::all();
+        $row = fil_detail_product::find($values['id']);
+        $row->det_description = $values['value'];
+        $row->save();
+        return Response::json(array('success' => true, 'data' => '')); 
     }
     
     function normaliza($cadena) {

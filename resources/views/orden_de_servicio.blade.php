@@ -15,7 +15,32 @@
                     <li role="presentation" class="fill_width"><a href="#files" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Archivos</a></li>
                     <li role="presentation" class="fill_width"><a href="#addProduct" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Agregar Producto</a></li>
                 </ul>                
-
+                
+                <!-- Modal for Description-->                                            
+                <div class="modal fade" id="descriptionEdit" tabindex="-1" role="dialog" aria-labelledby="descriptionEdit">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Ver Descripción</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ Form::open(array('url' => '#', 'id' => 'editarDescription')) }}                                                             
+                                <div class="form-group">
+                                    {{ Form::label('description','Notas:')}}
+                                    {{ Form::textArea('description',null,['class' => 'form-control','id' => 'u_det_description','placeholder' => 'Nota'])}}
+                                </div>
+                                <div class=text-right>
+                                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'setDescription()']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                </div>
+                                {{ Form::close() }}                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End Modal-->
+                
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="generals" aria-labelledby="home-tab">
                         <div class="col-lg-6">    
@@ -577,6 +602,7 @@ var loadFilesRoute = '{{ action('serviceOrderController@postUploadFiles'); }}';
 var readFilesRoute = '{{ action('serviceOrderController@postFiles'); }}';
 var downloadFilesRoute = '{{ route('gestor de ordenes de servicios'); }}';
 var delateFilesRoute = '{{ action('serviceOrderController@postDelateFile'); }}';
+var updateDescriptionRoute = '{{ action('serviceOrderController@postUpdateDescription'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 @stop

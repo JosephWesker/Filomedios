@@ -105,7 +105,10 @@
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
-                                                            
+                                                            <div class="form-group">
+                                                                {{ Form::label('description','Notas:')}}
+                                                                {{ Form::textArea('description',null,['class' => 'form-control','id' => 'det_description','placeholder' => 'Nota'])}}
+                                                            </div>
                                                             <div class=text-right>
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -117,7 +120,31 @@
                                             </div>
                                             <!--End Modal-->
 
-
+                                            <!-- Modal for Description-->                                            
+                                            <div class="modal fade" id="descriptionEdit" tabindex="-1" role="dialog" aria-labelledby="descriptionEdit">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Ver Descripción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'editarDescription')) }}                                                             
+                                                            <div class="form-group">
+                                                                {{ Form::label('description','Notas:')}}
+                                                                {{ Form::textArea('description',null,['class' => 'form-control','id' => 'u_det_description','placeholder' => 'Nota'])}}
+                                                            </div>
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'setDescription()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+                                            
                                             <!-- Modal Production Registry -->                                            
                                             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                                                 <div class="modal-dialog" role="document">
@@ -272,7 +299,7 @@
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]" onchange="checkDates()">
                                                                 </div>
                                                             </div>
                                                         </div>

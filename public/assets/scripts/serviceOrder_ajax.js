@@ -16,6 +16,7 @@ var json = null;
 var monthsContract = 0;
 var isAllProgramsFine = true;
 var finished = false;
+var indexDescription = '';
 
 function loadCustomers() {
     $.ajaxSetup({
@@ -159,6 +160,7 @@ function addProduct() {
     row.det_validity = $('#det_validity').val();
     row.det_discount = $('#det_discount').val();
     row.det_final_price = $('#det_discount_number').val();
+    row.det_description = $('#det_description').val();
     if (products[$('#det_fk_product').val()].pro_type == "transmisión") {
         if (products[$('#det_fk_product').val()].pro_extra.spy_has_show) {
             row.det_fk_show = $('#det_fk_show').val();
@@ -203,7 +205,7 @@ function loadProductsTable() {
                     isAllProgramsFine = false;
                 }
             }
-            text = text + '<button class="btn btn-danger btn-sm" type="button" onclick="delet(' + index + ')">Eliminar</button></div></td></tr>';
+            text = text + '<button class="btn btn-info btn-sm" type="button" onclick="description(' + index + ')">Ver Descripción</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + index + ')">Eliminar</button></div></td></tr>';
             $("#products").append(text);
         });
     } else {
@@ -221,6 +223,18 @@ function loadProductsTable() {
     $('#ser_total').val(monthOutlay);
     setAmounts();
     prepareIVA();
+}
+
+function description(index) {
+    indexDescription = index;
+    $('#u_det_description').val(productsRegistered[index].det_description);
+    $('#descriptionEdit').modal('show');
+}
+
+function setDescription(){
+   productsRegistered[indexDescription].det_description = $('#u_det_description').val();
+   $('#descriptionEdit').modal('hide');
+   indexDescription = '';
 }
 
 function delet(index) {
@@ -355,6 +369,7 @@ function setAmounts() {
         $('#payment-' + (i + 2)).val(str);
         startDate.setDate(startDate.getDate() + (diferenceInDays/payments));
     }
+    checkDates();
 }
 
 function prepareIVA() {
@@ -470,6 +485,31 @@ function resetFixeds() {
     setAmounts();
 }
 
+function checkDates(){
+    var colorSuccess = "#9AFF9A";
+    var colorWarning = "#ffffc7";
+    var colorError = "#FA8072";
+    var startDate = new Date($('#start_date_contract').val());
+    var endDate = new Date($('#end_date_contract').val());
+    var warningDate = new Date($('#end_date_contract').val());
+    warningDate.setDate(warningDate.getDate() - 5);
+    for (var i = 0; i < (payments * 2); i += 2) {    
+        var dateToEvaluate = new Date($('#payment-' + (i + 2)).val());
+        if (dateToEvaluate > startDate) {
+            if (dateToEvaluate < endDate) {
+                if (dateToEvaluate < warningDate) {
+                    $('#payment-' + (i + 2)).css("background-color",colorSuccess);
+                }else{
+                    $('#payment-' + (i + 2)).css("background-color",colorWarning);
+                }    
+            }else{
+                $('#payment-' + (i + 2)).css("background-color",colorError);
+            }
+        }else{
+            $('#payment-' + (i + 2)).css("background-color",colorError);
+        }           
+    } 
+}
 
 $(document).ready(function () {
     loadCustomers();

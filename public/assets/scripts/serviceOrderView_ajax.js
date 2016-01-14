@@ -13,6 +13,7 @@ var row = null;
 var show = null;
 var products = null;
 var outlayFromPayments = 0;
+var indexDescription = '';
 
 function loadPostalCodes() {
     $.ajaxSetup({
@@ -207,7 +208,7 @@ function setProduction(data) {
             subtotal = parseFloat(value.det_final_price);
             productionOutlay = productionOutlay + subtotal;
             if (value.detail_production != null) {
-                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="showDescription(' + index + ')">Ver Descripción</button><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
             } else {
                 $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td></td><td></td><td></td><td><div class="btn-group" role="group" aria-label="..."></div></td></tr>');
             }
@@ -232,7 +233,7 @@ function setProyection(ser_duration, ser_start_date, ser_end_date, data) {
             //if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
             //    subtotal = parseFloat(subtotal) * 10;
             //}
-            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="showDescription(' + index + ')">Ver Descripción</button><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
             cont++;
             monthOutlay = monthOutlay + subtotal;
         }
@@ -940,6 +941,39 @@ function uploadFiles() {
         getFiles();
         $('#fileProgress').val(0);
     });
+}
+
+function showDescription(index) {
+    indexDescription = index;
+    $('#u_det_description').val(json.details_products[index].det_description);
+    $('#descriptionEdit').modal('show');
+}
+
+function setDescription(){
+    json.details_products[indexDescription].det_description = $('#u_det_description').val();
+    var data = {
+            'id': json.details_products[indexDescription].det_id,
+            'value': $('#u_det_description').val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: updateDescriptionRoute,
+            data: data,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    
+                } else {
+                    failure(data.data);
+                }
+            }
+        });   
+    $('#descriptionEdit').modal('hide');
+    indexDescription = '';
 }
 
 $(document).ready(function () {

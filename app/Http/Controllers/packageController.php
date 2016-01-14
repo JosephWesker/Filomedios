@@ -289,7 +289,7 @@ class packageController extends Controller
     }
     
     //Update the price based on the number of products in the package, isn't exact
-    public function postUpdatePrice(){
+    /*public function postUpdatePrice(){
         $values = Request::all();
         $package = fil_package::find($values['pac_id']);
         $count = count($package->packagesDetail);
@@ -317,6 +317,41 @@ class packageController extends Controller
                 }
                 $detail->save();
                 $totalOutlay += $outlayPerDetail;                
+            }
+        }
+        $package->pac_outlay = $totalOutlay;
+        $package->save();
+        return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
+    }*/
+    
+    //Update the price based on the number of products in the package, isn't exact
+    public function postUpdatePrice(){
+        $values = Request::all();
+        $package = fil_package::find($values['pac_id']);
+        $count = 0;
+        foreach ($package->packagesDetail as $value) {
+            if($value->product->pro_type == 'transmisión'){
+                $count++;
+            }
+        }
+        $outlayPerDetail = ((float) $values['pac_outlay']) / $count;
+        $totalOutlay = 0;
+        foreach ($package->packagesDetail as $detail) {
+            if($detail->product->pro_type == 'transmisión'){
+                $newPrice = round($outlayPerDetail / (((float) $detail->pad_impacts) * ((float) $detail->pad_validity)),2);
+                $percent = ($newPrice * 100) / ((float) $detail->product->serviceProyection->spy_outlay);
+                $detail->pad_final_price = $newPrice;
+                if($percent>100){
+                    $detail->pad_discount = $percent;
+                }else{
+                    $detail->pad_discount = (100 - $percent);
+                }
+                $detail->save();
+                $totalOutlay += (((float) $detail->pad_impacts) * ((float) $detail->pad_validity) * ((float) $detail->pad_final_price));
+            }else{
+                $percent = 100;
+                $detail->pad_final_price = 0;
+                $detail->save();         
             }
         }
         $package->pac_outlay = $totalOutlay;
