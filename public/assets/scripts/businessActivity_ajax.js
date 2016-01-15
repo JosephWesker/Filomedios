@@ -2,8 +2,7 @@ var id = '';
 
 function create() {
     var data = {
-        "bus_name": $('#bus_name').val(),
-        "bus_address": $('#bus_address').val()
+        "act_name": $('#act_name').val()
     };
     $.ajaxSetup({
         headers: {
@@ -42,8 +41,7 @@ function read(id) {
         type: 'post',
         success: function(data) {
             if (data.success) {
-                $('#u_bus_name').val(data.data['bus_name']);
-                $('#u_bus_address').val(data.data['bus_address']);
+                $('#u_act_name').val(data.data['act_name']);
                 $('#updateModal').modal('show');
             } else {
                 failure(data.data);
@@ -55,8 +53,7 @@ function read(id) {
 function update() {
     var data = {
         "id": this.id,
-        "bus_name": $('#u_bus_name').val(),
-        "bus_address": $('#u_bus_address').val()
+        "act_name": $('#u_act_name').val()
     };
     $.ajaxSetup({
         headers: {
@@ -115,23 +112,19 @@ function loadTable() {
         type: 'post',
         success: function(data) {
             if (data.success) {
-                $("#unidades_negocio").html('');
+                $("#giro_comercial").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
                     $.each(data.data, function(index, value) {
-                        $("#unidades_negocio").append('<tr class="gradeX"><td>' + value.bus_id + '</td><td>' + value.bus_name + '</td><td>' + value.bus_address + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="showEmployees(' + value.bus_id + ')">Ver Empleados</button><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.bus_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.bus_id + ')">Eliminar</button></div></td></tr>');
+                        $("#giro_comercial").append('<tr class="gradeX"><td>' + value.act_id + '</td><td>' + value.act_name + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm" type="button" onclick="modalUpdate(' + value.act_id + ')">Modificar</button><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.act_id + ')">Eliminar</button></div></td></tr>');
                     });
                 } else {
-                    $("#unidades_negocio").append('<tr class="gradeX"><td colspan="4">No existen Unidades de Negocio registradas en la base de datos</td>');
+                    $("#giro_comercial").append('<tr class="gradeX"><td colspan="4">No existen Giros Comerciales registrados en la base de datos</td>');
                 }
             } else {
                 failure(data.data);
             };
         }
     });
-}
-
-function showEmployees(id) {
-    window.location.href = businessUnitsRoute + '/' + id + '/empleados';
 }
 
 function modalUpdate(id) {

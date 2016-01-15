@@ -37,7 +37,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('business_activity','Actividad o Giro')}}
-                                {{ Form::text('business_activity',null,['class' => 'form-control','id' => 'cus_business_activity','placeholder' => 'Actividad o Giro'])}}
+                                {{ Form::select('business_activity',['null'=>'---Seleccionar Giro---'],null,['class' => 'form-control','id' => 'cus_business_activity','placeholder' => 'Actividad o Giro'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('contact_first_name','Nombre de la persona Contacto')}}
@@ -53,11 +53,15 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone_number','Teléfono Fijo')}}
-                                {{ Form::text('phone_number',null,['class' => 'form-control','id' => 'cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone_number',null,['class' => 'form-control','id' => 'cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('phone_extension','Extensión')}}
+                                {{ Form::number('phone_extension',null,['class' => 'form-control','id' => 'cus_phone_extension','placeholder' => 'Extensión'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone_number','Celular o Nextel')}}
-                                {{ Form::text('cellphone_number',null,['class' => 'form-control','id' => 'cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
+                                {{ Form::number('cellphone_number',null,['class' => 'form-control','id' => 'cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Email')}}
@@ -83,11 +87,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('outdoor_number','Número Exterior')}}
-                                {{ Form::text('outdoor_number',null,['class' => 'form-control','id' => 'tax_outdoor_number','placeholder' => 'Número Exterior'])}}
+                                {{ Form::number('outdoor_number',null,['class' => 'form-control','id' => 'tax_outdoor_number','placeholder' => 'Número Exterior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('apartment_number','Número Interior')}}
-                                {{ Form::text('apartment_number',null,['class' => 'form-control','id' => 'tax_apartment_number','placeholder' => 'Número Interior'])}}
+                                {{ Form::number('apartment_number',null,['class' => 'form-control','id' => 'tax_apartment_number','placeholder' => 'Número Interior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('postal_code','Código Postal')}}
@@ -149,7 +153,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('business_activity','Actividad o Giro')}}
-                                {{ Form::text('business_activity',null,['class' => 'form-control','id' => 'u_cus_business_activity','placeholder' => 'Actividad o Giro'])}}
+                                {{ Form::select('business_activity',['null'=>'---Seleccionar Giro---'],null,['class' => 'form-control','id' => 'u_cus_business_activity','placeholder' => 'Actividad o Giro'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('contact_first_name','Nombre de la persona Contacto')}}
@@ -165,11 +169,15 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone_number','Teléfono Fijo')}}
-                                {{ Form::text('phone_number',null,['class' => 'form-control','id' => 'u_cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone_number',null,['class' => 'form-control','id' => 'u_cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('phone_extension','Extensión')}}
+                                {{ Form::number('phone_extension',null,['class' => 'form-control','id' => 'u_cus_phone_extension','placeholder' => 'Extensión'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone_number','Celular o Nextel')}}
-                                {{ Form::text('cellphone_number',null,['class' => 'form-control','id' => 'u_cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
+                                {{ Form::number('cellphone_number',null,['class' => 'form-control','id' => 'u_cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Email')}}
@@ -195,11 +203,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('outdoor_number','Número Exterior')}}
-                                {{ Form::text('outdoor_number',null,['class' => 'form-control','id' => 'u_tax_outdoor_number','placeholder' => 'Número Exterior'])}}
+                                {{ Form::number('outdoor_number',null,['class' => 'form-control','id' => 'u_tax_outdoor_number','placeholder' => 'Número Exterior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('apartment_number','Número Interior')}}
-                                {{ Form::text('apartment_number',null,['class' => 'form-control','id' => 'u_tax_apartment_number','placeholder' => 'Número Interior'])}}
+                                {{ Form::number('apartment_number',null,['class' => 'form-control','id' => 'u_tax_apartment_number','placeholder' => 'Número Interior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('postal_code','Código Postal')}}
@@ -290,6 +298,7 @@ var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes');
 var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
 var readfiscalData = '{{ action('customerController@postReadFiscalData'); }}';
 var toDeleteRoute = '{{ route('clientes eliminados') }}';
+var loadBusinessActivitiesRoute = '{{ action('businessActivityController@postReadAll'); }}';
 </script>
 <script src="{{ asset("assets/scripts/customer_ajax.js") }}" type="text/javascript"></script>
 

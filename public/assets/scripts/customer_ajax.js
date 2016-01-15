@@ -7,6 +7,7 @@ function create() {
         "cus_contact_last_name": $('#cus_contact_last_name').val(),
         "cus_job": $('#cus_job').val(),
         "cus_phone_number": $('#cus_phone_number').val(),
+        "cus_phone_extension": $('#cus_phone_extension').val(),
         "cus_cellphone_number": $('#cus_cellphone_number').val(),
         "cus_email": $('#cus_email').val(),
         "cus_address": $('#cus_address').val(),
@@ -78,6 +79,7 @@ function read(id) {
                 $('#u_cus_contact_last_name').val(data.dataCustomer['cus_contact_last_name']);
                 $('#u_cus_job').val(data.dataCustomer['cus_job']);
                 $('#u_cus_phone_number').val(data.dataCustomer['cus_phone_number']);
+                $('#u_cus_phone_extension').val(data.dataCustomer['cus_phone_extension']);
                 $('#u_cus_cellphone_number').val(data.dataCustomer['cus_cellphone_number']);
                 $('#u_cus_email').val(data.dataCustomer['cus_email']);
                 $('#u_cus_address').val(data.dataCustomer['cus_address']);
@@ -112,6 +114,7 @@ function update() {
         "cus_contact_last_name": $('#u_cus_contact_last_name').val(),
         "cus_job": $('#u_cus_job').val(),
         "cus_phone_number": $('#u_cus_phone_number').val(),
+        "cus_phone_extension": $('#u_cus_phone_extension').val(),
         "cus_cellphone_number": $('#u_cus_cellphone_number').val(),
         "cus_email": $('#u_cus_email').val(),
         "cus_address": $('#u_cus_address').val(),
@@ -348,10 +351,41 @@ function modalUpdate(id) {
     read(id);
 }
 
+function loadBusinessActivities(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        url:   loadBusinessActivitiesRoute,
+        type:  'post',
+        success:  function (data) { 
+            if (data.success) {
+                $.each(data.data, function(index, value) {   
+                    $('#cus_business_activity')
+                    .append($("<option></option>")
+                       .attr("value",value.act_name)
+                       .text(value.act_id+" "+value.act_name));
+                    $('#u_cus_business_activity')
+                    .append($("<option></option>")
+                       .attr("value",value.act_name)
+                       .text(value.act_id+" "+value.act_name));
+                });        
+            }else{
+                failure(data.data);
+            }; 
+            
+        }
+    });
+}
+
 function toDelete() {
     window.location.href = toDeleteRoute;
 }
 $(document).ready(function() {
     loadTable();
     loadPostalCodes();
+    loadBusinessActivities();
 });

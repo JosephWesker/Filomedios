@@ -178,12 +178,12 @@ class productController extends Controller
         $total_outlay = 0;
         foreach ($package->packagesDetail as $detail) {
             $pad_subtotal = 0;
-            if (($detail->product->serviceProyection->spy_proyection_media == 'televisión') and ($detail->product->serviceProyection->spy_has_show == "0")) {
-                $pad_subtotal = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
-            } 
-            else {
+            //if (($detail->product->serviceProyection->spy_proyection_media == 'televisión') and ($detail->product->serviceProyection->spy_has_show == "0")) {
+            //    $pad_subtotal = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
+            //} 
+            //else {
                 $pad_subtotal = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
-            }
+            //}
             $total_outlay+= $pad_subtotal;
         }
         $package->pac_outlay = $total_outlay;

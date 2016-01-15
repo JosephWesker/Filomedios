@@ -66,6 +66,30 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Modal for Update Price -->
+            <div class="modal fade" id="updatePackagePrice" tabindex="-1" role="dialog" aria-labelledby="updatePackagePrice">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Modificar Precio</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ Form::open(array('url' => '#', 'id' => 'actualizarPrecio')) }} 
+                            <div class="form-group">
+                                {{ Form::label('price','Inversión')}}
+                                {{ Form::number('price',null,['class' => 'form-control','id' => 'u_pac_outlay','placeholder' => 'Precio'])}}
+                            </div>                            
+                            <div class=text-right>
+                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'updatePrice()']) }}
+                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                            </div>
+                            {{ Form::close() }}                        
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -93,6 +117,8 @@ var readRoute = '{{ action('packageController@postRead'); }}';
 var updateRoute = '{{ action('packageController@postUpdate'); }}';
 var deleteRoute = '{{ action('packageController@postDelete'); }}';
 var readAllRoute = '{{ action('packageController@postReadAll'); }}';
+var readPriceRoute = '{{ action('packageController@postReadPrice'); }}';
+var updatePriceRoute = '{{ action('packageController@postUpdatePrice'); }}';
 var detailPackageRoute = '{{ route('paquetes'); }}';
 </script>
 <script src="{{ asset("assets/scripts/package_ajax.js") }}" type="text/javascript"></script>

@@ -15,7 +15,32 @@
                     <li role="presentation" class="fill_width"><a href="#files" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Archivos</a></li>
                     <li role="presentation" class="fill_width"><a href="#addProduct" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Agregar Producto</a></li>
                 </ul>                
-
+                
+                <!-- Modal for Description-->                                            
+                <div class="modal fade" id="descriptionEdit" tabindex="-1" role="dialog" aria-labelledby="descriptionEdit">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Ver Descripción</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ Form::open(array('url' => '#', 'id' => 'editarDescription')) }}                                                             
+                                <div class="form-group">
+                                    {{ Form::label('description','Notas:')}}
+                                    {{ Form::textArea('description',null,['class' => 'form-control','id' => 'u_det_description','placeholder' => 'Nota'])}}
+                                </div>
+                                <div class=text-right>
+                                    {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'setDescription()']) }}
+                                    {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                </div>
+                                {{ Form::close() }}                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End Modal-->
+                
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="generals" aria-labelledby="home-tab">
                         <div class="col-lg-6">    
@@ -222,7 +247,7 @@
                                         {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'u_det_fk_show']) }}
                                     </div>                                                                
                                     <div class="form-group">
-                                        {{ Form::label('impacts','Impactos')}}
+                                        {{ Form::label('impacts','Impactos diarios')}}
                                         {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_det_impacts','placeholder' => 'Impactos'])}}
                                     </div>
                                     <div class="form-group">
@@ -316,7 +341,11 @@
                                     <h4 class="modal-title">Agregar Pago</h4>
                                 </div>
                                 <div class="modal-body">
-                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                    <div class="form-group">
+                                        {{ Form::label('amount','Cantidad')}}
+                                        {{ Form::number('amount',null,['class' => 'form-control','id' => 'newAmount','placeholder' => 'Dejar vacio para que el monto sea autocalculado'])}}
+                                    </div> 
                                     <div class="form-group">
                                         {{ Form::label('fk_product','Fecha')}}
                                         <input class="form-control" id="newPayment" type="date" name="mytext[]">
@@ -341,7 +370,11 @@
                                     <h4 class="modal-title">Agregar Pago</h4>
                                 </div>
                                 <div class="modal-body">
-                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }} 
+                                    {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
+                                    <div class="form-group">
+                                        {{ Form::label('amount','Cantidad')}}
+                                        {{ Form::number('amount',null,['class' => 'form-control','id' => 'setAmount','placeholder' => 'Dejar vacio para que el monto sea autocalculado'])}}
+                                    </div>  
                                     <div class="form-group">
                                         {{ Form::label('fk_product','Fecha')}}
                                         <input class="form-control" id="setDate" type="date" name="mytext[]">
@@ -518,7 +551,7 @@
                             {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                         </div>                                                                
                         <div class="form-group">
-                            {{ Form::label('impacts','Impactos')}}
+                            {{ Form::label('impacts','Impactos diarios')}}
                             {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
                         </div>
                         <div class="form-group">
@@ -569,6 +602,7 @@ var loadFilesRoute = '{{ action('serviceOrderController@postUploadFiles'); }}';
 var readFilesRoute = '{{ action('serviceOrderController@postFiles'); }}';
 var downloadFilesRoute = '{{ route('gestor de ordenes de servicios'); }}';
 var delateFilesRoute = '{{ action('serviceOrderController@postDelateFile'); }}';
+var updateDescriptionRoute = '{{ action('serviceOrderController@postUpdateDescription'); }}';
 </script>
 <script src="{{ asset("assets/scripts/serviceOrderView_ajax.js") }}" type="text/javascript"></script>
 @stop

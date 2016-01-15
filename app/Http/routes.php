@@ -126,6 +126,10 @@ Route::get('/perfil', ['middleware' => 'SessionControl', 'as' => 'perfil', funct
 	return View::make('profile');
 }]);
 
+Route::get('/giros', ['middleware' => 'SessionControl', 'as' => 'giros', function(){
+	return View::make('giro_comercial');
+}]);
+
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
 
 Route::get('/gestor_de_ordenes_de_servicio/{id}', ['uses' => 'serviceOrderController@showServiceOrder','middleware' => 'SessionControl']);
@@ -138,6 +142,8 @@ Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment'
 
 Route::get('/unidades_negocio/{id}/empleados', ['uses' => 'employeeController@loadEmployeesByBusinessUnit','middleware' => 'SessionControl']);
 
+Route::get('/videos/{name}', ['uses' => 'videoController@getVideoStreaming','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
@@ -147,4 +153,6 @@ Route::controller('customer','customerController');
 Route::controller('serviceOrder','serviceOrderController');
 Route::controller('treasury','treasuryController');
 Route::controller('production','productionController');
-//Route::controller('product','productController');
+Route::controller('proyection','proyectionController');
+Route::controller('video','videoController');
+Route::controller('business_activity','businessActivityController');

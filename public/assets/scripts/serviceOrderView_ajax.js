@@ -12,6 +12,8 @@ var changingPayment = null;
 var row = null;
 var show = null;
 var products = null;
+var outlayFromPayments = 0;
+var indexDescription = '';
 
 function loadPostalCodes() {
     $.ajaxSetup({
@@ -22,10 +24,10 @@ function loadPostalCodes() {
     $.ajax({
         url: readPostalCodesRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {
+                    $.each(data.data, function (index, value) {
                         $("#tax_postal_code").append('<option value="' + value.pos_postal_code + '">' + value.pos_postal_code + '</option>');
                     });
                 } else {
@@ -48,7 +50,7 @@ function loadSelects() {
     $.ajax({
         url: loadSelectsRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 shows = data.show;
             } else {
@@ -67,10 +69,10 @@ function loadProductsData() {
     $.ajax({
         url: loadProductsDataRoute,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 products = data.data;
-                $.each(data.data, function(index, value) {
+                $.each(data.data, function (index, value) {
                     $('#det_fk_product').append($("<option></option>").attr("value", index).text(value.pro_name));
                     $('#u_det_fk_product').append($("<option></option>").attr("value", value.pro_id).text(value.pro_name));
                 });
@@ -89,7 +91,7 @@ function setFormVisible() {
                 $('#fk_show').show();
                 $('#det_fk_show').html('');
                 $('#det_fk_show').append($("<option></option>").attr("value", "null").html("---Seleccionar Programa---"));
-                $.each(shows, function(index, value) {
+                $.each(shows, function (index, value) {
                     $('#det_fk_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
                 });
             } else {
@@ -114,7 +116,7 @@ function u_setFormVisible(ind) {
         $('#u_fk_show').show();
         $('#u_det_fk_show').html('');
         $('#u_det_fk_show').append($("<option></option>").attr("value", "null").html("---Seleccionar Programa---"));
-        $.each(shows, function(index, value) {
+        $.each(shows, function (index, value) {
             $('#u_det_fk_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
         });
         $('u_det_fk_show').val(json.details_products[ind].det_fk_show);
@@ -127,7 +129,7 @@ function u_setFormVisible(ind) {
     $('#u_det_discount').val("null");
     $('#u_det_discount_number').val("null");
 }
-$("#tax_postal_code").change(function() {
+$("#tax_postal_code").change(function () {
     var tax_postal_code = $('#tax_postal_code').val();
     if (tax_postal_code != "null") {
         $.ajaxSetup({
@@ -141,11 +143,11 @@ $("#tax_postal_code").change(function() {
             },
             url: readAddressData,
             type: 'post',
-            success: function(data) {
+            success: function (data) {
                 if (data.success) {
                     $("#tax_colony").html('');
                     var array = data.data['pos_colony'].split(";");
-                    $.each(array, function(index, value) {
+                    $.each(array, function (index, value) {
                         $("#tax_colony").append('<option value="' + value + '">' + value + '</option>');
                     });
                     $("#tax_colony").prop("disabled", false);
@@ -169,7 +171,7 @@ $("#tax_postal_code").change(function() {
 
 function setCustomer(data) {
     var array = AddressData.pos_colony.split(";");
-    $.each(array, function(index, value) {
+    $.each(array, function (index, value) {
         $("#tax_colony").append('<option value="' + value + '">' + value + '</option>');
     });
     $('#cus_commercial_name').val(data.cus_commercial_name);
@@ -201,15 +203,15 @@ function setProduction(data) {
     cont = 0;
     productionOutlay = 0;
     $("#producciones").html('');
-    $.each(data, function(index, value) {
+    $.each(data, function (index, value) {
         if (value.product.pro_type == "producción") {
             subtotal = parseFloat(value.det_final_price);
             productionOutlay = productionOutlay + subtotal;
             if (value.detail_production != null) {
-                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
-            }else{
+                $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.detail_production.dpr_recording_date + '</td><td>' + value.detail_production.dpr_proposal_1_date + '</td><td>' + value.detail_production.dpr_proposal_2_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="showDescription(' + index + ')">Ver Descripción</button><button class="btn btn-warning btn-sm production" type="button" onclick="editProductionDates(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+            } else {
                 $("#producciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td></td><td></td><td></td><td><div class="btn-group" role="group" aria-label="..."></div></td></tr>');
-            }            
+            }
             cont++;
         }
     });
@@ -225,13 +227,13 @@ function setProyection(ser_duration, ser_start_date, ser_end_date, data) {
     $('#start_date_contract').val(ser_start_date);
     $('#end_date_contract').val(ser_end_date);
     $("#proyecciones").html('');
-    $.each(data, function(index, value) {
+    $.each(data, function (index, value) {
         if (value.product.pro_type == "transmisión") {
             subtotal = parseFloat(value.det_impacts) * parseFloat(value.det_validity) * parseFloat(value.det_final_price);
-            if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
-                subtotal = parseFloat(subtotal) * 10;
-            }
-            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
+            //if (value.product.service_proyection.spy_has_show == 0 && value.product.service_proyection.spy_proyection_media == "televisión") {
+            //    subtotal = parseFloat(subtotal) * 10;
+            //}
+            $("#proyecciones").append('<tr class="gradeX"><td>' + value.product.pro_name + '</td><td>' + value.product.service_proyection.spy_outlay + '</td><td>' + value.det_impacts + '</td><td>' + value.det_validity + '</td><td>' + value.det_discount + '</td><td>' + value.det_final_price + '</td><td>' + subtotal + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-info btn-sm" type="button" onclick="showDescription(' + index + ')">Ver Descripción</button><button class="btn btn-warning btn-sm proyection" type="button" onclick="editProyection(' + index + ')" disabled="true">Modificar</button></div></td></tr>');
             cont++;
             monthOutlay = monthOutlay + subtotal;
         }
@@ -256,10 +258,15 @@ function setPayments(ser_discount_month, ser_iva, ser_outlay_total, data) {
     $('#has_iva').prop('checked', check);
     cont = 0;
     $("#pagos").html('');
-    $.each(data.payment_dates, function(index, value) {
+    var outlayPaymentsCheck = 0;
+    $.each(data.payment_dates, function (index, value) {
+        outlayPaymentsCheck = outlayPaymentsCheck + parseFloat(value.pda_amount);
         $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount + '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate(' + index + ',\'old\')" disabled="true">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate(' + value.pda_id + ',\'old\')" disabled="true">Eliminar</button></div></td></tr>');
         cont++;
     });
+    if(parseFloat(data.pay_amount_cash) != outlayPaymentsCheck){
+        alert('Pagos incongruentes porfavor reviselos');
+    }
     if (cont == 0) {
         $("#pagos").append('<tr class="gradeX"><td colspan="5">No existen pagos para esta Orden de Servicio</td>');
     }
@@ -306,7 +313,7 @@ function updateCustomer() {
         url: updateRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert(data.data);
             } else {
@@ -349,14 +356,38 @@ function setAmounts() {
 function setPayments2() {
     $("#pagos").html('');
     cont = 0;
-    $.each(json.payment_scheme.payment_dates, function(index, value) {
-        value.pda_amount = (((totalOutlay + iva - amountKind) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / payments).toFixed(2);
-        $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount + '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate(' + index + ',\'old\')">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate(' + value.pda_id + ',\'old\')" >Eliminar</button></div></td></tr>');
+    var fixedAmount = 0;
+    var fixedElements = 0;
+    outlayFromPayments = 0;
+    $.each(json.payment_scheme.payment_dates, function (index, value) {        
+        if (value.pda_is_fixed) {
+            fixedAmount = fixedAmount + parseFloat(value.pda_amount);
+            fixedElements++;
+        }
         cont++;
     });
     if (cont < payments) {
-        $.each(newPayments, function(index, value) {
-            value.pda_amount = (((totalOutlay + iva - amountKind) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / payments).toFixed(2);
+        $.each(newPayments, function (index, value) {            
+            if (value.pda_is_fixed) {
+                fixedAmount = fixedAmount + parseFloat(value.pda_amount);
+                fixedElements++;
+            }
+        });
+    }
+    $.each(json.payment_scheme.payment_dates, function (index, value) {
+        if (!value.pda_is_fixed) {
+            value.pda_amount = (((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments - fixedElements)).toFixed(2);
+        }
+        outlayFromPayments = outlayFromPayments + parseFloat(value.pda_amount);
+        $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount + '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate(' + index + ',\'old\')">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate(' + value.pda_id + ',\'old\')" >Eliminar</button></div></td></tr>');
+
+    });
+    if (cont < payments) {
+        $.each(newPayments, function (index, value) {
+            if (!value.pda_is_fixed) {
+                value.pda_amount = (((totalOutlay + iva - amountKind - fixedAmount) - ((totalOutlay + iva - amountKind) * (ser_discount / 100))) / (payments - fixedElements)).toFixed(2);
+            }
+            outlayFromPayments = outlayFromPayments + parseFloat(value.pda_amount);
             $("#pagos").append('<tr class="gradeX"><td>' + value.pda_amount + '</td><td>' + value.pda_date + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm payments" type="button" onclick="editDate(' + index + ',\'new\')">Modificar</button><button class="btn btn-danger btn-sm payments" type="button" onclick="delateDate(' + index + ',\'new\')" >Eliminar</button></div></td></tr>');
         });
     }
@@ -408,8 +439,16 @@ function addPayment() {
     var payment = new Object();
     payment.pda_amount = 0;
     payment.pda_date = $('#newPayment').val();
+    if ($('#newAmount').val() == '') {
+        payment.pda_is_fixed = 0;
+    } else {
+        payment.pda_is_fixed = 1;
+        payment.pda_amount = parseFloat($('#newAmount').val());
+    }
     newPayments[newPayments.length] = payment;
     $('#addPayment').modal('hide');
+    $('#newAmount').val('');
+    $('#newPayment').val('');
     setPayments2();
 }
 
@@ -419,53 +458,68 @@ function editDate(id, type) {
     } else {
         changingPayment = newPayments[id];
     }
+    if (changingPayment.pda_is_fixed) {
+       $('#setAmount').val(changingPayment.pda_amount); 
+    }else{
+       $('#setAmount').val(''); 
+    }
     $('#setDate').val(changingPayment.pda_date);
     $('#editPayment').modal('show');
 }
 
 function editPayment() {
+    if($('#setAmount').val() == ''){
+        changingPayment.pda_is_fixed = 0;        
+    }else{
+        changingPayment.pda_is_fixed = 1;
+        changingPayment.pda_amount = parseFloat($('#setAmount').val());
+    }
     changingPayment.pda_date = $('#setDate').val();
     $('#editPayment').modal('hide');
     setPayments2();
 }
 
 function updatePayment() {
-    var data = {
-        'serviceOrder': json.ser_id,
-        'discount': ser_discount,
-        'totalOutlay': totalOutlay,
-        'iva': iva,
-        'amountCash': parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2)),
-        'amountKind': amountKind,
-        'numberPayments': payments,
-        'paymentsold': json.payment_scheme.payment_dates,
-        'paymentsnew': newPayments
-    };
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: updatePaymentsRoute,
-        data: data,
-        type: 'post',
-        success: function(data) {
-            if (data.success) {
-                alert('Datos para pago guardados con exito');
-                json = data.data;
-                adressData = data.adressData;
-                setProduction(json.details_products);
-                setProyection(json.ser_duration, json.ser_start_date, json.ser_end_date, json.details_products);
-                setPayments(json.ser_discount_month, json.ser_iva, json.ser_outlay_total, json.payment_scheme);
-                setEditable();
-                setVariables();
-                newPayments = [];
-            } else {
-                failure(data.data);
+    if (outlayFromPayments == parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2))) {
+        var data = {
+            'serviceOrder': json.ser_id,
+            'discount': ser_discount,
+            'totalOutlay': totalOutlay,
+            'iva': iva,
+            'amountCash': parseFloat((totalOutlay + iva - amountKind - ((totalOutlay + iva - amountKind) * (ser_discount / 100))).toFixed(2)),
+            'amountKind': amountKind,
+            'numberPayments': payments,
+            'paymentsold': json.payment_scheme.payment_dates,
+            'paymentsnew': newPayments
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
-    });
+        });
+        $.ajax({
+            url: updatePaymentsRoute,
+            data: data,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    alert('Datos para pago guardados con exito');
+                    json = data.data;
+                    adressData = data.adressData;
+                    setProduction(json.details_products);
+                    setProyection(json.ser_duration, json.ser_start_date, json.ser_end_date, json.details_products);
+                    setPayments(json.ser_discount_month, json.ser_iva, json.ser_outlay_total, json.payment_scheme);
+                    setEditable();
+                    setVariables();
+                    newPayments = [];
+                } else {
+                    failure(data.data);
+                }
+            }
+        });
+    } else {
+        alert('Los pagos no coinciden con el monto a pagar, verifiquelos');
+    }
 }
 
 function delateDate(id, type) {
@@ -482,7 +536,7 @@ function delateDate(id, type) {
             url: delatePaymentsRoute,
             data: data,
             type: 'post',
-            success: function(data) {
+            success: function (data) {
                 if (data.success) {
                     alert('Datos para pago guardados con exito');
                     json = data.data;
@@ -528,7 +582,7 @@ function updateOrderDuration() {
         url: updateOrderDurationRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert(data.data);
             } else {
@@ -551,9 +605,9 @@ function addProduct() {
             row.det_fk_show = $('#det_fk_show').val();
         }
         row.det_subtotal = parseFloat(row.det_impacts) * parseFloat(row.det_validity) * parseFloat(row.det_final_price);
-        if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
-            row.det_subtotal = parseFloat(row.det_subtotal) * 10;
-        }
+        //if (products[$('#det_fk_product').val()].pro_extra.spy_has_show == 0 && products[$('#det_fk_product').val()].pro_extra.spy_proyection_media == "televisión") {
+        //    row.det_subtotal = parseFloat(row.det_subtotal) * 10;
+        //}
         monthOutlay = monthOutlay + parseFloat(row.det_subtotal);
     } else {
         if (products[$('#det_fk_product').val()].pro_extra.spr_has_production_registry) {
@@ -561,17 +615,17 @@ function addProduct() {
         }
         row.det_subtotal = row.det_final_price;
         productionOutlay = productionOutlay + parseFloat(row.det_subtotal);
-    }    
+    }
     setAmounts();
     checkifneedExtras();
 }
 
 function checkifneedExtras() {
-        if (row.hasOwnProperty('det_has_production_registry')) {
-            setProductionRegistry();
-        } else {
-            sendProduct();
-        }
+    if (row.hasOwnProperty('det_has_production_registry')) {
+        setProductionRegistry();
+    } else {
+        sendProduct();
+    }
 }
 
 function setProductionRegistry() {
@@ -661,7 +715,7 @@ function sendProduct() {
         url: addProductRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert('Producto registro');
                 json = data.data;
@@ -705,7 +759,7 @@ function setProductionDates() {
         url: updateProductionDatesRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert('Fechas guardadas con exito');
                 json = data.data;
@@ -739,10 +793,10 @@ function editProyection(index) {
 function setNewProyection() {
     var det_subtotal = parseFloat(json.details_products[$('#detailProductIndex').val()].det_impacts) * parseFloat(json.details_products[$('#detailProductIndex').val()].det_validity) * parseFloat(json.details_products[$('#detailProductIndex').val()].det_final_price);
     var det_new_subtotal = parseFloat($('#u_det_impacts').val()) * parseFloat($('#u_det_validity').val()) * parseFloat($('#u_det_discount_number').val());
-    if (json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_has_show == 0 && json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_proyection_media == "televisión") {
-        det_subtotal = parseFloat(det_subtotal) * 10;
-        det_new_subtotal = parseFloat(det_new_subtotal) * 10;
-    }
+    //if (json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_has_show == 0 && json.details_products[$('#detailProductIndex').val()].product.service_proyection.spy_proyection_media == "televisión") {
+    //    det_subtotal = parseFloat(det_subtotal) * 10;
+    //    det_new_subtotal = parseFloat(det_new_subtotal) * 10;
+    //}
     monthOutlay = monthOutlay - det_subtotal + det_new_subtotal;
     setAmounts();
     var data = {
@@ -769,7 +823,7 @@ function setNewProyection() {
         url: updateProductRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert('Producto actualizado exitosamente');
                 json = data.data;
@@ -800,11 +854,11 @@ function getFiles() {
         url: readFilesRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 $("#filesoncloud").html('');
                 if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
-                    $.each(data.data, function(index, value) {
+                    $.each(data.data, function (index, value) {
                         $("#filesoncloud").append('<tr class="gradeX"><td>' + value.name + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-warning btn-sm production" type="button" onclick="downloadFile(\'' + value.path + '\')" disabled="true">Descargar</button><button class="btn btn-danger btn-sm production" type="button" onclick="delateFile(\'' + value.path + '\')" disabled="true">Eliminar</button></div></td></tr>');
                     });
                 } else {
@@ -836,7 +890,7 @@ function delateFile(path) {
         url: delateFilesRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert(data.data);
                 getFiles();
@@ -850,15 +904,15 @@ function delateFile(path) {
 function uploadFiles() {
     //event.preventDefault();
     var data = new FormData();
-    $.each($('#filetoupload')[0].files, function(i, file) {
+    $.each($('#filetoupload')[0].files, function (i, file) {
         data.append('file-' + i, file);
     });
     data.append('idServiceOrder', json.ser_id);
     $.ajax({
-        xhr: function() {
+        xhr: function () {
             var xhr = new window.XMLHttpRequest();
             //Upload progress
-            xhr.upload.addEventListener("progress", function(evt) {
+            xhr.upload.addEventListener("progress", function (evt) {
                 if (evt.lengthComputable) {
                     var percentComplete = evt.loaded / evt.total;
                     //Do something with upload progress
@@ -867,7 +921,7 @@ function uploadFiles() {
                 }
             }, false);
             //Download progress
-            xhr.addEventListener("progress", function(evt) {
+            xhr.addEventListener("progress", function (evt) {
                 if (evt.lengthComputable) {
                     var percentComplete = evt.loaded / evt.total;
                     //Do something with download progress
@@ -883,13 +937,46 @@ function uploadFiles() {
         cache: false,
         contentType: false,
         processData: false
-    }).done(function(res) {
+    }).done(function (res) {
         getFiles();
         $('#fileProgress').val(0);
     });
 }
 
-$(document).ready(function() {
+function showDescription(index) {
+    indexDescription = index;
+    $('#u_det_description').val(json.details_products[index].det_description);
+    $('#descriptionEdit').modal('show');
+}
+
+function setDescription(){
+    json.details_products[indexDescription].det_description = $('#u_det_description').val();
+    var data = {
+            'id': json.details_products[indexDescription].det_id,
+            'value': $('#u_det_description').val()
+        };
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: updateDescriptionRoute,
+            data: data,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    
+                } else {
+                    failure(data.data);
+                }
+            }
+        });   
+    $('#descriptionEdit').modal('hide');
+    indexDescription = '';
+}
+
+$(document).ready(function () {
     loadPostalCodes();
     loadSelects();
     setProduction(json.details_products);
@@ -899,7 +986,7 @@ $(document).ready(function() {
     setVariables();
     loadProductsData();
     getFiles();
-    $("#months_contract2").on("change", function() {
+    $("#months_contract2").on("change", function () {
         var date = new Date($("#start_date_contract").val()),
             months = parseInt($("#months_contract2").val());
         if (!isNaN(date.getTime())) {

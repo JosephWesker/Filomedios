@@ -72,7 +72,7 @@ class serviceOrderController extends Controller
     }
     
     public function postLoadSelects() {
-        $shows = fil_show::where('sho_status','like','activo')->get(['sho_id', 'sho_name']);
+        $shows = fil_show::where('sho_status', 'like', 'activo')->get(['sho_id', 'sho_name']);
         if ($shows == null) {
             return Response::json(array('success' => false, 'data' => 'Error al leer datos de los programas y de las unidades de negocio'));
         }
@@ -101,22 +101,32 @@ class serviceOrderController extends Controller
             $row['det_fk_product'] = $value->product->pro_id;
             $row['det_name'] = $value->product->pro_name;
             $row['det_type'] = $value->product->pro_type;
-            
-            if ($value->product->serviceProyection->spy_has_show) {
-                $row['det_fk_show'] = null;
-            };
-            
-            $row['det_impacts'] = $value->pad_impacts;
-            $row['det_validity'] = $value->pad_validity;
             $row['det_discount'] = $value->pad_discount;
             $row['det_final_price'] = $value->pad_final_price;
-            
-            if (($value->product->serviceProyection->spy_proyection_media == 'televisión') and ($value->product->serviceProyection->spy_has_show == "0")) {
-                $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'] * 10;
-            } 
-            else {
+            if($value->product->pro_type == 'transmisión'){
+                if ($value->product->serviceProyection->spy_has_show) {
+                    $row['det_fk_show'] = null;
+                }
+                $row['det_impacts'] = $value->pad_impacts;
+                $row['det_validity'] = $value->pad_validity;
                 $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'];
-            }
+            }else{
+                if ($value->product->serviceProduction->spr_has_production_registry) {
+                    $row['det_has_production_registry'] = null;
+                }
+                $row['det_impacts'] = "";
+                $row['det_validity'] = "";
+                $row['det_subtotal'] = (float)$row['det_final_price'];
+            }            
+            
+            
+            
+            //if (($value->product->serviceProyection->spy_proyection_media == 'televisión') and ($value->product->serviceProyection->spy_has_show == "0")) {
+            //    $row['det_subtotal'] = (float)$row['det_final_price'] * (float)$row['det_validity'] * (float)$row['det_impacts'] * 10;
+            //} 
+            //else {
+                
+            //}
             
             $finalArray[] = $row;
         }
@@ -208,6 +218,7 @@ class serviceOrderController extends Controller
             $detail->det_validity = $value->det_validity;
             $detail->det_discount = $value->det_discount;
             $detail->det_final_price = $value->det_final_price;
+            $detail->det_description = $value->det_description;
             
             $detail->save();
             
@@ -246,6 +257,7 @@ class serviceOrderController extends Controller
             $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
             $paymentDate->pda_date = $payments[$i]['pda_date'];
             $paymentDate->pda_amount = $payments[$i]['pda_amount'];
+            $paymentDate->pda_is_fixed = $this->convertToTinyint($payments[$i]['pda_is_fixed']);
             $paymentDate->pda_status = "pendiente";
             $paymentDate->save();
         }
@@ -276,6 +288,7 @@ class serviceOrderController extends Controller
                 $payment = fil_payment_date::find($value->pda_id);
                 $payment->pda_amount = $value->pda_amount;
                 $payment->pda_date = $value->pda_date;
+                $payment->pda_is_fixed = $value->pda_is_fixed;
                 if (!$payment->save()) {
                     return Response::json(array('success' => false, 'data' => 'Error al guardar los pagos'));
                 }
@@ -287,6 +300,7 @@ class serviceOrderController extends Controller
                 $paymentDate->pda_fk_payment_data = $paymentScheme->pay_id;
                 $paymentDate->pda_date = $value->pda_date;
                 $paymentDate->pda_amount = $value->pda_amount;
+                $paymentDate->pda_is_fixed = $value->pda_is_fixed;
                 $paymentDate->pda_status = "pendiente";
                 if (!$paymentDate->save()) {
                     return Response::json(array('success' => false, 'data' => 'Error al guardar los pagos'));
@@ -364,6 +378,7 @@ class serviceOrderController extends Controller
         return $response;
     }
     
+    // 0 = Pendiente, 1 = Rechazada, 2 = Aceptada, 3 = Cancelada
     public function postReadServiceOrderAuth() {
         $data = fil_service_order::orderBy('ser_id', 'desc')->get();
         if ($data == null) {
@@ -386,22 +401,24 @@ class serviceOrderController extends Controller
             if ($today <= date('Y-m-d', strtotime($value->ser_end_date))) {
                 switch (Session::get('type')) {
                     case 'producción':
-                        switch ($value->ser_auth_production) {
-                            case '0':
-                                $pending[] = $row;
-                                break;
+                        if($value->ser_auth_admin == 2 && $value->ser_auth_sales == 2){
+                            switch ($value->ser_auth_production) {
+                                case '0':
+                                    $pending[] = $row;
+                                    break;
 
-                            case '1':
-                                $rejected[] = $row;
-                                break;
+                                case '1':
+                                    $rejected[] = $row;
+                                    break;
 
-                            case '2':
-                                $accepted[] = $row;
-                                break;
+                                case '2':
+                                    $accepted[] = $row;
+                                    break;
 
-                            case '3':
-                                $canceled[] = $row;
-                                break;
+                                case '3':
+                                    $canceled[] = $row;
+                                    break;
+                            }
                         }
                         break;
 
@@ -560,34 +577,36 @@ class serviceOrderController extends Controller
         $production = true;
         
         if ($serviceOrder->ser_auth_admin != 3) {
-            if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
-                $generals = false;
-                $payments = false;
-                $proyection = false;
-            }
-            if (Session::get('type') == "gerente de ventas") {
-                $payments = false;
-                $proyection = false;
-            }
-            if (Session::get('type') == "producción") {
-                $production = false;
-            }
-            if (Session::get('type') == "vendedor") {
-                $generals = true;
-                $payments = true;
-                $proyection = true;
-                $production = true;
-                if ($serviceOrder->ser_auth_admin == 1) {
+            if ($serviceOrder->ser_auth_admin != 2 || $serviceOrder->ser_auth_sales != 2 || $serviceOrder->ser_auth_production != 2) {
+                if (Session::get('type') == "administrador" || Session::get('type') == "tesoreria") {
                     $generals = false;
                     $payments = false;
                     $proyection = false;
                 }
-                if ($serviceOrder->ser_auth_sales == 1) {
+                if (Session::get('type') == "gerente de ventas") {
                     $payments = false;
                     $proyection = false;
                 }
-                if ($serviceOrder->ser_auth_production == 1) {
+                if (Session::get('type') == "producción") {
                     $production = false;
+                }
+                if (Session::get('type') == "vendedor") {
+                    $generals = true;
+                    $payments = true;
+                    $proyection = true;
+                    $production = true;
+                    if ($serviceOrder->ser_auth_admin == 1) {
+                        $generals = false;
+                        $payments = false;
+                        $proyection = false;
+                    }
+                    if ($serviceOrder->ser_auth_sales == 1) {
+                        $payments = false;
+                        $proyection = false;
+                    }
+                    if ($serviceOrder->ser_auth_production == 1) {
+                        $production = false;
+                    }
                 }
             }
         }
@@ -627,8 +646,18 @@ class serviceOrderController extends Controller
         if (!$payment->delete()) {
             return Response::json(array('success' => false, 'data' => 'Error al eliminar el pago'));
         }
+        $fixedAmount = 0;
+        $fixedCount = 0;
         foreach ($paymentScheme->paymentDates as $value) {
-            $value->pda_amount = ((float)$paymentScheme->pay_amount_cash) / $number;
+            if($value->pda_is_fixed){
+                $fixedAmount += (float) $value->pda_amount;
+                $fixedCount++;
+            }
+        }
+        foreach ($paymentScheme->paymentDates as $value) {
+            if(!$value->pda_is_fixed){
+                 $value->pda_amount = (((float)$paymentScheme->pay_amount_cash)-$fixedAmount) / ($number-$fixedCount);
+            }           
             if (!$value->save()) {
                 return Response::json(array('success' => false, 'data' => 'Error al guardar nuevos pagos'));
             }
@@ -822,14 +851,14 @@ class serviceOrderController extends Controller
     public function getFileManager() {
         $dir = storage_path('app/produccionFile');
         $dir = str_replace('/', '\\', $dir);
-        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = storage_path('app') . '\\';
         $stringToRemove = str_replace('/', '\\', $stringToRemove);
         $response = $this->scan($dir);
         return Response::json(array("name" => str_replace($stringToRemove, '', $dir), "type" => "folder", "path" => str_replace($stringToRemove, '', $dir), "items" => $response));
     }
     
     function scan($dir) {
-        $stringToRemove = storage_path('app').'\\';
+        $stringToRemove = storage_path('app') . '\\';
         $stringToRemove = str_replace('/', '\\', $stringToRemove);
         $files = array();
         
@@ -862,6 +891,42 @@ class serviceOrderController extends Controller
             }
         }
         return $files;
+    }
+    
+    public function postReadServiceOrder(){
+        return Response::json(array('success' => true, 'data' => fil_service_order::all(['ser_id'])));
+    }
+    
+    public function postReadDetails(){
+        $values = Request::all();
+        $details = fil_service_order::find($values['ser_id'])->detailsProducts;
+        $finalArray = [];
+        if($values['vid_type']=='programación'){
+            foreach ($details as $value) {
+                if($value->product->pro_type == 'transmisión' && $value->video == null){
+                    if($value->product->serviceProyection->spy_has_show == '1'){
+                        $finalArray[] = $value;
+                    }   
+                }                
+            }       
+        }else{
+            foreach ($details as $value) {
+                if($value->product->pro_type == 'transmisión' && $value->video == null){
+                    if($value->product->serviceProyection->spy_has_show == '0'){
+                        $finalArray[] = $value;
+                    }   
+                }                
+            }
+        }           
+        return Response::json(array('success' => true, 'data' => $finalArray)); 
+    }
+    
+    public function postUpdateDescription(){
+        $values = Request::all();
+        $row = fil_detail_product::find($values['id']);
+        $row->det_description = $values['value'];
+        $row->save();
+        return Response::json(array('success' => true, 'data' => '')); 
     }
     
     function normaliza($cadena) {
