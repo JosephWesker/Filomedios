@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Nueva Órden de Servicio')
+@section('page_heading','Nueva Orden de Servicio')
 @section('section')
 
 
@@ -36,31 +36,36 @@
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-inline col-lg-12">
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="start_date_contract">Fecha de Inicio</label>
-                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="months_contract">Duración del Contrato</label>
-                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Fin del Contrato</label>
-                                                    <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Cobro Mensual</label>
-                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro Mensual" readonly/>
-                                                </div>                                                 
-                                                <div class="form-group col-lg-6 col-xs-12">
-                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
-                                                        Agregar Producto
-                                                    </button>
-                                                </div>
-                                                <div class="form-group col-lg-6 col-xs-12">
-                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
-                                                        Agregar Paquete
-                                                    </button>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-12">
+                                                        <div class="row">
+                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
+                                                                Agregar Producto
+                                                            </button>
+                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
+                                                                Agregar Paquete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">    
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="start_date_contract">Fecha de Inicio</label>
+                                                            <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="months_contract">Duración del Contrato</label>
+                                                            <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Meses" disabled="true" />
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="end_date_contract">Fin del Contrato</label>
+                                                            <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fin del Contato" readonly/>
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="end_date_contract">Cobro Mensual</label>
+                                                            <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important;" placeholder="Cobro Mensual" readonly/>
+                                                        </div>   
+                                                    </div>
                                                 </div>
                                             </form>
 
@@ -109,7 +114,7 @@
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
-                                                            
+
                                                             <div class=text-right>
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -306,7 +311,7 @@
                                                 </tbody>
                                             </table> 
                                         </div>                                                                          
-                                        
+
 
                                         <h1>Pagos</h1>
                                         <div class="step-content offset" style="position: relative;">
@@ -369,28 +374,27 @@
                                                     </div>
                                                 </div>
                                                 {{ Form::close() }}                        
-                                            </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-    <script>       
-    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
-    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
-    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
-    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
-    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
-    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';
-    </script>
-    <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
-    @stop
+</div>
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script>
+                                                                    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+                                                                    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+                                                                    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+                                                                    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+                                                                    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+                                                                    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+                                                                    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';</script>
+<script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
+@stop
