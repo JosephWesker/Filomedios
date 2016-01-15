@@ -273,7 +273,7 @@ function loadProductsTable() {
         $('#months_contract').val("null");
         $('#end_date_contract').val("null");
         $('#ser_total').val("null");
-        $("#products").append('<tr class="gradeX"><td colspan="9">no existen productos para esta orden de servicio</td>');
+        $("#products").append('<tr class="gradeX"><td colspan="9">No existen productos para esta orden de servicio</td>');
     }
     $('#addProduct').modal('hide');
     $('#addPackage').modal('hide');

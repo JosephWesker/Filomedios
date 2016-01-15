@@ -20,10 +20,61 @@
             <a class="navbar-brand" href="{{ url ('') }}">Filomedios</a>
         </div>
         <!-- /.navbar-header -->
-
-        <ul class="nav navbar-top-links navbar-right">            
+        <ul class="nav navbar-top-links navbar-right">
+<!--            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-messages">
+                    <li>
+                        <a href="#">
+                            <div>
+                                <strong>John Smith</strong>
+                                <span class="pull-right text-muted">
+                                    <em>Ayer</em>
+                                </span>
+                            </div>
+                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <strong>John Smith</strong>
+                                <span class="pull-right text-muted">
+                                    <em>Ayer</em>
+                                </span>
+                            </div>
+                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <div>
+                                <strong>John Smith</strong>
+                                <span class="pull-right text-muted">
+                                    <em>Hace 3 días</em>
+                                </span>
+                            </div>
+                            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center" href="#">
+                            <strong>Leer todo</strong>
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                 /.dropdown-messages 
+            </li>-->
             <!-- /.dropdown -->
-            <!--<li class="dropdown">
+
+            <!-- /.dropdown -->
+<!--            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
@@ -79,9 +130,9 @@
                             <i class="fa fa-angle-right"></i>
                         </a>
                     </li>
-                </ul>-->
-                <!-- /.dropdown-alerts -->
-            </li>
+                </ul>
+                 /.dropdown-alerts 
+            </li>-->
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">

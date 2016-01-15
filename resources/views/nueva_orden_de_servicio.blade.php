@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Nueva Órden de Servicio')
+@section('page_heading','Nueva Orden de Servicio')
 @section('section')
 
 
@@ -36,6 +36,7 @@
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-inline col-lg-12">
+<<<<<<< HEAD
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
                                                     <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths(); autocalculateProductionRegistry()" />
@@ -105,6 +106,7 @@
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
+<<<<<<< HEAD
                                                             <div class="form-group">
                                                                 {{ Form::label('description','Notas:')}}
                                                                 {{ Form::textArea('description',null,['class' => 'form-control','id' => 'det_description','placeholder' => 'Nota'])}}
@@ -247,7 +249,7 @@
                                                 </tbody>
                                             </table> 
                                         </div>                                                                          
-                                        
+
 
                                         <h1>Pagos</h1>
                                         <div class="step-content offset" style="position: relative;">
@@ -309,32 +311,33 @@
                                                         </a>
                                                     </div>
                                                 </div>
+<<<<<<< HEAD
                                                 {{ Form::close() }}
                                                 <div class="reset">
                                                     {{ Form::button('Resetear Montos',['class' => 'btn btn-success','onclick' => 'resetFixeds()']) }}
                                                 </div>                            
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-    <script>       
-    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
-    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
-    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
-    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
-    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
-    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';
-    </script>
-    <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
-    @stop
+</div>
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script>
+                                                                    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+                                                                    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+                                                                    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+                                                                    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+                                                                    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+                                                                    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+                                                                    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';</script>
+<script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
+@stop
