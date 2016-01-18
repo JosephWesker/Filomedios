@@ -1,10 +1,14 @@
 function disableDetail() {
     if ($('#vid_service_order').val() == 'null') {
         $('#vid_detail_product').prop('disabled', true);
-        $('#vid_type').prop('disabled', true);
+        //$('#vid_type').prop('disabled', true);
+        $('#unique').hide();
+        $('#dates').show();
     } else {
         $('#vid_detail_product').prop('disabled', false);
-        $('#vid_type').prop('disabled', false);
+        //$('#vid_type').prop('disabled', false);
+        $('#dates').hide();
+        $('#unique').show();
         loadDetails();
     }
 }
@@ -17,9 +21,12 @@ function sendFile() {
         'file': ($('#file').prop('files'))[0]
     };*/
     var data = new FormData();
+    data.append('service_order', $('#vid_service_order').val())
     data.append('vid_name', $('#vid_name').val());
     data.append('det_id', $('#vid_detail_product').val());
     data.append('vid_type', $('#vid_type').val());
+    data.append('vid_start_date',$('#vid_start_date').val());
+    data.append('vid_end_date',$('#vid_end_date').val());
     data.append('file', ($('#file').prop('files'))[0]);
     $.ajaxSetup({
         headers: {
@@ -44,8 +51,8 @@ function sendFile() {
                 $('#file').val('');
                 $('#vid_detail_product').html('');
                 $('#add').modal('hide');
-                disableDetail();                
-                loadTable(); 
+                disableDetail();
+                loadTable();
             } else {
                 failure(data.data);
             }
@@ -65,7 +72,7 @@ function loadServiceOrders() {
         url: serviceOrdersRoute,
         type: 'post',
         success: function (data) {
-            if (data.success) {                
+            if (data.success) {
                 $.each(data.data, function (index, value) {
                     $('#vid_service_order').append('<option value=\'' + value.ser_id + '\'>' + value.ser_id + '</option>');
                 });
@@ -90,7 +97,7 @@ function loadTable() {
         success: function (data) {
             if (data.success) {
                 $("#filesoncloud").html('');
-                if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {  
+                if (data.data !== null && $.isArray(data.data) && data.data.length > 0) {
                     $.each(data.data, function (index, value) {
                         $("#filesoncloud").append('<tr class="gradeX"><td>' + value.id + '</td><td>' + value.name + '</td><td>' + value.type + '</td><td>' + value.service_order + '</td><td>' + value.detail + '</td><td><div class="btn-group" role="group" aria-label="..."><button class="btn btn-danger btn-sm" type="button" onclick="delet(' + value.id + ')">Eliminar</button></div></td></tr>');
                     });
@@ -118,7 +125,7 @@ function delet(id) {
         url: deleteRoute,
         data: data,
         type: 'post',
-        success: function(data) {
+        success: function (data) {
             if (data.success) {
                 alert(data.data);
                 loadTable();
@@ -130,32 +137,34 @@ function delet(id) {
 }
 
 function loadDetails() {
-    var data = {
-        'ser_id': $('#vid_service_order').val(),
-        'vid_type': $('#vid_type').val()
-    };
+    if ($('#vid_service_order').val() != 'null') {
+        var data = {
+            'ser_id': $('#vid_service_order').val(),
+            'vid_type': $('#vid_type').val()
+        };
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $.ajax({
-        url: detailsRoute,
-        data: data,
-        type: 'post',
-        success: function (data) {
-            if (data.success) {
-                $('#vid_detail_product').html('');
-                $.each(data.data, function (index, value) {
-                    $('#vid_detail_product').append('<option value=\'' + value.det_id + '\'>' + value.product.pro_name + '</option>');
-                });
-            } else {
-                failure(data.data);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        }
-    });
+        });
+
+        $.ajax({
+            url: detailsRoute,
+            data: data,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    $('#vid_detail_product').html('');
+                    $.each(data.data, function (index, value) {
+                        $('#vid_detail_product').append('<option value=\'' + value.det_id + '\'>' + value.product.pro_name + '</option>');
+                    });
+                } else {
+                    failure(data.data);
+                }
+            }
+        });
+    }
 }
 
 $(document).ready(function () {

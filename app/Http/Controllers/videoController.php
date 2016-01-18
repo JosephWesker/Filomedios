@@ -14,12 +14,24 @@ class videoController extends Controller
 {
     public function postUploadVideo(){
         $detailId = Input::get('det_id');
+        $order = Input::get('service_order');
         $name = Input::get('vid_name');
         $file = Input::file('file');
         $type = Input::get('vid_type');
-        if ($detailId == null || $detailId == 'null') {
-            return Response::json(array('success' => false, 'data' => 'No ha elegido un producto para asociar'));
-        }
+        $startDate = Input::get('vid_start_date');
+        $endDate = Input::get('vid_end_date');
+        if($order == null || $order == 'null'){
+            if($startDate == null || $startDate == 'null'){
+                return Response::json(array('success' => false, 'data' => 'No ha elegido una fecha de inicio'));
+            }
+            if($endDate == null || $endDate == 'null'){
+                return Response::json(array('success' => false, 'data' => 'No ha elegido una fecha de termino'));
+            }
+        }else{
+            if ($detailId == null || $detailId == 'null') {
+                return Response::json(array('success' => false, 'data' => 'No ha elegido un producto para asociar'));
+            }  
+        }        
         if ($file == null || $file == 'null') {
             return Response::json(array('success' => false, 'data' => 'No ha seleccionado un video'));
         }
@@ -41,6 +53,13 @@ class videoController extends Controller
         $analizedFile = $getID3->analyze($file);
         $row->vid_duration = $analizedFile['playtime_string'];
         $row->vid_url = Storage_path().'/app/'.$this->normaliza($path.$finalName);
+        $row->vid_start_date = null;
+        $row->vid_end_date = null;
+        if($order == null || $order == 'null'){
+            $row->vid_detail_product = null;
+            $row->vid_start_date = $startDate;
+            $row->vid_end_date = $endDate;
+        }
         $row->save();
         return Response::json(array('success' => true, 'data' => 'Video Registrado'));
     }
@@ -52,9 +71,14 @@ class videoController extends Controller
             $row = [];
             $row['id'] = $video->vid_id;
             $row['name'] = $video->vid_name;
-            $row['type'] = $video->vid_type;
-            $row['service_order'] = $video->detailProduct->serviceOrder->ser_id;
-            $row['detail'] ='<b>Producto</b>: '.$video->detailProduct->product->pro_name.'<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->detailProduct->serviceOrder->ser_start_date.'<br><b>Fecha de Termino:</b> '.$video->detailProduct->serviceOrder->ser_end_date;
+            $row['type'] = $video->vid_type;            
+            if($video->detailProduct == null){
+                $row['service_order'] = 'Varias';
+                $row['detail'] ='<b>Producto</b>: Varios<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->vid_start_date.'<br><b>Fecha de Termino:</b> '.$video->vid_end_date;
+            }else{
+                $row['service_order'] = $video->detailProduct->serviceOrder->ser_id;
+                $row['detail'] ='<b>Producto</b>: '.$video->detailProduct->product->pro_name.'<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->detailProduct->serviceOrder->ser_start_date.'<br><b>Fecha de Termino:</b> '.$video->detailProduct->serviceOrder->ser_end_date;
+            }
             $finalArray[] = $row;
         }
         return Response::json(array('success' => true, 'data' => $finalArray));

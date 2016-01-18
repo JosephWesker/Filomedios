@@ -36,7 +36,6 @@
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-inline col-lg-12">
-<<<<<<< HEAD
                                                 <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                     <label for="start_date_contract">Fecha de Inicio</label>
                                                     <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths(); autocalculateProductionRegistry()" />
@@ -106,7 +105,6 @@
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
-<<<<<<< HEAD
                                                             <div class="form-group">
                                                                 {{ Form::label('description','Notas:')}}
                                                                 {{ Form::textArea('description',null,['class' => 'form-control','id' => 'det_description','placeholder' => 'Nota'])}}
@@ -311,7 +309,6 @@
                                                         </a>
                                                     </div>
                                                 </div>
-<<<<<<< HEAD
                                                 {{ Form::close() }}
                                                 <div class="reset">
                                                     {{ Form::button('Resetear Montos',['class' => 'btn btn-success','onclick' => 'resetFixeds()']) }}

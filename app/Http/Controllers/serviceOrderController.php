@@ -894,7 +894,7 @@ class serviceOrderController extends Controller
     }
     
     public function postReadServiceOrder(){
-        return Response::json(array('success' => true, 'data' => fil_service_order::all(['ser_id'])));
+        return Response::json(array('success' => true, 'data' => fil_service_order::select(['ser_id'])->where('ser_auth_admin','=','2')->where('ser_auth_production','=','2')->where('ser_auth_sales','=','2')->get()));
     }
     
     public function postReadDetails(){
