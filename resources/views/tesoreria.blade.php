@@ -8,7 +8,7 @@
                 <ul id="myTabs" class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active fill_width"><a href="#outstanding" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Pagos Pendientes</a></li>
                     <li role="presentation" class="fill_width"><a href="#overcome" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos Vencidos</a></li>
-                    <li role="presentation" class="fill_width"><a href="#full" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos Competos</a></li>
+                    <li role="presentation" class="fill_width"><a href="#full" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos Completos</a></li>
                     <li role="presentation" class="fill_width"><a href="#serviceOrderActive" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos por Orden de Servicio Vigentes</a></li>
                     <li role="presentation" class="fill_width"><a href="#serviceOrderHistory" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">Pagos por Orden de Servicio Anteriores</a></li>
                 </ul>                

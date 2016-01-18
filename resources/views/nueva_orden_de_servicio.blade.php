@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Nueva Órden de Servicio')
+@section('page_heading','Nueva Orden de Servicio')
 @section('section')
 
 
@@ -247,7 +247,7 @@
                                                 </tbody>
                                             </table> 
                                         </div>                                                                          
-                                        
+
 
                                         <h1>Pagos</h1>
                                         <div class="step-content offset" style="position: relative;">
@@ -315,26 +315,26 @@
                                                 </div>                            
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
-    <script>       
-    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
-    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
-    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
-    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
-    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
-    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';
-    </script>
-    <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
-    @stop
+</div>
+<script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
+<script>
+                                                                    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+                                                                    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+                                                                    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+                                                                    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+                                                                    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+                                                                    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+                                                                    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';</script>
+<script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
+@stop
