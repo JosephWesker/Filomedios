@@ -53,12 +53,13 @@ class videoController extends Controller
         $analizedFile = $getID3->analyze($file);
         $row->vid_duration = $analizedFile['playtime_string'];
         $row->vid_url = Storage_path().'/app/'.$this->normaliza($path.$finalName);
-        $row->vid_start_date = null;
-        $row->vid_end_date = null;
         if($order == null || $order == 'null'){
             $row->vid_detail_product = null;
             $row->vid_start_date = $startDate;
             $row->vid_end_date = $endDate;
+        }else{
+            $row->vid_start_date = $row->detailProduct->serviceOrder->ser_start_date;
+            $row->vid_end_date = $row->detailProduct->serviceOrder->ser_end_date;
         }
         $row->save();
         return Response::json(array('success' => true, 'data' => 'Video Registrado'));
@@ -77,7 +78,7 @@ class videoController extends Controller
                 $row['detail'] ='<b>Producto</b>: Varios<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->vid_start_date.'<br><b>Fecha de Termino:</b> '.$video->vid_end_date;
             }else{
                 $row['service_order'] = $video->detailProduct->serviceOrder->ser_id;
-                $row['detail'] ='<b>Producto</b>: '.$video->detailProduct->product->pro_name.'<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->detailProduct->serviceOrder->ser_start_date.'<br><b>Fecha de Termino:</b> '.$video->detailProduct->serviceOrder->ser_end_date;
+                $row['detail'] ='<b>Producto</b>: '.$video->detailProduct->product->pro_name.'<br><b>Duración:</b> '.$video->vid_duration.'<br><b>Fecha de Inicio:</b> '.$video->vid_start_date.'<br><b>Fecha de Termino:</b> '.$video->vid_end_date;
             }
             $finalArray[] = $row;
         }
