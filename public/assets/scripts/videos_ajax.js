@@ -2,15 +2,50 @@ function disableDetail() {
     if ($('#vid_service_order').val() == 'null') {
         $('#vid_detail_product').prop('disabled', true);
         //$('#vid_type').prop('disabled', true);
+        setToShow();        
         $('#unique').hide();
         $('#dates').show();
     } else {
         $('#vid_detail_product').prop('disabled', false);
         //$('#vid_type').prop('disabled', false);
+        setToShow();
         $('#dates').hide();
         $('#unique').show();
         loadDetails();
     }
+}
+
+function setToShow(){
+    if ($('#vid_service_order').val() == 'null') {    
+        if($('#vid_type').val() == 'programación'){
+            $('#show').show();
+        }else{
+            $('#show').hide();
+        }
+    }else{
+        $('#show').hide();
+    }
+}
+
+function loadSelects() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: loadSelectsRoute,
+        type: 'post',
+        success: function (data) {
+            if (data.success) {                
+                $.each(data.show, function (index, value) {
+                    $('#vid_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
+                });
+            } else {
+                failure(data.data);
+            }
+        }
+    });
 }
 
 function sendFile() {
@@ -25,6 +60,7 @@ function sendFile() {
     data.append('vid_name', $('#vid_name').val());
     data.append('det_id', $('#vid_detail_product').val());
     data.append('vid_type', $('#vid_type').val());
+    data.append('vid_show',$('#vid_show').val());
     data.append('vid_start_date',$('#vid_start_date').val());
     data.append('vid_end_date',$('#vid_end_date').val());
     data.append('file', ($('#file').prop('files'))[0]);
@@ -170,4 +206,5 @@ function loadDetails() {
 $(document).ready(function () {
     loadServiceOrders();
     loadTable();
+    loadSelects();
 });

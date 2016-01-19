@@ -10,4 +10,8 @@ class fil_videos extends Model {
 	public function detailProduct(){
 		return $this->belongsTo('App\fil_detail_product','vid_detail_product','det_id');
 	}
+    
+    public function show(){
+        return $this->belongsTo('App\fil_show','vid_show','sho_id');
+    }
 }

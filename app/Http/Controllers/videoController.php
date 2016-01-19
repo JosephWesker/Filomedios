@@ -18,6 +18,7 @@ class videoController extends Controller
         $name = Input::get('vid_name');
         $file = Input::file('file');
         $type = Input::get('vid_type');
+        $show = Input::get('vid_show');
         $startDate = Input::get('vid_start_date');
         $endDate = Input::get('vid_end_date');
         if($order == null || $order == 'null'){
@@ -26,6 +27,11 @@ class videoController extends Controller
             }
             if($endDate == null || $endDate == 'null'){
                 return Response::json(array('success' => false, 'data' => 'No ha elegido una fecha de termino'));
+            }
+            if($type == 'programación'){
+                if($show == null || $show == 'null'){
+                    return Response::json(array('success' => false, 'data' => 'No ha elegido un programa'));
+                }
             }
         }else{
             if ($detailId == null || $detailId == 'null') {
@@ -57,9 +63,11 @@ class videoController extends Controller
             $row->vid_detail_product = null;
             $row->vid_start_date = $startDate;
             $row->vid_end_date = $endDate;
+            $row->vid_show = $show;
         }else{
             $row->vid_start_date = $row->detailProduct->serviceOrder->ser_start_date;
             $row->vid_end_date = $row->detailProduct->serviceOrder->ser_end_date;
+            $row->vid_show = $row->detailProduct->show->sho_id;
         }
         $row->save();
         return Response::json(array('success' => true, 'data' => 'Video Registrado'));
