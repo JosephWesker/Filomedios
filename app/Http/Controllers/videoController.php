@@ -151,7 +151,7 @@ class videoController extends Controller
         for ($i=0; $i < ($length/2); $i++) {
             $listOne->put($listOne->count()+1,$array->get($i));
         }
-        for ($i=($length/2); $i < $length; $i++) { 
+        for ($i=(int) round($length/2,0); $i < $length; $i++) { 
             $listTwo->put($listTwo->count()+1,$array->get($i));
         }        
     }    
@@ -159,7 +159,7 @@ class videoController extends Controller
     function getComercialTime($listOne, $listTwo){
         $videos = fil_videos::where('vid_show','=',NULL)->get();
         foreach ($videos as $value) {
-            for ($i=0; $i < ($value->vid_impacts)/10; $i++) { 
+            for ($i=0; $i < ($value->vid_impacts)/10; $i++) { //10 For 10 Hours
                 $listOne->put($listTwo->count()+1,$value);
                 $listTwo->put($listOne->count()+1,$value);
             }
