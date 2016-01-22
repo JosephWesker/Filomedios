@@ -25,13 +25,7 @@
                                 if (productsRegistered.length == 0) {
                                     alert("Debe agregar productos para poder continuar");
                                     result = false;
-                                } else{
-                                    if (isAllBusinessUnitsFine) {
-                                        result = true;                                        
-                                    }else{
-                                        result = false;
-                                        alert("Debe Definir las unidades de negocio para cada producto");
-                                    };
+                                } else{                                    
                                     if (isAllProgramsFine) {
                                         result = true;                                        
                                     }else{
@@ -54,11 +48,13 @@
 
                     },
                     onFinishing: function(event, currentIndex){                
-                        sendServiceOrder();
-                        return true;                        
+                        finished = sendServiceOrder();   
+                        return finished;                    
                     },
                     onFinished: function(event, currentIndex){
-                        //window.location.href = valueToReturn;
+                        if(finished){
+                            window.location.href = valueToReturn;
+                        }                        
                         //Cargar nuevamente la pagina o enviar a gestor de ordenes
                     }
                 })

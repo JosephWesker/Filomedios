@@ -37,36 +37,31 @@
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-inline col-lg-12">
-                                                <div class="row">
-                                                    <div class="form-group col-sm-12">
-                                                        <div class="row">
-                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
-                                                                Agregar Producto
-                                                            </button>
-                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
-                                                                Agregar Paquete
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">    
-                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="start_date_contract">Fecha de Inicio</label>
-                                                            <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
-                                                        </div>
-                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="months_contract">Duración del Contrato</label>
-                                                            <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Meses" disabled="true" />
-                                                        </div>
-                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="end_date_contract">Fin del Contrato</label>
-                                                            <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fin del Contato" readonly/>
-                                                        </div>
-                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                            <label for="end_date_contract">Cobro Mensual</label>
-                                                            <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important;" placeholder="Cobro Mensual" readonly/>
-                                                        </div>   
-                                                    </div>
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="start_date_contract">Fecha de Inicio</label>
+                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths(); autocalculateProductionRegistry()" />
+                                                </div>
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="months_contract">Duración del Contrato</label>
+                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
+                                                </div>
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="end_date_contract">Fin del Contrato</label>
+                                                    <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
+                                                </div>
+                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                    <label for="end_date_contract">Cobro Mensual</label>
+                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro Mensual" readonly/>
+                                                </div>                                                 
+                                                <div class="form-group col-lg-6 col-xs-12">
+                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
+                                                        Agregar Producto
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-lg-6 col-xs-12">
+                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
+                                                        Agregar Paquete
+                                                    </button>
                                                 </div>
                                             </form>
 
@@ -90,16 +85,12 @@
                                                                 {{ Form::number('outlay',null,['disabled', 'class' => 'form-control','id' => 'pro_outlay','placeholder' => 'Precio'])}}
                                                             </div>
                                                             <div id="proyection_data" style="display:none">
-                                                                <div class="form-group">
-                                                                    {{ Form::label('fk_business_unit','Unidad de Negocio de Reproducción')}}
-                                                                    {{ Form::select('fk_business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'det_fk_business_unit']) }}
-                                                                </div>
                                                                 <div class="form-group" id="fk_show" style="display:none">
                                                                     {{ Form::label('fk_show','Programa')}}
                                                                     {{ Form::select('fk_show', ['null'=>'---Seleccionar Programa---'],null,['class' => 'form-control','id'=>'det_fk_show']) }}
                                                                 </div>                                                                
                                                                 <div class="form-group">
-                                                                    {{ Form::label('impacts','Impactos')}}
+                                                                    {{ Form::label('impacts','Impactos diarios')}}
                                                                     {{ Form::number('impacts',null,['class' => 'form-control','id' => 'det_impacts','placeholder' => 'Impactos'])}}
                                                                 </div>
                                                                 <div class="form-group">
@@ -115,7 +106,10 @@
                                                                 {{ Form::label('discount_number','Precio con Descuento')}}
                                                                 {{ Form::number('discount_number',null,['onkeyup' => 'toDiscount()','class' => 'form-control','id' => 'det_discount_number','placeholder' => 'Precio con Descuento'])}}
                                                             </div>
-
+                                                            <div class="form-group">
+                                                                {{ Form::label('description','Notas:')}}
+                                                                {{ Form::textArea('description',null,['class' => 'form-control','id' => 'det_description','placeholder' => 'Nota'])}}
+                                                            </div>
                                                             <div class=text-right>
                                                                 {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addProduct()']) }}
                                                                 {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
@@ -127,7 +121,31 @@
                                             </div>
                                             <!--End Modal-->
 
-
+                                            <!-- Modal for Description-->                                            
+                                            <div class="modal fade" id="descriptionEdit" tabindex="-1" role="dialog" aria-labelledby="descriptionEdit">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title">Ver Descripción</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ Form::open(array('url' => '#', 'id' => 'editarDescription')) }}                                                             
+                                                            <div class="form-group">
+                                                                {{ Form::label('description','Notas:')}}
+                                                                {{ Form::textArea('description',null,['class' => 'form-control','id' => 'u_det_description','placeholder' => 'Nota'])}}
+                                                            </div>
+                                                            <div class=text-right>
+                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'setDescription()']) }}
+                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
+                                                            </div>
+                                                            {{ Form::close() }}                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Modal-->
+                                            
                                             <!-- Modal Production Registry -->                                            
                                             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                                                 <div class="modal-dialog" role="document">
@@ -160,64 +178,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--End Modal-->
-
-                                            <!-- Modal Transmission Scheme -->                                            
-                                            <div class="modal fade" id="transmissionScheme" tabindex="-1" role="dialog" aria-labelledby="addProduct">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">Definir Esquema de Producción</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ Form::open(array('url' => '#', 'id' => 'agregar')) }}
-                                                            {{ Form::hidden('index', 'index',['id' => 'transmissionSchemeIndex']) }} 
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('monday', '1', null, ['class' => '','id' => 'tra_monday'])}} Lunes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('tuesday', '2', null, ['class' => '','id' => 'tra_tuesday'])}} Martes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('wednesday', '3', null, ['class' => '','id' => 'tra_wednesday'])}} Miercoles
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('thursday', '4', null, ['class' => '','id' => 'tra_thursday'])}} Jueves
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('friday', '5', null, ['class' => '','id' => 'tra_friday'])}} Viernes
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('saturday', '6', null, ['class' => '','id' => 'tra_saturday'])}} Sabado
-                                                                </label>
-                                                            </div>
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    {{ Form::checkbox('sunday', '7', null, ['class' => '','id' => 'tra_sunday'])}} Domingo
-                                                                </label>
-                                                            </div>                                                                                                            
-                                                            <div class=text-right>
-                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addTransmissionScheme()']) }}
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                                                            </div>
-                                                            {{ Form::close() }}                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--End Modal-->
+                                            <!--End Modal-->                                           
 
                                             <!-- Modal Package -->                                            
                                             <div class="modal fade" id="addPackage" tabindex="-1" role="dialog" aria-labelledby="addPackage">
@@ -243,32 +204,7 @@
                                                 </div>
                                             </div>
                                             <!--End Modal-->
-
-                                            <!-- Modal Business Unit -->                                            
-                                            <div class="modal fade" id="setBusinessUnit" tabindex="-1" role="dialog" aria-labelledby="setBusinessUnit">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title">Definir Unidad de Negocio</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {{ Form::open(array('url' => '#', 'id' => 'definirUnidad')) }} 
-                                                            {{ Form::hidden('index', 'index',['id' => 'businessUnitIndex']) }}
-                                                            <div class="form-group">
-                                                                {{ Form::label('business_unit','Unidad de Negocio')}}
-                                                                {{ Form::select('business_unit', ['null'=>'---Seleccionar Unidad---'],null,['class' => 'form-control','id'=>'set_business_unit']) }}
-                                                            </div>                                                            
-                                                            <div class=text-right>
-                                                                {{ Form::button('Aceptar',['class' => 'btn btn-success','onclick' => 'addBusinessUnit()']) }}
-                                                                {{ Form::button('Cancelar',['class' => 'btn btn-danger','data-dismiss' => 'modal']) }}
-                                                            </div>
-                                                            {{ Form::close() }}                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--End Modal-->
+                                        
 
                                             <!-- Modal Show -->                                            
                                             <div class="modal fade" id="setShow" tabindex="-1" role="dialog" aria-labelledby="setShow">
@@ -300,7 +236,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre del Producto</th>
-                                                        <th>Impactos</th>
+                                                        <th>Impactos diarios</th>
                                                         <th>Vigencia (Días)</th>
                                                         <th>Precio</th>
                                                         <th>Subtotal</th>
@@ -355,7 +291,7 @@
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]">
+                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]" onkeyup="setFixedPayment(this)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -364,7 +300,7 @@
                                                         <div class="col-sm-3">
                                                             <div class="">
                                                                 <div>
-                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]">
+                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]" onchange="checkDates()">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -374,7 +310,11 @@
                                                         </a>
                                                     </div>
                                                 </div>
-                                                {{ Form::close() }}                        
+                                                {{ Form::close() }}
+                                                <div class="reset">
+                                                    {{ Form::button('Resetear Montos',['class' => 'btn btn-success','onclick' => 'resetFixeds()']) }}
+                                                </div>                            
+                                            </div>
                                         </div>
                                     </div>
 

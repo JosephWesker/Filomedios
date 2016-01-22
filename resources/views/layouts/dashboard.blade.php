@@ -20,7 +20,6 @@
             <a class="navbar-brand" href="{{ url ('') }}">Filomedios</a>
         </div>
         <!-- /.navbar-header -->
-
         <ul class="nav navbar-top-links navbar-right">
 <!--            <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -137,10 +136,10 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    {{ Session::get('user') }}<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                    <li><a href="{{ route('perfil'); }}"><i class="fa fa-user fa-fw"></i> Perfil</a>
                     </li>
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuración</a>
                     </li>
@@ -152,7 +151,8 @@
             </li>
             <!-- /.dropdown -->
         </ul>
-        <!-- /.navbar-top-links -->
+        <!-- /.navbar-top-links -->        
+
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -169,18 +169,21 @@
                     </li>-->
                     <li {{ (Request::is('/') ? 'class="active"' : '') }}>
                         <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Panel Principal</a>
-                    </li>
+                    </li>                    
                     <li {{ (Request::is('*comercializacion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('comercializacion') }}"><i class="fa fa-file-text fa-fw"></i> Comercialización</a>
                         <ul class="nav nav-second-level">
+                            @if (Session::get('type') == 'administrador' || Session::get('type') == 'tesoreria' || Session::get('type') == 'vendedor' || Session::get('type') == 'gerente de ventas')
                             <li {{ (Request::is('*nueva_orden_de_servicio') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('nueva_orden_de_servicio') }}"><i class="fa fa-file-o fa-fw"></i>  Nueva Órden de Servicio</a>
-                            </li>
+                            </li>                            
+                            @endif
                             <li {{ (Request::is('*gestor_de_ordenes_de_servicio*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('gestor_de_ordenes_de_servicio') }}"><i class="fa fa-files-o fa-fw"></i>  Gestor de Órdenes de Servicio</a>
                             </li>
                         </ul>
                     </li>
+                    @if (Session::get('type') == 'administrador' || Session::get('type') == 'tesoreria')
                     <li {{ (Request::is('*tesor*') ? 'class="active"' : '') }}>
                         <a href="{{ url ('tesor') }}"><i class="fa  fa-university fa-fw"></i> Tesorería</a>
                         <ul class="nav nav-second-level">
@@ -192,6 +195,8 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
+                    @if (Session::get('type') == 'producción' || Session::get('type') == 'administrador')
                     <li {{ (Request::is('*produccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('produccion') }}"><i class="fa fa-video-camera"></i> Producción</a>
                         <ul class="nav nav-second-level">
@@ -203,32 +208,50 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
+                    @if (Session::get('type') == 'desarrollador')
                     <li {{ (Request::is('*proyeccion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('proyeccion') }}"><i class="fa fa-film fa-fw"></i> Proyección</a>
+                        <ul class="nav nav-second-level">
+                            <li {{ (Request::is('*lista') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('lista') }}"><i class="fa fa-film fa-fw"></i> Lista de reproducción</a>
+                            </li>
+                            <li {{ (Request::is('*videos') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('videos') }}"><i class="fa fa-file-video-o fa-fw"></i> Videos</a>
+                            </li>                             
+                        </ul>
                     </li>
-                    <li {{ (Request::is('*clientes') ? 'class="active"' : '') }}>
+                    @endif
+                    @if (Session::get('type') == 'administrador' || Session::get('type') == 'tesoreria' || Session::get('type') == 'vendedor' || Session::get('type') == 'gerente de ventas')
+                    <li {{ (Request::is('*clientes*') ? 'class="active"' : '') }}>
                         <a href="{{ url ('clientes') }}"><i class="fa fa-male fa-fw"></i> Clientes</a>
                     </li>                    
+                    @endif
+                    @if (Session::get('type') == 'administrador')
                     <li {{ (Request::is('*configuracion') ? 'class="active"' : '') }}>
                         <a href="{{ url ('configuracion') }}"><i class="fa fa-cog fa-fw"></i> Configuración</a>
                         <ul class="nav nav-second-level">
-                            <li {{ (Request::is('*unidades_negocio') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*unidades_negocio*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('unidades_negocio') }}"><i class="fa fa-building-o"></i> Unidades de Negocio</a>
                             </li>
-                            <li {{ (Request::is('*productos') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*productos*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('productos') }}"><i class="fa fa-cube"></i> Catálogo de productos</a>
                             </li>
                             <li {{ (Request::is('*paquetes*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('paquetes') }}"><i class="fa fa-archive"></i> Paquetes de productos</a>
                             </li>
-                            <li {{ (Request::is('*programas') ? 'class="active"' : '') }}>
+                            <li {{ (Request::is('*programas*') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('programas') }}"><i class="fa fa-tv"></i> Catálogo de programas</a>
+                            </li>
+                            <li {{ (Request::is('*giros*') ? 'class="active"' : '') }}>
+                                <a href="{{ url ('giros') }}"><i class="fa fa-briefcase"></i> Catálogo de giros</a>
                             </li>                            
                             <li {{ (Request::is('*usuarios') ? 'class="active"' : '') }}>
                                 <a href="{{ url ('usuarios') }}"><i class="fa fa-user fa-fw"></i> Empleados y Usuarios</a>
                             </li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

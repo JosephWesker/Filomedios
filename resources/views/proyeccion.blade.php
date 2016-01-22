@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Proyección')
+@section('page_heading','Lista de Reproducción')
 @section('section')
 
 <!-- jQuery -->

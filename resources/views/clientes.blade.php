@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Clientes')
+@section('page_heading',$title)
 @section('section')
 
 <div class="col-sm-12">
@@ -7,9 +7,17 @@
         <div class="col-lg-12">
 
             <!-- Button trigger modal -->
+            @if ($title == 'Clientes')
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
                 Agregar Cliente
             </button>
+            @endif
+
+            @if ((Session::get('type') == 'administrador') && ($title == 'Clientes'))
+                <button type="button" class="btn btn-warning btn-lg" onclick="toDelete()">
+                    Clientes eliminados
+                </button>
+            @endif
 
             <!-- Modal -->
             <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addCustomer">
@@ -29,7 +37,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('business_activity','Actividad o Giro')}}
-                                {{ Form::text('business_activity',null,['class' => 'form-control','id' => 'cus_business_activity','placeholder' => 'Actividad o Giro'])}}
+                                {{ Form::select('business_activity',['null'=>'---Seleccionar Giro---'],null,['class' => 'form-control','id' => 'cus_business_activity','placeholder' => 'Actividad o Giro'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('contact_first_name','Nombre de la persona Contacto')}}
@@ -45,11 +53,15 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone_number','Teléfono Fijo')}}
-                                {{ Form::text('phone_number',null,['class' => 'form-control','id' => 'cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone_number',null,['class' => 'form-control','id' => 'cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('phone_extension','Extensión')}}
+                                {{ Form::number('phone_extension',null,['class' => 'form-control','id' => 'cus_phone_extension','placeholder' => 'Extensión'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone_number','Celular o Nextel')}}
-                                {{ Form::text('cellphone_number',null,['class' => 'form-control','id' => 'cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
+                                {{ Form::number('cellphone_number',null,['class' => 'form-control','id' => 'cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Email')}}
@@ -75,11 +87,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('outdoor_number','Número Exterior')}}
-                                {{ Form::text('outdoor_number',null,['class' => 'form-control','id' => 'tax_outdoor_number','placeholder' => 'Número Exterior'])}}
+                                {{ Form::number('outdoor_number',null,['class' => 'form-control','id' => 'tax_outdoor_number','placeholder' => 'Número Exterior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('apartment_number','Número Interior')}}
-                                {{ Form::text('apartment_number',null,['class' => 'form-control','id' => 'tax_apartment_number','placeholder' => 'Número Interior'])}}
+                                {{ Form::number('apartment_number',null,['class' => 'form-control','id' => 'tax_apartment_number','placeholder' => 'Número Interior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('postal_code','Código Postal')}}
@@ -141,7 +153,7 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('business_activity','Actividad o Giro')}}
-                                {{ Form::text('business_activity',null,['class' => 'form-control','id' => 'u_cus_business_activity','placeholder' => 'Actividad o Giro'])}}
+                                {{ Form::select('business_activity',['null'=>'---Seleccionar Giro---'],null,['class' => 'form-control','id' => 'u_cus_business_activity','placeholder' => 'Actividad o Giro'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('contact_first_name','Nombre de la persona Contacto')}}
@@ -157,11 +169,15 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('phone_number','Teléfono Fijo')}}
-                                {{ Form::text('phone_number',null,['class' => 'form-control','id' => 'u_cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                                {{ Form::number('phone_number',null,['class' => 'form-control','id' => 'u_cus_phone_number','placeholder' => 'Teléfono Fijo'])}}
+                            </div>
+                            <div class="form-group">
+                                {{ Form::label('phone_extension','Extensión')}}
+                                {{ Form::number('phone_extension',null,['class' => 'form-control','id' => 'u_cus_phone_extension','placeholder' => 'Extensión'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('cellphone_number','Celular o Nextel')}}
-                                {{ Form::text('cellphone_number',null,['class' => 'form-control','id' => 'u_cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
+                                {{ Form::number('cellphone_number',null,['class' => 'form-control','id' => 'u_cus_cellphone_number','placeholder' => 'Celular o Nextel'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('email','Email')}}
@@ -187,11 +203,11 @@
                             </div>
                             <div class="form-group">
                                 {{ Form::label('outdoor_number','Número Exterior')}}
-                                {{ Form::text('outdoor_number',null,['class' => 'form-control','id' => 'u_tax_outdoor_number','placeholder' => 'Número Exterior'])}}
+                                {{ Form::number('outdoor_number',null,['class' => 'form-control','id' => 'u_tax_outdoor_number','placeholder' => 'Número Exterior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('apartment_number','Número Interior')}}
-                                {{ Form::text('apartment_number',null,['class' => 'form-control','id' => 'u_tax_apartment_number','placeholder' => 'Número Interior'])}}
+                                {{ Form::number('apartment_number',null,['class' => 'form-control','id' => 'u_tax_apartment_number','placeholder' => 'Número Interior'])}}
                             </div>
                             <div class="form-group">
                                 {{ Form::label('postal_code','Código Postal')}}
@@ -276,11 +292,13 @@
 var createRoute = '{{ action('customerController@postCreate'); }}';
 var readRoute = '{{ action('customerController@postRead'); }}';
 var updateRoute = '{{ action('customerController@postUpdate'); }}';
-var deleteRoute = '{{ action('customerController@postDelete'); }}';
-var readAllRoute = '{{ action('customerController@postReadAll'); }}';
+var deleteRoute = '{{ $delete; }}';
+var readAllRoute = '{{ $readAll; }}';
 var readPostalCodesRoute = '{{ action('customerController@postReadPostalCodes'); }}';
 var readAddressData = '{{ action('customerController@postReadAddressData'); }}';
 var readfiscalData = '{{ action('customerController@postReadFiscalData'); }}';
+var toDeleteRoute = '{{ route('clientes eliminados') }}';
+var loadBusinessActivitiesRoute = '{{ action('businessActivityController@postReadAll'); }}';
 </script>
 <script src="{{ asset("assets/scripts/customer_ajax.js") }}" type="text/javascript"></script>
 

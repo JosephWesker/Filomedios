@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
+	return View::make('login');
+}]);
+
+Route::controller('logincont','loginController');
+
 Route::get('/', ['middleware' => 'SessionControl', 'as' => 'home', function(){
 	return View::make('home'); 
 }]);
@@ -53,11 +59,19 @@ Route::get('/facturas', ['middleware' => 'SessionControl', 'as' => 'facturas', f
 }]);
 
 Route::get('/clientes', ['middleware' => 'SessionControl', 'as' => 'clientes', function(){
-	return View::make('clientes');
+	return View::make('clientes', array('title' => 'Clientes', 'readAll' => action('customerController@postReadAll'), 'delete' => action('customerController@postDelete')));
 }]);
 
-Route::get('/proyeccion', ['middleware' => 'SessionControl', 'as' => 'proyeccion', function(){
+Route::get('/clientes/eliminados', ['middleware' => 'SessionControl', 'as' => 'clientes eliminados', function(){
+	return View::make('clientes', array('title' => 'Clientes Eliminados', 'readAll' => action('customerController@postReadAllDelete'), 'delete' => action('customerController@postActivate')));
+}]);
+
+Route::get('/lista', ['middleware' => 'SessionControl', 'as' => 'lista', function(){
 	return View::make('proyeccion');
+}]);
+
+Route::get('/videos', ['middleware' => 'SessionControl', 'as' => 'videos', function(){
+	return View::make('videos');
 }]);
 
 Route::get('/produccion', ['middleware' => 'SessionControl', 'as' => 'produccion', function(){
@@ -81,11 +95,19 @@ Route::get('/unidades_negocio', ['middleware' => 'SessionControl', 'as' => 'unid
 }]);
 
 Route::get('/programas', ['middleware' => 'SessionControl', 'as' => 'programas', function(){
-	return View::make('programas');
+	return View::make('programas', array('title' => 'Programas', 'readAll' => action('showController@postReadAll'), 'delete' => action('showController@postDelete')));
+}]);
+
+Route::get('/programas/eliminados', ['middleware' => 'SessionControl', 'as' => 'programas eliminados', function(){
+	return View::make('programas', array('title' => 'Programas Eliminados', 'readAll' => action('showController@postReadAllDelete'), 'delete' => action('showController@postActivate')));
 }]);
 
 Route::get('/productos', ['middleware' => 'SessionControl', 'as' => 'productos', function(){
-	return View::make('productos');
+	return View::make('productos', array('title' => 'Productos', 'readAll' => action('productController@postReadAll'), 'delete' => action('productController@postDelete')));
+}]);
+
+Route::get('/productos/eliminados', ['middleware' => 'SessionControl', 'as' => 'productos eliminados', function(){
+	return View::make('productos', array('title' => 'Productos Eliminados', 'readAll' => action('productController@postReadAllDelete'), 'delete' => action('productController@postActivate')));
 }]);
 
 Route::get('/paquetes', ['middleware' => 'SessionControl', 'as' => 'paquetes', function(){
@@ -100,8 +122,12 @@ Route::get('/usuarios', ['middleware' => 'SessionControl', 'as' => 'usuarios', f
 	return View::make('usuarios');
 }]);
 
-Route::get('/login', ['middleware' => 'LoginControl', 'as' => 'login', function(){
-	return View::make('login');
+Route::get('/perfil', ['middleware' => 'SessionControl', 'as' => 'perfil', function(){
+	return View::make('profile');
+}]);
+
+Route::get('/giros', ['middleware' => 'SessionControl', 'as' => 'giros', function(){
+	return View::make('giro_comercial');
 }]);
 
 Route::get('/paquetes/{id}', ['uses' => 'packageController@showDetail','middleware' => 'SessionControl']);
@@ -114,14 +140,19 @@ Route::get('/tesoreria/{id}', ['uses' => 'treasuryController@readPayments','midd
 
 Route::get('/tesoreria/pago/{id}', ['uses' => 'treasuryController@detailPayment','middleware' => 'SessionControl']);
 
+Route::get('/unidades_negocio/{id}/empleados', ['uses' => 'employeeController@loadEmployeesByBusinessUnit','middleware' => 'SessionControl']);
+
+Route::get('/videos/{name}', ['uses' => 'videoController@getVideoStreaming','middleware' => 'SessionControl']);
+
 Route::controller('business_unit','businessUnitController');
 Route::controller('show','showController');
 Route::controller('product','productController');
 Route::controller('employee','employeeController');
-Route::controller('login','loginController');
 Route::controller('package','packageController');
 Route::controller('customer','customerController');
 Route::controller('serviceOrder','serviceOrderController');
 Route::controller('treasury','treasuryController');
 Route::controller('production','productionController');
-//Route::controller('product','productController');
+Route::controller('proyection','proyectionController');
+Route::controller('video','videoController');
+Route::controller('business_activity','businessActivityController');

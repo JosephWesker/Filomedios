@@ -6,11 +6,7 @@ class fil_detail_product extends Model {
 
 	protected $table = 'fil_detail_product';
 	protected $primaryKey = 'det_id';
-	protected $fillable = ['det_fk_service_order','det_fk_product','det_fk_business_unit','det_fk_show','det_impacts','det_validity','det_discount','det_final_price','det_description'];
-
-	public function transmissionScheme(){
-		return $this->hasOne('App\fil_transmission_scheme','tra_id','det_id');
-	}
+	protected $fillable = ['det_fk_service_order','det_fk_product','det_fk_show','det_impacts','det_validity','det_discount','det_final_price','det_description'];
 
 	public function detailProduction(){
 		return $this->hasOne('App\fil_detail_production','dpr_id','det_id');
@@ -30,5 +26,9 @@ class fil_detail_product extends Model {
 
 	public function show(){
 		return $this->belongsTo('App\fil_show','det_fk_show','sho_id');
+	}
+    
+    public function video(){
+		return $this->hasOne('App\fil_videos','vid_detail_product','det_id');
 	}
 }

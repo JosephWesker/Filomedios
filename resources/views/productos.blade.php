@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('page_heading','Productos')
+@section('page_heading',$title)
 @section('section')
 
 <div class="col-sm-12">
@@ -7,10 +7,16 @@
         <div class="col-lg-12">
 
             <!-- Button trigger modal -->
+            @if ($title == 'Productos')
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#add">
                 Agregar Producto
             </button>
 
+            
+            <button type="button" class="btn btn-warning btn-lg" onclick="toDelete()">
+                Producto Eliminados
+            </button>
+            @endif
             <!-- Modal -->
             <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="addProducts">
                 <div class="modal-dialog" role="document">
@@ -38,11 +44,6 @@
                                 <div class="checkbox">
                                     <label>
                                         {{ Form::checkbox('program', '1', null, ['class' => '','id' => 'spy_has_show'])}} ¿Pertenece a un programa?
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        {{ Form::checkbox('transmission_scheme', '2', null, ['class' => '','id' => 'spy_has_transmission_scheme'])}} ¿Debe tener un esquema de transmisión?
                                     </label>
                                 </div>
                                 <div class="checkbox">
@@ -113,11 +114,6 @@
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            {{ Form::checkbox('transmission_scheme', '2', null, ['class' => '','id' => 'u_spy_has_transmission_scheme'])}} ¿Debe tener un esquema de transmisión?
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
                                             {{ Form::checkbox('duration', '3', null, ['class' => '','id' => 'u_spy_has_duration'])}} ¿Tiene una duración en segundos?
                                         </label>
                                     </div>
@@ -180,8 +176,10 @@
     var createRoute = '{{ action('productController@postCreate'); }}';
     var readRoute = '{{ action('productController@postRead'); }}';
     var updateRoute = '{{ action('productController@postUpdate'); }}';
-    var deleteRoute = '{{ action('productController@postDelete'); }}';
-    var readAllRoute = '{{ action('productController@postReadAll'); }}';</script>
+    var deleteRoute = '{{ $delete; }}';
+    var readAllRoute = '{{ $readAll; }}';
+    var toDeleteRoute = '{{ route('productos eliminados') }}';
+    </script>
     <script src="{{ asset("assets/scripts/product_ajax.js") }}" type="text/javascript"></script>
 
     @stop

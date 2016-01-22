@@ -53,5 +53,6 @@
         <!-- Bootstrap Table JS -->
         <script src="{{ asset("assets/scripts/bootstrap-table-master/dist/bootstrap-table.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/bootstrap-table-master/src/locale/bootstrap-table-es-MX.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("assets/scripts/failure.js") }}" type="text/javascript"></script>
     </body>
 </html>

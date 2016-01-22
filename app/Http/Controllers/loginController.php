@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session as Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controller;
 use App\fil_employee;
 
