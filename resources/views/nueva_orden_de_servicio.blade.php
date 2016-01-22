@@ -16,7 +16,8 @@
                                     <div id="wizard">
 
                                         <h1>Cliente</h1> 
-                                        <div class="step-content offset" style="position: relative; width: 100%;">                      
+                                        <div class="step-content offset" style="position: relative; width: 100%;">        
+                                            <div id="form_message"></div>
                                             <table class="table table-striped table-hover table-bordered margin-top20">
                                                 <thead>
                                                     <tr>

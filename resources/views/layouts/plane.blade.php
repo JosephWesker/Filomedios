@@ -31,6 +31,7 @@
     <body>
         @yield('body')
         <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/animate.css") }}" />
         <script src="{{ asset("assets/pace/pace.min.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/wizard/jquery.steps.min.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/wizard/form-wizard.js") }}" type="text/javascript"></script>
