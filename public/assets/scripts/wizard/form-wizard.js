@@ -11,7 +11,9 @@
                             case 0:
                             //Comprobación en el primer paso
                              if (selectedTr === null) {
-                                   alert("Seleccione un empleado para continuar");
+//                                   alert("Seleccione un empleado para continuar");
+                                    $("#form_message").html("ss");
+                                    $("#form_message").html('<p class="fadeIn animated alert alert-danger">Seleccione un cliente para continuar</p>');
                                    result = false;
                                }else{
                                    result = true;

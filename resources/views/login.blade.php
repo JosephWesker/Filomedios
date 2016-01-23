@@ -1,6 +1,5 @@
 @extends ('layouts.plane')
 @section ('body')
-        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/animate.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/login.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/style.css") }}" />
 
@@ -16,8 +15,9 @@
                 <div class="form-group">
                     <input required class="form-control" placeholder="Contraseña" name="password" type="password" id="password" value="" >
                 </div>
-                {{ Form::submit('Aceptar',['class' => 'btn btn-primary block full-width m-b','onclick' => 'login();return false;']) }}
+                {{ Form::submit('Iniciar sesión',['class' => 'btn btn-primary block full-width m-b','onclick' => 'login();return false;']) }}
             </form>
+            <div id="form_message" style="height: 40px; width: 100%;"></div>
     </div>
             <div id="logo-filcoc" class="img-responsive"></div>
             <div id="logo-connect" class="img-responsive"></div>

@@ -15,7 +15,9 @@ $.ajax({
     data: data,
     type:  'post',
     success:  function (data) {
-        alert(data.data);
+//        alert(data.data);
+        $("#form_message").html("");
+        $("#form_message").html(data.data);
         if(data.success == true){            
             window.location.href = homeRoute;
         }           

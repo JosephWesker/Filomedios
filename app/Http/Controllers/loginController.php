@@ -21,14 +21,14 @@ class loginController extends Controller{
         Session::put('type',$employee->emp_job);
         Session::put('logged', true);
         $success = true;        
-        $data = 'Bienvenido '.Session::get('user');;         
+        $data = '<p class="fadeIn animated" style="color: green">Bienvenido <b>'.Session::get('user').'</b></p>';         
       }else{
         $success = false;
-        $data = 'Contraseña incorrecta';    
+        $data = '<p class="fadeIn animated" style="color: red">Contraseña incorrecta</p>';    
       }
     }else{
       $success = false;
-      $data = 'el usuario no existe';      
+      $data = '<p class="fadeIn animated" style="color: red">Usuario incorrecto</p>';      
     }    
     $response = Response::json(array(
         'success' => $success,

@@ -1,24 +1,19 @@
+
 /******************************** LOGIN ********************************************************/
 body {
-    /*    padding-top: 40px;
-        padding-bottom: 40px;*/
+    background-color: #f3f3f4;
     background: #f7f7f7;
-    background: -moz-radial-gradient(center, ellipse cover,  #f7f7f7 0%, #c4c4c4 100%)!important;
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f7f7f7), color-stop(100%,#c4c4c4))!important;
-    background: -webkit-radial-gradient(center, ellipse cover,  #f7f7f7 0%,#c4c4c4 100%)!important;
-    background: -o-radial-gradient(center, ellipse cover,  #f7f7f7 0%,#c4c4c4 100%)!important;
-    background: -ms-radial-gradient(center, ellipse cover,  #f7f7f7 0%,#c4c4c4 100%)!important;
-    background: radial-gradient(ellipse at center,  #f7f7f7 0%,#c4c4c4 100%)!important;
+    background: -moz-radial-gradient(center, ellipse cover, #f7f7f7 0%, #c4c4c4 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#f7f7f7), color-stop(100%,#c4c4c4));
+    background: -webkit-radial-gradient(center, ellipse cover, #f7f7f7 0%,#c4c4c4 100%);
+    background: -o-radial-gradient(center, ellipse cover, #f7f7f7 0%,#c4c4c4 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #f7f7f7 0%,#c4c4c4 100%);
+    background: radial-gradient(ellipse at center, #f7f7f7 0%,#c4c4c4 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#c4c4c4',GradientType=1 );
-    height:100%;
-
-
+    height: 100%;
     -moz-background-size: cover;
-
     -webkit-background-size: cover;
-
     -o-background-size: cover;
-
     background-size: cover;
 }
 #logo-filomedios {
@@ -29,14 +24,6 @@ body {
     height:280px;
     margin-top: 35%;
 }
-/*#logo-bim {
-    background: url(../../img/bim-logo.png) no-repeat center;
-    background-repeat: no-repeat;
-    background-position: center center; 
-    width:100%; 
-    height:145px;
-    margin-top: 15%;
-}*/
 #logo-filcoc {
     background-image: url(../../img/filcoc.png);
     position: absolute;
