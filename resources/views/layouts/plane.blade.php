@@ -16,7 +16,7 @@
         <!--                <link href="{{ asset("assets/scripts/bootstrap-calendar/bootstrap.css") }}" rel="stylesheet">-->
         <link href="{{ asset("assets/scripts/bootstrap-calendar/bootstrap-responsive.css") }}" rel="stylesheet">
         <link href="{{ asset("assets/scripts/bootstrap-calendar/css/calendar.css") }}" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>-->
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
         <link rel="stylesheet" href="{{ asset("assets/stylesheets/custom.css") }}" />
         <link href="{{ asset("assets/pace/dataurl.css") }}" rel="stylesheet">
@@ -27,11 +27,11 @@
         <link rel="stylesheet" href="{{ asset("assets/scripts/tabs-products/tabs-products.css") }}" />
         <!-- Bootstrap Calendar CSS -->
         <link rel="stylesheet" href="{{ asset("assets/scripts/bootstrap-table-master/dist/bootstrap-table.css") }}" />
+        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/animate.css") }}" />
     </head>
     <body>
         @yield('body')
         <script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
-        <link rel="stylesheet" href="{{ asset("assets/stylesheets/login/animate.css") }}" />
         <script src="{{ asset("assets/pace/pace.min.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/wizard/jquery.steps.min.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/wizard/form-wizard.js") }}" type="text/javascript"></script>
@@ -54,5 +54,6 @@
         <script src="{{ asset("assets/scripts/bootstrap-table-master/dist/bootstrap-table.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/bootstrap-table-master/src/locale/bootstrap-table-es-MX.js") }}" type="text/javascript"></script>
         <script src="{{ asset("assets/scripts/failure.js") }}" type="text/javascript"></script>
+
     </body>
 </html>

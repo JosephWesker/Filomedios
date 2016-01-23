@@ -524,7 +524,9 @@ function sendServiceOrder() {
         });
         return true;
     }else{
-       alert('Los pagos no coinciden con la cantidad, por favor ajuste los pagos');
+//       alert('Los pagos no coinciden con la cantidad, por favor ajuste los pagos');
+       $("#form_message_adjust_payments").html("");
+       $("#form_message_adjust_payments").html('<p class="fadeIn animated alert alert-danger">Los pagos no coinciden con la cantidad, por favor ajuste los pagos</p>');
        return false; 
     }
 

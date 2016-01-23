@@ -166,6 +166,7 @@
                                 </button>
                             </span>
                         </div>
+                         /input-group 
                     </li>-->
                     <li {{ (Request::is('/') ? 'class="active"' : '') }}>
                         <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Panel Principal</a>
