@@ -16,13 +16,12 @@ function disableDetail() {
 }
 
 function setToShow(){
-    if ($('#vid_service_order').val() == 'null') {    
-        if($('#vid_type').val() == 'programación'){
-            $('#show').show();
-        }else{
-            $('#show').hide();
-        }
+    if ($('#vid_service_order').val() == 'null') {
+        $('#vid_type').val('programación');
+        $('#vid_type').prop('disabled',true); 
+        $('#show').show();        
     }else{
+        $('#vid_type').prop('disabled',false); 
         $('#show').hide();
     }
 }
