@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="wrapper wrapper-content">
-                <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="wrapper wrapper-content">
                     <div class="row">
                         <div class="col-lg">
                             <div class="ibox float-e-margins">
@@ -16,52 +16,58 @@
                                     <div id="wizard">
 
                                         <h1>Cliente</h1> 
-                                        <div class="step-content offset" style="position: relative; width: 100%;">        
-                                            <div id="form_message"></div>
-                                            <table class="table table-striped table-hover table-bordered margin-top20">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Nombre Comercial</th>
-                                                        <th>Contacto</th>                                                                                                        
-                                                        <th>Razón Social</th>
-                                                        <th>RFC</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="clientes">
+                                        <div class="step-content offset" style="position: relative; width: 100%;">
+                                                <div id="form_message_choose_customer"></div>
+                                                <table class="table table-striped table-hover table-bordered margin-top20">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Nombre Comercial</th>
+                                                            <th>Contacto</th>                                                                                                        
+                                                            <th>Razón Social</th>
+                                                            <th>RFC</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="clientes">
 
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
                                         </div>
 
                                         <h1>Producto</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-inline col-lg-12">
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="start_date_contract">Fecha de Inicio</label>
-                                                    <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths(); autocalculateProductionRegistry()" />
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="months_contract">Duración del Contrato</label>
-                                                    <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Meses" disabled="true" />
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Fin del Contrato</label>
-                                                    <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Fin del Contato" readonly/>
-                                                </div>
-                                                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                                    <label for="end_date_contract">Cobro Mensual</label>
-                                                    <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important; display: inline-block;" placeholder="Cobro Mensual" readonly/>
-                                                </div>                                                 
-                                                <div class="form-group col-lg-6 col-xs-12">
-                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
-                                                        Agregar Producto
-                                                    </button>
-                                                </div>
-                                                <div class="form-group col-lg-6 col-xs-12">
-                                                    <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
-                                                        Agregar Paquete
-                                                    </button>
+                                                <div class="row">
+                                                    <div class="form-group col-sm-12">
+                                                        <div class="row"><div id="form_message_add_product"></div></div>
+                                                        <div class="row">
+                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addProduct">
+                                                                Agregar Producto
+                                                            </button>
+                                                            <button id="margin-bottom-20" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addPackage">
+                                                                Agregar Paquete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">    
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="start_date_contract">Fecha de Inicio</label>
+                                                            <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="months_contract">Duración del Contrato</label>
+                                                            <input type="number" id="months_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Meses" disabled="true" />
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="end_date_contract">Fin del Contrato</label>
+                                                            <input type="date" id="end_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fin del Contato" readonly/>
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                                            <label for="end_date_contract">Cobro Mensual</label>
+                                                            <input type="text" id="ser_total" class="form-control" style="margin-bottom: 10px!important;" placeholder="Cobro Mensual" readonly/>
+                                                        </div>   
+                                                    </div>
                                                 </div>
                                             </form>
 
@@ -145,7 +151,7 @@
                                                 </div>
                                             </div>
                                             <!--End Modal-->
-                                            
+
                                             <!-- Modal Production Registry -->                                            
                                             <div class="modal fade" id="productionRegistry" tabindex="-1" role="dialog" aria-labelledby="addProduct">
                                                 <div class="modal-dialog" role="document">
@@ -204,7 +210,7 @@
                                                 </div>
                                             </div>
                                             <!--End Modal-->
-                                        
+
 
                                             <!-- Modal Show -->                                            
                                             <div class="modal fade" id="setShow" tabindex="-1" role="dialog" aria-labelledby="setShow">
@@ -253,89 +259,107 @@
                                         <h1>Pagos</h1>
                                         <div class="step-content offset" style="position: relative;">
                                             <form class="form-horizontal">
+                                                <!--                                                <div id="margin-bottom-20" class="col-sm-12">  -->
+                                                <div class="col-sm-4">
+                                                    <div class="row"><div id="form_message_adjust_payments"></div></div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall">Descuento Mensual</label>
+                                                        <div class="col-sm-6">
+                                                            <input class="form-control" type="number" id="ser_discount_month" onkeyup="calculateDiscount()" onmouseup="calculateDiscount()">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall">Total Contrato</label>
+                                                        <div class="col-sm-6">
+                                                            <input class="form-control" type="number" id="ser_outlay_total" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall">¿Facturar?</label>
+                                                        <div class="col-sm-6">
+                                                            {{ Form::checkbox('iva', '8', null, ['id' => 'has_iva','onclick' => 'setIVA()']) }}
+                                                        </div>
+                                                    </div>
 
-                                                <div class="form-group form-group-sm">                                                                                                    
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Descuento Mensual</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="number" id="ser_discount_month" onkeyup="calculateDiscount()" onmouseup="calculateDiscount()">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall">IVA</label>
+                                                        <div class="col-sm-6">
+                                                            <input class="form-control" type="number" id="ser_iva" readonly>
+                                                        </div>
                                                     </div>
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Total Contrato</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="number" id="ser_outlay_total" readonly>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall" >Pago Especie</label>
+                                                        <div class="col-sm-6">
+                                                            <input class="form-control" type="number" id="amount_kind" onkeyup="calculateAmounts()" onmouseup="calculateAmounts()">
+                                                        </div>
                                                     </div>
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">¿Facturar?</label>
-                                                    <div class="col-sm-2">
-                                                        {{ Form::checkbox('iva', '8', null, ['id' => 'has_iva','onclick' => 'setIVA()']) }}
+                                                    <div class="form-group">
+                                                        <label class="col-sm-6 control-label" for="formGroupInputSmall">Pago en Moneda</label>
+                                                        <div class="col-sm-6">
+                                                            <input class="form-control" type="number" id="amount_cash" readonly>
+                                                        </div>       
                                                     </div>
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">IVA</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="number" id="ser_iva" readonly>
-                                                    </div>
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall" >Pago Especie</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="number" id="amount_kind" onkeyup="calculateAmounts()" onmouseup="calculateAmounts()">
-                                                    </div>
-                                                    <label class="col-sm-4 control-label" for="formGroupInputSmall">Pago en Moneda</label>
-                                                    <div class="col-sm-2">
-                                                        <input class="form-control" type="number" id="amount_cash" readonly>
-                                                    </div>                                                                                                    
+
                                                 </div>
 
-                                                <div class="form-group form-group-sm">
+                                                <!--                                                <div class="form-group form-group-sm">
+                                                
+                                                                                                </div>-->
+                                                <!--                                                    </div>-->
+                                                <div class="col-sm-8 text-align-center">
 
-                                                </div>
-
-                                                <div class="input_fields_wrap_payment">
-                                                    <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block; width: 80%;">
-                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label>
-                                                        <div class="col-sm-3">
-                                                            <div class="">
-                                                                <div>
-                                                                    <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="text" name="mytext[]" onkeyup="setFixedPayment(this)">
+                                                    <div class="input_fields_wrap_payment">
+                                                        <div id="1" class="form-group form-group-sm" style="margin-bottom: 10px!important; display: inline-block;">
+                                                            <label class="col-sm-1 control-label" for="formGroupInputSmall">Monto</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="">
+                                                                    <div>
+                                                                        <input class="form-control" id="payment-1" style="margin-bottom: 10px!important; display: inline-block;" type="text" name="mytext[]" onkeyup="setFixedPayment(this)">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label>
-                                                        <div class="col-sm-3">
-                                                            <div class="">
-                                                                <div>
-                                                                    <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block; width: 80%;" type="date" name="mytext[]" onchange="checkDates()">
+                                                            <label class="col-sm-1 control-label" for="formGroupInputSmall">Fecha</label>
+                                                            <div class="col-sm-4">
+                                                                <div class="">
+                                                                    <div>
+                                                                        <input class="form-control" id="payment-2" style="margin-bottom: 10px!important; display: inline-block;" type="date" name="mytext[]" onchange="checkDates()">
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <a href="#">
+                                                                <i class="fa fa-plus-square add_field_button_payment" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
+                                                                </i>
+                                                            </a>
                                                         </div>
-                                                        <a href="#">
-                                                            <i class="fa fa-plus-square add_field_button_payment" style="float: left; margin-left: 0; cursor: pointer; font-size: 30px; color: green;">
-                                                            </i>
-                                                        </a>
                                                     </div>
                                                 </div>
-                                                {{ Form::close() }}
-                                                <div class="reset">
+                                                {{ Form::close() }}    
+                                                <div class="reset margin-bottom-20 text-align-right">
                                                     {{ Form::button('Resetear Montos',['class' => 'btn btn-success','onclick' => 'resetFixeds()']) }}
-                                                </div>                            
-                                            </div>
+                                                </div>  
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+</div>
 <script src="{{ asset("assets/scripts/jquery-2.1.4.min.js") }}" type="text/javascript"></script>
 <script>
-                                                                    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
-                                                                    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
-                                                                    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
-                                                                    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
-                                                                    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
-                                                                    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
-                                                                    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';</script>
+                                                                                    var loadCustomersRoute = '{{ action('serviceOrderController@postReadCustomers'); }}';
+                                                                                    var loadProductsDataRoute = '{{ action('serviceOrderController@postLoadProductsData'); }}';
+                                                                                    var loadSelectsRoute = '{{ action('serviceOrderController@postLoadSelects'); }}';
+                                                                                    var loadPackageRoute = '{{ action('serviceOrderController@postLoadPackages'); }}';
+                                                                                    var loadPackageDetailRoute = '{{ action('serviceOrderController@postLoadPackagesDetail'); }}';
+                                                                                    var createServiceOrderRoute = '{{ action('serviceOrderController@postCreateOrder'); }}';
+                                                                                    var valueToReturn = '{{ url ('gestor_de_ordenes_de_servicio') }}';</script>
 <script src="{{ asset("assets/scripts/serviceOrder_ajax.js") }}" type="text/javascript"></script>
 @stop
