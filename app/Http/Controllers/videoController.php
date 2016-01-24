@@ -59,6 +59,15 @@ class videoController extends Controller
             $row->vid_detail_product = null;
             $row->vid_start_date = $startDate;
             $row->vid_end_date = $endDate;
+            $row->vid_show = $show;
+        }else{
+            $row->vid_start_date = $row->detailProduct->serviceOrder->ser_start_date;
+            $row->vid_end_date = $row->detailProduct->serviceOrder->ser_end_date;
+            if($row->detailProduct->show != null){
+                $row->vid_show = $row->detailProduct->show->sho_id;   
+            }else{
+                $row->vid_show = NULL;
+            }
         }
         $row->save();
         return Response::json(array('success' => true, 'data' => 'Video Registrado'));

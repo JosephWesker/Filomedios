@@ -13,6 +13,37 @@ function disableDetail() {
     }
 }
 
+function setToShow(){
+    if ($('#vid_service_order').val() == 'null') {
+        $('#vid_type').val('programación');
+        $('#vid_type').prop('disabled',true); 
+        $('#show').show();        
+    }else{
+        $('#vid_type').prop('disabled',false); 
+        $('#show').hide();
+    }
+}
+
+function loadSelects() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: loadSelectsRoute,
+        type: 'post',
+        success: function (data) {
+            if (data.success) {                
+                $.each(data.show, function (index, value) {
+                    $('#vid_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
+                });
+            } else {
+                failure(data.data);
+            }
+        }
+    });
+}
 function sendFile() {
     /*var data = {
         'vid_name': $('#vid_name').val(),
