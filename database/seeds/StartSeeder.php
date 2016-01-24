@@ -23,42 +23,64 @@ class startSeeder extends Seeder {
         DB::table('fil_show')->insert([
             'sho_name'=>'Al Aire',
             'sho_description'=>'Programa de noticias',
+            'sho_impacts'=>'2',
+            'sho_duration'=>'00:01:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Americas Life',
             'sho_description'=>'Programa de espectaculos',
+            'sho_impacts'=>'1',
+            'sho_duration'=>'00:01:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Deporte al 100',
             'sho_description'=>'Programa de deportes',
+            'sho_impacts'=>'1',
+            'sho_duration'=>'00:01:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Venue',
             'sho_description'=>'Video musical',
+            'sho_impacts'=>'3',
+            'sho_duration'=>'00:03:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Bloopers',
             'sho_description'=>'programa de videos graciosos',
+            'sho_impacts'=>'1',
+            'sho_duration'=>'00:01:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Los 5 Mejores Goles',
             'sho_description'=>'programa de deportes',
+            'sho_impacts'=>'1',
+            'sho_duration'=>'00:01:00',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);
         DB::table('fil_show')->insert([
             'sho_name'=>'Institucionales',
             'sho_description'=>'Programas sobre la institución',
+            'sho_impacts'=>'2',
+            'sho_duration'=>'00:01:30',
+            'sho_media'=>'televisión',
+            'sho_status'=>'activo'
+        ]);
+        DB::table('fil_show')->insert([
+            'sho_name'=>'Otros',
+            'sho_description'=>'Programas sobre la institución',
+            'sho_impacts'=>'6',
+            'sho_duration'=>'00:00:20',
             'sho_media'=>'televisión',
             'sho_status'=>'activo'
         ]);

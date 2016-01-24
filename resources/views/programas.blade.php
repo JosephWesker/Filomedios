@@ -36,6 +36,28 @@
                                 {{ Form::text('description',null,['class' => 'form-control','id' => 'sho_description','placeholder' => 'descripción'])}}
                             </div>
                             <div class="form-group">
+                                {{ Form::label('impacts','Impactos por hora')}}
+                                {{ Form::number('impacts',null,['class' => 'form-control','id' => 'sho_impacts','placeholder' => 'Impactos por hora'])}}
+                            </div>
+                            <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Horas')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'sho_hours','placeholder' => 'Horas','min'=>'1','max'=>'12'])}}
+                                </div>
+                            </div>
+                             <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Minutos')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'sho_min','placeholder' => 'Minutos','min'=>'1','max'=>'60'])}}
+                                </div>
+                            </div>
+                             <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Segundos')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'sho_sec','placeholder' => 'Segundos','min'=>'1','max'=>'60'])}}
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 {{ Form::label('media','Medio de transmisión')}}
                                 {{ Form::select('media',['null' => '---Seleccionar medio de transmisión---','televisión' => 'Televisión', 'web' => 'Web'],'null',['class' => 'form-control','id' => 'sho_media']) }}
                             </div>
@@ -68,6 +90,28 @@
                                 {{ Form::text('description',null,['class' => 'form-control','id' => 'u_sho_description','placeholder' => 'descripción'])}}
                             </div>
                             <div class="form-group">
+                                {{ Form::label('impacts','Impactos por hora')}}
+                                {{ Form::number('impacts',null,['class' => 'form-control','id' => 'u_sho_impacts','placeholder' => 'Impactos por hora'])}}
+                            </div>
+                            <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Horas')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'u_sho_hours','placeholder' => 'Horas','min'=>'1','max'=>'12'])}}
+                                </div>
+                            </div>
+                             <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Minutos')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'u_sho_min','placeholder' => 'Minutos','min'=>'1','max'=>'60'])}}
+                                </div>
+                            </div>
+                            <div class='col-lg-4'>
+                                <div class="form-group">
+                                    {{ Form::label('time','Segundos')}}
+                                    {{ Form::number('time',null,['class' => 'form-control','id' => 'u_sho_sec','placeholder' => 'Segundos','min'=>'1','max'=>'60'])}}
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 {{ Form::label('media','Medio de transmisión')}}
                                 {{ Form::select('media',['null' => '---Seleccionar medio de transmisión---','televisión' => 'Televisión', 'web' => 'Web'],'null',['class' => 'form-control','id' => 'u_sho_media']) }}
                             </div>
@@ -90,6 +134,8 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>descripción</th>
+                        <th>Impactos por hora</th>
+                        <th>Duración</th>
                         <th>Medio de Transmisión</th>
                         <th>Acciones</th>
                     </tr>
