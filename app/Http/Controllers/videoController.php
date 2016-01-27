@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Routing\Controller;
 use App\fil_videos;
 use App\Helpers\VideoStream;
+use App\fil_show;
 
 class videoController extends Controller
 {
@@ -126,7 +127,7 @@ class videoController extends Controller
         return Response::json(array('success' => true, 'one' => $listOne, 'two' => $listTwo));
     }
     
-    function getBroadcastTime($listOne, $listTwo){
+    /*function getBroadcastTime($listOne, $listTwo){
         $inlive = fil_videos::where('vid_show','=',1)->get(); //Al Aire        
         $americasLife = fil_videos::where('vid_show','=',2)->get(); //Americas Life        
         $sportAt100 = fil_videos::where('vid_show','=',3)->get(); //Deporte al 100        
@@ -141,10 +142,18 @@ class videoController extends Controller
         $this->addToArray($listOne,$listTwo,$bloopers);
         $this->addToArray($listOne,$listTwo,$topFiveGoals);
         $this->addToArray($listOne,$listTwo,$company);
+    }*/
+    
+    function getBroadcastTime($listOne, $listTwo){
+        $shows = fil_show::where('sho_status','like','activo')->get();
+        foreach ($shows as $show) {
+            $videos = fil_videos::where('vid_show','=',$show->sho_id)->get();
+            $this->addToArray($listOne, $listTwo, $videos, (int) $show->sho_impacts);
+        }
     }
     
     //Method to use differents programs for each impact 
-    function addToArray($listOne, $listTwo, $array){
+    /*function addToArray($listOne, $listTwo, $array){
         $array = $array->shuffle();
         $length = count($array);
         for ($i=0; $i < ($length/2); $i++) {
@@ -153,9 +162,21 @@ class videoController extends Controller
         for ($i=(int) round($length/2,0); $i < $length; $i++) { 
             $listTwo->put($listTwo->count()+1,$array->get($i));
         }        
+    }*/
+    
+    //To add one video on each list and apply repetitions
+    function addToArray($listOne, $listTwo, $videos, $impacts){
+        for ($i=1; $i <= $impacts; $i++) {
+            if($videos->get(1) != null){
+                $listOne->put($listOne->count()+1,$videos->get(1));  
+            }
+            if($videos->get(2) != null){
+                $listTwo->put($listTwo->count()+1,$videos->get(2));   
+            }            
+        }    
     }    
     
-    function getComercialTime($listOne, $listTwo){
+    /*function getComercialTime($listOne, $listTwo){
         $videos = fil_videos::where('vid_show','=',NULL)->get();
         foreach ($videos as $value) {
             for ($i=0; $i < ($value->vid_impacts)/10; $i++) { //10 For 10 Hours
@@ -163,5 +184,8 @@ class videoController extends Controller
                 $listTwo->put($listOne->count()+1,$value);
             }
         }
+    }*/
+    function getComercialTime($listOne, $listTwo){
+        
     } 
 }

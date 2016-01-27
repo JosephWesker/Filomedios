@@ -392,10 +392,11 @@ class packageController extends Controller
                 $detail->save();
             }
         }  
-        $newOutlay = 0;      
+        $newOutlay = 0;
+        $package = fil_package::find($values['pac_id']);
         foreach ($package->packagesDetail as $detail) {            
             if($detail->product->pro_type == 'transmisión'){
-                $newOutlay += (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
+                $newOutlay += round((float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts,2);
             }
         }
         $package->pac_outlay = $newOutlay;
