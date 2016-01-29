@@ -53,7 +53,7 @@
                                                     <div class="row">    
                                                         <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                             <label for="start_date_contract">Fecha de Inicio</label>
-                                                            <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths()" onchange="setEnableMonths()" />
+                                                            <input type="date" id="start_date_contract" class="form-control" style="margin-bottom: 10px!important;" placeholder="Fecha de Inicio" disabled="true" onblur ="setEnableMonths(); loadProductsTable();" onchange="setEnableMonths(); loadProductsTable();" />
                                                         </div>
                                                         <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                                             <label for="months_contract">Duración del Contrato</label>
