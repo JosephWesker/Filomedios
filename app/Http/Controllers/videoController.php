@@ -126,7 +126,9 @@ class videoController extends Controller
         $listTwo->shuffle();
         //$this->validateBusinessActivity($listOne);
         //$this->validateBusinessActivity($listTwo);
-        return Response::json(array('success' => true, 'one' => $listOne, 'two' => $listTwo));
+        $this->setToVideos($listOne);
+        $this->setToVideos($listTwo);
+        return view('proyeccion',['firstList' => $listOne,'secondList' => $listTwo]);
     }
     
     /*function getBroadcastTime($listOne, $listTwo){
@@ -212,6 +214,12 @@ class videoController extends Controller
                 
     }
     
+    function setToVideos($list){
+        foreach ($list as $value) {
+            $value->label = $value->vid_name;
+        }
+    }   
+     
     function validateBusinessActivity($list){
         $break = true;
         foreach ($list as $key => $video) {
