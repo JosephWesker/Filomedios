@@ -124,6 +124,8 @@ class videoController extends Controller
         $this->getComercialTime($listOne,$listTwo);
         $listOne->shuffle();
         $listTwo->shuffle();
+        //$this->validateBusinessActivity($listOne);
+        //$this->validateBusinessActivity($listTwo);
         return Response::json(array('success' => true, 'one' => $listOne, 'two' => $listTwo));
     }
     
@@ -167,10 +169,10 @@ class videoController extends Controller
     //To add one video on each list and apply repetitions
     function addToArray($listOne, $listTwo, $videos, $impacts){
         for ($i=1; $i <= $impacts; $i++) {
-            if($videos->get(1) != null){
+            if($videos->get(1) != null && $this->validateDates($videos->get(1))){
                 $listOne->put($listOne->count()+1,$videos->get(1));  
             }
-            if($videos->get(2) != null){
+            if($videos->get(2) && $this->validateDates($videos->get(1))){
                 $listTwo->put($listTwo->count()+1,$videos->get(2));   
             }            
         }    
@@ -186,6 +188,46 @@ class videoController extends Controller
         }
     }*/
     function getComercialTime($listOne, $listTwo){
-        
-    } 
+        $videos = fil_videos::where('vid_show','=',NULL)->get();
+        foreach ($videos as $video) {
+            for ($i=0; $i < ($video->detailProduct->det_impacts)/10; $i++) { //10 For 10 Hours
+                if($this->validateDates($video)){
+                    $listOne->put($listTwo->count()+1,$video);
+                    $listTwo->put($listOne->count()+1,$video);
+                }
+            }
+        }
+    }
+    
+    function validateDates($video){
+        $today = date('Y-m-d');
+        $today = date('Y-m-d', strtotime($today));
+        $startDate = date('Y-m-d', strtotime($video->vid_start_date));
+        $endDate = date('Y-m-d', strtotime($video->vid_end_date));
+        if (($today >= $startDate) && ($today <= $endDate)){
+            return TRUE;
+        }else{
+            return FALSE;  
+        }
+                
+    }
+    
+    function validateBusinessActivity($list){
+        $break = true;
+        foreach ($list as $key => $video) {
+            if($key < $list->count()-4){
+                if ($video->detailProduct != NULL &&  $list[$key+1]->detailProduct != NULL) {
+                    if ($video->detailProduct->serviceOrder->customer->cus_business_activity == $list[$key+1]->detailProduct->serviceOrder->customer->cus_business_activity) {
+                        $temp = $list[$key+1];
+                        $list[$key+1] = $list[$key+3];
+                        $list[$key+3] = $temp;
+                        $break = false;
+                    }
+                }
+            }
+        }
+        if(!$break){
+            $this->validateBusinessActivity($list);
+        }
+    }
 }
