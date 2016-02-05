@@ -6,6 +6,8 @@
 <!--        <script src="{{ asset("assets/stylesheets/proyeccion/jquery.min.js") }}" type="text/javascript"></script>-->
 
 <script src="{{ asset("list/angular.min.js") }}"></script>
+<script> var firstList = {{ $firstList }}</script>
+<script> var secondList = {{ $secondList }}</script>
 <script src="{{ asset("list/angular-drag-and-drop-lists.js") }}"></script>
 <link href="{{ asset("list/bootstrap.min.css") }}" rel="stylesheet">
 <link href="{{ asset("list/bootstrap-theme.min.css") }}" rel="stylesheet">

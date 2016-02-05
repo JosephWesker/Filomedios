@@ -66,9 +66,7 @@ Route::get('/clientes/eliminados', ['middleware' => 'SessionControl', 'as' => 'c
 	return View::make('clientes', array('title' => 'Clientes Eliminados', 'readAll' => action('customerController@postReadAllDelete'), 'delete' => action('customerController@postActivate')));
 }]);
 
-Route::get('/lista', ['middleware' => 'SessionControl', 'as' => 'lista', function(){
-	return View::make('proyeccion');
-}]);
+Route::get('/lista', ['uses' => 'videoController@getCreateLists','middleware' => 'SessionControl', 'as' => 'lista']);
 
 Route::get('/videos', ['middleware' => 'SessionControl', 'as' => 'videos', function(){
 	return View::make('videos');

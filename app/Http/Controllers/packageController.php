@@ -97,15 +97,17 @@ class packageController extends Controller
                 $tempRow['pad_subtotal'] = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
                 $tempRow['pad_impacts'] = $detail->pad_impacts;
                 $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
+                $tempRow['pad_discount'] = $detail->pad_discount . ' %';
+                $tempRow['pad_finalPrice'] = $detail->pad_final_price;
             } 
             else {
                 $tempRow['pro_outlay'] = $product->serviceProduction->spr_outlay;
                 $tempRow['pad_subtotal'] = (float)$detail->pad_final_price;
                 $tempRow['pad_impacts'] = 'No Aplica';
                 $tempRow['pad_validity'] = 'No Aplica';
-            }            
-            $tempRow['pad_discount'] = $detail->pad_discount . ' %';
-            $tempRow['pad_finalPrice'] = $detail->pad_final_price;
+                $tempRow['pad_discount'] = '100%';
+                $tempRow['pad_finalPrice'] = '0';
+            }                        
             //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
             //    $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
             //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
@@ -142,6 +144,11 @@ class packageController extends Controller
         }
         if ($values['pad_final_price'] == '' || $values['pad_final_price'] == null) {
             return Response::json(array('success' => false, 'data' => 'Campo precio final requerido'));
+        }
+        $product = fil_product::find($values['pad_fk_product']);
+        if ($product->pro_type == 'producción') {
+            $values['pad_discount'] = '100%';
+            $values['pad_final_price'] = '0';
         }
         fil_package_detail::create($values);
         $response = Response::json(array('success' => true, 'data' => 'Producto guardado con exito'));
@@ -180,11 +187,15 @@ class packageController extends Controller
         }
         if ($values['pad_final_price'] == '' || $values['pad_final_price'] == null) {
             return Response::json(array('success' => false, 'data' => 'Campo precio final requerido'));
-        }
+        }        
         $data = fil_package_detail::find($values['id']);
         if ($data == null) {
             return Response::json(array('success' => false, 'data' => 'Producto no encontrado'));
-        }
+        }     
+        if ($data->product->pro_type == 'producción') {
+            $values['pad_discount'] = '100%';
+            $values['pad_final_price'] = '0';
+        }        
         $data->pad_impacts = $values['pad_impacts'];
         $data->pad_validity = $values['pad_validity'];
         $data->pad_discount = $values['pad_discount'];
@@ -230,15 +241,18 @@ class packageController extends Controller
                 $tempRow['pad_subtotal'] = (float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts;
                 $tempRow['pad_impacts'] = $detail->pad_impacts;
                 $tempRow['pad_validity'] = $detail->pad_validity . ' Días';
+                $tempRow['pad_discount'] = $detail->pad_discount . ' %';
+                $tempRow['pad_finalPrice'] = $detail->pad_final_price;
             } 
             else {
                 $tempRow['pro_outlay'] = $product->serviceProduction->spr_outlay;
                 $tempRow['pad_subtotal'] = (float)$detail->pad_final_price;
                 $tempRow['pad_impacts'] = 'No Aplica';
                 $tempRow['pad_validity'] = 'No Aplica';
+                $tempRow['pad_discount'] = '100%';
+                $tempRow['pad_finalPrice'] = '0';
             }            
-            $tempRow['pad_discount'] = $detail->pad_discount . ' %';
-            $tempRow['pad_finalPrice'] = $detail->pad_final_price;
+            
             //if (($product->serviceProyection->spy_proyection_media == 'televisión') and ($product->serviceProyection->spy_has_show == "0")) {
             //    $tempRow['pad_subtotal'] = (float)$tempRow['pad_finalPrice'] * (float)$detail->pad_validity * (float)$detail->pad_impacts * 10;
             //    $tempRow['pad_impacts'] = (int)$detail->pad_impacts * 10;
@@ -325,7 +339,7 @@ class packageController extends Controller
     }*/
     
     //Update the price based on the number of products in the package, isn't exact
-    public function postUpdatePrice(){
+    /*public function postUpdatePrice(){
         $values = Request::all();
         $package = fil_package::find($values['pac_id']);
         $count = 0;
@@ -355,6 +369,37 @@ class packageController extends Controller
             }
         }
         $package->pac_outlay = $totalOutlay;
+        $package->save();
+        return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
+    }*/
+    
+    public function postUpdatePrice(){
+        $values = Request::all();
+        $package = fil_package::find($values['pac_id']);
+        $totalOutlay = 0;
+        foreach ($package->packagesDetail as $detail) {
+            if($detail->product->pro_type == 'transmisión'){
+                $totalOutlay += ((float) $detail->product->serviceProyection->spy_outlay) * ((float) $detail->pad_impacts) * ((float) $detail->pad_validity);
+            }
+        }
+        $discount = (float) $values['pac_outlay']/$totalOutlay;
+        $discount = round($discount,4);
+        $discountToSave = 1 - $discount;
+        foreach ($package->packagesDetail as $detail) {
+            if($detail->product->pro_type == 'transmisión'){
+                $detail->pad_final_price = ((float) $detail->product->serviceProyection->spy_outlay) * $discount;
+                $detail->pad_discount = $discountToSave;
+                $detail->save();
+            }
+        }  
+        $newOutlay = 0;
+        $package = fil_package::find($values['pac_id']);
+        foreach ($package->packagesDetail as $detail) {            
+            if($detail->product->pro_type == 'transmisión'){
+                $newOutlay += round((float)$detail->pad_final_price * (float)$detail->pad_validity * (float)$detail->pad_impacts,2);
+            }
+        }
+        $package->pac_outlay = $newOutlay;
         $package->save();
         return Response::json(array('success' => true, 'data' => 'Paquete guardado correctamente'));
     }
