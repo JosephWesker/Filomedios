@@ -19,6 +19,7 @@ class videoController extends Controller
         $name = Input::get('vid_name');
         $file = Input::file('file');
         $type = Input::get('vid_type');
+        $show = Input::get('vid_show');
         $startDate = Input::get('vid_start_date');
         $endDate = Input::get('vid_end_date');
         if($order == null || $order == 'null'){

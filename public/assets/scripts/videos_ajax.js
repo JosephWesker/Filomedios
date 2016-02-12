@@ -4,11 +4,13 @@ function disableDetail() {
         //$('#vid_type').prop('disabled', true);
         $('#unique').hide();
         $('#dates').show();
+        setToShow();
     } else {
         $('#vid_detail_product').prop('disabled', false);
         //$('#vid_type').prop('disabled', false);
         $('#dates').hide();
         $('#unique').show();
+        setToShow();
         loadDetails();
     }
 }
@@ -35,7 +37,7 @@ function loadSelects() {
         type: 'post',
         success: function (data) {
             if (data.success) {                
-                $.each(data.show, function (index, value) {
+                $.each(data.data, function (index, value) {
                     $('#vid_show').append($("<option></option>").attr("value", value.sho_id).html(value.sho_name));
                 });
             } else {
@@ -58,6 +60,7 @@ function sendFile() {
     data.append('vid_type', $('#vid_type').val());
     data.append('vid_start_date',$('#vid_start_date').val());
     data.append('vid_end_date',$('#vid_end_date').val());
+    data.append('vid_show',$('#vid_show').val());
     data.append('file', ($('#file').prop('files'))[0]);
     $.ajaxSetup({
         headers: {
@@ -201,4 +204,5 @@ function loadDetails() {
 $(document).ready(function () {
     loadServiceOrders();
     loadTable();
+    loadSelects();
 });

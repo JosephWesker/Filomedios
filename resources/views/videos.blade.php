@@ -21,7 +21,7 @@
                         {{ Form::label('service_order','Orden de Servicio')}} {{ Form::select('service_order', ['null' => '---Varias ordenes---'] ,null, ['class' => 'form-control','id'=>'vid_service_order','onchange' => 'disableDetail()']) }}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('type','Tipo de Video')}} {{ Form::select('type', ['programación' => 'Programación','Comercial' => 'Video Comercial'] ,null, ['class' => 'form-control','id'=>'vid_type','onchange' => 'loadDetails; setToShow();','disabled']) }}
+                        {{ Form::label('type','Tipo de Video')}} {{ Form::select('type', ['programación' => 'Programación','Comercial' => 'Video Comercial'] ,null, ['class' => 'form-control','id'=>'vid_type','onchange' => 'loadDetails(); setToShow();','disabled']) }}
                     </div>                    
                     <div class="form-group" id="show">
                         {{ Form::label('show','Programa')}}
@@ -80,6 +80,7 @@
     var sendFileRoute = '{{ action('videoController@postUploadVideo'); }}';
     var readAllRoute = '{{ action('videoController@postReadAll'); }}';
     var deleteRoute = '{{ action('videoController@postDelete'); }}';
+    var loadSelectsRoute = '{{ action('showController@postReadAll'); }}';
 </script>
 <script src="{{ asset("assets/scripts/videos_ajax.js ") }}" type="text/javascript"></script>
 @stop
