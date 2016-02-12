@@ -479,7 +479,7 @@
               </form>
               <progress id='fileProgress' value="0" max="1">
               </progress>
-              <button type="button" class="addbtn" id="uploadButton">cargar</button>
+              <button type="button" class="addbtn" id="uploadButton" onclick="uploadFiles()">cargar</button>
             </div>
             <div class="col-lg-12">
               <h3><b>Archivos Cargados</b></h3>
